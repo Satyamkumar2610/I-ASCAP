@@ -1,0 +1,7630 @@
+{
+  "states": [
+    "Andaman and Nicobar Islands",
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chandigarh",
+    "Chhattisgarh",
+    "Dadara & Nagar Havelli",
+    "Delhi",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jammu & Kashmir",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Lakshadweep",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "NCT of Delhi",
+    "Nagaland",
+    "Odisha",
+    "Puducherry",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal"
+  ],
+  "records": [
+    {
+      "state": "West Bengal",
+      "source": "24 - Parganas",
+      "dest": "Twenty Four Parganas",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "West Bengal",
+      "source": "24 - Parganas",
+      "dest": "Twenty Four Parganas",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "West Bengal",
+      "source": "Barddhaman",
+      "dest": "Pashchim Barddhaman",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "West Bengal",
+      "source": "Barddhaman",
+      "dest": "Purba Barddhaman",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "West Bengal",
+      "source": "Burdwan",
+      "dest": "Barddhaman",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Burdwan",
+      "dest": "Barddhaman",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Burdwan",
+      "dest": "Barddhaman",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Calcutta",
+      "dest": "Kolkata",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "West Bengal",
+      "source": "Cooch Behar",
+      "dest": "Koch Bihar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Darjeeling",
+      "dest": "Darjiling",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Darjeeling",
+      "dest": "Darjiling",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Darjiling",
+      "dest": "Kalimpong",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "West Bengal",
+      "source": "Hooghly",
+      "dest": "Hugli",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Howrah",
+      "dest": "Haora",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Jalpaiguri",
+      "dest": "Alipurduar",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "West Bengal",
+      "source": "Malda",
+      "dest": "Maldah",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Medinipur",
+      "dest": "Paschim Medinipur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "West Bengal",
+      "source": "Medinipur",
+      "dest": "Purba Medinipur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "West Bengal",
+      "source": "Medinipur",
+      "dest": "Paschim Medinipur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "West Bengal",
+      "source": "Midnapore",
+      "dest": "Medinipur",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Midnapore",
+      "dest": "Medinipur",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Midnapore",
+      "dest": "Medinipur",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Midnapur",
+      "dest": "Midnapore",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "West Bengal",
+      "source": "Midnapur",
+      "dest": "Midnapore",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "West Bengal",
+      "source": "Midnapur",
+      "dest": "Midnapore",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "West Bengal",
+      "source": "Paschim Medinipur",
+      "dest": "Jhargram",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "West Bengal",
+      "source": "Purulia",
+      "dest": "Puruliya",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "West Bengal",
+      "source": "Twenty Four Parganas",
+      "dest": "North Twenty Four Parganas",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "West Bengal",
+      "source": "Twenty Four Parganas",
+      "dest": "South Twenty Four Parganas",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "West Bengal",
+      "source": "West Dinajpur",
+      "dest": "Uttar Dinajpur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "West Bengal",
+      "source": "West Dinajpur",
+      "dest": "Dakshin Dinajpur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Almora",
+      "dest": "Pithoragarh",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Almora",
+      "dest": "Pithoragarh",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Almora",
+      "dest": "Bageshwar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Chamoli",
+      "dest": "Rudraprayag",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Dehra Dun",
+      "dest": "Dehradun",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Garhwal",
+      "dest": "Chamoli",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Garhwal",
+      "dest": "Chamoli",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Naini Tal",
+      "dest": "Nainital",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Naini Tal",
+      "dest": "Nainital",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Nainital",
+      "dest": "Udham Singh Nagar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Pithoragarh",
+      "dest": "Champawat",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Saharanpur",
+      "dest": "Hardwar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Tehri Garhwal",
+      "dest": "Uttar Kashi",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Uttar Kashi",
+      "dest": "Uttarkashi",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Uttar Kashi",
+      "dest": "Uttarkashi",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttarakhand",
+      "source": "Uttarkashi",
+      "dest": "Uttar Kashi",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Agra",
+      "dest": "Firozabad",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Aligarh",
+      "dest": "Hathras",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Allahabad",
+      "dest": "Kaushambi",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Allahabad",
+      "dest": "Prayagraj",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Azamgarh",
+      "dest": "Mau",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Bahraich",
+      "dest": "Shrawasti",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Banares",
+      "dest": "Varanasi",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Banares",
+      "dest": "Varanasi",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Banares",
+      "dest": "Varanasi",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Banda",
+      "dest": "Chitrakoot",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Bara Banki",
+      "dest": "Barabanki",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Barabanki",
+      "dest": "Bara Banki",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Basti",
+      "dest": "Siddharthnagar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Basti",
+      "dest": "Sant Kabir Nagar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Budaun",
+      "dest": "Sambhal (Bhimnagar)",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Bulandshahr",
+      "dest": "Ghaziabad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Bulandshahr",
+      "dest": "Ghaziabad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Bulandshahr",
+      "dest": "Gautam Buddha Nagar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Deoria",
+      "dest": "Kushinagar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Etah",
+      "dest": "Kanshiram Nagar",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Etawah",
+      "dest": "Auraiya",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Etawah",
+      "dest": "Etawah'",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Etawah'",
+      "dest": "Etawah",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Faizabad",
+      "dest": "Ambedkar Nagar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Faizabad",
+      "dest": "Ayodhya",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Farrukhabad",
+      "dest": "Kannauj",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Ghaziabad",
+      "dest": "Gautam Buddha Nagar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Ghaziabad",
+      "dest": "Hapur (Panchsheel Nagar)",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Gonda",
+      "dest": "Balrampur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Gorakhpur",
+      "dest": "Maharajganj",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Hamirpur",
+      "dest": "Mahoba",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Hathras",
+      "dest": "Mahamaya Nagar",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Jhansi",
+      "dest": "Lalitpur",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Jyotiba Phule Nagar",
+      "dest": "Amroha",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Kanpur",
+      "dest": "Kanpur Dehat",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Kanpur",
+      "dest": "Kanpur Nagar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Kanshiram Nagar",
+      "dest": "Kasganj",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Mahamaya Nagar",
+      "dest": "Hathras",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Maharajganj",
+      "dest": "Mahrajganj",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Mainpuri",
+      "dest": "Firozabad",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Meerut",
+      "dest": "Ghaziabad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Meerut",
+      "dest": "Ghaziabad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Meerut",
+      "dest": "Baghpat",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Mirzapur",
+      "dest": "Sonbhadra",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Moradabad",
+      "dest": "Jyotiba Phule Nagar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Moradabad",
+      "dest": "Sambhal (Bhimnagar)",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Muzaffarnagar",
+      "dest": "Shamli (Prabuddhanagar)",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Sant Ravidas Nagar",
+      "dest": "Sant Ravidas Nagar (Bhadohi)",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Sant Ravidas Nagar (Bhadohi)",
+      "dest": "Bhadohi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Sultanpur",
+      "dest": "Amethi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Varanasi",
+      "dest": "Chandauli",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Uttar Pradesh",
+      "source": "Varanasi",
+      "dest": "Sant Ravidas Nagar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tripura",
+      "source": "North Tripura",
+      "dest": "Dhalai",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tripura",
+      "source": "North Tripura",
+      "dest": "Unakoti",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Tripura",
+      "source": "South Tripura",
+      "dest": "Gomati",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Tripura",
+      "source": "Tripura",
+      "dest": "West Tripura",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tripura",
+      "source": "Tripura",
+      "dest": "South Tripura",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tripura",
+      "source": "Tripura",
+      "dest": "North Tripura",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tripura",
+      "source": "Tripura",
+      "dest": "North Tripura",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tripura",
+      "source": "Tripura",
+      "dest": "South Tripura",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tripura",
+      "source": "Tripura",
+      "dest": "West Tripura",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tripura",
+      "source": "Tripura",
+      "dest": "West Tripura",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tripura",
+      "source": "Tripura",
+      "dest": "North Tripura",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tripura",
+      "source": "West Tripura",
+      "dest": "Khowai",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Tripura",
+      "source": "West Tripura",
+      "dest": "Sipahijala",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Adilabad",
+      "dest": "Kumuram Bheem",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Adilabad",
+      "dest": "Mancherial",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Adilabad",
+      "dest": "Nirmal",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Hyderabad",
+      "dest": "Rangareddi",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Telangana",
+      "source": "Hyderabad",
+      "dest": "Rangareddi",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Telangana",
+      "source": "Hyderabad",
+      "dest": "Rangareddi",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Telangana",
+      "source": "Karimnagar",
+      "dest": "Jagtial",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Karimnagar",
+      "dest": "Peddapalli",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Karimnagar",
+      "dest": "Rajanna Sircilla",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Karimnagar",
+      "dest": "Jayashankar Bhupalpally",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Karimnagar",
+      "dest": "Siddipet",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Khammam",
+      "dest": "Mulugu",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Khammam",
+      "dest": "Bhadradri Kothagudem",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Khammam",
+      "dest": "Mahabubabad",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Mahbubnagar",
+      "dest": "Jogulamba Gadwal",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Mahbubnagar",
+      "dest": "Nagarkurnool",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Mahbubnagar",
+      "dest": "Wanaparthy",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Mahbubnagar",
+      "dest": "Narayanpet",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Medak",
+      "dest": "Sangareddy",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Medak",
+      "dest": "Siddipet",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Nalgonda",
+      "dest": "Suryapet",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Nalgonda",
+      "dest": "Yadadri Bhuvanagiri",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Nalgonda",
+      "dest": "Jangaon",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Nizamabad",
+      "dest": "Kamareddy",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Rangareddi",
+      "dest": "Rangareddy",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Telangana",
+      "source": "Rangareddi",
+      "dest": "Rangareddy",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Telangana",
+      "source": "Rangareddi",
+      "dest": "Rangareddy",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Telangana",
+      "source": "Rangareddy",
+      "dest": "Medchal\u2013Malkajgiri",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Rangareddy",
+      "dest": "Vikarabad",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Warangal",
+      "dest": "Khammam",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Telangana",
+      "source": "Warangal",
+      "dest": "Khammam",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Telangana",
+      "source": "Warangal",
+      "dest": "Khammam",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Telangana",
+      "source": "Warangal",
+      "dest": "Khammam",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Telangana",
+      "source": "Warangal",
+      "dest": "Warangal Rural",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Warangal",
+      "dest": "Warangal Urban (Hanamkonda)",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Warangal",
+      "dest": "Jayashankar Bhupalpally",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Warangal",
+      "dest": "Mahabubabad",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Warangal",
+      "dest": "Jangaon",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Telangana",
+      "source": "Warangal",
+      "dest": "Mulugu",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Chengalpattu",
+      "dest": "Chengalpattu MGR",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Chengalpattu",
+      "dest": "Chengalpattu MGR",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Chengalpattu",
+      "dest": "Chengalpattu MGR",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Chengalpattu MGR",
+      "dest": "Thiruvallur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Chengalpattu MGR",
+      "dest": "Kancheepuram",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Chengalpattu MGR",
+      "dest": "Kancheepuram",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Chidambaranar",
+      "dest": "Toothukudi",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Chingleput",
+      "dest": "Chengalpattu",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Chingleput",
+      "dest": "Chengalpattu",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Chingleput",
+      "dest": "Chengalpattu",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Coimbatore",
+      "dest": "Periyar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Coimbatore",
+      "dest": "Periyar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Coimbatore",
+      "dest": "Tiruppur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Dharmapuri",
+      "dest": "Krishnagiri",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Dindigul Anna",
+      "dest": "Dindigul",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Erode",
+      "dest": "Tiruppur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Kamarajar",
+      "dest": "Virudhunagar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Kancheepuram",
+      "dest": "Chengalpattu",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Kanyakumari",
+      "dest": "Kanniyakumari",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Madras",
+      "dest": "Chennai",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Madurai",
+      "dest": "Dindigul Anna",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Madurai",
+      "dest": "Theni",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Nagapattinam",
+      "dest": "Mayiladuthurai",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Nilgiri",
+      "dest": "Nilgiris",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Nilgiri",
+      "dest": "The Nilgiris",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Nilgiris",
+      "dest": "Nilgiri",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Nilgiris",
+      "dest": "Nilgiri",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "North Arcot",
+      "dest": "North Arcot Ambedkar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "North Arcot",
+      "dest": "Tiruvannamalai Sambuvarayar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "North Arcot",
+      "dest": "North Arcot Ambedkar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "North Arcot",
+      "dest": "North Arcot Ambedkar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "North Arcot Ambedkar",
+      "dest": "Vellore",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "North Arcot Ambedkar",
+      "dest": "Vellore",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "North Arcot Ambedkar",
+      "dest": "Vellore",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Pasumpon Muthuramalinga Thevar",
+      "dest": "Sivaganga",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Perambalur",
+      "dest": "Ariyalur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Periyar",
+      "dest": "Erode",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Periyar",
+      "dest": "Erode",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Ramanathapuram",
+      "dest": "Pasumpon Muthuramalinga Thevar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Ramanathapuram",
+      "dest": "Kamarajar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Salem",
+      "dest": "Dharmapuri",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Salem",
+      "dest": "Dharmapuri",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Salem",
+      "dest": "Namakkal",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "South Arcot",
+      "dest": "Viluppuram",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "South Arcot",
+      "dest": "Cuddalore",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "South Arcot",
+      "dest": "Viluppuram",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tanjore",
+      "dest": "Thanjavur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tanjore",
+      "dest": "Thanjavur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tanjore",
+      "dest": "Thanjavur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tanjore",
+      "dest": "Thanjavur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tanjore",
+      "dest": "Thanjavur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Thanjavur",
+      "dest": "Pudukkottai",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Thanjavur",
+      "dest": "Nagapattinam",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Thanjavur",
+      "dest": "Thiruvarur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Thanjavur",
+      "dest": "Nagapattinam",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tiruchchirappalli",
+      "dest": "Karur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tiruchchirappalli",
+      "dest": "Perambalur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tiruchchirappalli",
+      "dest": "Perambalur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tiruchchirappalli",
+      "dest": "Tiruchirappalli",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tiruchirapalli",
+      "dest": "Tiruchchirappalli",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tiruchirapalli",
+      "dest": "Tiruchchirappalli",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tiruchirapalli",
+      "dest": "Tiruchchirappalli",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tiruchirapalli",
+      "dest": "Tiruchchirappalli",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tiruchirapalli",
+      "dest": "Pudukkottai",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tirunelveli",
+      "dest": "Chidambaranar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tirunelveli",
+      "dest": "Tirunelveli Kattabomman",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tirunelveli",
+      "dest": "Tirunelveli Kattabomman",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tirunelveli",
+      "dest": "Tenkasi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tirunelveli Kattabomman",
+      "dest": "Tirunelveli",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tirunelveli Kattabomman",
+      "dest": "Tirunelveli",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tiruvanamalai",
+      "dest": "Tiruvannamalai",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Tiruvannamalai Sambuvarayar",
+      "dest": "Tiruvanamalai",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Toothukudi",
+      "dest": "Thoothukkudi",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Trivandrum",
+      "dest": "Kanyakumari",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Vellore",
+      "dest": "Tirupattur",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Vellore",
+      "dest": "Ranipet",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Tamil Nadu",
+      "source": "Viluppuram",
+      "dest": "Kallakurichi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Sikkim",
+      "source": "East",
+      "dest": "Gangtok",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Sikkim",
+      "source": "East",
+      "dest": "Pakyong",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Sikkim",
+      "source": "East District",
+      "dest": "East",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Sikkim",
+      "source": "East District",
+      "dest": "East",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Sikkim",
+      "source": "North",
+      "dest": "Mangan",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Sikkim",
+      "source": "North District",
+      "dest": "North",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Sikkim",
+      "source": "Sikkim",
+      "dest": "East District",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Sikkim",
+      "source": "Sikkim",
+      "dest": "West District",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Sikkim",
+      "source": "Sikkim",
+      "dest": "South District",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Sikkim",
+      "source": "Sikkim",
+      "dest": "North District",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Sikkim",
+      "source": "Sikkim",
+      "dest": "East District",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Sikkim",
+      "source": "Sikkim",
+      "dest": "West District",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Sikkim",
+      "source": "South",
+      "dest": "Namchi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Sikkim",
+      "source": "South District",
+      "dest": "South",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Sikkim",
+      "source": "West",
+      "dest": "Gyalshing",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Sikkim",
+      "source": "West",
+      "dest": "Soreng",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Sikkim",
+      "source": "West District",
+      "dest": "West",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Sikkim",
+      "source": "West District",
+      "dest": "West",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Bharatpur",
+      "dest": "Dhaulpur",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Chitorgarh",
+      "dest": "Chittaurgarh",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Chitorgarh",
+      "dest": "Chittaurgarh",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Chittaurgarh",
+      "dest": "Pratapgarh",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Chittorgarh",
+      "dest": "Chitorgarh",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Chittorgarh",
+      "dest": "Chitorgarh",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Ganganagar",
+      "dest": "Hanumangarh",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Jaipur",
+      "dest": "Dausa",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Jalore",
+      "dest": "Jalor",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Jhunjhunu",
+      "dest": "Jhunjhunun",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Kota",
+      "dest": "Baran",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Kotah",
+      "dest": "Kota",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Kotah",
+      "dest": "Kota",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Sawai Madhopur",
+      "dest": "Karauli",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Swai Madhopur",
+      "dest": "Sawai Madhopur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Swai Madhopur",
+      "dest": "Sawai Madhopur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Rajasthan",
+      "source": "Udaipur",
+      "dest": "Rajsamand",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Punjab",
+      "source": "Amritsar",
+      "dest": "Tarn Taran",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Punjab",
+      "source": "Barnala",
+      "dest": "Sangrur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Punjab",
+      "source": "Bathinda",
+      "dest": "Mansa",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Punjab",
+      "source": "Bhatinda",
+      "dest": "Faridkot",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Punjab",
+      "source": "Bhatinda",
+      "dest": "Faridkot",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Punjab",
+      "source": "Bhatinda",
+      "dest": "Faridkot",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Punjab",
+      "source": "Bhatinda",
+      "dest": "Bathinda",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Punjab",
+      "source": "Bhatinda",
+      "dest": "Bathinda",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Punjab",
+      "source": "Faridkot",
+      "dest": "Moga",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Punjab",
+      "source": "Faridkot",
+      "dest": "Muktsar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Punjab",
+      "source": "Fatehgarh Sahib",
+      "dest": "Patiala",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Punjab",
+      "source": "Ferozepur",
+      "dest": "Firozpur",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Punjab",
+      "source": "Ferozepur",
+      "dest": "Firozpur",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Punjab",
+      "source": "Ferozepur",
+      "dest": "Firozpur",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Punjab",
+      "source": "Firozpur",
+      "dest": "Faridkot",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Punjab",
+      "source": "Firozpur",
+      "dest": "Fazilka",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Punjab",
+      "source": "Gurdaspur",
+      "dest": "Pathankot",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Punjab",
+      "source": "Hoshiarpur",
+      "dest": "Ropar",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Punjab",
+      "source": "Hoshiarpur",
+      "dest": "Ropar",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Punjab",
+      "source": "Hoshiarpur",
+      "dest": "Nawanshahr",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Punjab",
+      "source": "Jalandhar",
+      "dest": "Nawanshahr",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Punjab",
+      "source": "Jullundur",
+      "dest": "Jalandhar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Punjab",
+      "source": "Jullundur",
+      "dest": "Jalandhar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Punjab",
+      "source": "Muktsar",
+      "dest": "Sri Muktsar Sahib",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Punjab",
+      "source": "Nawanshahr",
+      "dest": "Shahid Bhagat Singh Nagar",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Punjab",
+      "source": "Nawanshahr",
+      "dest": "Shahid Bhagat Singh Nagar",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Punjab",
+      "source": "Patiala",
+      "dest": "Fatehgarh Sahib",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Punjab",
+      "source": "Patiala",
+      "dest": "Sahibzada Ajit Singh Nagar",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Punjab",
+      "source": "Ropar",
+      "dest": "Rupnagar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Punjab",
+      "source": "Ropar",
+      "dest": "Rupnagar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Punjab",
+      "source": "Rupnagar",
+      "dest": "Sahibzada Ajit Singh Nagar",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Punjab",
+      "source": "Sangrur",
+      "dest": "Barnala",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Punjab",
+      "source": "Sangrur",
+      "dest": "Malerkotla",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Puducherry",
+      "source": "Pondicherry",
+      "dest": "Puducherry",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Odisha",
+      "source": "Balangir",
+      "dest": "Sonapur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Balasore",
+      "dest": "Baleshwar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Odisha",
+      "source": "Balasore",
+      "dest": "Baleshwar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Odisha",
+      "source": "Baleshwar",
+      "dest": "Bhadrak",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Baudh Khondmals",
+      "dest": "Phulabani",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Odisha",
+      "source": "Baudh Khondmals",
+      "dest": "Phulabani",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Odisha",
+      "source": "Bolangir",
+      "dest": "Balangir",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Odisha",
+      "source": "Bolangir",
+      "dest": "Balangir",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Odisha",
+      "source": "Cuttack",
+      "dest": "Kendrapara",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Cuttack",
+      "dest": "Jagatsinghapur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Cuttack",
+      "dest": "Jajapur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Dhenkanal",
+      "dest": "Anugul",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Ganjam",
+      "dest": "Gajapati",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Kalahandi",
+      "dest": "Nuapada",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Keonjhar",
+      "dest": "Kendujhar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Odisha",
+      "source": "Koraput",
+      "dest": "Rayagada",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Koraput",
+      "dest": "Nabarangapur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Koraput",
+      "dest": "Malkangiri",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Phulabani",
+      "dest": "Kandhamal",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Phulabani",
+      "dest": "Baudh",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Phulbani",
+      "dest": "Baudh Khondmals",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Odisha",
+      "source": "Phulbani",
+      "dest": "Baudh Khondmals",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Odisha",
+      "source": "Puri",
+      "dest": "Nayagarh",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Puri",
+      "dest": "Khordha",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Sambalpur",
+      "dest": "Bargarh",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Sambalpur",
+      "dest": "Jharsuguda",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Sambalpur",
+      "dest": "Debagarh",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Odisha",
+      "source": "Sonapur",
+      "dest": "Subarnapur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "NCT of Delhi",
+      "source": "Delhi",
+      "dest": "North West",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "NCT of Delhi",
+      "source": "Delhi",
+      "dest": "North",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "NCT of Delhi",
+      "source": "Delhi",
+      "dest": "North East",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "NCT of Delhi",
+      "source": "Delhi",
+      "dest": "East",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "NCT of Delhi",
+      "source": "Delhi",
+      "dest": "New Delhi",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "NCT of Delhi",
+      "source": "Delhi",
+      "dest": "Central",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "NCT of Delhi",
+      "source": "Delhi",
+      "dest": "West",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "NCT of Delhi",
+      "source": "Delhi",
+      "dest": "South West",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "NCT of Delhi",
+      "source": "Delhi",
+      "dest": "South",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Nagaland",
+      "source": "Dimapur",
+      "dest": "Chumoukedima",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Nagaland",
+      "source": "Dimapur",
+      "dest": "Niuland",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Nagaland",
+      "source": "Kohima",
+      "dest": "Phek",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Nagaland",
+      "source": "Kohima",
+      "dest": "Dimapur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Nagaland",
+      "source": "Kohima",
+      "dest": "Dimapur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Nagaland",
+      "source": "Kohima",
+      "dest": "Dimapur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Nagaland",
+      "source": "Kohima",
+      "dest": "Peren",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Nagaland",
+      "source": "Kohima",
+      "dest": "Tseminy\u00fc",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Nagaland",
+      "source": "Mokokchung",
+      "dest": "Wokha",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Nagaland",
+      "source": "Mokokchung",
+      "dest": "Zunheboto",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Nagaland",
+      "source": "Naga Hills",
+      "dest": "Kohima",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Nagaland",
+      "source": "Naga Hills",
+      "dest": "Kohima",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Nagaland",
+      "source": "Naga Hills",
+      "dest": "Kohima",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Nagaland",
+      "source": "Naga Hills",
+      "dest": "Kohima",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Nagaland",
+      "source": "Naga Hills",
+      "dest": "Kohima",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Nagaland",
+      "source": "Naga Hills",
+      "dest": "Kohima",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Nagaland",
+      "source": "Naga Hills",
+      "dest": "Kohima",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Nagaland",
+      "source": "Tuensang",
+      "dest": "Mokokchung",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Nagaland",
+      "source": "Tuensang",
+      "dest": "Mokokchung",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Nagaland",
+      "source": "Tuensang",
+      "dest": "Mokokchung",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Nagaland",
+      "source": "Tuensang",
+      "dest": "Mon",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Nagaland",
+      "source": "Tuensang",
+      "dest": "Longleng",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Nagaland",
+      "source": "Tuensang",
+      "dest": "Kiphire",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Nagaland",
+      "source": "Tuensang",
+      "dest": "Noklak",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Mizoram",
+      "source": "Aizawl",
+      "dest": "Mamit",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Mizoram",
+      "source": "Aizawl",
+      "dest": "Kolasib",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Mizoram",
+      "source": "Aizawl",
+      "dest": "Champhai",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Mizoram",
+      "source": "Aizawl",
+      "dest": "Serchhip",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Mizoram",
+      "source": "Aizawl",
+      "dest": "Champhai",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Mizoram",
+      "source": "Aizawl",
+      "dest": "Saitual",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Mizoram",
+      "source": "Champhai",
+      "dest": "Khawzawl",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Mizoram",
+      "source": "Chhimtuipui",
+      "dest": "Lawngtlai",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Mizoram",
+      "source": "Chhimtuipui",
+      "dest": "Saiha",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Mizoram",
+      "source": "Lunglei",
+      "dest": "Hnathial",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Mizoram",
+      "source": "Lushai Hills",
+      "dest": "Mizo Hills",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Mizoram",
+      "source": "Lushai Hills",
+      "dest": "Mizo Hills",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Mizoram",
+      "source": "Lushai Hills",
+      "dest": "Mizo Hills",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Mizoram",
+      "source": "Lushai Hills",
+      "dest": "Mizo Hills",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Mizoram",
+      "source": "Lushai Hills",
+      "dest": "Mizo Hills",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Mizoram",
+      "source": "Lushai Hills",
+      "dest": "Mizo Hills",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Mizoram",
+      "source": "Lushai Hills",
+      "dest": "Mizo Hills",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Mizoram",
+      "source": "Lushai Hills",
+      "dest": "Mizo Hills",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Mizoram",
+      "source": "Lushai Hills",
+      "dest": "Mizo Hills",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Mizoram",
+      "source": "Lushai Hills",
+      "dest": "Mizo Hills",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Mizoram",
+      "source": "Lushai Hills",
+      "dest": "Mizo Hills",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizo Hills",
+      "dest": "Mizoram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizo Hills",
+      "dest": "Mizoram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizo Hills",
+      "dest": "Mizoram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizo Hills",
+      "dest": "Mizoram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizo Hills",
+      "dest": "Mizoram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizo Hills",
+      "dest": "Mizoram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizo Hills",
+      "dest": "Mizoram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizo Hills",
+      "dest": "Mizoram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizo Hills",
+      "dest": "Mizoram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizo Hills",
+      "dest": "Mizoram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizo Hills",
+      "dest": "Mizoram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizoram",
+      "dest": "Aizawl",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizoram",
+      "dest": "Aizawl",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizoram",
+      "dest": "Aizawl",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizoram",
+      "dest": "Aizawl",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizoram",
+      "dest": "Aizawl",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizoram",
+      "dest": "Lunglei",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizoram",
+      "dest": "Chhimtuipui",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizoram",
+      "dest": "Chhimtuipui",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizoram",
+      "dest": "Aizawl",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizoram",
+      "dest": "Lunglei",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Mizoram",
+      "source": "Mizoram",
+      "dest": "Aizawl",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "East Garo Hills",
+      "dest": "North Garo Hills",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Meghalaya",
+      "source": "East Khasi Hills",
+      "dest": "Ri Bhoi",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Meghalaya",
+      "source": "Garo Hills",
+      "dest": "West Garo Hills",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "Garo Hills",
+      "dest": "East Garo Hills",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "Garo Hills",
+      "dest": "West Garo Hills",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "Garo Hills",
+      "dest": "East Garo Hills",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "Jaintia Hills",
+      "dest": "West Jaintia Hills",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Meghalaya",
+      "source": "Jaintia Hills",
+      "dest": "East Jaintia Hills",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Meghalaya",
+      "source": "United Khasi and Jaintia Hills",
+      "dest": "West Khasi Hills",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "United Khasi and Jaintia Hills",
+      "dest": "East Khasi Hills",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "United Khasi and Jaintia Hills",
+      "dest": "East Khasi Hills",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "United Khasi and Jaintia Hills",
+      "dest": "Jaintia Hills",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "United Khasi and Jaintia Hills",
+      "dest": "Jaintia Hills",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "United Khasi and Jaintia Hills",
+      "dest": "Jaintia Hills",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "United Khasi and Jaintia Hills",
+      "dest": "West Khasi Hills",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "United Khasi and Jaintia Hills",
+      "dest": "West Khasi Hills",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Meghalaya",
+      "source": "West Garo Hills",
+      "dest": "South Garo Hills",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Meghalaya",
+      "source": "West Khasi Hills",
+      "dest": "South West Khasi Hills",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Meghalaya",
+      "source": "West Khasi Hills",
+      "dest": "Eastern West Khasi Hills",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Manipur",
+      "source": "Chandel",
+      "dest": "Tengnoupal",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Manipur",
+      "source": "Churachandpur",
+      "dest": "Pherzawl",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Manipur",
+      "source": "Imphal",
+      "dest": "Imphal West",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Manipur",
+      "source": "Imphal",
+      "dest": "Imphal East",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Manipur",
+      "source": "Imphal",
+      "dest": "Imphal East",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Manipur",
+      "source": "Imphal East",
+      "dest": "Jiribam",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur North",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur West",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur South",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur Central",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur Central",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur Central",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur Central",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur East",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur Central",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur Central",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur Central",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur East",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur North",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur West",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur Central",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur",
+      "dest": "Manipur South",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur Central",
+      "dest": "Tengnoupal",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur Central",
+      "dest": "Tengnoupal",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur Central",
+      "dest": "Bishnupur",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur Central",
+      "dest": "Thoubal",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur Central",
+      "dest": "Imphal",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur Central",
+      "dest": "Imphal",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur Central",
+      "dest": "Imphal",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur Central",
+      "dest": "Thoubal",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur East",
+      "dest": "Ukhrul",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur East",
+      "dest": "Ukhrul",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur North",
+      "dest": "Senapati",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur North",
+      "dest": "Senapati",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur South",
+      "dest": "Churachandpur",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur South",
+      "dest": "Churachandpur",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur West",
+      "dest": "Tamenglong",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Manipur West",
+      "dest": "Tamenglong",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Senapati",
+      "dest": "Kangpokpi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Manipur",
+      "source": "Tamenglong",
+      "dest": "Noney",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Manipur",
+      "source": "Tengnoupal",
+      "dest": "Chandel",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Tengnoupal",
+      "dest": "Chandel",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Manipur",
+      "source": "Thoubal",
+      "dest": "Kakching",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Manipur",
+      "source": "Ukhrul",
+      "dest": "Kamjong",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Ahmadnagar",
+      "dest": "Ahmednagar",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Ahmednagar",
+      "dest": "Ahmadnagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Ahmednagar",
+      "dest": "Ahmadnagar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Akola",
+      "dest": "Washim",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Aurangabad",
+      "dest": "Jalna",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Aurangabad",
+      "dest": "Sambhaji Nagar",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Bhandara",
+      "dest": "Gondiya",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Bhir",
+      "dest": "Bid",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Buldana",
+      "dest": "Buldhana",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Buldhana",
+      "dest": "Buldana",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Chanda",
+      "dest": "Chandrapur",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Chanda",
+      "dest": "Chandrapur",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Chandrapur",
+      "dest": "Gadchiroli",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Dhule",
+      "dest": "Nandurbar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Dhulia",
+      "dest": "Dhule",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Dhulia",
+      "dest": "Dhule",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Maharashtra",
+      "source": "East Khandesh",
+      "dest": "Jalgaon",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Greater Bombay",
+      "dest": "Mumbai",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Greater Bombay",
+      "dest": "Mumbai (Suburban)",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Kolaba",
+      "dest": "Raigarh",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Mumbai (Suburban)",
+      "dest": "Mumbai Suburban",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Nasik",
+      "dest": "Nashik",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Osmanabad",
+      "dest": "Latur",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Osmanabad",
+      "dest": "Dharashiv",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Parbhani",
+      "dest": "Hingoli",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Poona",
+      "dest": "Pune",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Ratnagiri",
+      "dest": "Sindhudurg",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Satara North",
+      "dest": "Satara",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Satara South",
+      "dest": "Sangli",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Sholapur",
+      "dest": "Solapur",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Thana",
+      "dest": "Thane",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Thana",
+      "dest": "Thane",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Thane",
+      "dest": "Palghar",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Maharashtra",
+      "source": "West Khandesh",
+      "dest": "Dhulia",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Maharashtra",
+      "source": "West Khandesh",
+      "dest": "Dhulia",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Maharashtra",
+      "source": "Yeotmal",
+      "dest": "Yavatmal",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Bhilsa",
+      "dest": "Vidisha",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Chhindwara",
+      "dest": "Seoni",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "East Nimar",
+      "dest": "Khandwa",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "East Nimar",
+      "dest": "Khandwa",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "East Nimar",
+      "dest": "Khandwa (East Nimar)",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "East Nimar",
+      "dest": "Burhanpur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Gird",
+      "dest": "Gwalior",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Goona",
+      "dest": "Guna",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Goona",
+      "dest": "Guna",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Guna",
+      "dest": "Ashoknagar",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Hoshangabad",
+      "dest": "Narsimhapur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Hoshangabad",
+      "dest": "Harda",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Hoshangabad",
+      "dest": "Narmadapuram",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Jabalpur",
+      "dest": "Katni",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Jhabua",
+      "dest": "Alirajpur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Khandwa",
+      "dest": "East Nimar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Khandwa",
+      "dest": "East Nimar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Khargone",
+      "dest": "West Nimar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Khargone",
+      "dest": "West Nimar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Mandla",
+      "dest": "Dindori",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Mandsaur",
+      "dest": "Neemuch",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Morena",
+      "dest": "Sheopur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Nimar",
+      "dest": "West Nimar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Nimar",
+      "dest": "West Nimar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Nimar",
+      "dest": "East Nimar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Nimar",
+      "dest": "East Nimar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Sagar",
+      "dest": "Damoh",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Sehore",
+      "dest": "Bhopal",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Shahdol",
+      "dest": "Umaria",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Shahdol",
+      "dest": "Annupur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Shajapur",
+      "dest": "Agar-Malwa",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Sidhi",
+      "dest": "Singrauli",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "Tikamgarh",
+      "dest": "Niwari",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "West Nimar",
+      "dest": "Khargone",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "West Nimar",
+      "dest": "Khargone",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "West Nimar",
+      "dest": "Barwani",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Madhya Pradesh",
+      "source": "West Nimar",
+      "dest": "Khargone (West Nimar)",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Lakshadweep",
+      "source": "Laccadive, Minicoy and Amindivi Islands",
+      "dest": "Lakshadweep",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Kerala",
+      "source": "Alleppey",
+      "dest": "Alappuzha",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Kerala",
+      "source": "Alleppey",
+      "dest": "Pathanamthitta",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Kerala",
+      "source": "Cannanore",
+      "dest": "Wayanad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Kerala",
+      "source": "Cannanore",
+      "dest": "Kannur",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Kerala",
+      "source": "Cannanore",
+      "dest": "Kasargod",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Kerala",
+      "source": "Ernakulam",
+      "dest": "Idukki",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Kerala",
+      "source": "Idukki",
+      "dest": "Pathanamthitta",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Kerala",
+      "source": "Kottayam",
+      "dest": "Ernakulam",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Kerala",
+      "source": "Kottayam",
+      "dest": "Alleppey",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Kerala",
+      "source": "Kottayam",
+      "dest": "Idukki",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Kerala",
+      "source": "Kottayam",
+      "dest": "Idukki",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Kerala",
+      "source": "Kozhikode",
+      "dest": "Malappuram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Kerala",
+      "source": "Kozhikode",
+      "dest": "Wayanad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Kerala",
+      "source": "Malabar",
+      "dest": "Cannanore",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Kerala",
+      "source": "Malabar",
+      "dest": "Cannanore",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Kerala",
+      "source": "Malabar",
+      "dest": "Cannanore",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Kerala",
+      "source": "Malabar",
+      "dest": "Kozhikode",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Kerala",
+      "source": "Malabar",
+      "dest": "Kozhikode",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Kerala",
+      "source": "Malabar",
+      "dest": "Kozhikode",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Kerala",
+      "source": "Malabar",
+      "dest": "Palghat",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Kerala",
+      "source": "Malabar",
+      "dest": "Palghat",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Kerala",
+      "source": "Palghat",
+      "dest": "Malappuram",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Kerala",
+      "source": "Palghat",
+      "dest": "Palakkad",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Kerala",
+      "source": "Quilon",
+      "dest": "Alleppey",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Kerala",
+      "source": "Quilon",
+      "dest": "Pathanamthitta",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Kerala",
+      "source": "Quilon",
+      "dest": "Kollam",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Kerala",
+      "source": "Trichur",
+      "dest": "Ernakulam",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Kerala",
+      "source": "Trichur",
+      "dest": "Thrissur",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Kerala",
+      "source": "Trivandrum",
+      "dest": "Thiruvananthapuram",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Karnataka",
+      "source": "Bangalore",
+      "dest": "Bangalore Rural",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Karnataka",
+      "source": "Bangalore",
+      "dest": "Bangalore Rural",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Karnataka",
+      "source": "Bangalore Rural",
+      "dest": "Ramanagara",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Karnataka",
+      "source": "Belgaum",
+      "dest": "Belgavi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Karnataka",
+      "source": "Bellary",
+      "dest": "Ballari",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Karnataka",
+      "source": "Bellary",
+      "dest": "Vijayanagara",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Karnataka",
+      "source": "Bijapur",
+      "dest": "Bagalkot",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Karnataka",
+      "source": "Bijapur",
+      "dest": "Vijayapura",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Karnataka",
+      "source": "Chikmagalur",
+      "dest": "Chikkamagaluru",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Karnataka",
+      "source": "Chitaldrug",
+      "dest": "Chitradurga",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Karnataka",
+      "source": "Chitaldrug",
+      "dest": "Chitradurga",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Karnataka",
+      "source": "Chitradurga",
+      "dest": "Davanagere",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Karnataka",
+      "source": "Coorg",
+      "dest": "Kodagu",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Karnataka",
+      "source": "Dakshin Kannad",
+      "dest": "Dakshina Kannada",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Karnataka",
+      "source": "Dakshin Kannad",
+      "dest": "Dakshina Kannada",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Karnataka",
+      "source": "Dakshina Kannada",
+      "dest": "Udupi",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Karnataka",
+      "source": "Dharwad",
+      "dest": "Gadag",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Karnataka",
+      "source": "Dharwad",
+      "dest": "Haveri",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Karnataka",
+      "source": "Dharwar",
+      "dest": "Dharwad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Karnataka",
+      "source": "Dharwar",
+      "dest": "Dharwad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Karnataka",
+      "source": "Dharwar",
+      "dest": "Dharwad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Karnataka",
+      "source": "Gulbarga",
+      "dest": "Yadgir",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Karnataka",
+      "source": "Gulbarga",
+      "dest": "Kalaburagi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Karnataka",
+      "source": "Kanara",
+      "dest": "North Kanara",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Karnataka",
+      "source": "Kolar",
+      "dest": "Chikkaballapura",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Karnataka",
+      "source": "Mysore",
+      "dest": "Chamarajanagar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Karnataka",
+      "source": "Mysore",
+      "dest": "Mysuru",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Karnataka",
+      "source": "North Kanara",
+      "dest": "Uttar Kannad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Karnataka",
+      "source": "Raichur",
+      "dest": "Koppal",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Karnataka",
+      "source": "Ramanagara",
+      "dest": "Bengaluru South",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Karnataka",
+      "source": "Shimoga",
+      "dest": "Shivamogga",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Karnataka",
+      "source": "South Kanara",
+      "dest": "Dakshin Kannad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Karnataka",
+      "source": "South Kanara",
+      "dest": "Dakshin Kannad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Karnataka",
+      "source": "Tumkur",
+      "dest": "Tumakuru",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Karnataka",
+      "source": "Uttar Kannad",
+      "dest": "Uttara Kannada",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Dhanbad",
+      "dest": "Bokaro",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Dumka",
+      "dest": "Jamtara",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Giridih",
+      "dest": "Bokaro",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Gumla",
+      "dest": "Simdega",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Hazaribag",
+      "dest": "Chatra",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Hazaribag",
+      "dest": "Kodarma",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Hazaribag",
+      "dest": "Hazaribagh",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Hazaribag",
+      "dest": "Ramgarh",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Hazaribagh",
+      "dest": "Hazaribag",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Hazaribagh",
+      "dest": "Hazaribag",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Hazaribagh",
+      "dest": "Hazaribag",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Hazaribagh",
+      "dest": "Hazaribag",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Hazaribagh",
+      "dest": "Giridih",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Hazaribagh",
+      "dest": "Giridih",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Pakaur",
+      "dest": "Pakur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Palamau",
+      "dest": "Palamu",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Palamau",
+      "dest": "Palamu",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Palamau",
+      "dest": "Palamu",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Palamu",
+      "dest": "Garhwa",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Palamu",
+      "dest": "Latehar",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Pashchimi Singhbhum",
+      "dest": "Saraikela-kharsawan",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Ranchi",
+      "dest": "Lohardaga",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Ranchi",
+      "dest": "Gumla",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Ranchi",
+      "dest": "Gumla",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Ranchi",
+      "dest": "Khunti",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Sahibganj",
+      "dest": "Pakaur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Santal Parganas",
+      "dest": "Santhal Pargana",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Santal Parganas",
+      "dest": "Santhal Pargana",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Santal Parganas",
+      "dest": "Santhal Pargana",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Santal Parganas",
+      "dest": "Santhal Pargana",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Santal Parganas",
+      "dest": "Santhal Pargana",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Santal Parganas",
+      "dest": "Santhal Pargana",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Santhal Pargana",
+      "dest": "Deoghar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Santhal Pargana",
+      "dest": "Godda",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Santhal Pargana",
+      "dest": "Sahibganj",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Santhal Pargana",
+      "dest": "Sahibganj",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Santhal Pargana",
+      "dest": "Dumka",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Santhal Pargana",
+      "dest": "Dumka",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Singhbhum",
+      "dest": "Pashchimi Singhbhum",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Singhbhum",
+      "dest": "Pashchimi Singhbhum",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jharkhand",
+      "source": "Singhbhum",
+      "dest": "Purbi Singhbhum",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Anantnag",
+      "dest": "Kulgam",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Baramula",
+      "dest": "Kupwara",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Baramula",
+      "dest": "Bandipore",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Baramula",
+      "dest": "Ganderbal",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Baramulla",
+      "dest": "Baramula",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Baramulla",
+      "dest": "Baramula",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Baramulla",
+      "dest": "Baramula",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Baramulla",
+      "dest": "Baramula",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Doda",
+      "dest": "Ramban",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Doda",
+      "dest": "Kishtwar",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu",
+      "dest": "Samba",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Baramulla",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Srinagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Ladakh",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Ladakh",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Poonch",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Poonch",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Kathua",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Baramulla",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Baramulla",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Srinagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Baramulla",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Srinagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Srinagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Anantnag",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Anantnag",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Srinagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Doda",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Doda",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Doda",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Udhampur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Udhampur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Jammu",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Jammu and Kashmir",
+      "dest": "Jammu",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Ladakh",
+      "dest": "Kargil",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Ladakh",
+      "dest": "Leh (Ladakh)",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Poonch",
+      "dest": "Punch",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Poonch",
+      "dest": "Rajauri",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Pulwama",
+      "dest": "Shupiyan",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Pulwama",
+      "dest": "Kulgam",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Rajauri",
+      "dest": "Rajouri",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Srinagar",
+      "dest": "Badgam",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Srinagar",
+      "dest": "Pulwama",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Srinagar",
+      "dest": "Pulwama",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Srinagar",
+      "dest": "Pulwama",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "source": "Udhampur",
+      "dest": "Reasi",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Kangra",
+      "dest": "Lahaul and Spiti",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Kangra",
+      "dest": "Kulu",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Kangra",
+      "dest": "Hamirpur",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Kangra",
+      "dest": "Una",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Kohistan",
+      "dest": "Simla",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Kulu",
+      "dest": "Kullu",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Lahaul and Spiti",
+      "dest": "Lahul and Spiti",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Lahul and Spiti",
+      "dest": "Lahul & Spiti",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Mahasu",
+      "dest": "Kinnaur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Mahasu",
+      "dest": "Solan",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Mahasu",
+      "dest": "Shimla",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Mahasu",
+      "dest": "Shimla",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Simla",
+      "dest": "Solan",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Sirmoor",
+      "dest": "Sirmur",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Himachal Pradesh",
+      "source": "Sirmur",
+      "dest": "Sirmaur",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Haryana",
+      "source": "Ambala",
+      "dest": "Yamunanagar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Haryana",
+      "source": "Ambala",
+      "dest": "Panchkula",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Haryana",
+      "source": "Bhiwani",
+      "dest": "Charkhi Dadri",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Haryana",
+      "source": "Faridabad",
+      "dest": "Palwal",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Haryana",
+      "source": "Gurgaon",
+      "dest": "Mahendragarh",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Haryana",
+      "source": "Gurgaon",
+      "dest": "Faridabad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Haryana",
+      "source": "Gurgaon",
+      "dest": "Faridabad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Haryana",
+      "source": "Gurgaon",
+      "dest": "Mewat",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Haryana",
+      "source": "Gurgaon",
+      "dest": "Gurugram",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Haryana",
+      "source": "Hisar",
+      "dest": "Sirsa",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Haryana",
+      "source": "Hisar",
+      "dest": "Bhiwani",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Haryana",
+      "source": "Hisar",
+      "dest": "Bhiwani",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Haryana",
+      "source": "Hisar",
+      "dest": "Fatehabad",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Haryana",
+      "source": "Hissar",
+      "dest": "Hisar",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Haryana",
+      "source": "Hissar",
+      "dest": "Hisar",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Haryana",
+      "source": "Hissar",
+      "dest": "Hisar",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Haryana",
+      "source": "Hissar",
+      "dest": "Hisar",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Haryana",
+      "source": "Hissar",
+      "dest": "Hisar",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Haryana",
+      "source": "Karnal",
+      "dest": "Kurukshetra",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Haryana",
+      "source": "Karnal",
+      "dest": "Kurukshetra",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Haryana",
+      "source": "Karnal",
+      "dest": "Panipat",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Haryana",
+      "source": "Kurukshetra",
+      "dest": "Kaithal",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Haryana",
+      "source": "Mahendragarh",
+      "dest": "Rewari",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Haryana",
+      "source": "Mewat",
+      "dest": "Nuh",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Haryana",
+      "source": "Mohindergarh",
+      "dest": "Mahendragarh",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Haryana",
+      "source": "Mohindergarh",
+      "dest": "Mahendragarh",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Haryana",
+      "source": "Rohtak",
+      "dest": "Karnal",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Haryana",
+      "source": "Rohtak",
+      "dest": "Sonipat",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Haryana",
+      "source": "Rohtak",
+      "dest": "Jhajjar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Haryana",
+      "source": "Sangrur",
+      "dest": "Jind",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Ahmadabad",
+      "dest": "Botad",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Gujarat",
+      "source": "Ahmedabad",
+      "dest": "Ahmadabad",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Ahmedabad",
+      "dest": "Gandhinagar",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Ahmedabad",
+      "dest": "Ahmadabad",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Banaskantha",
+      "dest": "Banas Kantha",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Baroda",
+      "dest": "Vadodara",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Baroda",
+      "dest": "Vadodara",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Bharuch",
+      "dest": "Narmada",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Gujarat",
+      "source": "Bhavnagar",
+      "dest": "Botad",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Gujarat",
+      "source": "Broach",
+      "dest": "Bharuch",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Broach",
+      "dest": "Bharuch",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Central Saurashtra",
+      "dest": "Rajkot",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Central Saurashtra",
+      "dest": "Rajkot",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Dangs",
+      "dest": "The Dangs",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Gohilwad",
+      "dest": "Bhavnagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Gohilwad",
+      "dest": "Bhavnagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Halar",
+      "dest": "Jamnagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Halar",
+      "dest": "Jamnagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Halar",
+      "dest": "Jamnagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Jamnagar",
+      "dest": "Devbhumi Dwarka",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Gujarat",
+      "source": "Jamnagar",
+      "dest": "Morbi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Gujarat",
+      "source": "Junagadh",
+      "dest": "Porbandar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Gujarat",
+      "source": "Junagadh",
+      "dest": "Gir Somnath",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Gujarat",
+      "source": "Kaira",
+      "dest": "Kheda",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Kaira",
+      "dest": "Kheda",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Kaira",
+      "dest": "Kheda",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Kheda",
+      "dest": "Anand",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Gujarat",
+      "source": "Kheda",
+      "dest": "Mahisagar",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Gujarat",
+      "source": "Kutch",
+      "dest": "Kachchh",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Gujarat",
+      "source": "Mahesana",
+      "dest": "Patan",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Gujarat",
+      "source": "Mehsana",
+      "dest": "Gandhinagar",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Mehsana",
+      "dest": "Mahesana",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Mehsana",
+      "dest": "Mahesana",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Panch Mahals",
+      "dest": "Panchmahals",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Panch Mahals",
+      "dest": "Panchmahals",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Panch Mahals",
+      "dest": "Panchmahals",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Panch Mahals",
+      "dest": "Dohad",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Gujarat",
+      "source": "Panch Mahals",
+      "dest": "Mahisagar",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Gujarat",
+      "source": "Panchmahals",
+      "dest": "Panch Mahals",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Panchmahals",
+      "dest": "Panch Mahals",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Panchmahals",
+      "dest": "Panch Mahals",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Rajkot",
+      "dest": "Morbi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Gujarat",
+      "source": "Sabar Kantha",
+      "dest": "Aravalli",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Gujarat",
+      "source": "Sabarkantha",
+      "dest": "Sabar Kantha",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Sabarkantha",
+      "dest": "Sabar Kantha",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Sorath",
+      "dest": "Junagadh",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Sorath",
+      "dest": "Junagadh",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Sorath",
+      "dest": "Junagadh",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Surat",
+      "dest": "Valsad",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Surat",
+      "dest": "Valsad",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Gujarat",
+      "source": "Surat",
+      "dest": "Tapi",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Gujarat",
+      "source": "Surendranagar",
+      "dest": "Morbi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Gujarat",
+      "source": "Vadodara",
+      "dest": "Chhota Udepur",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Gujarat",
+      "source": "Valsad",
+      "dest": "Navsari",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Gujarat",
+      "source": "Zalawad",
+      "dest": "Surendranagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Gujarat",
+      "source": "Zalawad",
+      "dest": "Surendranagar",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Goa",
+      "source": "Goa",
+      "dest": "North Goa",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Goa",
+      "source": "Goa",
+      "dest": "South Goa",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Delhi",
+      "source": "Delhi",
+      "dest": "North West",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Delhi",
+      "source": "Delhi",
+      "dest": "South",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Delhi",
+      "source": "Delhi",
+      "dest": "North East",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Delhi",
+      "source": "Delhi",
+      "dest": "East",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Delhi",
+      "source": "Delhi",
+      "dest": "South West",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Delhi",
+      "source": "East",
+      "dest": "Shahdara",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Delhi",
+      "source": "North East",
+      "dest": "Shahdara",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Delhi",
+      "source": "North West",
+      "dest": "North",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Delhi",
+      "source": "South",
+      "dest": "South East",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Delhi",
+      "source": "South West",
+      "dest": "New Delhi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Dadara & Nagar Havelli",
+      "source": "Dadra and Nagar Haveli",
+      "dest": "Dadra & Nagar Haveli",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Bastar",
+      "dest": "Kanker",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Bastar",
+      "dest": "Dantewada",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Bastar",
+      "dest": "Dantewada",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Bastar",
+      "dest": "Dantewada",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Bastar",
+      "dest": "Narayanpur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Bastar",
+      "dest": "Kondagaon",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Bilaspur",
+      "dest": "Korba",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Bilaspur",
+      "dest": "Janjgir-Champa",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Bilaspur",
+      "dest": "Mungeli",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Bilaspur",
+      "dest": "Gaurela-Pendra-Marwahi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Dakshin Bastar Dantewada",
+      "dest": "Sukma",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Dantewada",
+      "dest": "Dakshin Bastar Dantewada",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Dantewada",
+      "dest": "Bijapur",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Dantewada",
+      "dest": "Dakshin Bastar Dantewada",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Durg",
+      "dest": "Raj Nandgaon",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Durg",
+      "dest": "Raj Nandgaon",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Durg",
+      "dest": "Balod",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Durg",
+      "dest": "Bemetara",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Kanker",
+      "dest": "Uttar Bastar Kanker",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Kawardha",
+      "dest": "Kabeerdham",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Raigarh",
+      "dest": "Jashpur",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Raipur",
+      "dest": "Mahasamund",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Raipur",
+      "dest": "Dhamtari",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Raipur",
+      "dest": "Baloda Bazar",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Raipur",
+      "dest": "Gariyaband",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Raj Nandgaon",
+      "dest": "Kawardha",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Raj Nandgaon",
+      "dest": "Rajnandgaon",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Surguja",
+      "dest": "Koriya",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Surguja",
+      "dest": "Balrampur",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Chhattisgarh",
+      "source": "Surguja",
+      "dest": "Surajpur",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Chandigarh",
+      "source": "Ambala",
+      "dest": "Chandigarh",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Bihar",
+      "source": "Bhagalpur",
+      "dest": "Banka",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Bihar",
+      "source": "Bhojpur",
+      "dest": "Buxar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Bihar",
+      "source": "Champaran",
+      "dest": "Pashchim Champaran",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Champaran",
+      "dest": "Purba Champaran",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Darbhanga",
+      "dest": "Madhubani",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Darbhanga",
+      "dest": "Samastipur",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Gaya",
+      "dest": "Aurangabad",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Gaya",
+      "dest": "Nawada",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Gaya",
+      "dest": "Jehanabad",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Bihar",
+      "source": "Gaya",
+      "dest": "Jehanabad",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Bihar",
+      "source": "Jehanabad",
+      "dest": "Arwal",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Bihar",
+      "source": "Monghyr",
+      "dest": "Begusarai",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Monghyr",
+      "dest": "Munger",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Monghyr",
+      "dest": "Munger",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Monghyr",
+      "dest": "Munger",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Monghyr",
+      "dest": "Munger",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Monghyr",
+      "dest": "Munger",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Munger",
+      "dest": "Khagaria",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Bihar",
+      "source": "Munger",
+      "dest": "Lakhisarai",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Bihar",
+      "source": "Munger",
+      "dest": "Sheikhpura",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Bihar",
+      "source": "Munger",
+      "dest": "Jamui",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Bihar",
+      "source": "Muzaffarpur",
+      "dest": "Sitamarhi",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Muzaffarpur",
+      "dest": "Sitamarhi",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Muzaffarpur",
+      "dest": "Vaishali",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Nawada",
+      "dest": "Nawadah",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Bihar",
+      "source": "Nawadah",
+      "dest": "Nawada",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Bihar",
+      "source": "Patna",
+      "dest": "Nalanda",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Purnea",
+      "dest": "Purnia",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Purnea",
+      "dest": "Purnia",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Purnea",
+      "dest": "Purnia",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Purnea",
+      "dest": "Katihar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Purnia",
+      "dest": "Araria",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Bihar",
+      "source": "Purnia",
+      "dest": "Kishanganj",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Bihar",
+      "source": "Rohtas",
+      "dest": "Kaimur (Bhabua)",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Bihar",
+      "source": "Saharsa",
+      "dest": "Madhepura",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Bihar",
+      "source": "Saharsa",
+      "dest": "Supaul",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Bihar",
+      "source": "Saran",
+      "dest": "Gopalganj",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Saran",
+      "dest": "Siwan",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Shahabad",
+      "dest": "Bhojpur",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Shahabad",
+      "dest": "Bhojpur",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Shahabad",
+      "dest": "Rohtas",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Shahabad",
+      "dest": "Rohtas",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Bihar",
+      "source": "Sitamarhi",
+      "dest": "Sheohar",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Assam",
+      "source": "Baksa",
+      "dest": "Tamulpur",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Assam",
+      "source": "Barpeta",
+      "dest": "Baksa",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Barpeta",
+      "dest": "Bajali",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Assam",
+      "source": "Bongaigaon",
+      "dest": "Chirang",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Cachar",
+      "dest": "Karimganj",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Cachar",
+      "dest": "Hailakandi",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Darrang",
+      "dest": "Sonitpur",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Darrang",
+      "dest": "Sonitpur",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Darrang",
+      "dest": "Baksa",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Darrang",
+      "dest": "Udalguri",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Darrang",
+      "dest": "Baksa",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Dhubri",
+      "dest": "South Salmara-Mankachar",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Assam",
+      "source": "Dhuburi",
+      "dest": "Dhubri",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Dhuburi",
+      "dest": "Dhubri",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Dibrugarh",
+      "dest": "Tinsukia",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Goalpara",
+      "dest": "Kokrajhar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Goalpara",
+      "dest": "Kokrajhar",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Goalpara",
+      "dest": "Dhuburi",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Goalpara",
+      "dest": "Bongaigaon",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Goalpara",
+      "dest": "Bongaigaon",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Goalpara",
+      "dest": "Dhuburi",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Jorhat",
+      "dest": "Majuli",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Assam",
+      "source": "Kamrup",
+      "dest": "Barpeta",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Kamrup",
+      "dest": "Nalbari",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Kamrup",
+      "dest": "Barpeta",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Kamrup",
+      "dest": "Nalbari",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Kamrup",
+      "dest": "Barpeta",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Kamrup",
+      "dest": "Kamrup Metropolitan",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Kamrup",
+      "dest": "Baksa",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Karbi Anglong",
+      "dest": "West Karbi Anglong",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Assam",
+      "source": "Kokrajhar",
+      "dest": "Chirang",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Lakhimpur",
+      "dest": "Dibrugarh",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Assam",
+      "source": "Lakhimpur",
+      "dest": "Dibrugarh",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Assam",
+      "source": "Lakhimpur",
+      "dest": "Dhemaji",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Marigaon",
+      "dest": "Morigaon",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Mikir Hills",
+      "dest": "Karbi Anglong",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Assam",
+      "source": "Mikir Hills",
+      "dest": "Karbi Anglong",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Assam",
+      "source": "Nagaon",
+      "dest": "Marigaon",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Nagaon",
+      "dest": "Hojai",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Assam",
+      "source": "Nalbari",
+      "dest": "Baksa",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "North Cachar Hills",
+      "dest": "Dima Hasao",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Nowgong",
+      "dest": "Nagaon",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Assam",
+      "source": "Nowgong",
+      "dest": "Nagaon",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Assam",
+      "source": "Nowgong",
+      "dest": "Nagaon",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Assam",
+      "source": "Sibsagar",
+      "dest": "Jorhat",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Sibsagar",
+      "dest": "Golaghat",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Sibsagar",
+      "dest": "Jorhat",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Assam",
+      "source": "Sibsagar",
+      "dest": "Sivasagar",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Sibsagar",
+      "dest": "Sivasagar",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Assam",
+      "source": "Sivasagar",
+      "dest": "Charaideo",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Assam",
+      "source": "Sonitpur",
+      "dest": "Biswanath",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Assam",
+      "source": "United Mikir and North Cachar Hills",
+      "dest": "Mikir Hills",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Assam",
+      "source": "United Mikir and North Cachar Hills",
+      "dest": "North Cachar Hills",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Assam",
+      "source": "United Mikir and North Cachar Hills",
+      "dest": "Mikir Hills",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Abor Hills",
+      "dest": "Siang Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Abor Hills",
+      "dest": "Siang Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Abor Hills",
+      "dest": "Siang Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Abor Hills",
+      "dest": "Siang Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Abor Hills",
+      "dest": "Siang Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Abor Hills",
+      "dest": "Siang Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Abor Hills",
+      "dest": "Siang Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Abor Hills",
+      "dest": "Siang Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Abor Hills",
+      "dest": "Siang Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Abor Hills",
+      "dest": "Siang Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Abor Hills",
+      "dest": "Siang Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Balipara Frontier Tract",
+      "dest": "Kameng Frontier",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Balipara Frontier Tract",
+      "dest": "Kameng Frontier",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Balipara Frontier Tract",
+      "dest": "Kameng Frontier",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Balipara Frontier Tract",
+      "dest": "Kameng Frontier",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Balipara Frontier Tract",
+      "dest": "Subansiri Frontier",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Balipara Frontier Tract",
+      "dest": "Subansiri Frontier",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Balipara Frontier Tract",
+      "dest": "Subansiri Frontier",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Balipara Frontier Tract",
+      "dest": "Subansiri Frontier",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Balipara Frontier Tract",
+      "dest": "Subansiri Frontier",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Balipara Frontier Tract",
+      "dest": "Subansiri Frontier",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Balipara Frontier Tract",
+      "dest": "Subansiri Frontier",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Dibang Valley",
+      "dest": "Lower Dibang Valley",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "East Kameng",
+      "dest": "Pakke-Kesang",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "East Siang",
+      "dest": "Upper Siang",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "East Siang",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "East Siang",
+      "dest": "Lower Siang",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "East Siang",
+      "dest": "Lepa - Rada",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Kameng",
+      "dest": "West Kameng",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Kameng",
+      "dest": "West Kameng",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Kameng",
+      "dest": "East Kameng",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Kameng",
+      "dest": "East Kameng",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Kameng Frontier",
+      "dest": "Kameng",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Kameng Frontier",
+      "dest": "Kameng",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Kameng Frontier",
+      "dest": "Kameng",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Kameng Frontier",
+      "dest": "Kameng",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Kurung Kumey",
+      "dest": "Kra Daadi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Lohit",
+      "dest": "Anjaw",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Lohit",
+      "dest": "Namsai",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Lohit Frontier Division",
+      "dest": "Lohit",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Lohit Frontier Division",
+      "dest": "Lohit",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Lohit Frontier Division",
+      "dest": "Lohit",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Lower Subansiri",
+      "dest": "Papum Pare",
+      "sourceYear": 1951,
+      "destYear": 2001
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Lower Subansiri",
+      "dest": "Kurung Kumey",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Lower Subansiri",
+      "dest": "Kurung Kumey",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Lower Subansiri",
+      "dest": "Kamle",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Mishmi Hills",
+      "dest": "Lohit Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Mishmi Hills",
+      "dest": "Lohit Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Mishmi Hills",
+      "dest": "Lohit Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang",
+      "dest": "West Siang",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang",
+      "dest": "West Siang",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang",
+      "dest": "West Siang",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang",
+      "dest": "West Siang",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang",
+      "dest": "West Siang",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang",
+      "dest": "West Siang",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang",
+      "dest": "East Siang",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang",
+      "dest": "East Siang",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang",
+      "dest": "East Siang",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang",
+      "dest": "East Siang",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang",
+      "dest": "East Siang",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang Frontier Division",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang Frontier Division",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang Frontier Division",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang Frontier Division",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang Frontier Division",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang Frontier Division",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang Frontier Division",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang Frontier Division",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang Frontier Division",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang Frontier Division",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Siang Frontier Division",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri",
+      "dest": "Lower Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri",
+      "dest": "Upper Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri",
+      "dest": "Upper Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri",
+      "dest": "Lower Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri",
+      "dest": "Lower Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri",
+      "dest": "Lower Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri",
+      "dest": "Lower Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri Frontier",
+      "dest": "Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri Frontier",
+      "dest": "Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri Frontier",
+      "dest": "Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri Frontier",
+      "dest": "Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri Frontier",
+      "dest": "Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri Frontier",
+      "dest": "Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Subansiri Frontier",
+      "dest": "Subansiri",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap",
+      "dest": "Dibang Valley",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap",
+      "dest": "Dibang Valley",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap",
+      "dest": "Changlang",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap",
+      "dest": "Longding",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap Frontier Division",
+      "dest": "Tirap",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap Frontier Division",
+      "dest": "Tirap",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap Frontier Division",
+      "dest": "Tirap",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap Frontier Division",
+      "dest": "Tirap",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap Frontier Division",
+      "dest": "Tirap",
+      "sourceYear": 1951,
+      "destYear": 1971
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap Frontier Tract",
+      "dest": "Tirap Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap Frontier Tract",
+      "dest": "Tirap Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap Frontier Tract",
+      "dest": "Tirap Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap Frontier Tract",
+      "dest": "Tirap Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Tirap Frontier Tract",
+      "dest": "Tirap Frontier Division",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "Upper Subansiri",
+      "dest": "Kamle",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "West Kameng",
+      "dest": "Tawang",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "West Siang",
+      "dest": "Siang",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "West Siang",
+      "dest": "Lower Siang",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "West Siang",
+      "dest": "Lepa - Rada",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "West Siang",
+      "dest": "Shi-Yomi",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "source": "West Siang",
+      "dest": "Lower Siang",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Anantapur",
+      "dest": "Sri Sathya Sai",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Chittoor",
+      "dest": "Annamayya",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Chittoor",
+      "dest": "Tirupati",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Cuddapah",
+      "dest": "Y.S.R.",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Cuddapah",
+      "dest": "Y.S.R.",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "East Godavari",
+      "dest": "Alluri Sitharama Raju",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "East Godavari",
+      "dest": "Dr. B. R. Ambedkar Konaseema",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "East Godavari",
+      "dest": "Kakinada",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Guntur",
+      "dest": "Bapatla",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Guntur",
+      "dest": "Palnadu",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Krishna",
+      "dest": "NTR",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Kurnool",
+      "dest": "Nandyal",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Nellore",
+      "dest": "Prakasam",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Nellore",
+      "dest": "Sri Potti Sriramulu Nellore",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Nellore",
+      "dest": "Sri Potti Sriramulu Nellore",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Sri Potti Sriramulu Nellore",
+      "dest": "Tirupati",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Srikakulam",
+      "dest": "Vizianagaram",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Srikakulam",
+      "dest": "Vizianagaram",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Srikakulam",
+      "dest": "Parvathipuram Manyam",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Visakhapatnam",
+      "dest": "Vizianagaram",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Visakhapatnam",
+      "dest": "Vizianagaram",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Visakhapatnam",
+      "dest": "Vishakhapatnam",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Visakhapatnam",
+      "dest": "Vishakhapatnam",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Visakhapatnam",
+      "dest": "Vishakhapatnam",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Visakhapatnam",
+      "dest": "Alluri Sitharama Raju",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Visakhapatnam",
+      "dest": "Anakapalli",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Vishakhapatnam",
+      "dest": "Visakhapatnam",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Vishakhapatnam",
+      "dest": "Visakhapatnam",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Vishakhapatnam",
+      "dest": "Visakhapatnam",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Vizagapatnam",
+      "dest": "Visakhapatnam",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Vizagapatnam",
+      "dest": "Visakhapatnam",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Vizagapatnam",
+      "dest": "Visakhapatnam",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Vizagapatnam",
+      "dest": "Visakhapatnam",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Vizagapatnam",
+      "dest": "Visakhapatnam",
+      "sourceYear": 1951,
+      "destYear": 1961
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Vizianagaram",
+      "dest": "Parvathipuram Manyam",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Vizianagaram",
+      "dest": "Alluri Sitharama Raju",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "West Godavari",
+      "dest": "Eluru",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andhra Pradesh",
+      "source": "Y.S.R.",
+      "dest": "Annamayya",
+      "sourceYear": 1951,
+      "destYear": 2024
+    },
+    {
+      "state": "Andaman and Nicobar Islands",
+      "source": "Andaman",
+      "dest": "Andamans",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Andaman and Nicobar Islands",
+      "source": "Andaman",
+      "dest": "Andamans",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Andaman and Nicobar Islands",
+      "source": "Andaman and Nicobar Islands",
+      "dest": "Nicobar",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Andaman and Nicobar Islands",
+      "source": "Andaman and Nicobar Islands",
+      "dest": "Andaman",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Andaman and Nicobar Islands",
+      "source": "Andaman and Nicobar Islands",
+      "dest": "Andaman",
+      "sourceYear": 1951,
+      "destYear": 1981
+    },
+    {
+      "state": "Andaman and Nicobar Islands",
+      "source": "Andamans",
+      "dest": "North & Middle Andaman",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Andaman and Nicobar Islands",
+      "source": "Andamans",
+      "dest": "South Andaman",
+      "sourceYear": 1951,
+      "destYear": 2011
+    },
+    {
+      "state": "Andaman and Nicobar Islands",
+      "source": "Nicobar",
+      "dest": "Nicobars",
+      "sourceYear": 1951,
+      "destYear": 1991
+    },
+    {
+      "state": "Andaman and Nicobar Islands",
+      "source": "Nicobars",
+      "dest": "Nicobar",
+      "sourceYear": 1951,
+      "destYear": 2011
+    }
+  ]
+}
