@@ -7,3 +7,5 @@ jinja2
 pyvis
 streamlit
 streamlit-agraph
+folium
+streamlit-folium

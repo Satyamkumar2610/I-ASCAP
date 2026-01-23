@@ -1,1085 +1,1085 @@
-source_district,dest_district,source_year,dest_year,filter_state,census_code_2011,notification_date,split_type,geojson_id
-24 - Parganas,Twenty Four Parganas,1961,1971,West Bengal,Pending,1971,Bifurcation,twenty_four_parganas
-24 - Parganas,Twenty Four Parganas,1961,1971,West Bengal,Pending,1971,Bifurcation,twenty_four_parganas
-Barddhaman,Pashchim Barddhaman,2011,2024,West Bengal,Pending,2024,Bifurcation,pashchim_barddhaman
-Barddhaman,Purba Barddhaman,2011,2024,West Bengal,Pending,2024,Bifurcation,purba_barddhaman
-Burdwan,Barddhaman,1971,1981,West Bengal,Pending,1981,Bifurcation,barddhaman
-Burdwan,Barddhaman,1971,1981,West Bengal,Pending,1981,Bifurcation,barddhaman
-Burdwan,Barddhaman,1971,1981,West Bengal,Pending,1981,Bifurcation,barddhaman
-Calcutta,Kolkata,1991,2001,West Bengal,Pending,2001,Bifurcation,kolkata
-Cooch Behar,Koch Bihar,1971,1981,West Bengal,Pending,1981,Bifurcation,koch_bihar
-Darjeeling,Darjiling,1971,1981,West Bengal,Pending,1981,Bifurcation,darjiling
-Darjeeling,Darjiling,1971,1981,West Bengal,Pending,1981,Bifurcation,darjiling
-Darjiling,Kalimpong,2011,2024,West Bengal,Pending,2024,Bifurcation,kalimpong
-Hooghly,Hugli,1971,1981,West Bengal,Pending,1981,Bifurcation,hugli
-Howrah,Haora,1971,1981,West Bengal,Pending,1981,Bifurcation,haora
-Jalpaiguri,Alipurduar,2011,2024,West Bengal,Pending,2024,Bifurcation,alipurduar
-Malda,Maldah,1971,1981,West Bengal,Pending,1981,Bifurcation,maldah
-Medinipur,Paschim Medinipur,2001,2011,West Bengal,Pending,2011,Bifurcation,paschim_medinipur
-Medinipur,Purba Medinipur,2001,2011,West Bengal,Pending,2011,Bifurcation,purba_medinipur
-Medinipur,Paschim Medinipur,2001,2011,West Bengal,Pending,2011,Bifurcation,paschim_medinipur
-Midnapore,Medinipur,1971,1981,West Bengal,Pending,1981,Bifurcation,medinipur
-Midnapore,Medinipur,1971,1981,West Bengal,Pending,1981,Bifurcation,medinipur
-Midnapore,Medinipur,1971,1981,West Bengal,Pending,1981,Bifurcation,medinipur
-Midnapur,Midnapore,1951,1961,West Bengal,Pending,1961,Bifurcation,midnapore
-Midnapur,Midnapore,1951,1961,West Bengal,Pending,1961,Bifurcation,midnapore
-Midnapur,Midnapore,1951,1961,West Bengal,Pending,1961,Bifurcation,midnapore
-Paschim Medinipur,Jhargram,2011,2024,West Bengal,Pending,2024,Bifurcation,jhargram
-Purulia,Puruliya,1971,1981,West Bengal,Pending,1981,Bifurcation,puruliya
-Twenty Four Parganas,North Twenty Four Parganas,1981,1991,West Bengal,Pending,1991,Bifurcation,north_twenty_four_parganas
-Twenty Four Parganas,South Twenty Four Parganas,1981,1991,West Bengal,Pending,1991,Bifurcation,south_twenty_four_parganas
-West Dinajpur,Uttar Dinajpur,1991,2001,West Bengal,Pending,2001,Bifurcation,uttar_dinajpur
-West Dinajpur,Dakshin Dinajpur,1991,2001,West Bengal,Pending,2001,Bifurcation,dakshin_dinajpur
-Almora,Pithoragarh,1951,1961,Uttarakhand,Pending,1961,Bifurcation,pithoragarh
-Almora,Pithoragarh,1951,1961,Uttarakhand,Pending,1961,Bifurcation,pithoragarh
-Almora,Bageshwar,1991,2001,Uttarakhand,Pending,2001,Bifurcation,bageshwar
-Chamoli,Rudraprayag,1991,2001,Uttarakhand,Pending,2001,Bifurcation,rudraprayag
-Dehra Dun,Dehradun,1991,2001,Uttarakhand,Pending,2001,Bifurcation,dehradun
-Garhwal,Chamoli,1951,1961,Uttarakhand,Pending,1961,Bifurcation,chamoli
-Garhwal,Chamoli,1951,1961,Uttarakhand,Pending,1961,Bifurcation,chamoli
-Naini Tal,Nainital,1971,1981,Uttarakhand,Pending,1981,Bifurcation,nainital
-Naini Tal,Nainital,1971,1981,Uttarakhand,Pending,1981,Bifurcation,nainital
-Nainital,Udham Singh Nagar,1991,2001,Uttarakhand,Pending,2001,Bifurcation,udham_singh_nagar
-Pithoragarh,Champawat,1991,2001,Uttarakhand,Pending,2001,Bifurcation,champawat
-Saharanpur,Hardwar,1981,1991,Uttarakhand,Pending,1991,Bifurcation,hardwar
-Tehri Garhwal,Uttar Kashi,1951,1961,Uttarakhand,Pending,1961,Bifurcation,uttar_kashi
-Uttar Kashi,Uttarkashi,1971,1981,Uttarakhand,Pending,1981,Bifurcation,uttarkashi
-Uttar Kashi,Uttarkashi,1991,2001,Uttarakhand,Pending,2001,Bifurcation,uttarkashi
-Uttarkashi,Uttar Kashi,1981,1991,Uttarakhand,Pending,1991,Bifurcation,uttar_kashi
-Agra,Firozabad,1981,1991,Uttar Pradesh,Pending,1991,Bifurcation,firozabad
-Aligarh,Hathras,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,hathras
-Allahabad,Kaushambi,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,kaushambi
-Allahabad,Prayagraj,2011,2024,Uttar Pradesh,Pending,2024,Bifurcation,prayagraj
-Azamgarh,Mau,1981,1991,Uttar Pradesh,Pending,1991,Bifurcation,mau
-Bahraich,Shrawasti,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,shrawasti
-Banares,Varanasi,1951,1961,Uttar Pradesh,Pending,1961,Bifurcation,varanasi
-Banares,Varanasi,1951,1961,Uttar Pradesh,Pending,1961,Bifurcation,varanasi
-Banares,Varanasi,1951,1961,Uttar Pradesh,Pending,1961,Bifurcation,varanasi
-Banda,Chitrakoot,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,chitrakoot
-Bara Banki,Barabanki,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,barabanki
-Barabanki,Bara Banki,2001,2011,Uttar Pradesh,Pending,2011,Bifurcation,bara_banki
-Basti,Siddharthnagar,1981,1991,Uttar Pradesh,Pending,1991,Bifurcation,siddharthnagar
-Basti,Sant Kabir Nagar,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,sant_kabir_nagar
-Budaun,Sambhal (Bhimnagar),2011,2024,Uttar Pradesh,Pending,2024,Bifurcation,sambhal_(bhimnagar)
-Bulandshahr,Ghaziabad,1971,1981,Uttar Pradesh,Pending,1981,Bifurcation,ghaziabad
-Bulandshahr,Ghaziabad,1971,1981,Uttar Pradesh,Pending,1981,Bifurcation,ghaziabad
-Bulandshahr,Gautam Buddha Nagar,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,gautam_buddha_nagar
-Deoria,Kushinagar,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,kushinagar
-Etah,Kanshiram Nagar,2001,2011,Uttar Pradesh,Pending,2011,Bifurcation,kanshiram_nagar
-Etawah,Auraiya,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,auraiya
-Etawah,Etawah',1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,etawah'
-Etawah',Etawah,2001,2011,Uttar Pradesh,Pending,2011,Bifurcation,etawah
-Faizabad,Ambedkar Nagar,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,ambedkar_nagar
-Faizabad,Ayodhya,2011,2024,Uttar Pradesh,Pending,2024,Bifurcation,ayodhya
-Farrukhabad,Kannauj,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,kannauj
-Ghaziabad,Gautam Buddha Nagar,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,gautam_buddha_nagar
-Ghaziabad,Hapur (Panchsheel Nagar),2011,2024,Uttar Pradesh,Pending,2024,Bifurcation,hapur_(panchsheel_nagar)
-Gonda,Balrampur,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,balrampur
-Gorakhpur,Maharajganj,1981,1991,Uttar Pradesh,Pending,1991,Bifurcation,maharajganj
-Hamirpur,Mahoba,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,mahoba
-Hathras,Mahamaya Nagar,2001,2011,Uttar Pradesh,Pending,2011,Bifurcation,mahamaya_nagar
-Jhansi,Lalitpur,1971,1981,Uttar Pradesh,Pending,1981,Bifurcation,lalitpur
-Jyotiba Phule Nagar,Amroha,2011,2024,Uttar Pradesh,Pending,2024,Bifurcation,amroha
-Kanpur,Kanpur Dehat,1981,1991,Uttar Pradesh,Pending,1991,Bifurcation,kanpur_dehat
-Kanpur,Kanpur Nagar,1981,1991,Uttar Pradesh,Pending,1991,Bifurcation,kanpur_nagar
-Kanshiram Nagar,Kasganj,2011,2024,Uttar Pradesh,Pending,2024,Bifurcation,kasganj
-Mahamaya Nagar,Hathras,2011,2024,Uttar Pradesh,Pending,2024,Bifurcation,hathras
-Maharajganj,Mahrajganj,2001,2011,Uttar Pradesh,Pending,2011,Bifurcation,mahrajganj
-Mainpuri,Firozabad,1981,1991,Uttar Pradesh,Pending,1991,Bifurcation,firozabad
-Meerut,Ghaziabad,1971,1981,Uttar Pradesh,Pending,1981,Bifurcation,ghaziabad
-Meerut,Ghaziabad,1971,1981,Uttar Pradesh,Pending,1981,Bifurcation,ghaziabad
-Meerut,Baghpat,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,baghpat
-Mirzapur,Sonbhadra,1981,1991,Uttar Pradesh,Pending,1991,Bifurcation,sonbhadra
-Moradabad,Jyotiba Phule Nagar,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,jyotiba_phule_nagar
-Moradabad,Sambhal (Bhimnagar),2011,2024,Uttar Pradesh,Pending,2024,Bifurcation,sambhal_(bhimnagar)
-Muzaffarnagar,Shamli (Prabuddhanagar),2011,2024,Uttar Pradesh,Pending,2024,Bifurcation,shamli_(prabuddhanagar)
-Sant Ravidas Nagar,Sant Ravidas Nagar (Bhadohi),2001,2011,Uttar Pradesh,Pending,2011,Bifurcation,sant_ravidas_nagar_(bhadohi)
-Sant Ravidas Nagar (Bhadohi),Bhadohi,2011,2024,Uttar Pradesh,Pending,2024,Bifurcation,bhadohi
-Sultanpur,Amethi,2011,2024,Uttar Pradesh,Pending,2024,Bifurcation,amethi
-Varanasi,Chandauli,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,chandauli
-Varanasi,Sant Ravidas Nagar,1991,2001,Uttar Pradesh,Pending,2001,Bifurcation,sant_ravidas_nagar
-North Tripura,Dhalai,1991,2001,Tripura,Pending,2001,Bifurcation,dhalai
-North Tripura,Unakoti,2011,2024,Tripura,Pending,2024,Bifurcation,unakoti
-South Tripura,Gomati,2011,2024,Tripura,Pending,2024,Bifurcation,gomati
-Tripura,West Tripura,1961,1971,Tripura,Pending,1971,Bifurcation,west_tripura
-Tripura,South Tripura,1961,1971,Tripura,Pending,1971,Bifurcation,south_tripura
-Tripura,North Tripura,1961,1971,Tripura,Pending,1971,Bifurcation,north_tripura
-Tripura,North Tripura,1961,1971,Tripura,Pending,1971,Bifurcation,north_tripura
-Tripura,South Tripura,1961,1971,Tripura,Pending,1971,Bifurcation,south_tripura
-Tripura,West Tripura,1961,1971,Tripura,Pending,1971,Bifurcation,west_tripura
-Tripura,West Tripura,1961,1971,Tripura,Pending,1971,Bifurcation,west_tripura
-Tripura,North Tripura,1961,1971,Tripura,Pending,1971,Bifurcation,north_tripura
-West Tripura,Khowai,2011,2024,Tripura,Pending,2024,Bifurcation,khowai
-West Tripura,Sipahijala,2011,2024,Tripura,Pending,2024,Bifurcation,sipahijala
-Adilabad,Kumuram Bheem,2011,2024,Telangana,Pending,2024,Bifurcation,kumuram_bheem
-Adilabad,Mancherial,2011,2024,Telangana,Pending,2024,Bifurcation,mancherial
-Adilabad,Nirmal,2011,2024,Telangana,Pending,2024,Bifurcation,nirmal
-Hyderabad,Rangareddi,1971,1981,Telangana,Pending,1981,Bifurcation,rangareddi
-Hyderabad,Rangareddi,1971,1981,Telangana,Pending,1981,Bifurcation,rangareddi
-Hyderabad,Rangareddi,1971,1981,Telangana,Pending,1981,Bifurcation,rangareddi
-Karimnagar,Jagtial,2011,2024,Telangana,Pending,2024,Bifurcation,jagtial
-Karimnagar,Peddapalli,2011,2024,Telangana,Pending,2024,Bifurcation,peddapalli
-Karimnagar,Rajanna Sircilla,2011,2024,Telangana,Pending,2024,Bifurcation,rajanna_sircilla
-Karimnagar,Jayashankar Bhupalpally,2011,2024,Telangana,Pending,2024,Bifurcation,jayashankar_bhupalpally
-Karimnagar,Siddipet,2011,2024,Telangana,Pending,2024,Bifurcation,siddipet
-Khammam,Mulugu,2011,2024,Telangana,Pending,2024,Bifurcation,mulugu
-Khammam,Bhadradri Kothagudem,2011,2024,Telangana,Pending,2024,Bifurcation,bhadradri_kothagudem
-Khammam,Mahabubabad,2011,2024,Telangana,Pending,2024,Bifurcation,mahabubabad
-Mahbubnagar,Jogulamba Gadwal,2011,2024,Telangana,Pending,2024,Bifurcation,jogulamba_gadwal
-Mahbubnagar,Nagarkurnool,2011,2024,Telangana,Pending,2024,Bifurcation,nagarkurnool
-Mahbubnagar,Wanaparthy,2011,2024,Telangana,Pending,2024,Bifurcation,wanaparthy
-Mahbubnagar,Narayanpet,2011,2024,Telangana,Pending,2024,Bifurcation,narayanpet
-Medak,Sangareddy,2011,2024,Telangana,Pending,2024,Bifurcation,sangareddy
-Medak,Siddipet,2011,2024,Telangana,Pending,2024,Bifurcation,siddipet
-Nalgonda,Suryapet,2011,2024,Telangana,Pending,2024,Bifurcation,suryapet
-Nalgonda,Yadadri Bhuvanagiri,2011,2024,Telangana,Pending,2024,Bifurcation,yadadri_bhuvanagiri
-Nalgonda,Jangaon,2011,2024,Telangana,Pending,2024,Bifurcation,jangaon
-Nizamabad,Kamareddy,2011,2024,Telangana,Pending,2024,Bifurcation,kamareddy
-Rangareddi,Rangareddy,2001,2011,Telangana,Pending,2011,Bifurcation,rangareddy
-Rangareddi,Rangareddy,2001,2011,Telangana,Pending,2011,Bifurcation,rangareddy
-Rangareddi,Rangareddy,2001,2011,Telangana,Pending,2011,Bifurcation,rangareddy
-Rangareddy,Medchal–Malkajgiri,2011,2024,Telangana,Pending,2024,Bifurcation,medchal–malkajgiri
-Rangareddy,Vikarabad,2011,2024,Telangana,Pending,2024,Bifurcation,vikarabad
-Warangal,Khammam,1951,1961,Telangana,Pending,1961,Bifurcation,khammam
-Warangal,Khammam,1951,1961,Telangana,Pending,1961,Bifurcation,khammam
-Warangal,Khammam,1951,1961,Telangana,Pending,1961,Bifurcation,khammam
-Warangal,Khammam,1951,1961,Telangana,Pending,1961,Bifurcation,khammam
-Warangal,Warangal Rural,2011,2024,Telangana,Pending,2024,Bifurcation,warangal_rural
-Warangal,Warangal Urban (Hanamkonda),2011,2024,Telangana,Pending,2024,Bifurcation,warangal_urban_(hanamkonda)
-Warangal,Jayashankar Bhupalpally,2011,2024,Telangana,Pending,2024,Bifurcation,jayashankar_bhupalpally
-Warangal,Mahabubabad,2011,2024,Telangana,Pending,2024,Bifurcation,mahabubabad
-Warangal,Jangaon,2011,2024,Telangana,Pending,2024,Bifurcation,jangaon
-Warangal,Mulugu,2011,2024,Telangana,Pending,2024,Bifurcation,mulugu
-Chengalpattu,Chengalpattu MGR,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,chengalpattu_mgr
-Chengalpattu,Chengalpattu MGR,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,chengalpattu_mgr
-Chengalpattu,Chengalpattu MGR,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,chengalpattu_mgr
-Chengalpattu MGR,Thiruvallur,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,thiruvallur
-Chengalpattu MGR,Kancheepuram,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,kancheepuram
-Chengalpattu MGR,Kancheepuram,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,kancheepuram
-Chidambaranar,Toothukudi,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,toothukudi
-Chingleput,Chengalpattu,1961,1971,Tamil Nadu,Pending,1971,Bifurcation,chengalpattu
-Chingleput,Chengalpattu,1961,1971,Tamil Nadu,Pending,1971,Bifurcation,chengalpattu
-Chingleput,Chengalpattu,1961,1971,Tamil Nadu,Pending,1971,Bifurcation,chengalpattu
-Coimbatore,Periyar,1971,1981,Tamil Nadu,Pending,1981,Bifurcation,periyar
-Coimbatore,Periyar,1971,1981,Tamil Nadu,Pending,1981,Bifurcation,periyar
-Coimbatore,Tiruppur,2001,2011,Tamil Nadu,Pending,2011,Bifurcation,tiruppur
-Dharmapuri,Krishnagiri,2001,2011,Tamil Nadu,Pending,2011,Bifurcation,krishnagiri
-Dindigul Anna,Dindigul,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,dindigul
-Erode,Tiruppur,2001,2011,Tamil Nadu,Pending,2011,Bifurcation,tiruppur
-Kamarajar,Virudhunagar,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,virudhunagar
-Kancheepuram,Chengalpattu,2011,2024,Tamil Nadu,Pending,2024,Bifurcation,chengalpattu
-Kanyakumari,Kanniyakumari,1961,1971,Tamil Nadu,Pending,1971,Bifurcation,kanniyakumari
-Madras,Chennai,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,chennai
-Madurai,Dindigul Anna,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,dindigul_anna
-Madurai,Theni,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,theni
-Nagapattinam,Mayiladuthurai,2011,2024,Tamil Nadu,Pending,2024,Bifurcation,mayiladuthurai
-Nilgiri,Nilgiris,1961,1971,Tamil Nadu,Pending,1971,Bifurcation,nilgiris
-Nilgiri,The Nilgiris,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,the_nilgiris
-Nilgiris,Nilgiri,1951,1961,Tamil Nadu,Pending,1961,Bifurcation,nilgiri
-Nilgiris,Nilgiri,1971,1981,Tamil Nadu,Pending,1981,Bifurcation,nilgiri
-North Arcot,North Arcot Ambedkar,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,north_arcot_ambedkar
-North Arcot,Tiruvannamalai Sambuvarayar,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,tiruvannamalai_sambuvarayar
-North Arcot,North Arcot Ambedkar,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,north_arcot_ambedkar
-North Arcot,North Arcot Ambedkar,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,north_arcot_ambedkar
-North Arcot Ambedkar,Vellore,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,vellore
-North Arcot Ambedkar,Vellore,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,vellore
-North Arcot Ambedkar,Vellore,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,vellore
-Pasumpon Muthuramalinga Thevar,Sivaganga,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,sivaganga
-Perambalur,Ariyalur,2001,2011,Tamil Nadu,Pending,2011,Bifurcation,ariyalur
-Periyar,Erode,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,erode
-Periyar,Erode,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,erode
-Ramanathapuram,Pasumpon Muthuramalinga Thevar,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,pasumpon_muthuramalinga_thevar
-Ramanathapuram,Kamarajar,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,kamarajar
-Salem,Dharmapuri,1961,1971,Tamil Nadu,Pending,1971,Bifurcation,dharmapuri
-Salem,Dharmapuri,1961,1971,Tamil Nadu,Pending,1971,Bifurcation,dharmapuri
-Salem,Namakkal,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,namakkal
-South Arcot,Viluppuram,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,viluppuram
-South Arcot,Cuddalore,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,cuddalore
-South Arcot,Viluppuram,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,viluppuram
-Tanjore,Thanjavur,1951,1961,Tamil Nadu,Pending,1961,Bifurcation,thanjavur
-Tanjore,Thanjavur,1951,1961,Tamil Nadu,Pending,1961,Bifurcation,thanjavur
-Tanjore,Thanjavur,1951,1961,Tamil Nadu,Pending,1961,Bifurcation,thanjavur
-Tanjore,Thanjavur,1951,1961,Tamil Nadu,Pending,1961,Bifurcation,thanjavur
-Tanjore,Thanjavur,1951,1961,Tamil Nadu,Pending,1961,Bifurcation,thanjavur
-Thanjavur,Pudukkottai,1971,1981,Tamil Nadu,Pending,1981,Bifurcation,pudukkottai
-Thanjavur,Nagapattinam,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,nagapattinam
-Thanjavur,Thiruvarur,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,thiruvarur
-Thanjavur,Nagapattinam,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,nagapattinam
-Tiruchchirappalli,Karur,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,karur
-Tiruchchirappalli,Perambalur,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,perambalur
-Tiruchchirappalli,Perambalur,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,perambalur
-Tiruchchirappalli,Tiruchirappalli,2001,2011,Tamil Nadu,Pending,2011,Bifurcation,tiruchirappalli
-Tiruchirapalli,Tiruchchirappalli,1971,1981,Tamil Nadu,Pending,1981,Bifurcation,tiruchchirappalli
-Tiruchirapalli,Tiruchchirappalli,1971,1981,Tamil Nadu,Pending,1981,Bifurcation,tiruchchirappalli
-Tiruchirapalli,Tiruchchirappalli,1971,1981,Tamil Nadu,Pending,1981,Bifurcation,tiruchchirappalli
-Tiruchirapalli,Tiruchchirappalli,1971,1981,Tamil Nadu,Pending,1981,Bifurcation,tiruchchirappalli
-Tiruchirapalli,Pudukkottai,1971,1981,Tamil Nadu,Pending,1981,Bifurcation,pudukkottai
-Tirunelveli,Chidambaranar,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,chidambaranar
-Tirunelveli,Tirunelveli Kattabomman,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,tirunelveli_kattabomman
-Tirunelveli,Tirunelveli Kattabomman,1981,1991,Tamil Nadu,Pending,1991,Bifurcation,tirunelveli_kattabomman
-Tirunelveli,Tenkasi,2011,2024,Tamil Nadu,Pending,2024,Bifurcation,tenkasi
-Tirunelveli Kattabomman,Tirunelveli,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,tirunelveli
-Tirunelveli Kattabomman,Tirunelveli,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,tirunelveli
-Tiruvanamalai,Tiruvannamalai,2001,2011,Tamil Nadu,Pending,2011,Bifurcation,tiruvannamalai
-Tiruvannamalai Sambuvarayar,Tiruvanamalai,1991,2001,Tamil Nadu,Pending,2001,Bifurcation,tiruvanamalai
-Toothukudi,Thoothukkudi,2001,2011,Tamil Nadu,Pending,2011,Bifurcation,thoothukkudi
-Trivandrum,Kanyakumari,1951,1961,Tamil Nadu,Pending,1961,Bifurcation,kanyakumari
-Vellore,Tirupattur,2011,2024,Tamil Nadu,Pending,2024,Bifurcation,tirupattur
-Vellore,Ranipet,2011,2024,Tamil Nadu,Pending,2024,Bifurcation,ranipet
-Viluppuram,Kallakurichi,2011,2024,Tamil Nadu,Pending,2024,Bifurcation,kallakurichi
-East,Gangtok,2011,2024,Sikkim,Pending,2024,Bifurcation,gangtok
-East,Pakyong,2011,2024,Sikkim,Pending,2024,Bifurcation,pakyong
-East District,East,1991,2001,Sikkim,Pending,2001,Bifurcation,east
-East District,East,1991,2001,Sikkim,Pending,2001,Bifurcation,east
-North,Mangan,2011,2024,Sikkim,Pending,2024,Bifurcation,mangan
-North District,North,1991,2001,Sikkim,Pending,2001,Bifurcation,north
-Sikkim,East District,1971,1981,Sikkim,Pending,1981,Bifurcation,east_district
-Sikkim,West District,1971,1981,Sikkim,Pending,1981,Bifurcation,west_district
-Sikkim,South District,1971,1981,Sikkim,Pending,1981,Bifurcation,south_district
-Sikkim,North District,1971,1981,Sikkim,Pending,1981,Bifurcation,north_district
-Sikkim,East District,1971,1981,Sikkim,Pending,1981,Bifurcation,east_district
-Sikkim,West District,1971,1981,Sikkim,Pending,1981,Bifurcation,west_district
-South,Namchi,2011,2024,Sikkim,Pending,2024,Bifurcation,namchi
-South District,South,1991,2001,Sikkim,Pending,2001,Bifurcation,south
-West,Gyalshing,2011,2024,Sikkim,Pending,2024,Bifurcation,gyalshing
-West,Soreng,2011,2024,Sikkim,Pending,2024,Bifurcation,soreng
-West District,West,1991,2001,Sikkim,Pending,2001,Bifurcation,west
-West District,West,1991,2001,Sikkim,Pending,2001,Bifurcation,west
-Bharatpur,Dhaulpur,1981,1991,Rajasthan,Pending,1991,Bifurcation,dhaulpur
-Chitorgarh,Chittaurgarh,1961,1971,Rajasthan,Pending,1971,Bifurcation,chittaurgarh
-Chitorgarh,Chittaurgarh,1961,1971,Rajasthan,Pending,1971,Bifurcation,chittaurgarh
-Chittaurgarh,Pratapgarh,2001,2011,Rajasthan,Pending,2011,Bifurcation,pratapgarh
-Chittorgarh,Chitorgarh,1951,1961,Rajasthan,Pending,1961,Bifurcation,chitorgarh
-Chittorgarh,Chitorgarh,1951,1961,Rajasthan,Pending,1961,Bifurcation,chitorgarh
-Ganganagar,Hanumangarh,1991,2001,Rajasthan,Pending,2001,Bifurcation,hanumangarh
-Jaipur,Dausa,1991,2001,Rajasthan,Pending,2001,Bifurcation,dausa
-Jalore,Jalor,1951,1961,Rajasthan,Pending,1961,Bifurcation,jalor
-Jhunjhunu,Jhunjhunun,1961,1971,Rajasthan,Pending,1971,Bifurcation,jhunjhunun
-Kota,Baran,1991,2001,Rajasthan,Pending,2001,Bifurcation,baran
-Kotah,Kota,1951,1961,Rajasthan,Pending,1961,Bifurcation,kota
-Kotah,Kota,1951,1961,Rajasthan,Pending,1961,Bifurcation,kota
-Sawai Madhopur,Karauli,1991,2001,Rajasthan,Pending,2001,Bifurcation,karauli
-Swai Madhopur,Sawai Madhopur,1951,1961,Rajasthan,Pending,1961,Bifurcation,sawai_madhopur
-Swai Madhopur,Sawai Madhopur,1951,1961,Rajasthan,Pending,1961,Bifurcation,sawai_madhopur
-Udaipur,Rajsamand,1991,2001,Rajasthan,Pending,2001,Bifurcation,rajsamand
-Amritsar,Tarn Taran,2001,2011,Punjab,Pending,2011,Bifurcation,tarn_taran
-Barnala,Sangrur,1951,1961,Punjab,Pending,1961,Bifurcation,sangrur
-Bathinda,Mansa,1991,2001,Punjab,Pending,2001,Bifurcation,mansa
-Bhatinda,Faridkot,1971,1981,Punjab,Pending,1981,Bifurcation,faridkot
-Bhatinda,Faridkot,1971,1981,Punjab,Pending,1981,Bifurcation,faridkot
-Bhatinda,Faridkot,1971,1981,Punjab,Pending,1981,Bifurcation,faridkot
-Bhatinda,Bathinda,1971,1981,Punjab,Pending,1981,Bifurcation,bathinda
-Bhatinda,Bathinda,1971,1981,Punjab,Pending,1981,Bifurcation,bathinda
-Faridkot,Moga,1991,2001,Punjab,Pending,2001,Bifurcation,moga
-Faridkot,Muktsar,1991,2001,Punjab,Pending,2001,Bifurcation,muktsar
-Fatehgarh Sahib,Patiala,1951,1961,Punjab,Pending,1961,Bifurcation,patiala
-Ferozepur,Firozpur,1961,1971,Punjab,Pending,1971,Bifurcation,firozpur
-Ferozepur,Firozpur,1961,1971,Punjab,Pending,1971,Bifurcation,firozpur
-Ferozepur,Firozpur,1961,1971,Punjab,Pending,1971,Bifurcation,firozpur
-Firozpur,Faridkot,1971,1981,Punjab,Pending,1981,Bifurcation,faridkot
-Firozpur,Fazilka,2011,2024,Punjab,Pending,2024,Bifurcation,fazilka
-Gurdaspur,Pathankot,2011,2024,Punjab,Pending,2024,Bifurcation,pathankot
-Hoshiarpur,Ropar,1961,1971,Punjab,Pending,1971,Bifurcation,ropar
-Hoshiarpur,Ropar,1961,1971,Punjab,Pending,1971,Bifurcation,ropar
-Hoshiarpur,Nawanshahr,1991,2001,Punjab,Pending,2001,Bifurcation,nawanshahr
-Jalandhar,Nawanshahr,1991,2001,Punjab,Pending,2001,Bifurcation,nawanshahr
-Jullundur,Jalandhar,1971,1981,Punjab,Pending,1981,Bifurcation,jalandhar
-Jullundur,Jalandhar,1971,1981,Punjab,Pending,1981,Bifurcation,jalandhar
-Muktsar,Sri Muktsar Sahib,2011,2024,Punjab,Pending,2024,Bifurcation,sri_muktsar_sahib
-Nawanshahr,Shahid Bhagat Singh Nagar,2001,2011,Punjab,Pending,2011,Bifurcation,shahid_bhagat_singh_nagar
-Nawanshahr,Shahid Bhagat Singh Nagar,2001,2011,Punjab,Pending,2011,Bifurcation,shahid_bhagat_singh_nagar
-Patiala,Fatehgarh Sahib,1991,2001,Punjab,Pending,2001,Bifurcation,fatehgarh_sahib
-Patiala,Sahibzada Ajit Singh Nagar,2001,2011,Punjab,Pending,2011,Bifurcation,sahibzada_ajit_singh_nagar
-Ropar,Rupnagar,1971,1981,Punjab,Pending,1981,Bifurcation,rupnagar
-Ropar,Rupnagar,1971,1981,Punjab,Pending,1981,Bifurcation,rupnagar
-Rupnagar,Sahibzada Ajit Singh Nagar,2001,2011,Punjab,Pending,2011,Bifurcation,sahibzada_ajit_singh_nagar
-Sangrur,Barnala,2001,2011,Punjab,Pending,2011,Bifurcation,barnala
-Sangrur,Malerkotla,2011,2024,Punjab,Pending,2024,Bifurcation,malerkotla
-Pondicherry,Puducherry,2001,2011,Puducherry,Pending,2011,Bifurcation,puducherry
-Balangir,Sonapur,1991,2001,Odisha,Pending,2001,Bifurcation,sonapur
-Balasore,Baleshwar,1971,1981,Odisha,Pending,1981,Bifurcation,baleshwar
-Balasore,Baleshwar,1971,1981,Odisha,Pending,1981,Bifurcation,baleshwar
-Baleshwar,Bhadrak,1991,2001,Odisha,Pending,2001,Bifurcation,bhadrak
-Baudh Khondmals,Phulabani,1971,1981,Odisha,Pending,1981,Bifurcation,phulabani
-Baudh Khondmals,Phulabani,1971,1981,Odisha,Pending,1981,Bifurcation,phulabani
-Bolangir,Balangir,1971,1981,Odisha,Pending,1981,Bifurcation,balangir
-Bolangir,Balangir,1971,1981,Odisha,Pending,1981,Bifurcation,balangir
-Cuttack,Kendrapara,1991,2001,Odisha,Pending,2001,Bifurcation,kendrapara
-Cuttack,Jagatsinghapur,1991,2001,Odisha,Pending,2001,Bifurcation,jagatsinghapur
-Cuttack,Jajapur,1991,2001,Odisha,Pending,2001,Bifurcation,jajapur
-Dhenkanal,Anugul,1991,2001,Odisha,Pending,2001,Bifurcation,anugul
-Ganjam,Gajapati,1991,2001,Odisha,Pending,2001,Bifurcation,gajapati
-Kalahandi,Nuapada,1991,2001,Odisha,Pending,2001,Bifurcation,nuapada
-Keonjhar,Kendujhar,1971,1981,Odisha,Pending,1981,Bifurcation,kendujhar
-Koraput,Rayagada,1991,2001,Odisha,Pending,2001,Bifurcation,rayagada
-Koraput,Nabarangapur,1991,2001,Odisha,Pending,2001,Bifurcation,nabarangapur
-Koraput,Malkangiri,1991,2001,Odisha,Pending,2001,Bifurcation,malkangiri
-Phulabani,Kandhamal,1991,2001,Odisha,Pending,2001,Bifurcation,kandhamal
-Phulabani,Baudh,1991,2001,Odisha,Pending,2001,Bifurcation,baudh
-Phulbani,Baudh Khondmals,1951,1961,Odisha,Pending,1961,Bifurcation,baudh_khondmals
-Phulbani,Baudh Khondmals,1951,1961,Odisha,Pending,1961,Bifurcation,baudh_khondmals
-Puri,Nayagarh,1991,2001,Odisha,Pending,2001,Bifurcation,nayagarh
-Puri,Khordha,1991,2001,Odisha,Pending,2001,Bifurcation,khordha
-Sambalpur,Bargarh,1991,2001,Odisha,Pending,2001,Bifurcation,bargarh
-Sambalpur,Jharsuguda,1991,2001,Odisha,Pending,2001,Bifurcation,jharsuguda
-Sambalpur,Debagarh,1991,2001,Odisha,Pending,2001,Bifurcation,debagarh
-Sonapur,Subarnapur,2001,2011,Odisha,Pending,2011,Bifurcation,subarnapur
-Delhi,North West,1991,2001,NCT of Delhi,Pending,2001,Bifurcation,north_west
-Delhi,North,1991,2001,NCT of Delhi,Pending,2001,Bifurcation,north
-Delhi,North East,1991,2001,NCT of Delhi,Pending,2001,Bifurcation,north_east
-Delhi,East,1991,2001,NCT of Delhi,Pending,2001,Bifurcation,east
-Delhi,New Delhi,1991,2001,NCT of Delhi,Pending,2001,Bifurcation,new_delhi
-Delhi,Central,1991,2001,NCT of Delhi,Pending,2001,Bifurcation,central
-Delhi,West,1991,2001,NCT of Delhi,Pending,2001,Bifurcation,west
-Delhi,South West,1991,2001,NCT of Delhi,Pending,2001,Bifurcation,south_west
-Delhi,South,1991,2001,NCT of Delhi,Pending,2001,Bifurcation,south
-Dimapur,Chumoukedima,2011,2024,Nagaland,Pending,2024,Bifurcation,chumoukedima
-Dimapur,Niuland,2011,2024,Nagaland,Pending,2024,Bifurcation,niuland
-Kohima,Phek,1971,1981,Nagaland,Pending,1981,Bifurcation,phek
-Kohima,Dimapur,1991,2001,Nagaland,Pending,2001,Bifurcation,dimapur
-Kohima,Dimapur,1991,2001,Nagaland,Pending,2001,Bifurcation,dimapur
-Kohima,Dimapur,1991,2001,Nagaland,Pending,2001,Bifurcation,dimapur
-Kohima,Peren,2001,2011,Nagaland,Pending,2011,Bifurcation,peren
-Kohima,Tseminyü,2011,2024,Nagaland,Pending,2024,Bifurcation,tseminyü
-Mokokchung,Wokha,1971,1981,Nagaland,Pending,1981,Bifurcation,wokha
-Mokokchung,Zunheboto,1971,1981,Nagaland,Pending,1981,Bifurcation,zunheboto
-Naga Hills,Kohima,1951,1961,Nagaland,Pending,1961,Bifurcation,kohima
-Naga Hills,Kohima,1951,1961,Nagaland,Pending,1961,Bifurcation,kohima
-Naga Hills,Kohima,1951,1961,Nagaland,Pending,1961,Bifurcation,kohima
-Naga Hills,Kohima,1951,1961,Nagaland,Pending,1961,Bifurcation,kohima
-Naga Hills,Kohima,1951,1961,Nagaland,Pending,1961,Bifurcation,kohima
-Naga Hills,Kohima,1951,1961,Nagaland,Pending,1961,Bifurcation,kohima
-Naga Hills,Kohima,1951,1961,Nagaland,Pending,1961,Bifurcation,kohima
-Tuensang,Mokokchung,1951,1961,Nagaland,Pending,1961,Bifurcation,mokokchung
-Tuensang,Mokokchung,1951,1961,Nagaland,Pending,1961,Bifurcation,mokokchung
-Tuensang,Mokokchung,1951,1961,Nagaland,Pending,1961,Bifurcation,mokokchung
-Tuensang,Mon,1971,1981,Nagaland,Pending,1981,Bifurcation,mon
-Tuensang,Longleng,2001,2011,Nagaland,Pending,2011,Bifurcation,longleng
-Tuensang,Kiphire,2001,2011,Nagaland,Pending,2011,Bifurcation,kiphire
-Tuensang,Noklak,2011,2024,Nagaland,Pending,2024,Bifurcation,noklak
-Aizawl,Mamit,1991,2001,Mizoram,Pending,2001,Bifurcation,mamit
-Aizawl,Kolasib,1991,2001,Mizoram,Pending,2001,Bifurcation,kolasib
-Aizawl,Champhai,1991,2001,Mizoram,Pending,2001,Bifurcation,champhai
-Aizawl,Serchhip,1991,2001,Mizoram,Pending,2001,Bifurcation,serchhip
-Aizawl,Champhai,1991,2001,Mizoram,Pending,2001,Bifurcation,champhai
-Aizawl,Saitual,2011,2024,Mizoram,Pending,2024,Bifurcation,saitual
-Champhai,Khawzawl,2011,2024,Mizoram,Pending,2024,Bifurcation,khawzawl
-Chhimtuipui,Lawngtlai,1991,2001,Mizoram,Pending,2001,Bifurcation,lawngtlai
-Chhimtuipui,Saiha,1991,2001,Mizoram,Pending,2001,Bifurcation,saiha
-Lunglei,Hnathial,2011,2024,Mizoram,Pending,2024,Bifurcation,hnathial
-Lushai Hills,Mizo Hills,1951,1961,Mizoram,Pending,1961,Bifurcation,mizo_hills
-Lushai Hills,Mizo Hills,1951,1961,Mizoram,Pending,1961,Bifurcation,mizo_hills
-Lushai Hills,Mizo Hills,1951,1961,Mizoram,Pending,1961,Bifurcation,mizo_hills
-Lushai Hills,Mizo Hills,1951,1961,Mizoram,Pending,1961,Bifurcation,mizo_hills
-Lushai Hills,Mizo Hills,1951,1961,Mizoram,Pending,1961,Bifurcation,mizo_hills
-Lushai Hills,Mizo Hills,1951,1961,Mizoram,Pending,1961,Bifurcation,mizo_hills
-Lushai Hills,Mizo Hills,1951,1961,Mizoram,Pending,1961,Bifurcation,mizo_hills
-Lushai Hills,Mizo Hills,1951,1961,Mizoram,Pending,1961,Bifurcation,mizo_hills
-Lushai Hills,Mizo Hills,1951,1961,Mizoram,Pending,1961,Bifurcation,mizo_hills
-Lushai Hills,Mizo Hills,1951,1961,Mizoram,Pending,1961,Bifurcation,mizo_hills
-Lushai Hills,Mizo Hills,1951,1961,Mizoram,Pending,1961,Bifurcation,mizo_hills
-Mizo Hills,Mizoram,1961,1971,Mizoram,Pending,1971,Bifurcation,mizoram
-Mizo Hills,Mizoram,1961,1971,Mizoram,Pending,1971,Bifurcation,mizoram
-Mizo Hills,Mizoram,1961,1971,Mizoram,Pending,1971,Bifurcation,mizoram
-Mizo Hills,Mizoram,1961,1971,Mizoram,Pending,1971,Bifurcation,mizoram
-Mizo Hills,Mizoram,1961,1971,Mizoram,Pending,1971,Bifurcation,mizoram
-Mizo Hills,Mizoram,1961,1971,Mizoram,Pending,1971,Bifurcation,mizoram
-Mizo Hills,Mizoram,1961,1971,Mizoram,Pending,1971,Bifurcation,mizoram
-Mizo Hills,Mizoram,1961,1971,Mizoram,Pending,1971,Bifurcation,mizoram
-Mizo Hills,Mizoram,1961,1971,Mizoram,Pending,1971,Bifurcation,mizoram
-Mizo Hills,Mizoram,1961,1971,Mizoram,Pending,1971,Bifurcation,mizoram
-Mizo Hills,Mizoram,1961,1971,Mizoram,Pending,1971,Bifurcation,mizoram
-Mizoram,Aizawl,1971,1981,Mizoram,Pending,1981,Bifurcation,aizawl
-Mizoram,Aizawl,1971,1981,Mizoram,Pending,1981,Bifurcation,aizawl
-Mizoram,Aizawl,1971,1981,Mizoram,Pending,1981,Bifurcation,aizawl
-Mizoram,Aizawl,1971,1981,Mizoram,Pending,1981,Bifurcation,aizawl
-Mizoram,Aizawl,1971,1981,Mizoram,Pending,1981,Bifurcation,aizawl
-Mizoram,Lunglei,1971,1981,Mizoram,Pending,1981,Bifurcation,lunglei
-Mizoram,Chhimtuipui,1971,1981,Mizoram,Pending,1981,Bifurcation,chhimtuipui
-Mizoram,Chhimtuipui,1971,1981,Mizoram,Pending,1981,Bifurcation,chhimtuipui
-Mizoram,Aizawl,1971,1981,Mizoram,Pending,1981,Bifurcation,aizawl
-Mizoram,Lunglei,1971,1981,Mizoram,Pending,1981,Bifurcation,lunglei
-Mizoram,Aizawl,1971,1981,Mizoram,Pending,1981,Bifurcation,aizawl
-East Garo Hills,North Garo Hills,2011,2024,Meghalaya,Pending,2024,Bifurcation,north_garo_hills
-East Khasi Hills,Ri Bhoi,1991,2001,Meghalaya,Pending,2001,Bifurcation,ri_bhoi
-Garo Hills,West Garo Hills,1971,1981,Meghalaya,Pending,1981,Bifurcation,west_garo_hills
-Garo Hills,East Garo Hills,1971,1981,Meghalaya,Pending,1981,Bifurcation,east_garo_hills
-Garo Hills,West Garo Hills,1971,1981,Meghalaya,Pending,1981,Bifurcation,west_garo_hills
-Garo Hills,East Garo Hills,1971,1981,Meghalaya,Pending,1981,Bifurcation,east_garo_hills
-Jaintia Hills,West Jaintia Hills,2011,2024,Meghalaya,Pending,2024,Bifurcation,west_jaintia_hills
-Jaintia Hills,East Jaintia Hills,2011,2024,Meghalaya,Pending,2024,Bifurcation,east_jaintia_hills
-United Khasi and Jaintia Hills,West Khasi Hills,1971,1981,Meghalaya,Pending,1981,Bifurcation,west_khasi_hills
-United Khasi and Jaintia Hills,East Khasi Hills,1971,1981,Meghalaya,Pending,1981,Bifurcation,east_khasi_hills
-United Khasi and Jaintia Hills,East Khasi Hills,1971,1981,Meghalaya,Pending,1981,Bifurcation,east_khasi_hills
-United Khasi and Jaintia Hills,Jaintia Hills,1971,1981,Meghalaya,Pending,1981,Bifurcation,jaintia_hills
-United Khasi and Jaintia Hills,Jaintia Hills,1971,1981,Meghalaya,Pending,1981,Bifurcation,jaintia_hills
-United Khasi and Jaintia Hills,Jaintia Hills,1971,1981,Meghalaya,Pending,1981,Bifurcation,jaintia_hills
-United Khasi and Jaintia Hills,West Khasi Hills,1971,1981,Meghalaya,Pending,1981,Bifurcation,west_khasi_hills
-United Khasi and Jaintia Hills,West Khasi Hills,1971,1981,Meghalaya,Pending,1981,Bifurcation,west_khasi_hills
-West Garo Hills,South Garo Hills,1991,2001,Meghalaya,Pending,2001,Bifurcation,south_garo_hills
-West Khasi Hills,South West Khasi Hills,2011,2024,Meghalaya,Pending,2024,Bifurcation,south_west_khasi_hills
-West Khasi Hills,Eastern West Khasi Hills,2011,2024,Meghalaya,Pending,2024,Bifurcation,eastern_west_khasi_hills
-Chandel,Tengnoupal,2011,2024,Manipur,Pending,2024,Bifurcation,tengnoupal
-Churachandpur,Pherzawl,2011,2024,Manipur,Pending,2024,Bifurcation,pherzawl
-Imphal,Imphal West,1991,2001,Manipur,Pending,2001,Bifurcation,imphal_west
-Imphal,Imphal East,1991,2001,Manipur,Pending,2001,Bifurcation,imphal_east
-Imphal,Imphal East,1991,2001,Manipur,Pending,2001,Bifurcation,imphal_east
-Imphal East,Jiribam,2011,2024,Manipur,Pending,2024,Bifurcation,jiribam
-Manipur,Manipur North,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_north
-Manipur,Manipur West,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_west
-Manipur,Manipur South,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_south
-Manipur,Manipur Central,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_central
-Manipur,Manipur Central,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_central
-Manipur,Manipur Central,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_central
-Manipur,Manipur Central,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_central
-Manipur,Manipur East,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_east
-Manipur,Manipur Central,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_central
-Manipur,Manipur Central,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_central
-Manipur,Manipur Central,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_central
-Manipur,Manipur East,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_east
-Manipur,Manipur North,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_north
-Manipur,Manipur West,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_west
-Manipur,Manipur Central,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_central
-Manipur,Manipur South,1961,1971,Manipur,Pending,1971,Bifurcation,manipur_south
-Manipur Central,Tengnoupal,1971,1981,Manipur,Pending,1981,Bifurcation,tengnoupal
-Manipur Central,Tengnoupal,1971,1981,Manipur,Pending,1981,Bifurcation,tengnoupal
-Manipur Central,Bishnupur,1981,1991,Manipur,Pending,1991,Bifurcation,bishnupur
-Manipur Central,Thoubal,1981,1991,Manipur,Pending,1991,Bifurcation,thoubal
-Manipur Central,Imphal,1981,1991,Manipur,Pending,1991,Bifurcation,imphal
-Manipur Central,Imphal,1981,1991,Manipur,Pending,1991,Bifurcation,imphal
-Manipur Central,Imphal,1981,1991,Manipur,Pending,1991,Bifurcation,imphal
-Manipur Central,Thoubal,1981,1991,Manipur,Pending,1991,Bifurcation,thoubal
-Manipur East,Ukhrul,1981,1991,Manipur,Pending,1991,Bifurcation,ukhrul
-Manipur East,Ukhrul,1981,1991,Manipur,Pending,1991,Bifurcation,ukhrul
-Manipur North,Senapati,1981,1991,Manipur,Pending,1991,Bifurcation,senapati
-Manipur North,Senapati,1981,1991,Manipur,Pending,1991,Bifurcation,senapati
-Manipur South,Churachandpur,1981,1991,Manipur,Pending,1991,Bifurcation,churachandpur
-Manipur South,Churachandpur,1981,1991,Manipur,Pending,1991,Bifurcation,churachandpur
-Manipur West,Tamenglong,1981,1991,Manipur,Pending,1991,Bifurcation,tamenglong
-Manipur West,Tamenglong,1981,1991,Manipur,Pending,1991,Bifurcation,tamenglong
-Senapati,Kangpokpi,2011,2024,Manipur,Pending,2024,Bifurcation,kangpokpi
-Tamenglong,Noney,2011,2024,Manipur,Pending,2024,Bifurcation,noney
-Tengnoupal,Chandel,1981,1991,Manipur,Pending,1991,Bifurcation,chandel
-Tengnoupal,Chandel,1981,1991,Manipur,Pending,1991,Bifurcation,chandel
-Thoubal,Kakching,2011,2024,Manipur,Pending,2024,Bifurcation,kakching
-Ukhrul,Kamjong,2011,2024,Manipur,Pending,2024,Bifurcation,kamjong
-Ahmadnagar,Ahmednagar,1961,1971,Maharashtra,Pending,1971,Bifurcation,ahmednagar
-Ahmednagar,Ahmadnagar,1951,1961,Maharashtra,Pending,1961,Bifurcation,ahmadnagar
-Ahmednagar,Ahmadnagar,1971,1981,Maharashtra,Pending,1981,Bifurcation,ahmadnagar
-Akola,Washim,1991,2001,Maharashtra,Pending,2001,Bifurcation,washim
-Aurangabad,Jalna,1981,1991,Maharashtra,Pending,1991,Bifurcation,jalna
-Aurangabad,Sambhaji Nagar,2011,2024,Maharashtra,Pending,2024,Bifurcation,sambhaji_nagar
-Bhandara,Gondiya,1991,2001,Maharashtra,Pending,2001,Bifurcation,gondiya
-Bhir,Bid,1971,1981,Maharashtra,Pending,1981,Bifurcation,bid
-Buldana,Buldhana,1951,1961,Maharashtra,Pending,1961,Bifurcation,buldhana
-Buldhana,Buldana,1971,1981,Maharashtra,Pending,1981,Bifurcation,buldana
-Chanda,Chandrapur,1961,1971,Maharashtra,Pending,1971,Bifurcation,chandrapur
-Chanda,Chandrapur,1961,1971,Maharashtra,Pending,1971,Bifurcation,chandrapur
-Chandrapur,Gadchiroli,1981,1991,Maharashtra,Pending,1991,Bifurcation,gadchiroli
-Dhule,Nandurbar,1991,2001,Maharashtra,Pending,2001,Bifurcation,nandurbar
-Dhulia,Dhule,1971,1981,Maharashtra,Pending,1981,Bifurcation,dhule
-Dhulia,Dhule,1971,1981,Maharashtra,Pending,1981,Bifurcation,dhule
-East Khandesh,Jalgaon,1951,1961,Maharashtra,Pending,1961,Bifurcation,jalgaon
-Greater Bombay,Mumbai,1991,2001,Maharashtra,Pending,2001,Bifurcation,mumbai
-Greater Bombay,Mumbai (Suburban),1991,2001,Maharashtra,Pending,2001,Bifurcation,mumbai_(suburban)
-Kolaba,Raigarh,1971,1981,Maharashtra,Pending,1981,Bifurcation,raigarh
-Mumbai (Suburban),Mumbai Suburban,2001,2011,Maharashtra,Pending,2011,Bifurcation,mumbai_suburban
-Nasik,Nashik,1971,1981,Maharashtra,Pending,1981,Bifurcation,nashik
-Osmanabad,Latur,1981,1991,Maharashtra,Pending,1991,Bifurcation,latur
-Osmanabad,Dharashiv,2011,2024,Maharashtra,Pending,2024,Bifurcation,dharashiv
-Parbhani,Hingoli,1991,2001,Maharashtra,Pending,2001,Bifurcation,hingoli
-Poona,Pune,1971,1981,Maharashtra,Pending,1981,Bifurcation,pune
-Ratnagiri,Sindhudurg,1981,1991,Maharashtra,Pending,1991,Bifurcation,sindhudurg
-Satara North,Satara,1951,1961,Maharashtra,Pending,1961,Bifurcation,satara
-Satara South,Sangli,1951,1961,Maharashtra,Pending,1961,Bifurcation,sangli
-Sholapur,Solapur,1971,1981,Maharashtra,Pending,1981,Bifurcation,solapur
-Thana,Thane,1971,1981,Maharashtra,Pending,1981,Bifurcation,thane
-Thana,Thane,1971,1981,Maharashtra,Pending,1981,Bifurcation,thane
-Thane,Palghar,2011,2024,Maharashtra,Pending,2024,Bifurcation,palghar
-West Khandesh,Dhulia,1951,1961,Maharashtra,Pending,1961,Bifurcation,dhulia
-West Khandesh,Dhulia,1951,1961,Maharashtra,Pending,1961,Bifurcation,dhulia
-Yeotmal,Yavatmal,1971,1981,Maharashtra,Pending,1981,Bifurcation,yavatmal
-Bhilsa,Vidisha,1951,1961,Madhya Pradesh,Pending,1961,Bifurcation,vidisha
-Chhindwara,Seoni,1951,1961,Madhya Pradesh,Pending,1961,Bifurcation,seoni
-East Nimar,Khandwa,1961,1971,Madhya Pradesh,Pending,1971,Bifurcation,khandwa
-East Nimar,Khandwa,1961,1971,Madhya Pradesh,Pending,1971,Bifurcation,khandwa
-East Nimar,Khandwa (East Nimar),2001,2011,Madhya Pradesh,Pending,2011,Bifurcation,khandwa_(east_nimar)
-East Nimar,Burhanpur,2001,2011,Madhya Pradesh,Pending,2011,Bifurcation,burhanpur
-Gird,Gwalior,1951,1961,Madhya Pradesh,Pending,1961,Bifurcation,gwalior
-Goona,Guna,1951,1961,Madhya Pradesh,Pending,1961,Bifurcation,guna
-Goona,Guna,1951,1961,Madhya Pradesh,Pending,1961,Bifurcation,guna
-Guna,Ashoknagar,2001,2011,Madhya Pradesh,Pending,2011,Bifurcation,ashoknagar
-Hoshangabad,Narsimhapur,1951,1961,Madhya Pradesh,Pending,1961,Bifurcation,narsimhapur
-Hoshangabad,Harda,1991,2001,Madhya Pradesh,Pending,2001,Bifurcation,harda
-Hoshangabad,Narmadapuram,2011,2024,Madhya Pradesh,Pending,2024,Bifurcation,narmadapuram
-Jabalpur,Katni,1991,2001,Madhya Pradesh,Pending,2001,Bifurcation,katni
-Jhabua,Alirajpur,2001,2011,Madhya Pradesh,Pending,2011,Bifurcation,alirajpur
-Khandwa,East Nimar,1971,1981,Madhya Pradesh,Pending,1981,Bifurcation,east_nimar
-Khandwa,East Nimar,1971,1981,Madhya Pradesh,Pending,1981,Bifurcation,east_nimar
-Khargone,West Nimar,1971,1981,Madhya Pradesh,Pending,1981,Bifurcation,west_nimar
-Khargone,West Nimar,1971,1981,Madhya Pradesh,Pending,1981,Bifurcation,west_nimar
-Mandla,Dindori,1991,2001,Madhya Pradesh,Pending,2001,Bifurcation,dindori
-Mandsaur,Neemuch,1991,2001,Madhya Pradesh,Pending,2001,Bifurcation,neemuch
-Morena,Sheopur,1991,2001,Madhya Pradesh,Pending,2001,Bifurcation,sheopur
-Nimar,West Nimar,1951,1961,Madhya Pradesh,Pending,1961,Bifurcation,west_nimar
-Nimar,West Nimar,1951,1961,Madhya Pradesh,Pending,1961,Bifurcation,west_nimar
-Nimar,East Nimar,1951,1961,Madhya Pradesh,Pending,1961,Bifurcation,east_nimar
-Nimar,East Nimar,1951,1961,Madhya Pradesh,Pending,1961,Bifurcation,east_nimar
-Sagar,Damoh,1951,1961,Madhya Pradesh,Pending,1961,Bifurcation,damoh
-Sehore,Bhopal,1971,1981,Madhya Pradesh,Pending,1981,Bifurcation,bhopal
-Shahdol,Umaria,1991,2001,Madhya Pradesh,Pending,2001,Bifurcation,umaria
-Shahdol,Annupur,2001,2011,Madhya Pradesh,Pending,2011,Bifurcation,annupur
-Shajapur,Agar-Malwa,2011,2024,Madhya Pradesh,Pending,2024,Bifurcation,agar-malwa
-Sidhi,Singrauli,2001,2011,Madhya Pradesh,Pending,2011,Bifurcation,singrauli
-Tikamgarh,Niwari,2011,2024,Madhya Pradesh,Pending,2024,Bifurcation,niwari
-West Nimar,Khargone,1961,1971,Madhya Pradesh,Pending,1971,Bifurcation,khargone
-West Nimar,Khargone,1961,1971,Madhya Pradesh,Pending,1971,Bifurcation,khargone
-West Nimar,Barwani,1991,2001,Madhya Pradesh,Pending,2001,Bifurcation,barwani
-West Nimar,Khargone (West Nimar),2001,2011,Madhya Pradesh,Pending,2011,Bifurcation,khargone_(west_nimar)
-"Laccadive, Minicoy and Amindivi Islands",Lakshadweep,1971,1981,Lakshadweep,Pending,1981,Bifurcation,lakshadweep
-Alleppey,Alappuzha,1981,1991,Kerala,Pending,1991,Bifurcation,alappuzha
-Alleppey,Pathanamthitta,1981,1991,Kerala,Pending,1991,Bifurcation,pathanamthitta
-Cannanore,Wayanad,1971,1981,Kerala,Pending,1981,Bifurcation,wayanad
-Cannanore,Kannur,1981,1991,Kerala,Pending,1991,Bifurcation,kannur
-Cannanore,Kasargod,1981,1991,Kerala,Pending,1991,Bifurcation,kasargod
-Ernakulam,Idukki,1971,1981,Kerala,Pending,1981,Bifurcation,idukki
-Idukki,Pathanamthitta,1981,1991,Kerala,Pending,1991,Bifurcation,pathanamthitta
-Kottayam,Ernakulam,1951,1961,Kerala,Pending,1961,Bifurcation,ernakulam
-Kottayam,Alleppey,1951,1961,Kerala,Pending,1961,Bifurcation,alleppey
-Kottayam,Idukki,1971,1981,Kerala,Pending,1981,Bifurcation,idukki
-Kottayam,Idukki,1971,1981,Kerala,Pending,1981,Bifurcation,idukki
-Kozhikode,Malappuram,1961,1971,Kerala,Pending,1971,Bifurcation,malappuram
-Kozhikode,Wayanad,1971,1981,Kerala,Pending,1981,Bifurcation,wayanad
-Malabar,Cannanore,1951,1961,Kerala,Pending,1961,Bifurcation,cannanore
-Malabar,Cannanore,1951,1961,Kerala,Pending,1961,Bifurcation,cannanore
-Malabar,Cannanore,1951,1961,Kerala,Pending,1961,Bifurcation,cannanore
-Malabar,Kozhikode,1951,1961,Kerala,Pending,1961,Bifurcation,kozhikode
-Malabar,Kozhikode,1951,1961,Kerala,Pending,1961,Bifurcation,kozhikode
-Malabar,Kozhikode,1951,1961,Kerala,Pending,1961,Bifurcation,kozhikode
-Malabar,Palghat,1951,1961,Kerala,Pending,1961,Bifurcation,palghat
-Malabar,Palghat,1951,1961,Kerala,Pending,1961,Bifurcation,palghat
-Palghat,Malappuram,1961,1971,Kerala,Pending,1971,Bifurcation,malappuram
-Palghat,Palakkad,1981,1991,Kerala,Pending,1991,Bifurcation,palakkad
-Quilon,Alleppey,1951,1961,Kerala,Pending,1961,Bifurcation,alleppey
-Quilon,Pathanamthitta,1981,1991,Kerala,Pending,1991,Bifurcation,pathanamthitta
-Quilon,Kollam,1981,1991,Kerala,Pending,1991,Bifurcation,kollam
-Trichur,Ernakulam,1951,1961,Kerala,Pending,1961,Bifurcation,ernakulam
-Trichur,Thrissur,1981,1991,Kerala,Pending,1991,Bifurcation,thrissur
-Trivandrum,Thiruvananthapuram,1981,1991,Kerala,Pending,1991,Bifurcation,thiruvananthapuram
-Bangalore,Bangalore Rural,1981,1991,Karnataka,Pending,1991,Bifurcation,bangalore_rural
-Bangalore,Bangalore Rural,1981,1991,Karnataka,Pending,1991,Bifurcation,bangalore_rural
-Bangalore Rural,Ramanagara,2001,2011,Karnataka,Pending,2011,Bifurcation,ramanagara
-Belgaum,Belgavi,2011,2024,Karnataka,Pending,2024,Bifurcation,belgavi
-Bellary,Ballari,2011,2024,Karnataka,Pending,2024,Bifurcation,ballari
-Bellary,Vijayanagara,2011,2024,Karnataka,Pending,2024,Bifurcation,vijayanagara
-Bijapur,Bagalkot,1991,2001,Karnataka,Pending,2001,Bifurcation,bagalkot
-Bijapur,Vijayapura,2011,2024,Karnataka,Pending,2024,Bifurcation,vijayapura
-Chikmagalur,Chikkamagaluru,2011,2024,Karnataka,Pending,2024,Bifurcation,chikkamagaluru
-Chitaldrug,Chitradurga,1951,1961,Karnataka,Pending,1961,Bifurcation,chitradurga
-Chitaldrug,Chitradurga,1951,1961,Karnataka,Pending,1961,Bifurcation,chitradurga
-Chitradurga,Davanagere,1991,2001,Karnataka,Pending,2001,Bifurcation,davanagere
-Coorg,Kodagu,1971,1981,Karnataka,Pending,1981,Bifurcation,kodagu
-Dakshin Kannad,Dakshina Kannada,1981,1991,Karnataka,Pending,1991,Bifurcation,dakshina_kannada
-Dakshin Kannad,Dakshina Kannada,1981,1991,Karnataka,Pending,1991,Bifurcation,dakshina_kannada
-Dakshina Kannada,Udupi,1991,2001,Karnataka,Pending,2001,Bifurcation,udupi
-Dharwad,Gadag,1991,2001,Karnataka,Pending,2001,Bifurcation,gadag
-Dharwad,Haveri,1991,2001,Karnataka,Pending,2001,Bifurcation,haveri
-Dharwar,Dharwad,1971,1981,Karnataka,Pending,1981,Bifurcation,dharwad
-Dharwar,Dharwad,1971,1981,Karnataka,Pending,1981,Bifurcation,dharwad
-Dharwar,Dharwad,1971,1981,Karnataka,Pending,1981,Bifurcation,dharwad
-Gulbarga,Yadgir,2001,2011,Karnataka,Pending,2011,Bifurcation,yadgir
-Gulbarga,Kalaburagi,2011,2024,Karnataka,Pending,2024,Bifurcation,kalaburagi
-Kanara,North Kanara,1951,1961,Karnataka,Pending,1961,Bifurcation,north_kanara
-Kolar,Chikkaballapura,2001,2011,Karnataka,Pending,2011,Bifurcation,chikkaballapura
-Mysore,Chamarajanagar,1991,2001,Karnataka,Pending,2001,Bifurcation,chamarajanagar
-Mysore,Mysuru,2011,2024,Karnataka,Pending,2024,Bifurcation,mysuru
-North Kanara,Uttar Kannad,1971,1981,Karnataka,Pending,1981,Bifurcation,uttar_kannad
-Raichur,Koppal,1991,2001,Karnataka,Pending,2001,Bifurcation,koppal
-Ramanagara,Bengaluru South,2011,2024,Karnataka,Pending,2024,Bifurcation,bengaluru_south
-Shimoga,Shivamogga,2011,2024,Karnataka,Pending,2024,Bifurcation,shivamogga
-South Kanara,Dakshin Kannad,1971,1981,Karnataka,Pending,1981,Bifurcation,dakshin_kannad
-South Kanara,Dakshin Kannad,1971,1981,Karnataka,Pending,1981,Bifurcation,dakshin_kannad
-Tumkur,Tumakuru,2011,2024,Karnataka,Pending,2024,Bifurcation,tumakuru
-Uttar Kannad,Uttara Kannada,1981,1991,Karnataka,Pending,1991,Bifurcation,uttara_kannada
-Dhanbad,Bokaro,1991,2001,Jharkhand,Pending,2001,Bifurcation,bokaro
-Dumka,Jamtara,2001,2011,Jharkhand,Pending,2011,Bifurcation,jamtara
-Giridih,Bokaro,1991,2001,Jharkhand,Pending,2001,Bifurcation,bokaro
-Gumla,Simdega,2001,2011,Jharkhand,Pending,2011,Bifurcation,simdega
-Hazaribag,Chatra,1991,2001,Jharkhand,Pending,2001,Bifurcation,chatra
-Hazaribag,Kodarma,1991,2001,Jharkhand,Pending,2001,Bifurcation,kodarma
-Hazaribag,Hazaribagh,2001,2011,Jharkhand,Pending,2011,Bifurcation,hazaribagh
-Hazaribag,Ramgarh,2001,2011,Jharkhand,Pending,2011,Bifurcation,ramgarh
-Hazaribagh,Hazaribag,1971,1981,Jharkhand,Pending,1981,Bifurcation,hazaribag
-Hazaribagh,Hazaribag,1971,1981,Jharkhand,Pending,1981,Bifurcation,hazaribag
-Hazaribagh,Hazaribag,1971,1981,Jharkhand,Pending,1981,Bifurcation,hazaribag
-Hazaribagh,Hazaribag,1971,1981,Jharkhand,Pending,1981,Bifurcation,hazaribag
-Hazaribagh,Giridih,1971,1981,Jharkhand,Pending,1981,Bifurcation,giridih
-Hazaribagh,Giridih,1971,1981,Jharkhand,Pending,1981,Bifurcation,giridih
-Pakaur,Pakur,2001,2011,Jharkhand,Pending,2011,Bifurcation,pakur
-Palamau,Palamu,1971,1981,Jharkhand,Pending,1981,Bifurcation,palamu
-Palamau,Palamu,1971,1981,Jharkhand,Pending,1981,Bifurcation,palamu
-Palamau,Palamu,1971,1981,Jharkhand,Pending,1981,Bifurcation,palamu
-Palamu,Garhwa,1991,2001,Jharkhand,Pending,2001,Bifurcation,garhwa
-Palamu,Latehar,2001,2011,Jharkhand,Pending,2011,Bifurcation,latehar
-Pashchimi Singhbhum,Saraikela-kharsawan,2001,2011,Jharkhand,Pending,2011,Bifurcation,saraikela-kharsawan
-Ranchi,Lohardaga,1981,1991,Jharkhand,Pending,1991,Bifurcation,lohardaga
-Ranchi,Gumla,1981,1991,Jharkhand,Pending,1991,Bifurcation,gumla
-Ranchi,Gumla,1981,1991,Jharkhand,Pending,1991,Bifurcation,gumla
-Ranchi,Khunti,2001,2011,Jharkhand,Pending,2011,Bifurcation,khunti
-Sahibganj,Pakaur,1991,2001,Jharkhand,Pending,2001,Bifurcation,pakaur
-Santal Parganas,Santhal Pargana,1971,1981,Jharkhand,Pending,1981,Bifurcation,santhal_pargana
-Santal Parganas,Santhal Pargana,1971,1981,Jharkhand,Pending,1981,Bifurcation,santhal_pargana
-Santal Parganas,Santhal Pargana,1971,1981,Jharkhand,Pending,1981,Bifurcation,santhal_pargana
-Santal Parganas,Santhal Pargana,1971,1981,Jharkhand,Pending,1981,Bifurcation,santhal_pargana
-Santal Parganas,Santhal Pargana,1971,1981,Jharkhand,Pending,1981,Bifurcation,santhal_pargana
-Santal Parganas,Santhal Pargana,1971,1981,Jharkhand,Pending,1981,Bifurcation,santhal_pargana
-Santhal Pargana,Deoghar,1981,1991,Jharkhand,Pending,1991,Bifurcation,deoghar
-Santhal Pargana,Godda,1981,1991,Jharkhand,Pending,1991,Bifurcation,godda
-Santhal Pargana,Sahibganj,1981,1991,Jharkhand,Pending,1991,Bifurcation,sahibganj
-Santhal Pargana,Sahibganj,1981,1991,Jharkhand,Pending,1991,Bifurcation,sahibganj
-Santhal Pargana,Dumka,1981,1991,Jharkhand,Pending,1991,Bifurcation,dumka
-Santhal Pargana,Dumka,1981,1991,Jharkhand,Pending,1991,Bifurcation,dumka
-Singhbhum,Pashchimi Singhbhum,1981,1991,Jharkhand,Pending,1991,Bifurcation,pashchimi_singhbhum
-Singhbhum,Pashchimi Singhbhum,1981,1991,Jharkhand,Pending,1991,Bifurcation,pashchimi_singhbhum
-Singhbhum,Purbi Singhbhum,1981,1991,Jharkhand,Pending,1991,Bifurcation,purbi_singhbhum
-Anantnag,Kulgam,2001,2011,Jammu & Kashmir,Pending,2011,Bifurcation,kulgam
-Baramula,Kupwara,1971,1981,Jammu & Kashmir,Pending,1981,Bifurcation,kupwara
-Baramula,Bandipore,2001,2011,Jammu & Kashmir,Pending,2011,Bifurcation,bandipore
-Baramula,Ganderbal,2001,2011,Jammu & Kashmir,Pending,2011,Bifurcation,ganderbal
-Baramulla,Baramula,1961,1971,Jammu & Kashmir,Pending,1971,Bifurcation,baramula
-Baramulla,Baramula,1961,1971,Jammu & Kashmir,Pending,1971,Bifurcation,baramula
-Baramulla,Baramula,1961,1971,Jammu & Kashmir,Pending,1971,Bifurcation,baramula
-Baramulla,Baramula,1961,1971,Jammu & Kashmir,Pending,1971,Bifurcation,baramula
-Doda,Ramban,2001,2011,Jammu & Kashmir,Pending,2011,Bifurcation,ramban
-Doda,Kishtwar,2001,2011,Jammu & Kashmir,Pending,2011,Bifurcation,kishtwar
-Jammu,Samba,2001,2011,Jammu & Kashmir,Pending,2011,Bifurcation,samba
-Jammu and Kashmir,Baramulla,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,baramulla
-Jammu and Kashmir,Srinagar,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,srinagar
-Jammu and Kashmir,Ladakh,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,ladakh
-Jammu and Kashmir,Ladakh,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,ladakh
-Jammu and Kashmir,Poonch,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,poonch
-Jammu and Kashmir,Poonch,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,poonch
-Jammu and Kashmir,Kathua,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,kathua
-Jammu and Kashmir,Baramulla,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,baramulla
-Jammu and Kashmir,Baramulla,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,baramulla
-Jammu and Kashmir,Srinagar,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,srinagar
-Jammu and Kashmir,Baramulla,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,baramulla
-Jammu and Kashmir,Srinagar,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,srinagar
-Jammu and Kashmir,Srinagar,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,srinagar
-Jammu and Kashmir,Anantnag,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,anantnag
-Jammu and Kashmir,Anantnag,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,anantnag
-Jammu and Kashmir,Srinagar,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,srinagar
-Jammu and Kashmir,Doda,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,doda
-Jammu and Kashmir,Doda,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,doda
-Jammu and Kashmir,Doda,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,doda
-Jammu and Kashmir,Udhampur,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,udhampur
-Jammu and Kashmir,Udhampur,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,udhampur
-Jammu and Kashmir,Jammu,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,jammu
-Jammu and Kashmir,Jammu,1951,1961,Jammu & Kashmir,Pending,1961,Bifurcation,jammu
-Ladakh,Kargil,1971,1981,Jammu & Kashmir,Pending,1981,Bifurcation,kargil
-Ladakh,Leh (Ladakh),1991,2001,Jammu & Kashmir,Pending,2001,Bifurcation,leh_(ladakh)
-Poonch,Punch,1961,1971,Jammu & Kashmir,Pending,1971,Bifurcation,punch
-Poonch,Rajauri,1961,1971,Jammu & Kashmir,Pending,1971,Bifurcation,rajauri
-Pulwama,Shupiyan,2001,2011,Jammu & Kashmir,Pending,2011,Bifurcation,shupiyan
-Pulwama,Kulgam,2001,2011,Jammu & Kashmir,Pending,2011,Bifurcation,kulgam
-Rajauri,Rajouri,2001,2011,Jammu & Kashmir,Pending,2011,Bifurcation,rajouri
-Srinagar,Badgam,1971,1981,Jammu & Kashmir,Pending,1981,Bifurcation,badgam
-Srinagar,Pulwama,1971,1981,Jammu & Kashmir,Pending,1981,Bifurcation,pulwama
-Srinagar,Pulwama,1971,1981,Jammu & Kashmir,Pending,1981,Bifurcation,pulwama
-Srinagar,Pulwama,1971,1981,Jammu & Kashmir,Pending,1981,Bifurcation,pulwama
-Udhampur,Reasi,2001,2011,Jammu & Kashmir,Pending,2011,Bifurcation,reasi
-Kangra,Lahaul and Spiti,1951,1961,Himachal Pradesh,Pending,1961,Bifurcation,lahaul_and_spiti
-Kangra,Kulu,1961,1971,Himachal Pradesh,Pending,1971,Bifurcation,kulu
-Kangra,Hamirpur,1971,1981,Himachal Pradesh,Pending,1981,Bifurcation,hamirpur
-Kangra,Una,1971,1981,Himachal Pradesh,Pending,1981,Bifurcation,una
-Kohistan,Simla,1951,1961,Himachal Pradesh,Pending,1961,Bifurcation,simla
-Kulu,Kullu,1971,1981,Himachal Pradesh,Pending,1981,Bifurcation,kullu
-Lahaul and Spiti,Lahul and Spiti,1961,1971,Himachal Pradesh,Pending,1971,Bifurcation,lahul_and_spiti
-Lahul and Spiti,Lahul & Spiti,2001,2011,Himachal Pradesh,Pending,2011,Bifurcation,lahul_&_spiti
-Mahasu,Kinnaur,1951,1961,Himachal Pradesh,Pending,1961,Bifurcation,kinnaur
-Mahasu,Solan,1971,1981,Himachal Pradesh,Pending,1981,Bifurcation,solan
-Mahasu,Shimla,1971,1981,Himachal Pradesh,Pending,1981,Bifurcation,shimla
-Mahasu,Shimla,1971,1981,Himachal Pradesh,Pending,1981,Bifurcation,shimla
-Simla,Solan,1971,1981,Himachal Pradesh,Pending,1981,Bifurcation,solan
-Sirmoor,Sirmur,1951,1961,Himachal Pradesh,Pending,1961,Bifurcation,sirmur
-Sirmur,Sirmaur,1961,1971,Himachal Pradesh,Pending,1971,Bifurcation,sirmaur
-Ambala,Yamunanagar,1981,1991,Haryana,Pending,1991,Bifurcation,yamunanagar
-Ambala,Panchkula,1991,2001,Haryana,Pending,2001,Bifurcation,panchkula
-Bhiwani,Charkhi Dadri,2011,2024,Haryana,Pending,2024,Bifurcation,charkhi_dadri
-Faridabad,Palwal,2001,2011,Haryana,Pending,2011,Bifurcation,palwal
-Gurgaon,Mahendragarh,1971,1981,Haryana,Pending,1981,Bifurcation,mahendragarh
-Gurgaon,Faridabad,1971,1981,Haryana,Pending,1981,Bifurcation,faridabad
-Gurgaon,Faridabad,1971,1981,Haryana,Pending,1981,Bifurcation,faridabad
-Gurgaon,Mewat,2001,2011,Haryana,Pending,2011,Bifurcation,mewat
-Gurgaon,Gurugram,2011,2024,Haryana,Pending,2024,Bifurcation,gurugram
-Hisar,Sirsa,1971,1981,Haryana,Pending,1981,Bifurcation,sirsa
-Hisar,Bhiwani,1971,1981,Haryana,Pending,1981,Bifurcation,bhiwani
-Hisar,Bhiwani,1971,1981,Haryana,Pending,1981,Bifurcation,bhiwani
-Hisar,Fatehabad,1991,2001,Haryana,Pending,2001,Bifurcation,fatehabad
-Hissar,Hisar,1961,1971,Haryana,Pending,1971,Bifurcation,hisar
-Hissar,Hisar,1961,1971,Haryana,Pending,1971,Bifurcation,hisar
-Hissar,Hisar,1961,1971,Haryana,Pending,1971,Bifurcation,hisar
-Hissar,Hisar,1961,1971,Haryana,Pending,1971,Bifurcation,hisar
-Hissar,Hisar,1961,1971,Haryana,Pending,1971,Bifurcation,hisar
-Karnal,Kurukshetra,1971,1981,Haryana,Pending,1981,Bifurcation,kurukshetra
-Karnal,Kurukshetra,1971,1981,Haryana,Pending,1981,Bifurcation,kurukshetra
-Karnal,Panipat,1981,1991,Haryana,Pending,1991,Bifurcation,panipat
-Kurukshetra,Kaithal,1981,1991,Haryana,Pending,1991,Bifurcation,kaithal
-Mahendragarh,Rewari,1981,1991,Haryana,Pending,1991,Bifurcation,rewari
-Mewat,Nuh,2011,2024,Haryana,Pending,2024,Bifurcation,nuh
-Mohindergarh,Mahendragarh,1951,1961,Haryana,Pending,1961,Bifurcation,mahendragarh
-Mohindergarh,Mahendragarh,1951,1961,Haryana,Pending,1961,Bifurcation,mahendragarh
-Rohtak,Karnal,1971,1981,Haryana,Pending,1981,Bifurcation,karnal
-Rohtak,Sonipat,1971,1981,Haryana,Pending,1981,Bifurcation,sonipat
-Rohtak,Jhajjar,1991,2001,Haryana,Pending,2001,Bifurcation,jhajjar
-Sangrur,Jind,1961,1971,Haryana,Pending,1971,Bifurcation,jind
-Ahmadabad,Botad,2011,2024,Gujarat,Pending,2024,Bifurcation,botad
-Ahmedabad,Ahmadabad,1961,1971,Gujarat,Pending,1971,Bifurcation,ahmadabad
-Ahmedabad,Gandhinagar,1961,1971,Gujarat,Pending,1971,Bifurcation,gandhinagar
-Ahmedabad,Ahmadabad,1961,1971,Gujarat,Pending,1971,Bifurcation,ahmadabad
-Banaskantha,Banas Kantha,1961,1971,Gujarat,Pending,1971,Bifurcation,banas_kantha
-Baroda,Vadodara,1961,1971,Gujarat,Pending,1971,Bifurcation,vadodara
-Baroda,Vadodara,1961,1971,Gujarat,Pending,1971,Bifurcation,vadodara
-Bharuch,Narmada,1991,2001,Gujarat,Pending,2001,Bifurcation,narmada
-Bhavnagar,Botad,2011,2024,Gujarat,Pending,2024,Bifurcation,botad
-Broach,Bharuch,1961,1971,Gujarat,Pending,1971,Bifurcation,bharuch
-Broach,Bharuch,1961,1971,Gujarat,Pending,1971,Bifurcation,bharuch
-Central Saurashtra,Rajkot,1951,1961,Gujarat,Pending,1961,Bifurcation,rajkot
-Central Saurashtra,Rajkot,1951,1961,Gujarat,Pending,1961,Bifurcation,rajkot
-Dangs,The Dangs,1961,1971,Gujarat,Pending,1971,Bifurcation,the_dangs
-Gohilwad,Bhavnagar,1951,1961,Gujarat,Pending,1961,Bifurcation,bhavnagar
-Gohilwad,Bhavnagar,1951,1961,Gujarat,Pending,1961,Bifurcation,bhavnagar
-Halar,Jamnagar,1951,1961,Gujarat,Pending,1961,Bifurcation,jamnagar
-Halar,Jamnagar,1951,1961,Gujarat,Pending,1961,Bifurcation,jamnagar
-Halar,Jamnagar,1951,1961,Gujarat,Pending,1961,Bifurcation,jamnagar
-Jamnagar,Devbhumi Dwarka,2011,2024,Gujarat,Pending,2024,Bifurcation,devbhumi_dwarka
-Jamnagar,Morbi,2011,2024,Gujarat,Pending,2024,Bifurcation,morbi
-Junagadh,Porbandar,1991,2001,Gujarat,Pending,2001,Bifurcation,porbandar
-Junagadh,Gir Somnath,2011,2024,Gujarat,Pending,2024,Bifurcation,gir_somnath
-Kaira,Kheda,1961,1971,Gujarat,Pending,1971,Bifurcation,kheda
-Kaira,Kheda,1961,1971,Gujarat,Pending,1971,Bifurcation,kheda
-Kaira,Kheda,1961,1971,Gujarat,Pending,1971,Bifurcation,kheda
-Kheda,Anand,1991,2001,Gujarat,Pending,2001,Bifurcation,anand
-Kheda,Mahisagar,2011,2024,Gujarat,Pending,2024,Bifurcation,mahisagar
-Kutch,Kachchh,1971,1981,Gujarat,Pending,1981,Bifurcation,kachchh
-Mahesana,Patan,1991,2001,Gujarat,Pending,2001,Bifurcation,patan
-Mehsana,Gandhinagar,1961,1971,Gujarat,Pending,1971,Bifurcation,gandhinagar
-Mehsana,Mahesana,1961,1971,Gujarat,Pending,1971,Bifurcation,mahesana
-Mehsana,Mahesana,1961,1971,Gujarat,Pending,1971,Bifurcation,mahesana
-Panch Mahals,Panchmahals,1951,1961,Gujarat,Pending,1961,Bifurcation,panchmahals
-Panch Mahals,Panchmahals,1951,1961,Gujarat,Pending,1961,Bifurcation,panchmahals
-Panch Mahals,Panchmahals,1951,1961,Gujarat,Pending,1961,Bifurcation,panchmahals
-Panch Mahals,Dohad,1991,2001,Gujarat,Pending,2001,Bifurcation,dohad
-Panch Mahals,Mahisagar,2011,2024,Gujarat,Pending,2024,Bifurcation,mahisagar
-Panchmahals,Panch Mahals,1961,1971,Gujarat,Pending,1971,Bifurcation,panch_mahals
-Panchmahals,Panch Mahals,1961,1971,Gujarat,Pending,1971,Bifurcation,panch_mahals
-Panchmahals,Panch Mahals,1961,1971,Gujarat,Pending,1971,Bifurcation,panch_mahals
-Rajkot,Morbi,2011,2024,Gujarat,Pending,2024,Bifurcation,morbi
-Sabar Kantha,Aravalli,2011,2024,Gujarat,Pending,2024,Bifurcation,aravalli
-Sabarkantha,Sabar Kantha,1961,1971,Gujarat,Pending,1971,Bifurcation,sabar_kantha
-Sabarkantha,Sabar Kantha,1961,1971,Gujarat,Pending,1971,Bifurcation,sabar_kantha
-Sorath,Junagadh,1951,1961,Gujarat,Pending,1961,Bifurcation,junagadh
-Sorath,Junagadh,1951,1961,Gujarat,Pending,1961,Bifurcation,junagadh
-Sorath,Junagadh,1951,1961,Gujarat,Pending,1961,Bifurcation,junagadh
-Surat,Valsad,1961,1971,Gujarat,Pending,1971,Bifurcation,valsad
-Surat,Valsad,1961,1971,Gujarat,Pending,1971,Bifurcation,valsad
-Surat,Tapi,2001,2011,Gujarat,Pending,2011,Bifurcation,tapi
-Surendranagar,Morbi,2011,2024,Gujarat,Pending,2024,Bifurcation,morbi
-Vadodara,Chhota Udepur,2011,2024,Gujarat,Pending,2024,Bifurcation,chhota_udepur
-Valsad,Navsari,1991,2001,Gujarat,Pending,2001,Bifurcation,navsari
-Zalawad,Surendranagar,1951,1961,Gujarat,Pending,1961,Bifurcation,surendranagar
-Zalawad,Surendranagar,1951,1961,Gujarat,Pending,1961,Bifurcation,surendranagar
-Goa,North Goa,1981,1991,Goa,Pending,1991,Bifurcation,north_goa
-Goa,South Goa,1981,1991,Goa,Pending,1991,Bifurcation,south_goa
-Delhi,North West,1991,2001,Delhi,Pending,2001,Bifurcation,north_west
-Delhi,South,1991,2001,Delhi,Pending,2001,Bifurcation,south
-Delhi,North East,1991,2001,Delhi,Pending,2001,Bifurcation,north_east
-Delhi,East,1991,2001,Delhi,Pending,2001,Bifurcation,east
-Delhi,South West,1991,2001,Delhi,Pending,2001,Bifurcation,south_west
-East,Shahdara,2011,2024,Delhi,Pending,2024,Bifurcation,shahdara
-North East,Shahdara,2011,2024,Delhi,Pending,2024,Bifurcation,shahdara
-North West,North,2011,2024,Delhi,Pending,2024,Bifurcation,north
-South,South East,2011,2024,Delhi,Pending,2024,Bifurcation,south_east
-South West,New Delhi,2011,2024,Delhi,Pending,2024,Bifurcation,new_delhi
-Dadra and Nagar Haveli,Dadra & Nagar Haveli,2001,2011,Dadara & Nagar Havelli,Pending,2011,Bifurcation,dadra_&_nagar_haveli
-Bastar,Kanker,1991,2001,Chhattisgarh,Pending,2001,Bifurcation,kanker
-Bastar,Dantewada,1991,2001,Chhattisgarh,Pending,2001,Bifurcation,dantewada
-Bastar,Dantewada,1991,2001,Chhattisgarh,Pending,2001,Bifurcation,dantewada
-Bastar,Dantewada,1991,2001,Chhattisgarh,Pending,2001,Bifurcation,dantewada
-Bastar,Narayanpur,2001,2011,Chhattisgarh,Pending,2011,Bifurcation,narayanpur
-Bastar,Kondagaon,2011,2024,Chhattisgarh,Pending,2024,Bifurcation,kondagaon
-Bilaspur,Korba,1991,2001,Chhattisgarh,Pending,2001,Bifurcation,korba
-Bilaspur,Janjgir-Champa,1991,2001,Chhattisgarh,Pending,2001,Bifurcation,janjgir-champa
-Bilaspur,Mungeli,2011,2024,Chhattisgarh,Pending,2024,Bifurcation,mungeli
-Bilaspur,Gaurela-Pendra-Marwahi,2011,2024,Chhattisgarh,Pending,2024,Bifurcation,gaurela-pendra-marwahi
-Dakshin Bastar Dantewada,Sukma,2011,2024,Chhattisgarh,Pending,2024,Bifurcation,sukma
-Dantewada,Dakshin Bastar Dantewada,2001,2011,Chhattisgarh,Pending,2011,Bifurcation,dakshin_bastar_dantewada
-Dantewada,Bijapur,2001,2011,Chhattisgarh,Pending,2011,Bifurcation,bijapur
-Dantewada,Dakshin Bastar Dantewada,2001,2011,Chhattisgarh,Pending,2011,Bifurcation,dakshin_bastar_dantewada
-Durg,Raj Nandgaon,1971,1981,Chhattisgarh,Pending,1981,Bifurcation,raj_nandgaon
-Durg,Raj Nandgaon,1971,1981,Chhattisgarh,Pending,1981,Bifurcation,raj_nandgaon
-Durg,Balod,2011,2024,Chhattisgarh,Pending,2024,Bifurcation,balod
-Durg,Bemetara,2011,2024,Chhattisgarh,Pending,2024,Bifurcation,bemetara
-Kanker,Uttar Bastar Kanker,2001,2011,Chhattisgarh,Pending,2011,Bifurcation,uttar_bastar_kanker
-Kawardha,Kabeerdham,2001,2011,Chhattisgarh,Pending,2011,Bifurcation,kabeerdham
-Raigarh,Jashpur,1991,2001,Chhattisgarh,Pending,2001,Bifurcation,jashpur
-Raipur,Mahasamund,1991,2001,Chhattisgarh,Pending,2001,Bifurcation,mahasamund
-Raipur,Dhamtari,1991,2001,Chhattisgarh,Pending,2001,Bifurcation,dhamtari
-Raipur,Baloda Bazar,2011,2024,Chhattisgarh,Pending,2024,Bifurcation,baloda_bazar
-Raipur,Gariyaband,2011,2024,Chhattisgarh,Pending,2024,Bifurcation,gariyaband
-Raj Nandgaon,Kawardha,1991,2001,Chhattisgarh,Pending,2001,Bifurcation,kawardha
-Raj Nandgaon,Rajnandgaon,1991,2001,Chhattisgarh,Pending,2001,Bifurcation,rajnandgaon
-Surguja,Koriya,1991,2001,Chhattisgarh,Pending,2001,Bifurcation,koriya
-Surguja,Balrampur,2011,2024,Chhattisgarh,Pending,2024,Bifurcation,balrampur
-Surguja,Surajpur,2011,2024,Chhattisgarh,Pending,2024,Bifurcation,surajpur
-Ambala,Chandigarh,1961,1971,Chandigarh,Pending,1971,Bifurcation,chandigarh
-Bhagalpur,Banka,1991,2001,Bihar,Pending,2001,Bifurcation,banka
-Bhojpur,Buxar,1991,2001,Bihar,Pending,2001,Bifurcation,buxar
-Champaran,Pashchim Champaran,1971,1981,Bihar,Pending,1981,Bifurcation,pashchim_champaran
-Champaran,Purba Champaran,1971,1981,Bihar,Pending,1981,Bifurcation,purba_champaran
-Darbhanga,Madhubani,1971,1981,Bihar,Pending,1981,Bifurcation,madhubani
-Darbhanga,Samastipur,1971,1981,Bihar,Pending,1981,Bifurcation,samastipur
-Gaya,Aurangabad,1971,1981,Bihar,Pending,1981,Bifurcation,aurangabad
-Gaya,Nawada,1971,1981,Bihar,Pending,1981,Bifurcation,nawada
-Gaya,Jehanabad,1981,1991,Bihar,Pending,1991,Bifurcation,jehanabad
-Gaya,Jehanabad,1981,1991,Bihar,Pending,1991,Bifurcation,jehanabad
-Jehanabad,Arwal,2001,2011,Bihar,Pending,2011,Bifurcation,arwal
-Monghyr,Begusarai,1971,1981,Bihar,Pending,1981,Bifurcation,begusarai
-Monghyr,Munger,1971,1981,Bihar,Pending,1981,Bifurcation,munger
-Monghyr,Munger,1971,1981,Bihar,Pending,1981,Bifurcation,munger
-Monghyr,Munger,1971,1981,Bihar,Pending,1981,Bifurcation,munger
-Monghyr,Munger,1971,1981,Bihar,Pending,1981,Bifurcation,munger
-Monghyr,Munger,1971,1981,Bihar,Pending,1981,Bifurcation,munger
-Munger,Khagaria,1981,1991,Bihar,Pending,1991,Bifurcation,khagaria
-Munger,Lakhisarai,1991,2001,Bihar,Pending,2001,Bifurcation,lakhisarai
-Munger,Sheikhpura,1991,2001,Bihar,Pending,2001,Bifurcation,sheikhpura
-Munger,Jamui,1991,2001,Bihar,Pending,2001,Bifurcation,jamui
-Muzaffarpur,Sitamarhi,1971,1981,Bihar,Pending,1981,Bifurcation,sitamarhi
-Muzaffarpur,Sitamarhi,1971,1981,Bihar,Pending,1981,Bifurcation,sitamarhi
-Muzaffarpur,Vaishali,1971,1981,Bihar,Pending,1981,Bifurcation,vaishali
-Nawada,Nawadah,1981,1991,Bihar,Pending,1991,Bifurcation,nawadah
-Nawadah,Nawada,1991,2001,Bihar,Pending,2001,Bifurcation,nawada
-Patna,Nalanda,1971,1981,Bihar,Pending,1981,Bifurcation,nalanda
-Purnea,Purnia,1971,1981,Bihar,Pending,1981,Bifurcation,purnia
-Purnea,Purnia,1971,1981,Bihar,Pending,1981,Bifurcation,purnia
-Purnea,Purnia,1971,1981,Bihar,Pending,1981,Bifurcation,purnia
-Purnea,Katihar,1971,1981,Bihar,Pending,1981,Bifurcation,katihar
-Purnia,Araria,1981,1991,Bihar,Pending,1991,Bifurcation,araria
-Purnia,Kishanganj,1981,1991,Bihar,Pending,1991,Bifurcation,kishanganj
-Rohtas,Kaimur (Bhabua),1991,2001,Bihar,Pending,2001,Bifurcation,kaimur_(bhabua)
-Saharsa,Madhepura,1981,1991,Bihar,Pending,1991,Bifurcation,madhepura
-Saharsa,Supaul,1991,2001,Bihar,Pending,2001,Bifurcation,supaul
-Saran,Gopalganj,1971,1981,Bihar,Pending,1981,Bifurcation,gopalganj
-Saran,Siwan,1971,1981,Bihar,Pending,1981,Bifurcation,siwan
-Shahabad,Bhojpur,1971,1981,Bihar,Pending,1981,Bifurcation,bhojpur
-Shahabad,Bhojpur,1971,1981,Bihar,Pending,1981,Bifurcation,bhojpur
-Shahabad,Rohtas,1971,1981,Bihar,Pending,1981,Bifurcation,rohtas
-Shahabad,Rohtas,1971,1981,Bihar,Pending,1981,Bifurcation,rohtas
-Sitamarhi,Sheohar,1991,2001,Bihar,Pending,2001,Bifurcation,sheohar
-Baksa,Tamulpur,2011,2024,Assam,Pending,2024,Bifurcation,tamulpur
-Barpeta,Baksa,2001,2011,Assam,Pending,2011,Bifurcation,baksa
-Barpeta,Bajali,2011,2024,Assam,Pending,2024,Bifurcation,bajali
-Bongaigaon,Chirang,2001,2011,Assam,Pending,2011,Bifurcation,chirang
-Cachar,Karimganj,1981,1991,Assam,Pending,1991,Bifurcation,karimganj
-Cachar,Hailakandi,1981,1991,Assam,Pending,1991,Bifurcation,hailakandi
-Darrang,Sonitpur,1981,1991,Assam,Pending,1991,Bifurcation,sonitpur
-Darrang,Sonitpur,1981,1991,Assam,Pending,1991,Bifurcation,sonitpur
-Darrang,Baksa,2001,2011,Assam,Pending,2011,Bifurcation,baksa
-Darrang,Udalguri,2001,2011,Assam,Pending,2011,Bifurcation,udalguri
-Darrang,Baksa,2001,2011,Assam,Pending,2011,Bifurcation,baksa
-Dhubri,South Salmara-Mankachar,2011,2024,Assam,Pending,2024,Bifurcation,south_salmara-mankachar
-Dhuburi,Dhubri,2001,2011,Assam,Pending,2011,Bifurcation,dhubri
-Dhuburi,Dhubri,2001,2011,Assam,Pending,2011,Bifurcation,dhubri
-Dibrugarh,Tinsukia,1981,1991,Assam,Pending,1991,Bifurcation,tinsukia
-Goalpara,Kokrajhar,1981,1991,Assam,Pending,1991,Bifurcation,kokrajhar
-Goalpara,Kokrajhar,1981,1991,Assam,Pending,1991,Bifurcation,kokrajhar
-Goalpara,Dhuburi,1981,1991,Assam,Pending,1991,Bifurcation,dhuburi
-Goalpara,Bongaigaon,1981,1991,Assam,Pending,1991,Bifurcation,bongaigaon
-Goalpara,Bongaigaon,1981,1991,Assam,Pending,1991,Bifurcation,bongaigaon
-Goalpara,Dhuburi,1981,1991,Assam,Pending,1991,Bifurcation,dhuburi
-Jorhat,Majuli,2011,2024,Assam,Pending,2024,Bifurcation,majuli
-Kamrup,Barpeta,1981,1991,Assam,Pending,1991,Bifurcation,barpeta
-Kamrup,Nalbari,1981,1991,Assam,Pending,1991,Bifurcation,nalbari
-Kamrup,Barpeta,1981,1991,Assam,Pending,1991,Bifurcation,barpeta
-Kamrup,Nalbari,1981,1991,Assam,Pending,1991,Bifurcation,nalbari
-Kamrup,Barpeta,1981,1991,Assam,Pending,1991,Bifurcation,barpeta
-Kamrup,Kamrup Metropolitan,2001,2011,Assam,Pending,2011,Bifurcation,kamrup_metropolitan
-Kamrup,Baksa,2001,2011,Assam,Pending,2011,Bifurcation,baksa
-Karbi Anglong,West Karbi Anglong,2011,2024,Assam,Pending,2024,Bifurcation,west_karbi_anglong
-Kokrajhar,Chirang,2001,2011,Assam,Pending,2011,Bifurcation,chirang
-Lakhimpur,Dibrugarh,1971,1981,Assam,Pending,1981,Bifurcation,dibrugarh
-Lakhimpur,Dibrugarh,1971,1981,Assam,Pending,1981,Bifurcation,dibrugarh
-Lakhimpur,Dhemaji,1981,1991,Assam,Pending,1991,Bifurcation,dhemaji
-Marigaon,Morigaon,2001,2011,Assam,Pending,2011,Bifurcation,morigaon
-Mikir Hills,Karbi Anglong,1971,1981,Assam,Pending,1981,Bifurcation,karbi_anglong
-Mikir Hills,Karbi Anglong,1971,1981,Assam,Pending,1981,Bifurcation,karbi_anglong
-Nagaon,Marigaon,1981,1991,Assam,Pending,1991,Bifurcation,marigaon
-Nagaon,Hojai,2011,2024,Assam,Pending,2024,Bifurcation,hojai
-Nalbari,Baksa,2001,2011,Assam,Pending,2011,Bifurcation,baksa
-North Cachar Hills,Dima Hasao,2001,2011,Assam,Pending,2011,Bifurcation,dima_hasao
-Nowgong,Nagaon,1971,1981,Assam,Pending,1981,Bifurcation,nagaon
-Nowgong,Nagaon,1971,1981,Assam,Pending,1981,Bifurcation,nagaon
-Nowgong,Nagaon,1971,1981,Assam,Pending,1981,Bifurcation,nagaon
-Sibsagar,Jorhat,1981,1991,Assam,Pending,1991,Bifurcation,jorhat
-Sibsagar,Golaghat,1981,1991,Assam,Pending,1991,Bifurcation,golaghat
-Sibsagar,Jorhat,1981,1991,Assam,Pending,1991,Bifurcation,jorhat
-Sibsagar,Sivasagar,2001,2011,Assam,Pending,2011,Bifurcation,sivasagar
-Sibsagar,Sivasagar,2001,2011,Assam,Pending,2011,Bifurcation,sivasagar
-Sivasagar,Charaideo,2011,2024,Assam,Pending,2024,Bifurcation,charaideo
-Sonitpur,Biswanath,2011,2024,Assam,Pending,2024,Bifurcation,biswanath
-United Mikir and North Cachar Hills,Mikir Hills,1961,1971,Assam,Pending,1971,Bifurcation,mikir_hills
-United Mikir and North Cachar Hills,North Cachar Hills,1961,1971,Assam,Pending,1971,Bifurcation,north_cachar_hills
-United Mikir and North Cachar Hills,Mikir Hills,1961,1971,Assam,Pending,1971,Bifurcation,mikir_hills
-Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,siang_frontier_division
-Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,siang_frontier_division
-Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,siang_frontier_division
-Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,siang_frontier_division
-Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,siang_frontier_division
-Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,siang_frontier_division
-Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,siang_frontier_division
-Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,siang_frontier_division
-Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,siang_frontier_division
-Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,siang_frontier_division
-Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,siang_frontier_division
-Balipara Frontier Tract,Kameng Frontier,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,kameng_frontier
-Balipara Frontier Tract,Kameng Frontier,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,kameng_frontier
-Balipara Frontier Tract,Kameng Frontier,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,kameng_frontier
-Balipara Frontier Tract,Kameng Frontier,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,kameng_frontier
-Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,subansiri_frontier
-Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,subansiri_frontier
-Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,subansiri_frontier
-Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,subansiri_frontier
-Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,subansiri_frontier
-Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,subansiri_frontier
-Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,subansiri_frontier
-Dibang Valley,Lower Dibang Valley,2001,2011,Arunachal Pradesh,Pending,2011,Bifurcation,lower_dibang_valley
-East Kameng,Pakke-Kesang,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,pakke-kesang
-East Siang,Upper Siang,1991,2001,Arunachal Pradesh,Pending,2001,Bifurcation,upper_siang
-East Siang,Siang,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,siang
-East Siang,Lower Siang,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,lower_siang
-East Siang,Lepa - Rada,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,lepa_-_rada
-Kameng,West Kameng,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,west_kameng
-Kameng,West Kameng,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,west_kameng
-Kameng,East Kameng,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,east_kameng
-Kameng,East Kameng,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,east_kameng
-Kameng Frontier,Kameng,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,kameng
-Kameng Frontier,Kameng,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,kameng
-Kameng Frontier,Kameng,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,kameng
-Kameng Frontier,Kameng,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,kameng
-Kurung Kumey,Kra Daadi,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,kra_daadi
-Lohit,Anjaw,2001,2011,Arunachal Pradesh,Pending,2011,Bifurcation,anjaw
-Lohit,Namsai,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,namsai
-Lohit Frontier Division,Lohit,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,lohit
-Lohit Frontier Division,Lohit,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,lohit
-Lohit Frontier Division,Lohit,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,lohit
-Lower Subansiri,Papum Pare,1991,2001,Arunachal Pradesh,Pending,2001,Bifurcation,papum_pare
-Lower Subansiri,Kurung Kumey,2001,2011,Arunachal Pradesh,Pending,2011,Bifurcation,kurung_kumey
-Lower Subansiri,Kurung Kumey,2001,2011,Arunachal Pradesh,Pending,2011,Bifurcation,kurung_kumey
-Lower Subansiri,Kamle,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,kamle
-Mishmi Hills,Lohit Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,lohit_frontier_division
-Mishmi Hills,Lohit Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,lohit_frontier_division
-Mishmi Hills,Lohit Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,lohit_frontier_division
-Siang,West Siang,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,west_siang
-Siang,West Siang,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,west_siang
-Siang,West Siang,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,west_siang
-Siang,West Siang,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,west_siang
-Siang,West Siang,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,west_siang
-Siang,West Siang,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,west_siang
-Siang,East Siang,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,east_siang
-Siang,East Siang,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,east_siang
-Siang,East Siang,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,east_siang
-Siang,East Siang,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,east_siang
-Siang,East Siang,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,east_siang
-Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,siang
-Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,siang
-Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,siang
-Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,siang
-Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,siang
-Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,siang
-Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,siang
-Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,siang
-Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,siang
-Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,siang
-Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,siang
-Subansiri,Lower Subansiri,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,lower_subansiri
-Subansiri,Upper Subansiri,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,upper_subansiri
-Subansiri,Upper Subansiri,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,upper_subansiri
-Subansiri,Lower Subansiri,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,lower_subansiri
-Subansiri,Lower Subansiri,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,lower_subansiri
-Subansiri,Lower Subansiri,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,lower_subansiri
-Subansiri,Lower Subansiri,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,lower_subansiri
-Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,subansiri
-Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,subansiri
-Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,subansiri
-Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,subansiri
-Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,subansiri
-Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,subansiri
-Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,subansiri
-Tirap,Dibang Valley,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,dibang_valley
-Tirap,Dibang Valley,1971,1981,Arunachal Pradesh,Pending,1981,Bifurcation,dibang_valley
-Tirap,Changlang,1981,1991,Arunachal Pradesh,Pending,1991,Bifurcation,changlang
-Tirap,Longding,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,longding
-Tirap Frontier Division,Tirap,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,tirap
-Tirap Frontier Division,Tirap,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,tirap
-Tirap Frontier Division,Tirap,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,tirap
-Tirap Frontier Division,Tirap,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,tirap
-Tirap Frontier Division,Tirap,1961,1971,Arunachal Pradesh,Pending,1971,Bifurcation,tirap
-Tirap Frontier Tract,Tirap Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,tirap_frontier_division
-Tirap Frontier Tract,Tirap Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,tirap_frontier_division
-Tirap Frontier Tract,Tirap Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,tirap_frontier_division
-Tirap Frontier Tract,Tirap Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,tirap_frontier_division
-Tirap Frontier Tract,Tirap Frontier Division,1951,1961,Arunachal Pradesh,Pending,1961,Bifurcation,tirap_frontier_division
-Upper Subansiri,Kamle,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,kamle
-West Kameng,Tawang,1981,1991,Arunachal Pradesh,Pending,1991,Bifurcation,tawang
-West Siang,Siang,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,siang
-West Siang,Lower Siang,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,lower_siang
-West Siang,Lepa - Rada,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,lepa_-_rada
-West Siang,Shi-Yomi,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,shi-yomi
-West Siang,Lower Siang,2011,2024,Arunachal Pradesh,Pending,2024,Bifurcation,lower_siang
-Anantapur,Sri Sathya Sai,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,sri_sathya_sai
-Chittoor,Annamayya,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,annamayya
-Chittoor,Tirupati,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,tirupati
-Cuddapah,Y.S.R.,2001,2011,Andhra Pradesh,Pending,2011,Bifurcation,y.s.r.
-Cuddapah,Y.S.R.,2001,2011,Andhra Pradesh,Pending,2011,Bifurcation,y.s.r.
-East Godavari,Alluri Sitharama Raju,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,alluri_sitharama_raju
-East Godavari,Dr. B. R. Ambedkar Konaseema,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,dr._b._r._ambedkar_konaseema
-East Godavari,Kakinada,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,kakinada
-Guntur,Bapatla,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,bapatla
-Guntur,Palnadu,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,palnadu
-Krishna,NTR,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,ntr
-Kurnool,Nandyal,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,nandyal
-Nellore,Prakasam,1971,1981,Andhra Pradesh,Pending,1981,Bifurcation,prakasam
-Nellore,Sri Potti Sriramulu Nellore,2001,2011,Andhra Pradesh,Pending,2011,Bifurcation,sri_potti_sriramulu_nellore
-Nellore,Sri Potti Sriramulu Nellore,2001,2011,Andhra Pradesh,Pending,2011,Bifurcation,sri_potti_sriramulu_nellore
-Sri Potti Sriramulu Nellore,Tirupati,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,tirupati
-Srikakulam,Vizianagaram,1971,1981,Andhra Pradesh,Pending,1981,Bifurcation,vizianagaram
-Srikakulam,Vizianagaram,1971,1981,Andhra Pradesh,Pending,1981,Bifurcation,vizianagaram
-Srikakulam,Parvathipuram Manyam,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,parvathipuram_manyam
-Visakhapatnam,Vizianagaram,1971,1981,Andhra Pradesh,Pending,1981,Bifurcation,vizianagaram
-Visakhapatnam,Vizianagaram,1971,1981,Andhra Pradesh,Pending,1981,Bifurcation,vizianagaram
-Visakhapatnam,Vishakhapatnam,1971,1981,Andhra Pradesh,Pending,1981,Bifurcation,vishakhapatnam
-Visakhapatnam,Vishakhapatnam,1971,1981,Andhra Pradesh,Pending,1981,Bifurcation,vishakhapatnam
-Visakhapatnam,Vishakhapatnam,1971,1981,Andhra Pradesh,Pending,1981,Bifurcation,vishakhapatnam
-Visakhapatnam,Alluri Sitharama Raju,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,alluri_sitharama_raju
-Visakhapatnam,Anakapalli,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,anakapalli
-Vishakhapatnam,Visakhapatnam,1981,1991,Andhra Pradesh,Pending,1991,Bifurcation,visakhapatnam
-Vishakhapatnam,Visakhapatnam,1981,1991,Andhra Pradesh,Pending,1991,Bifurcation,visakhapatnam
-Vishakhapatnam,Visakhapatnam,1981,1991,Andhra Pradesh,Pending,1991,Bifurcation,visakhapatnam
-Vizagapatnam,Visakhapatnam,1951,1961,Andhra Pradesh,Pending,1961,Bifurcation,visakhapatnam
-Vizagapatnam,Visakhapatnam,1951,1961,Andhra Pradesh,Pending,1961,Bifurcation,visakhapatnam
-Vizagapatnam,Visakhapatnam,1951,1961,Andhra Pradesh,Pending,1961,Bifurcation,visakhapatnam
-Vizagapatnam,Visakhapatnam,1951,1961,Andhra Pradesh,Pending,1961,Bifurcation,visakhapatnam
-Vizagapatnam,Visakhapatnam,1951,1961,Andhra Pradesh,Pending,1961,Bifurcation,visakhapatnam
-Vizianagaram,Parvathipuram Manyam,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,parvathipuram_manyam
-Vizianagaram,Alluri Sitharama Raju,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,alluri_sitharama_raju
-West Godavari,Eluru,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,eluru
-Y.S.R.,Annamayya,2011,2024,Andhra Pradesh,Pending,2024,Bifurcation,annamayya
-Andaman,Andamans,1981,1991,Andaman and Nicobar Islands,Pending,1991,Bifurcation,andamans
-Andaman,Andamans,1981,1991,Andaman and Nicobar Islands,Pending,1991,Bifurcation,andamans
-Andaman and Nicobar Islands,Nicobar,1971,1981,Andaman and Nicobar Islands,Pending,1981,Bifurcation,nicobar
-Andaman and Nicobar Islands,Andaman,1971,1981,Andaman and Nicobar Islands,Pending,1981,Bifurcation,andaman
-Andaman and Nicobar Islands,Andaman,1971,1981,Andaman and Nicobar Islands,Pending,1981,Bifurcation,andaman
-Andamans,North & Middle Andaman,2001,2011,Andaman and Nicobar Islands,Pending,2011,Bifurcation,north_&_middle_andaman
-Andamans,South Andaman,2001,2011,Andaman and Nicobar Islands,Pending,2011,Bifurcation,south_andaman
-Nicobar,Nicobars,1981,1991,Andaman and Nicobar Islands,Pending,1991,Bifurcation,nicobars
-Nicobars,Nicobar,2001,2011,Andaman and Nicobar Islands,Pending,2011,Bifurcation,nicobar
+source_district,dest_district,source_year,dest_year,filter_state,confidence_score,census_code_2011,split_type,notification_date
+24 - Parganas,Twenty Four Parganas,1961,1971,West Bengal,High,Pending,Bifurcation,1971
+24 - Parganas,Twenty Four Parganas,1961,1971,West Bengal,High,Pending,Bifurcation,1971
+Barddhaman,Pashchim Barddhaman,2011,2024,West Bengal,High,Pending,Bifurcation,2024
+Barddhaman,Purba Barddhaman,2011,2024,West Bengal,High,Pending,Bifurcation,2024
+Burdwan,Barddhaman,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Burdwan,Barddhaman,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Burdwan,Barddhaman,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Calcutta,Kolkata,1991,2001,West Bengal,High,Pending,Bifurcation,2001
+Cooch Behar,Koch Bihar,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Darjeeling,Darjiling,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Darjeeling,Darjiling,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Darjiling,Kalimpong,2011,2024,West Bengal,High,Pending,Bifurcation,2024
+Hooghly,Hugli,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Howrah,Haora,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Jalpaiguri,Alipurduar,2011,2024,West Bengal,High,Pending,Bifurcation,2024
+Malda,Maldah,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Medinipur,Paschim Medinipur,2001,2011,West Bengal,High,Pending,Bifurcation,2011
+Medinipur,Purba Medinipur,2001,2011,West Bengal,High,Pending,Bifurcation,2011
+Medinipur,Paschim Medinipur,2001,2011,West Bengal,High,Pending,Bifurcation,2011
+Midnapore,Medinipur,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Midnapore,Medinipur,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Midnapore,Medinipur,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Midnapur,Midnapore,1951,1961,West Bengal,High,Pending,Bifurcation,1961
+Midnapur,Midnapore,1951,1961,West Bengal,High,Pending,Bifurcation,1961
+Midnapur,Midnapore,1951,1961,West Bengal,High,Pending,Bifurcation,1961
+Paschim Medinipur,Jhargram,2011,2024,West Bengal,High,Pending,Bifurcation,2024
+Purulia,Puruliya,1971,1981,West Bengal,High,Pending,Bifurcation,1981
+Twenty Four Parganas,North Twenty Four Parganas,1981,1991,West Bengal,High,Pending,Bifurcation,1991
+Twenty Four Parganas,South Twenty Four Parganas,1981,1991,West Bengal,High,Pending,Bifurcation,1991
+West Dinajpur,Uttar Dinajpur,1991,2001,West Bengal,High,Pending,Bifurcation,2001
+West Dinajpur,Dakshin Dinajpur,1991,2001,West Bengal,High,Pending,Bifurcation,2001
+Almora,Pithoragarh,1951,1961,Uttarakhand,High,Pending,Bifurcation,1961
+Almora,Pithoragarh,1951,1961,Uttarakhand,High,Pending,Bifurcation,1961
+Almora,Bageshwar,1991,2001,Uttarakhand,High,Pending,Bifurcation,2001
+Chamoli,Rudraprayag,1991,2001,Uttarakhand,High,Pending,Bifurcation,2001
+Dehra Dun,Dehradun,1991,2001,Uttarakhand,High,Pending,Bifurcation,2001
+Garhwal,Chamoli,1951,1961,Uttarakhand,High,Pending,Bifurcation,1961
+Garhwal,Chamoli,1951,1961,Uttarakhand,High,Pending,Bifurcation,1961
+Naini Tal,Nainital,1971,1981,Uttarakhand,High,Pending,Bifurcation,1981
+Naini Tal,Nainital,1971,1981,Uttarakhand,High,Pending,Bifurcation,1981
+Nainital,Udham Singh Nagar,1991,2001,Uttarakhand,High,Pending,Bifurcation,2001
+Pithoragarh,Champawat,1991,2001,Uttarakhand,High,Pending,Bifurcation,2001
+Saharanpur,Hardwar,1981,1991,Uttarakhand,High,Pending,Bifurcation,1991
+Tehri Garhwal,Uttar Kashi,1951,1961,Uttarakhand,High,Pending,Bifurcation,1961
+Uttar Kashi,Uttarkashi,1971,1981,Uttarakhand,High,Pending,Bifurcation,1981
+Uttar Kashi,Uttarkashi,1991,2001,Uttarakhand,High,Pending,Bifurcation,2001
+Uttarkashi,Uttar Kashi,1981,1991,Uttarakhand,High,Pending,Bifurcation,1991
+Agra,Firozabad,1981,1991,Uttar Pradesh,High,Pending,Bifurcation,1991
+Aligarh,Hathras,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Allahabad,Kaushambi,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Allahabad,Prayagraj,2011,2024,Uttar Pradesh,High,Pending,Bifurcation,2024
+Azamgarh,Mau,1981,1991,Uttar Pradesh,High,Pending,Bifurcation,1991
+Bahraich,Shrawasti,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Banares,Varanasi,1951,1961,Uttar Pradesh,High,Pending,Bifurcation,1961
+Banares,Varanasi,1951,1961,Uttar Pradesh,High,Pending,Bifurcation,1961
+Banares,Varanasi,1951,1961,Uttar Pradesh,High,Pending,Bifurcation,1961
+Banda,Chitrakoot,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Bara Banki,Barabanki,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Barabanki,Bara Banki,2001,2011,Uttar Pradesh,High,Pending,Bifurcation,2011
+Basti,Siddharthnagar,1981,1991,Uttar Pradesh,High,Pending,Bifurcation,1991
+Basti,Sant Kabir Nagar,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Budaun,Sambhal (Bhimnagar),2011,2024,Uttar Pradesh,High,Pending,Bifurcation,2024
+Bulandshahr,Ghaziabad,1971,1981,Uttar Pradesh,High,Pending,Bifurcation,1981
+Bulandshahr,Ghaziabad,1971,1981,Uttar Pradesh,High,Pending,Bifurcation,1981
+Bulandshahr,Gautam Buddha Nagar,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Deoria,Kushinagar,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Etah,Kanshiram Nagar,2001,2011,Uttar Pradesh,High,Pending,Bifurcation,2011
+Etawah,Auraiya,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Etawah,Etawah',1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Etawah',Etawah,2001,2011,Uttar Pradesh,High,Pending,Bifurcation,2011
+Faizabad,Ambedkar Nagar,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Faizabad,Ayodhya,2011,2024,Uttar Pradesh,High,Pending,Bifurcation,2024
+Farrukhabad,Kannauj,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Ghaziabad,Gautam Buddha Nagar,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Ghaziabad,Hapur (Panchsheel Nagar),2011,2024,Uttar Pradesh,High,Pending,Bifurcation,2024
+Gonda,Balrampur,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Gorakhpur,Maharajganj,1981,1991,Uttar Pradesh,High,Pending,Bifurcation,1991
+Hamirpur,Mahoba,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Hathras,Mahamaya Nagar,2001,2011,Uttar Pradesh,High,Pending,Bifurcation,2011
+Jhansi,Lalitpur,1971,1981,Uttar Pradesh,High,Pending,Bifurcation,1981
+Jyotiba Phule Nagar,Amroha,2011,2024,Uttar Pradesh,High,Pending,Bifurcation,2024
+Kanpur,Kanpur Dehat,1981,1991,Uttar Pradesh,High,Pending,Bifurcation,1991
+Kanpur,Kanpur Nagar,1981,1991,Uttar Pradesh,High,Pending,Bifurcation,1991
+Kanshiram Nagar,Kasganj,2011,2024,Uttar Pradesh,High,Pending,Bifurcation,2024
+Mahamaya Nagar,Hathras,2011,2024,Uttar Pradesh,High,Pending,Bifurcation,2024
+Maharajganj,Mahrajganj,2001,2011,Uttar Pradesh,High,Pending,Bifurcation,2011
+Mainpuri,Firozabad,1981,1991,Uttar Pradesh,High,Pending,Bifurcation,1991
+Meerut,Ghaziabad,1971,1981,Uttar Pradesh,High,Pending,Bifurcation,1981
+Meerut,Ghaziabad,1971,1981,Uttar Pradesh,High,Pending,Bifurcation,1981
+Meerut,Baghpat,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Mirzapur,Sonbhadra,1981,1991,Uttar Pradesh,High,Pending,Bifurcation,1991
+Moradabad,Jyotiba Phule Nagar,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Moradabad,Sambhal (Bhimnagar),2011,2024,Uttar Pradesh,High,Pending,Bifurcation,2024
+Muzaffarnagar,Shamli (Prabuddhanagar),2011,2024,Uttar Pradesh,High,Pending,Bifurcation,2024
+Sant Ravidas Nagar,Sant Ravidas Nagar (Bhadohi),2001,2011,Uttar Pradesh,High,Pending,Bifurcation,2011
+Sant Ravidas Nagar (Bhadohi),Bhadohi,2011,2024,Uttar Pradesh,High,Pending,Bifurcation,2024
+Sultanpur,Amethi,2011,2024,Uttar Pradesh,High,Pending,Bifurcation,2024
+Varanasi,Chandauli,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+Varanasi,Sant Ravidas Nagar,1991,2001,Uttar Pradesh,High,Pending,Bifurcation,2001
+North Tripura,Dhalai,1991,2001,Tripura,High,Pending,Bifurcation,2001
+North Tripura,Unakoti,2011,2024,Tripura,High,Pending,Bifurcation,2024
+South Tripura,Gomati,2011,2024,Tripura,High,Pending,Bifurcation,2024
+Tripura,West Tripura,1961,1971,Tripura,High,Pending,Bifurcation,1971
+Tripura,South Tripura,1961,1971,Tripura,High,Pending,Bifurcation,1971
+Tripura,North Tripura,1961,1971,Tripura,High,Pending,Bifurcation,1971
+Tripura,North Tripura,1961,1971,Tripura,High,Pending,Bifurcation,1971
+Tripura,South Tripura,1961,1971,Tripura,High,Pending,Bifurcation,1971
+Tripura,West Tripura,1961,1971,Tripura,High,Pending,Bifurcation,1971
+Tripura,West Tripura,1961,1971,Tripura,High,Pending,Bifurcation,1971
+Tripura,North Tripura,1961,1971,Tripura,High,Pending,Bifurcation,1971
+West Tripura,Khowai,2011,2024,Tripura,High,Pending,Bifurcation,2024
+West Tripura,Sipahijala,2011,2024,Tripura,High,Pending,Bifurcation,2024
+Adilabad,Kumuram Bheem,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Adilabad,Mancherial,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Adilabad,Nirmal,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Hyderabad,Rangareddi,1971,1981,Telangana,High,Pending,Bifurcation,1981
+Hyderabad,Rangareddi,1971,1981,Telangana,High,Pending,Bifurcation,1981
+Hyderabad,Rangareddi,1971,1981,Telangana,High,Pending,Bifurcation,1981
+Karimnagar,Jagtial,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Karimnagar,Peddapalli,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Karimnagar,Rajanna Sircilla,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Karimnagar,Jayashankar Bhupalpally,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Karimnagar,Siddipet,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Khammam,Mulugu,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Khammam,Bhadradri Kothagudem,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Khammam,Mahabubabad,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Mahbubnagar,Jogulamba Gadwal,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Mahbubnagar,Nagarkurnool,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Mahbubnagar,Wanaparthy,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Mahbubnagar,Narayanpet,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Medak,Sangareddy,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Medak,Siddipet,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Nalgonda,Suryapet,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Nalgonda,Yadadri Bhuvanagiri,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Nalgonda,Jangaon,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Nizamabad,Kamareddy,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Rangareddi,Rangareddy,2001,2011,Telangana,High,Pending,Bifurcation,2011
+Rangareddi,Rangareddy,2001,2011,Telangana,High,Pending,Bifurcation,2011
+Rangareddi,Rangareddy,2001,2011,Telangana,High,Pending,Bifurcation,2011
+Rangareddy,Medchal–Malkajgiri,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Rangareddy,Vikarabad,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Warangal,Khammam,1951,1961,Telangana,High,Pending,Bifurcation,1961
+Warangal,Khammam,1951,1961,Telangana,High,Pending,Bifurcation,1961
+Warangal,Khammam,1951,1961,Telangana,High,Pending,Bifurcation,1961
+Warangal,Khammam,1951,1961,Telangana,High,Pending,Bifurcation,1961
+Warangal,Warangal Rural,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Warangal,Warangal Urban (Hanamkonda),2011,2024,Telangana,High,Pending,Bifurcation,2024
+Warangal,Jayashankar Bhupalpally,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Warangal,Mahabubabad,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Warangal,Jangaon,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Warangal,Mulugu,2011,2024,Telangana,High,Pending,Bifurcation,2024
+Chengalpattu,Chengalpattu MGR,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+Chengalpattu,Chengalpattu MGR,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+Chengalpattu,Chengalpattu MGR,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+Chengalpattu MGR,Thiruvallur,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Chengalpattu MGR,Kancheepuram,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Chengalpattu MGR,Kancheepuram,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Chidambaranar,Toothukudi,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Chingleput,Chengalpattu,1961,1971,Tamil Nadu,High,Pending,Bifurcation,1971
+Chingleput,Chengalpattu,1961,1971,Tamil Nadu,High,Pending,Bifurcation,1971
+Chingleput,Chengalpattu,1961,1971,Tamil Nadu,High,Pending,Bifurcation,1971
+Coimbatore,Periyar,1971,1981,Tamil Nadu,High,Pending,Bifurcation,1981
+Coimbatore,Periyar,1971,1981,Tamil Nadu,High,Pending,Bifurcation,1981
+Coimbatore,Tiruppur,2001,2011,Tamil Nadu,High,Pending,Bifurcation,2011
+Dharmapuri,Krishnagiri,2001,2011,Tamil Nadu,High,Pending,Bifurcation,2011
+Dindigul Anna,Dindigul,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Erode,Tiruppur,2001,2011,Tamil Nadu,High,Pending,Bifurcation,2011
+Kamarajar,Virudhunagar,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Kancheepuram,Chengalpattu,2011,2024,Tamil Nadu,High,Pending,Bifurcation,2024
+Kanyakumari,Kanniyakumari,1961,1971,Tamil Nadu,High,Pending,Bifurcation,1971
+Madras,Chennai,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Madurai,Dindigul Anna,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+Madurai,Theni,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Nagapattinam,Mayiladuthurai,2011,2024,Tamil Nadu,High,Pending,Bifurcation,2024
+Nilgiri,Nilgiris,1961,1971,Tamil Nadu,High,Pending,Bifurcation,1971
+Nilgiri,The Nilgiris,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Nilgiris,Nilgiri,1951,1961,Tamil Nadu,High,Pending,Bifurcation,1961
+Nilgiris,Nilgiri,1971,1981,Tamil Nadu,High,Pending,Bifurcation,1981
+North Arcot,North Arcot Ambedkar,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+North Arcot,Tiruvannamalai Sambuvarayar,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+North Arcot,North Arcot Ambedkar,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+North Arcot,North Arcot Ambedkar,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+North Arcot Ambedkar,Vellore,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+North Arcot Ambedkar,Vellore,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+North Arcot Ambedkar,Vellore,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Pasumpon Muthuramalinga Thevar,Sivaganga,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Perambalur,Ariyalur,2001,2011,Tamil Nadu,High,Pending,Bifurcation,2011
+Periyar,Erode,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Periyar,Erode,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Ramanathapuram,Pasumpon Muthuramalinga Thevar,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+Ramanathapuram,Kamarajar,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+Salem,Dharmapuri,1961,1971,Tamil Nadu,High,Pending,Bifurcation,1971
+Salem,Dharmapuri,1961,1971,Tamil Nadu,High,Pending,Bifurcation,1971
+Salem,Namakkal,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+South Arcot,Viluppuram,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+South Arcot,Cuddalore,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+South Arcot,Viluppuram,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Tanjore,Thanjavur,1951,1961,Tamil Nadu,High,Pending,Bifurcation,1961
+Tanjore,Thanjavur,1951,1961,Tamil Nadu,High,Pending,Bifurcation,1961
+Tanjore,Thanjavur,1951,1961,Tamil Nadu,High,Pending,Bifurcation,1961
+Tanjore,Thanjavur,1951,1961,Tamil Nadu,High,Pending,Bifurcation,1961
+Tanjore,Thanjavur,1951,1961,Tamil Nadu,High,Pending,Bifurcation,1961
+Thanjavur,Pudukkottai,1971,1981,Tamil Nadu,High,Pending,Bifurcation,1981
+Thanjavur,Nagapattinam,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Thanjavur,Thiruvarur,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Thanjavur,Nagapattinam,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Tiruchchirappalli,Karur,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Tiruchchirappalli,Perambalur,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Tiruchchirappalli,Perambalur,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Tiruchchirappalli,Tiruchirappalli,2001,2011,Tamil Nadu,High,Pending,Bifurcation,2011
+Tiruchirapalli,Tiruchchirappalli,1971,1981,Tamil Nadu,High,Pending,Bifurcation,1981
+Tiruchirapalli,Tiruchchirappalli,1971,1981,Tamil Nadu,High,Pending,Bifurcation,1981
+Tiruchirapalli,Tiruchchirappalli,1971,1981,Tamil Nadu,High,Pending,Bifurcation,1981
+Tiruchirapalli,Tiruchchirappalli,1971,1981,Tamil Nadu,High,Pending,Bifurcation,1981
+Tiruchirapalli,Pudukkottai,1971,1981,Tamil Nadu,High,Pending,Bifurcation,1981
+Tirunelveli,Chidambaranar,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+Tirunelveli,Tirunelveli Kattabomman,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+Tirunelveli,Tirunelveli Kattabomman,1981,1991,Tamil Nadu,High,Pending,Bifurcation,1991
+Tirunelveli,Tenkasi,2011,2024,Tamil Nadu,High,Pending,Bifurcation,2024
+Tirunelveli Kattabomman,Tirunelveli,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Tirunelveli Kattabomman,Tirunelveli,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Tiruvanamalai,Tiruvannamalai,2001,2011,Tamil Nadu,High,Pending,Bifurcation,2011
+Tiruvannamalai Sambuvarayar,Tiruvanamalai,1991,2001,Tamil Nadu,High,Pending,Bifurcation,2001
+Toothukudi,Thoothukkudi,2001,2011,Tamil Nadu,High,Pending,Bifurcation,2011
+Trivandrum,Kanyakumari,1951,1961,Tamil Nadu,High,Pending,Bifurcation,1961
+Vellore,Tirupattur,2011,2024,Tamil Nadu,High,Pending,Bifurcation,2024
+Vellore,Ranipet,2011,2024,Tamil Nadu,High,Pending,Bifurcation,2024
+Viluppuram,Kallakurichi,2011,2024,Tamil Nadu,High,Pending,Bifurcation,2024
+East,Gangtok,2011,2024,Sikkim,High,Pending,Bifurcation,2024
+East,Pakyong,2011,2024,Sikkim,High,Pending,Bifurcation,2024
+East District,East,1991,2001,Sikkim,High,Pending,Bifurcation,2001
+East District,East,1991,2001,Sikkim,High,Pending,Bifurcation,2001
+North,Mangan,2011,2024,Sikkim,High,Pending,Bifurcation,2024
+North District,North,1991,2001,Sikkim,High,Pending,Bifurcation,2001
+Sikkim,East District,1971,1981,Sikkim,High,Pending,Bifurcation,1981
+Sikkim,West District,1971,1981,Sikkim,High,Pending,Bifurcation,1981
+Sikkim,South District,1971,1981,Sikkim,High,Pending,Bifurcation,1981
+Sikkim,North District,1971,1981,Sikkim,High,Pending,Bifurcation,1981
+Sikkim,East District,1971,1981,Sikkim,High,Pending,Bifurcation,1981
+Sikkim,West District,1971,1981,Sikkim,High,Pending,Bifurcation,1981
+South,Namchi,2011,2024,Sikkim,High,Pending,Bifurcation,2024
+South District,South,1991,2001,Sikkim,High,Pending,Bifurcation,2001
+West,Gyalshing,2011,2024,Sikkim,High,Pending,Bifurcation,2024
+West,Soreng,2011,2024,Sikkim,High,Pending,Bifurcation,2024
+West District,West,1991,2001,Sikkim,High,Pending,Bifurcation,2001
+West District,West,1991,2001,Sikkim,High,Pending,Bifurcation,2001
+Bharatpur,Dhaulpur,1981,1991,Rajasthan,High,Pending,Bifurcation,1991
+Chitorgarh,Chittaurgarh,1961,1971,Rajasthan,High,Pending,Bifurcation,1971
+Chitorgarh,Chittaurgarh,1961,1971,Rajasthan,High,Pending,Bifurcation,1971
+Chittaurgarh,Pratapgarh,2001,2011,Rajasthan,High,Pending,Bifurcation,2011
+Chittorgarh,Chitorgarh,1951,1961,Rajasthan,High,Pending,Bifurcation,1961
+Chittorgarh,Chitorgarh,1951,1961,Rajasthan,High,Pending,Bifurcation,1961
+Ganganagar,Hanumangarh,1991,2001,Rajasthan,High,Pending,Bifurcation,2001
+Jaipur,Dausa,1991,2001,Rajasthan,High,Pending,Bifurcation,2001
+Jalore,Jalor,1951,1961,Rajasthan,High,Pending,Bifurcation,1961
+Jhunjhunu,Jhunjhunun,1961,1971,Rajasthan,High,Pending,Bifurcation,1971
+Kota,Baran,1991,2001,Rajasthan,High,Pending,Bifurcation,2001
+Kotah,Kota,1951,1961,Rajasthan,High,Pending,Bifurcation,1961
+Kotah,Kota,1951,1961,Rajasthan,High,Pending,Bifurcation,1961
+Sawai Madhopur,Karauli,1991,2001,Rajasthan,High,Pending,Bifurcation,2001
+Swai Madhopur,Sawai Madhopur,1951,1961,Rajasthan,High,Pending,Bifurcation,1961
+Swai Madhopur,Sawai Madhopur,1951,1961,Rajasthan,High,Pending,Bifurcation,1961
+Udaipur,Rajsamand,1991,2001,Rajasthan,High,Pending,Bifurcation,2001
+Amritsar,Tarn Taran,2001,2011,Punjab,High,Pending,Bifurcation,2011
+Barnala,Sangrur,1951,1961,Punjab,High,Pending,Bifurcation,1961
+Bathinda,Mansa,1991,2001,Punjab,High,Pending,Bifurcation,2001
+Bhatinda,Faridkot,1971,1981,Punjab,High,Pending,Bifurcation,1981
+Bhatinda,Faridkot,1971,1981,Punjab,High,Pending,Bifurcation,1981
+Bhatinda,Faridkot,1971,1981,Punjab,High,Pending,Bifurcation,1981
+Bhatinda,Bathinda,1971,1981,Punjab,High,Pending,Bifurcation,1981
+Bhatinda,Bathinda,1971,1981,Punjab,High,Pending,Bifurcation,1981
+Faridkot,Moga,1991,2001,Punjab,High,Pending,Bifurcation,2001
+Faridkot,Muktsar,1991,2001,Punjab,High,Pending,Bifurcation,2001
+Fatehgarh Sahib,Patiala,1951,1961,Punjab,High,Pending,Bifurcation,1961
+Ferozepur,Firozpur,1961,1971,Punjab,High,Pending,Bifurcation,1971
+Ferozepur,Firozpur,1961,1971,Punjab,High,Pending,Bifurcation,1971
+Ferozepur,Firozpur,1961,1971,Punjab,High,Pending,Bifurcation,1971
+Firozpur,Faridkot,1971,1981,Punjab,High,Pending,Bifurcation,1981
+Firozpur,Fazilka,2011,2024,Punjab,High,Pending,Bifurcation,2024
+Gurdaspur,Pathankot,2011,2024,Punjab,High,Pending,Bifurcation,2024
+Hoshiarpur,Ropar,1961,1971,Punjab,High,Pending,Bifurcation,1971
+Hoshiarpur,Ropar,1961,1971,Punjab,High,Pending,Bifurcation,1971
+Hoshiarpur,Nawanshahr,1991,2001,Punjab,High,Pending,Bifurcation,2001
+Jalandhar,Nawanshahr,1991,2001,Punjab,High,Pending,Bifurcation,2001
+Jullundur,Jalandhar,1971,1981,Punjab,High,Pending,Bifurcation,1981
+Jullundur,Jalandhar,1971,1981,Punjab,High,Pending,Bifurcation,1981
+Muktsar,Sri Muktsar Sahib,2011,2024,Punjab,High,Pending,Bifurcation,2024
+Nawanshahr,Shahid Bhagat Singh Nagar,2001,2011,Punjab,High,Pending,Bifurcation,2011
+Nawanshahr,Shahid Bhagat Singh Nagar,2001,2011,Punjab,High,Pending,Bifurcation,2011
+Patiala,Fatehgarh Sahib,1991,2001,Punjab,High,Pending,Bifurcation,2001
+Patiala,Sahibzada Ajit Singh Nagar,2001,2011,Punjab,High,Pending,Bifurcation,2011
+Ropar,Rupnagar,1971,1981,Punjab,High,Pending,Bifurcation,1981
+Ropar,Rupnagar,1971,1981,Punjab,High,Pending,Bifurcation,1981
+Rupnagar,Sahibzada Ajit Singh Nagar,2001,2011,Punjab,High,Pending,Bifurcation,2011
+Sangrur,Barnala,2001,2011,Punjab,High,Pending,Bifurcation,2011
+Sangrur,Malerkotla,2011,2024,Punjab,High,Pending,Bifurcation,2024
+Pondicherry,Puducherry,2001,2011,Puducherry,High,Pending,Bifurcation,2011
+Balangir,Sonapur,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Balasore,Baleshwar,1971,1981,Odisha,High,Pending,Bifurcation,1981
+Balasore,Baleshwar,1971,1981,Odisha,High,Pending,Bifurcation,1981
+Baleshwar,Bhadrak,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Baudh Khondmals,Phulabani,1971,1981,Odisha,High,Pending,Bifurcation,1981
+Baudh Khondmals,Phulabani,1971,1981,Odisha,High,Pending,Bifurcation,1981
+Bolangir,Balangir,1971,1981,Odisha,High,Pending,Bifurcation,1981
+Bolangir,Balangir,1971,1981,Odisha,High,Pending,Bifurcation,1981
+Cuttack,Kendrapara,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Cuttack,Jagatsinghapur,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Cuttack,Jajapur,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Dhenkanal,Anugul,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Ganjam,Gajapati,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Kalahandi,Nuapada,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Keonjhar,Kendujhar,1971,1981,Odisha,High,Pending,Bifurcation,1981
+Koraput,Rayagada,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Koraput,Nabarangapur,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Koraput,Malkangiri,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Phulabani,Kandhamal,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Phulabani,Baudh,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Phulbani,Baudh Khondmals,1951,1961,Odisha,High,Pending,Bifurcation,1961
+Phulbani,Baudh Khondmals,1951,1961,Odisha,High,Pending,Bifurcation,1961
+Puri,Nayagarh,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Puri,Khordha,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Sambalpur,Bargarh,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Sambalpur,Jharsuguda,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Sambalpur,Debagarh,1991,2001,Odisha,High,Pending,Bifurcation,2001
+Sonapur,Subarnapur,2001,2011,Odisha,High,Pending,Bifurcation,2011
+Delhi,North West,1991,2001,NCT of Delhi,High,Pending,Bifurcation,2001
+Delhi,North,1991,2001,NCT of Delhi,High,Pending,Bifurcation,2001
+Delhi,North East,1991,2001,NCT of Delhi,High,Pending,Bifurcation,2001
+Delhi,East,1991,2001,NCT of Delhi,High,Pending,Bifurcation,2001
+Delhi,New Delhi,1991,2001,NCT of Delhi,High,Pending,Bifurcation,2001
+Delhi,Central,1991,2001,NCT of Delhi,High,Pending,Bifurcation,2001
+Delhi,West,1991,2001,NCT of Delhi,High,Pending,Bifurcation,2001
+Delhi,South West,1991,2001,NCT of Delhi,High,Pending,Bifurcation,2001
+Delhi,South,1991,2001,NCT of Delhi,High,Pending,Bifurcation,2001
+Dimapur,Chumoukedima,2011,2024,Nagaland,High,Pending,Bifurcation,2024
+Dimapur,Niuland,2011,2024,Nagaland,High,Pending,Bifurcation,2024
+Kohima,Phek,1971,1981,Nagaland,High,Pending,Bifurcation,1981
+Kohima,Dimapur,1991,2001,Nagaland,High,Pending,Bifurcation,2001
+Kohima,Dimapur,1991,2001,Nagaland,High,Pending,Bifurcation,2001
+Kohima,Dimapur,1991,2001,Nagaland,High,Pending,Bifurcation,2001
+Kohima,Peren,2001,2011,Nagaland,High,Pending,Bifurcation,2011
+Kohima,Tseminyü,2011,2024,Nagaland,High,Pending,Bifurcation,2024
+Mokokchung,Wokha,1971,1981,Nagaland,High,Pending,Bifurcation,1981
+Mokokchung,Zunheboto,1971,1981,Nagaland,High,Pending,Bifurcation,1981
+Naga Hills,Kohima,1951,1961,Nagaland,High,Pending,Bifurcation,1961
+Naga Hills,Kohima,1951,1961,Nagaland,High,Pending,Bifurcation,1961
+Naga Hills,Kohima,1951,1961,Nagaland,High,Pending,Bifurcation,1961
+Naga Hills,Kohima,1951,1961,Nagaland,High,Pending,Bifurcation,1961
+Naga Hills,Kohima,1951,1961,Nagaland,High,Pending,Bifurcation,1961
+Naga Hills,Kohima,1951,1961,Nagaland,High,Pending,Bifurcation,1961
+Naga Hills,Kohima,1951,1961,Nagaland,High,Pending,Bifurcation,1961
+Tuensang,Mokokchung,1951,1961,Nagaland,High,Pending,Bifurcation,1961
+Tuensang,Mokokchung,1951,1961,Nagaland,High,Pending,Bifurcation,1961
+Tuensang,Mokokchung,1951,1961,Nagaland,High,Pending,Bifurcation,1961
+Tuensang,Mon,1971,1981,Nagaland,High,Pending,Bifurcation,1981
+Tuensang,Longleng,2001,2011,Nagaland,High,Pending,Bifurcation,2011
+Tuensang,Kiphire,2001,2011,Nagaland,High,Pending,Bifurcation,2011
+Tuensang,Noklak,2011,2024,Nagaland,High,Pending,Bifurcation,2024
+Aizawl,Mamit,1991,2001,Mizoram,High,Pending,Bifurcation,2001
+Aizawl,Kolasib,1991,2001,Mizoram,High,Pending,Bifurcation,2001
+Aizawl,Champhai,1991,2001,Mizoram,High,Pending,Bifurcation,2001
+Aizawl,Serchhip,1991,2001,Mizoram,High,Pending,Bifurcation,2001
+Aizawl,Champhai,1991,2001,Mizoram,High,Pending,Bifurcation,2001
+Aizawl,Saitual,2011,2024,Mizoram,High,Pending,Bifurcation,2024
+Champhai,Khawzawl,2011,2024,Mizoram,High,Pending,Bifurcation,2024
+Chhimtuipui,Lawngtlai,1991,2001,Mizoram,High,Pending,Bifurcation,2001
+Chhimtuipui,Saiha,1991,2001,Mizoram,High,Pending,Bifurcation,2001
+Lunglei,Hnathial,2011,2024,Mizoram,High,Pending,Bifurcation,2024
+Lushai Hills,Mizo Hills,1951,1961,Mizoram,High,Pending,Bifurcation,1961
+Lushai Hills,Mizo Hills,1951,1961,Mizoram,High,Pending,Bifurcation,1961
+Lushai Hills,Mizo Hills,1951,1961,Mizoram,High,Pending,Bifurcation,1961
+Lushai Hills,Mizo Hills,1951,1961,Mizoram,High,Pending,Bifurcation,1961
+Lushai Hills,Mizo Hills,1951,1961,Mizoram,High,Pending,Bifurcation,1961
+Lushai Hills,Mizo Hills,1951,1961,Mizoram,High,Pending,Bifurcation,1961
+Lushai Hills,Mizo Hills,1951,1961,Mizoram,High,Pending,Bifurcation,1961
+Lushai Hills,Mizo Hills,1951,1961,Mizoram,High,Pending,Bifurcation,1961
+Lushai Hills,Mizo Hills,1951,1961,Mizoram,High,Pending,Bifurcation,1961
+Lushai Hills,Mizo Hills,1951,1961,Mizoram,High,Pending,Bifurcation,1961
+Lushai Hills,Mizo Hills,1951,1961,Mizoram,High,Pending,Bifurcation,1961
+Mizo Hills,Mizoram,1961,1971,Mizoram,High,Pending,Bifurcation,1971
+Mizo Hills,Mizoram,1961,1971,Mizoram,High,Pending,Bifurcation,1971
+Mizo Hills,Mizoram,1961,1971,Mizoram,High,Pending,Bifurcation,1971
+Mizo Hills,Mizoram,1961,1971,Mizoram,High,Pending,Bifurcation,1971
+Mizo Hills,Mizoram,1961,1971,Mizoram,High,Pending,Bifurcation,1971
+Mizo Hills,Mizoram,1961,1971,Mizoram,High,Pending,Bifurcation,1971
+Mizo Hills,Mizoram,1961,1971,Mizoram,High,Pending,Bifurcation,1971
+Mizo Hills,Mizoram,1961,1971,Mizoram,High,Pending,Bifurcation,1971
+Mizo Hills,Mizoram,1961,1971,Mizoram,High,Pending,Bifurcation,1971
+Mizo Hills,Mizoram,1961,1971,Mizoram,High,Pending,Bifurcation,1971
+Mizo Hills,Mizoram,1961,1971,Mizoram,High,Pending,Bifurcation,1971
+Mizoram,Aizawl,1971,1981,Mizoram,High,Pending,Bifurcation,1981
+Mizoram,Aizawl,1971,1981,Mizoram,High,Pending,Bifurcation,1981
+Mizoram,Aizawl,1971,1981,Mizoram,High,Pending,Bifurcation,1981
+Mizoram,Aizawl,1971,1981,Mizoram,High,Pending,Bifurcation,1981
+Mizoram,Aizawl,1971,1981,Mizoram,High,Pending,Bifurcation,1981
+Mizoram,Lunglei,1971,1981,Mizoram,High,Pending,Bifurcation,1981
+Mizoram,Chhimtuipui,1971,1981,Mizoram,High,Pending,Bifurcation,1981
+Mizoram,Chhimtuipui,1971,1981,Mizoram,High,Pending,Bifurcation,1981
+Mizoram,Aizawl,1971,1981,Mizoram,High,Pending,Bifurcation,1981
+Mizoram,Lunglei,1971,1981,Mizoram,High,Pending,Bifurcation,1981
+Mizoram,Aizawl,1971,1981,Mizoram,High,Pending,Bifurcation,1981
+East Garo Hills,North Garo Hills,2011,2024,Meghalaya,High,Pending,Bifurcation,2024
+East Khasi Hills,Ri Bhoi,1991,2001,Meghalaya,High,Pending,Bifurcation,2001
+Garo Hills,West Garo Hills,1971,1981,Meghalaya,High,Pending,Bifurcation,1981
+Garo Hills,East Garo Hills,1971,1981,Meghalaya,High,Pending,Bifurcation,1981
+Garo Hills,West Garo Hills,1971,1981,Meghalaya,High,Pending,Bifurcation,1981
+Garo Hills,East Garo Hills,1971,1981,Meghalaya,High,Pending,Bifurcation,1981
+Jaintia Hills,West Jaintia Hills,2011,2024,Meghalaya,High,Pending,Bifurcation,2024
+Jaintia Hills,East Jaintia Hills,2011,2024,Meghalaya,High,Pending,Bifurcation,2024
+United Khasi and Jaintia Hills,West Khasi Hills,1971,1981,Meghalaya,High,Pending,Bifurcation,1981
+United Khasi and Jaintia Hills,East Khasi Hills,1971,1981,Meghalaya,High,Pending,Bifurcation,1981
+United Khasi and Jaintia Hills,East Khasi Hills,1971,1981,Meghalaya,High,Pending,Bifurcation,1981
+United Khasi and Jaintia Hills,Jaintia Hills,1971,1981,Meghalaya,High,Pending,Bifurcation,1981
+United Khasi and Jaintia Hills,Jaintia Hills,1971,1981,Meghalaya,High,Pending,Bifurcation,1981
+United Khasi and Jaintia Hills,Jaintia Hills,1971,1981,Meghalaya,High,Pending,Bifurcation,1981
+United Khasi and Jaintia Hills,West Khasi Hills,1971,1981,Meghalaya,High,Pending,Bifurcation,1981
+United Khasi and Jaintia Hills,West Khasi Hills,1971,1981,Meghalaya,High,Pending,Bifurcation,1981
+West Garo Hills,South Garo Hills,1991,2001,Meghalaya,High,Pending,Bifurcation,2001
+West Khasi Hills,South West Khasi Hills,2011,2024,Meghalaya,High,Pending,Bifurcation,2024
+West Khasi Hills,Eastern West Khasi Hills,2011,2024,Meghalaya,High,Pending,Bifurcation,2024
+Chandel,Tengnoupal,2011,2024,Manipur,High,Pending,Bifurcation,2024
+Churachandpur,Pherzawl,2011,2024,Manipur,High,Pending,Bifurcation,2024
+Imphal,Imphal West,1991,2001,Manipur,High,Pending,Bifurcation,2001
+Imphal,Imphal East,1991,2001,Manipur,High,Pending,Bifurcation,2001
+Imphal,Imphal East,1991,2001,Manipur,High,Pending,Bifurcation,2001
+Imphal East,Jiribam,2011,2024,Manipur,High,Pending,Bifurcation,2024
+Manipur,Manipur North,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur West,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur South,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur Central,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur Central,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur Central,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur Central,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur East,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur Central,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur Central,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur Central,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur East,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur North,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur West,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur Central,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur,Manipur South,1961,1971,Manipur,High,Pending,Bifurcation,1971
+Manipur Central,Tengnoupal,1971,1981,Manipur,High,Pending,Bifurcation,1981
+Manipur Central,Tengnoupal,1971,1981,Manipur,High,Pending,Bifurcation,1981
+Manipur Central,Bishnupur,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur Central,Thoubal,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur Central,Imphal,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur Central,Imphal,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur Central,Imphal,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur Central,Thoubal,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur East,Ukhrul,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur East,Ukhrul,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur North,Senapati,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur North,Senapati,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur South,Churachandpur,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur South,Churachandpur,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur West,Tamenglong,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Manipur West,Tamenglong,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Senapati,Kangpokpi,2011,2024,Manipur,High,Pending,Bifurcation,2024
+Tamenglong,Noney,2011,2024,Manipur,High,Pending,Bifurcation,2024
+Tengnoupal,Chandel,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Tengnoupal,Chandel,1981,1991,Manipur,High,Pending,Bifurcation,1991
+Thoubal,Kakching,2011,2024,Manipur,High,Pending,Bifurcation,2024
+Ukhrul,Kamjong,2011,2024,Manipur,High,Pending,Bifurcation,2024
+Ahmadnagar,Ahmednagar,1961,1971,Maharashtra,High,Pending,Bifurcation,1971
+Ahmednagar,Ahmadnagar,1951,1961,Maharashtra,High,Pending,Bifurcation,1961
+Ahmednagar,Ahmadnagar,1971,1981,Maharashtra,High,Pending,Bifurcation,1981
+Akola,Washim,1991,2001,Maharashtra,High,Pending,Bifurcation,2001
+Aurangabad,Jalna,1981,1991,Maharashtra,High,Pending,Bifurcation,1991
+Aurangabad,Sambhaji Nagar,2011,2024,Maharashtra,High,Pending,Bifurcation,2024
+Bhandara,Gondiya,1991,2001,Maharashtra,High,Pending,Bifurcation,2001
+Bhir,Bid,1971,1981,Maharashtra,High,Pending,Bifurcation,1981
+Buldana,Buldhana,1951,1961,Maharashtra,High,Pending,Bifurcation,1961
+Buldhana,Buldana,1971,1981,Maharashtra,High,Pending,Bifurcation,1981
+Chanda,Chandrapur,1961,1971,Maharashtra,High,Pending,Bifurcation,1971
+Chanda,Chandrapur,1961,1971,Maharashtra,High,Pending,Bifurcation,1971
+Chandrapur,Gadchiroli,1981,1991,Maharashtra,High,Pending,Bifurcation,1991
+Dhule,Nandurbar,1991,2001,Maharashtra,High,Pending,Bifurcation,2001
+Dhulia,Dhule,1971,1981,Maharashtra,High,Pending,Bifurcation,1981
+Dhulia,Dhule,1971,1981,Maharashtra,High,Pending,Bifurcation,1981
+East Khandesh,Jalgaon,1951,1961,Maharashtra,High,Pending,Bifurcation,1961
+Greater Bombay,Mumbai,1991,2001,Maharashtra,High,Pending,Bifurcation,2001
+Greater Bombay,Mumbai (Suburban),1991,2001,Maharashtra,High,Pending,Bifurcation,2001
+Kolaba,Raigarh,1971,1981,Maharashtra,High,Pending,Bifurcation,1981
+Mumbai (Suburban),Mumbai Suburban,2001,2011,Maharashtra,High,Pending,Bifurcation,2011
+Nasik,Nashik,1971,1981,Maharashtra,High,Pending,Bifurcation,1981
+Osmanabad,Latur,1981,1991,Maharashtra,High,Pending,Bifurcation,1991
+Osmanabad,Dharashiv,2011,2024,Maharashtra,High,Pending,Bifurcation,2024
+Parbhani,Hingoli,1991,2001,Maharashtra,High,Pending,Bifurcation,2001
+Poona,Pune,1971,1981,Maharashtra,High,Pending,Bifurcation,1981
+Ratnagiri,Sindhudurg,1981,1991,Maharashtra,High,Pending,Bifurcation,1991
+Satara North,Satara,1951,1961,Maharashtra,High,Pending,Bifurcation,1961
+Satara South,Sangli,1951,1961,Maharashtra,High,Pending,Bifurcation,1961
+Sholapur,Solapur,1971,1981,Maharashtra,High,Pending,Bifurcation,1981
+Thana,Thane,1971,1981,Maharashtra,High,Pending,Bifurcation,1981
+Thana,Thane,1971,1981,Maharashtra,High,Pending,Bifurcation,1981
+Thane,Palghar,2011,2024,Maharashtra,High,Pending,Bifurcation,2024
+West Khandesh,Dhulia,1951,1961,Maharashtra,High,Pending,Bifurcation,1961
+West Khandesh,Dhulia,1951,1961,Maharashtra,High,Pending,Bifurcation,1961
+Yeotmal,Yavatmal,1971,1981,Maharashtra,High,Pending,Bifurcation,1981
+Bhilsa,Vidisha,1951,1961,Madhya Pradesh,High,Pending,Bifurcation,1961
+Chhindwara,Seoni,1951,1961,Madhya Pradesh,High,Pending,Bifurcation,1961
+East Nimar,Khandwa,1961,1971,Madhya Pradesh,High,Pending,Bifurcation,1971
+East Nimar,Khandwa,1961,1971,Madhya Pradesh,High,Pending,Bifurcation,1971
+East Nimar,Khandwa (East Nimar),2001,2011,Madhya Pradesh,High,Pending,Bifurcation,2011
+East Nimar,Burhanpur,2001,2011,Madhya Pradesh,High,Pending,Bifurcation,2011
+Gird,Gwalior,1951,1961,Madhya Pradesh,High,Pending,Bifurcation,1961
+Goona,Guna,1951,1961,Madhya Pradesh,High,Pending,Bifurcation,1961
+Goona,Guna,1951,1961,Madhya Pradesh,High,Pending,Bifurcation,1961
+Guna,Ashoknagar,2001,2011,Madhya Pradesh,High,Pending,Bifurcation,2011
+Hoshangabad,Narsimhapur,1951,1961,Madhya Pradesh,High,Pending,Bifurcation,1961
+Hoshangabad,Harda,1991,2001,Madhya Pradesh,High,Pending,Bifurcation,2001
+Hoshangabad,Narmadapuram,2011,2024,Madhya Pradesh,High,Pending,Bifurcation,2024
+Jabalpur,Katni,1991,2001,Madhya Pradesh,High,Pending,Bifurcation,2001
+Jhabua,Alirajpur,2001,2011,Madhya Pradesh,High,Pending,Bifurcation,2011
+Khandwa,East Nimar,1971,1981,Madhya Pradesh,High,Pending,Bifurcation,1981
+Khandwa,East Nimar,1971,1981,Madhya Pradesh,High,Pending,Bifurcation,1981
+Khargone,West Nimar,1971,1981,Madhya Pradesh,High,Pending,Bifurcation,1981
+Khargone,West Nimar,1971,1981,Madhya Pradesh,High,Pending,Bifurcation,1981
+Mandla,Dindori,1991,2001,Madhya Pradesh,High,Pending,Bifurcation,2001
+Mandsaur,Neemuch,1991,2001,Madhya Pradesh,High,Pending,Bifurcation,2001
+Morena,Sheopur,1991,2001,Madhya Pradesh,High,Pending,Bifurcation,2001
+Nimar,West Nimar,1951,1961,Madhya Pradesh,High,Pending,Bifurcation,1961
+Nimar,West Nimar,1951,1961,Madhya Pradesh,High,Pending,Bifurcation,1961
+Nimar,East Nimar,1951,1961,Madhya Pradesh,High,Pending,Bifurcation,1961
+Nimar,East Nimar,1951,1961,Madhya Pradesh,High,Pending,Bifurcation,1961
+Sagar,Damoh,1951,1961,Madhya Pradesh,High,Pending,Bifurcation,1961
+Sehore,Bhopal,1971,1981,Madhya Pradesh,High,Pending,Bifurcation,1981
+Shahdol,Umaria,1991,2001,Madhya Pradesh,High,Pending,Bifurcation,2001
+Shahdol,Annupur,2001,2011,Madhya Pradesh,High,Pending,Bifurcation,2011
+Shajapur,Agar-Malwa,2011,2024,Madhya Pradesh,High,Pending,Bifurcation,2024
+Sidhi,Singrauli,2001,2011,Madhya Pradesh,High,Pending,Bifurcation,2011
+Tikamgarh,Niwari,2011,2024,Madhya Pradesh,High,Pending,Bifurcation,2024
+West Nimar,Khargone,1961,1971,Madhya Pradesh,High,Pending,Bifurcation,1971
+West Nimar,Khargone,1961,1971,Madhya Pradesh,High,Pending,Bifurcation,1971
+West Nimar,Barwani,1991,2001,Madhya Pradesh,High,Pending,Bifurcation,2001
+West Nimar,Khargone (West Nimar),2001,2011,Madhya Pradesh,High,Pending,Bifurcation,2011
+"Laccadive, Minicoy and Amindivi Islands",Lakshadweep,1971,1981,Lakshadweep,High,Pending,Bifurcation,1981
+Alleppey,Alappuzha,1981,1991,Kerala,High,Pending,Bifurcation,1991
+Alleppey,Pathanamthitta,1981,1991,Kerala,High,Pending,Bifurcation,1991
+Cannanore,Wayanad,1971,1981,Kerala,High,Pending,Bifurcation,1981
+Cannanore,Kannur,1981,1991,Kerala,High,Pending,Bifurcation,1991
+Cannanore,Kasargod,1981,1991,Kerala,High,Pending,Bifurcation,1991
+Ernakulam,Idukki,1971,1981,Kerala,High,Pending,Bifurcation,1981
+Idukki,Pathanamthitta,1981,1991,Kerala,High,Pending,Bifurcation,1991
+Kottayam,Ernakulam,1951,1961,Kerala,High,Pending,Bifurcation,1961
+Kottayam,Alleppey,1951,1961,Kerala,High,Pending,Bifurcation,1961
+Kottayam,Idukki,1971,1981,Kerala,High,Pending,Bifurcation,1981
+Kottayam,Idukki,1971,1981,Kerala,High,Pending,Bifurcation,1981
+Kozhikode,Malappuram,1961,1971,Kerala,High,Pending,Bifurcation,1971
+Kozhikode,Wayanad,1971,1981,Kerala,High,Pending,Bifurcation,1981
+Malabar,Cannanore,1951,1961,Kerala,High,Pending,Bifurcation,1961
+Malabar,Cannanore,1951,1961,Kerala,High,Pending,Bifurcation,1961
+Malabar,Cannanore,1951,1961,Kerala,High,Pending,Bifurcation,1961
+Malabar,Kozhikode,1951,1961,Kerala,High,Pending,Bifurcation,1961
+Malabar,Kozhikode,1951,1961,Kerala,High,Pending,Bifurcation,1961
+Malabar,Kozhikode,1951,1961,Kerala,High,Pending,Bifurcation,1961
+Malabar,Palghat,1951,1961,Kerala,High,Pending,Bifurcation,1961
+Malabar,Palghat,1951,1961,Kerala,High,Pending,Bifurcation,1961
+Palghat,Malappuram,1961,1971,Kerala,High,Pending,Bifurcation,1971
+Palghat,Palakkad,1981,1991,Kerala,High,Pending,Bifurcation,1991
+Quilon,Alleppey,1951,1961,Kerala,High,Pending,Bifurcation,1961
+Quilon,Pathanamthitta,1981,1991,Kerala,High,Pending,Bifurcation,1991
+Quilon,Kollam,1981,1991,Kerala,High,Pending,Bifurcation,1991
+Trichur,Ernakulam,1951,1961,Kerala,High,Pending,Bifurcation,1961
+Trichur,Thrissur,1981,1991,Kerala,High,Pending,Bifurcation,1991
+Trivandrum,Thiruvananthapuram,1981,1991,Kerala,High,Pending,Bifurcation,1991
+Bangalore,Bangalore Rural,1981,1991,Karnataka,High,Pending,Bifurcation,1991
+Bangalore,Bangalore Rural,1981,1991,Karnataka,High,Pending,Bifurcation,1991
+Bangalore Rural,Ramanagara,2001,2011,Karnataka,High,Pending,Bifurcation,2011
+Belgaum,Belgavi,2011,2024,Karnataka,High,Pending,Bifurcation,2024
+Bellary,Ballari,2011,2024,Karnataka,High,Pending,Bifurcation,2024
+Bellary,Vijayanagara,2011,2024,Karnataka,High,Pending,Bifurcation,2024
+Bijapur,Bagalkot,1991,2001,Karnataka,High,Pending,Bifurcation,2001
+Bijapur,Vijayapura,2011,2024,Karnataka,High,Pending,Bifurcation,2024
+Chikmagalur,Chikkamagaluru,2011,2024,Karnataka,High,Pending,Bifurcation,2024
+Chitaldrug,Chitradurga,1951,1961,Karnataka,High,Pending,Bifurcation,1961
+Chitaldrug,Chitradurga,1951,1961,Karnataka,High,Pending,Bifurcation,1961
+Chitradurga,Davanagere,1991,2001,Karnataka,High,Pending,Bifurcation,2001
+Coorg,Kodagu,1971,1981,Karnataka,High,Pending,Bifurcation,1981
+Dakshin Kannad,Dakshina Kannada,1981,1991,Karnataka,High,Pending,Bifurcation,1991
+Dakshin Kannad,Dakshina Kannada,1981,1991,Karnataka,High,Pending,Bifurcation,1991
+Dakshina Kannada,Udupi,1991,2001,Karnataka,High,Pending,Bifurcation,2001
+Dharwad,Gadag,1991,2001,Karnataka,High,Pending,Bifurcation,2001
+Dharwad,Haveri,1991,2001,Karnataka,High,Pending,Bifurcation,2001
+Dharwar,Dharwad,1971,1981,Karnataka,High,Pending,Bifurcation,1981
+Dharwar,Dharwad,1971,1981,Karnataka,High,Pending,Bifurcation,1981
+Dharwar,Dharwad,1971,1981,Karnataka,High,Pending,Bifurcation,1981
+Gulbarga,Yadgir,2001,2011,Karnataka,High,Pending,Bifurcation,2011
+Gulbarga,Kalaburagi,2011,2024,Karnataka,High,Pending,Bifurcation,2024
+Kanara,North Kanara,1951,1961,Karnataka,High,Pending,Bifurcation,1961
+Kolar,Chikkaballapura,2001,2011,Karnataka,High,Pending,Bifurcation,2011
+Mysore,Chamarajanagar,1991,2001,Karnataka,High,Pending,Bifurcation,2001
+Mysore,Mysuru,2011,2024,Karnataka,High,Pending,Bifurcation,2024
+North Kanara,Uttar Kannad,1971,1981,Karnataka,High,Pending,Bifurcation,1981
+Raichur,Koppal,1991,2001,Karnataka,High,Pending,Bifurcation,2001
+Ramanagara,Bengaluru South,2011,2024,Karnataka,High,Pending,Bifurcation,2024
+Shimoga,Shivamogga,2011,2024,Karnataka,High,Pending,Bifurcation,2024
+South Kanara,Dakshin Kannad,1971,1981,Karnataka,High,Pending,Bifurcation,1981
+South Kanara,Dakshin Kannad,1971,1981,Karnataka,High,Pending,Bifurcation,1981
+Tumkur,Tumakuru,2011,2024,Karnataka,High,Pending,Bifurcation,2024
+Uttar Kannad,Uttara Kannada,1981,1991,Karnataka,High,Pending,Bifurcation,1991
+Dhanbad,Bokaro,1991,2001,Jharkhand,High,Pending,Bifurcation,2001
+Dumka,Jamtara,2001,2011,Jharkhand,High,Pending,Bifurcation,2011
+Giridih,Bokaro,1991,2001,Jharkhand,High,Pending,Bifurcation,2001
+Gumla,Simdega,2001,2011,Jharkhand,High,Pending,Bifurcation,2011
+Hazaribag,Chatra,1991,2001,Jharkhand,High,Pending,Bifurcation,2001
+Hazaribag,Kodarma,1991,2001,Jharkhand,High,Pending,Bifurcation,2001
+Hazaribag,Hazaribagh,2001,2011,Jharkhand,High,Pending,Bifurcation,2011
+Hazaribag,Ramgarh,2001,2011,Jharkhand,High,Pending,Bifurcation,2011
+Hazaribagh,Hazaribag,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Hazaribagh,Hazaribag,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Hazaribagh,Hazaribag,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Hazaribagh,Hazaribag,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Hazaribagh,Giridih,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Hazaribagh,Giridih,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Pakaur,Pakur,2001,2011,Jharkhand,High,Pending,Bifurcation,2011
+Palamau,Palamu,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Palamau,Palamu,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Palamau,Palamu,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Palamu,Garhwa,1991,2001,Jharkhand,High,Pending,Bifurcation,2001
+Palamu,Latehar,2001,2011,Jharkhand,High,Pending,Bifurcation,2011
+Pashchimi Singhbhum,Saraikela-kharsawan,2001,2011,Jharkhand,High,Pending,Bifurcation,2011
+Ranchi,Lohardaga,1981,1991,Jharkhand,High,Pending,Bifurcation,1991
+Ranchi,Gumla,1981,1991,Jharkhand,High,Pending,Bifurcation,1991
+Ranchi,Gumla,1981,1991,Jharkhand,High,Pending,Bifurcation,1991
+Ranchi,Khunti,2001,2011,Jharkhand,High,Pending,Bifurcation,2011
+Sahibganj,Pakaur,1991,2001,Jharkhand,High,Pending,Bifurcation,2001
+Santal Parganas,Santhal Pargana,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Santal Parganas,Santhal Pargana,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Santal Parganas,Santhal Pargana,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Santal Parganas,Santhal Pargana,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Santal Parganas,Santhal Pargana,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Santal Parganas,Santhal Pargana,1971,1981,Jharkhand,High,Pending,Bifurcation,1981
+Santhal Pargana,Deoghar,1981,1991,Jharkhand,High,Pending,Bifurcation,1991
+Santhal Pargana,Godda,1981,1991,Jharkhand,High,Pending,Bifurcation,1991
+Santhal Pargana,Sahibganj,1981,1991,Jharkhand,High,Pending,Bifurcation,1991
+Santhal Pargana,Sahibganj,1981,1991,Jharkhand,High,Pending,Bifurcation,1991
+Santhal Pargana,Dumka,1981,1991,Jharkhand,High,Pending,Bifurcation,1991
+Santhal Pargana,Dumka,1981,1991,Jharkhand,High,Pending,Bifurcation,1991
+Singhbhum,Pashchimi Singhbhum,1981,1991,Jharkhand,High,Pending,Bifurcation,1991
+Singhbhum,Pashchimi Singhbhum,1981,1991,Jharkhand,High,Pending,Bifurcation,1991
+Singhbhum,Purbi Singhbhum,1981,1991,Jharkhand,High,Pending,Bifurcation,1991
+Anantnag,Kulgam,2001,2011,Jammu & Kashmir,High,Pending,Bifurcation,2011
+Baramula,Kupwara,1971,1981,Jammu & Kashmir,High,Pending,Bifurcation,1981
+Baramula,Bandipore,2001,2011,Jammu & Kashmir,High,Pending,Bifurcation,2011
+Baramula,Ganderbal,2001,2011,Jammu & Kashmir,High,Pending,Bifurcation,2011
+Baramulla,Baramula,1961,1971,Jammu & Kashmir,High,Pending,Bifurcation,1971
+Baramulla,Baramula,1961,1971,Jammu & Kashmir,High,Pending,Bifurcation,1971
+Baramulla,Baramula,1961,1971,Jammu & Kashmir,High,Pending,Bifurcation,1971
+Baramulla,Baramula,1961,1971,Jammu & Kashmir,High,Pending,Bifurcation,1971
+Doda,Ramban,2001,2011,Jammu & Kashmir,High,Pending,Bifurcation,2011
+Doda,Kishtwar,2001,2011,Jammu & Kashmir,High,Pending,Bifurcation,2011
+Jammu,Samba,2001,2011,Jammu & Kashmir,High,Pending,Bifurcation,2011
+Jammu and Kashmir,Baramulla,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Srinagar,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Ladakh,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Ladakh,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Poonch,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Poonch,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Kathua,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Baramulla,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Baramulla,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Srinagar,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Baramulla,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Srinagar,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Srinagar,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Anantnag,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Anantnag,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Srinagar,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Doda,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Doda,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Doda,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Udhampur,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Udhampur,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Jammu,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Jammu and Kashmir,Jammu,1951,1961,Jammu & Kashmir,High,Pending,Bifurcation,1961
+Ladakh,Kargil,1971,1981,Jammu & Kashmir,High,Pending,Bifurcation,1981
+Ladakh,Leh (Ladakh),1991,2001,Jammu & Kashmir,High,Pending,Bifurcation,2001
+Poonch,Punch,1961,1971,Jammu & Kashmir,High,Pending,Bifurcation,1971
+Poonch,Rajauri,1961,1971,Jammu & Kashmir,High,Pending,Bifurcation,1971
+Pulwama,Shupiyan,2001,2011,Jammu & Kashmir,High,Pending,Bifurcation,2011
+Pulwama,Kulgam,2001,2011,Jammu & Kashmir,High,Pending,Bifurcation,2011
+Rajauri,Rajouri,2001,2011,Jammu & Kashmir,High,Pending,Bifurcation,2011
+Srinagar,Badgam,1971,1981,Jammu & Kashmir,High,Pending,Bifurcation,1981
+Srinagar,Pulwama,1971,1981,Jammu & Kashmir,High,Pending,Bifurcation,1981
+Srinagar,Pulwama,1971,1981,Jammu & Kashmir,High,Pending,Bifurcation,1981
+Srinagar,Pulwama,1971,1981,Jammu & Kashmir,High,Pending,Bifurcation,1981
+Udhampur,Reasi,2001,2011,Jammu & Kashmir,High,Pending,Bifurcation,2011
+Kangra,Lahaul and Spiti,1951,1961,Himachal Pradesh,High,Pending,Bifurcation,1961
+Kangra,Kulu,1961,1971,Himachal Pradesh,High,Pending,Bifurcation,1971
+Kangra,Hamirpur,1971,1981,Himachal Pradesh,High,Pending,Bifurcation,1981
+Kangra,Una,1971,1981,Himachal Pradesh,High,Pending,Bifurcation,1981
+Kohistan,Simla,1951,1961,Himachal Pradesh,High,Pending,Bifurcation,1961
+Kulu,Kullu,1971,1981,Himachal Pradesh,High,Pending,Bifurcation,1981
+Lahaul and Spiti,Lahul and Spiti,1961,1971,Himachal Pradesh,High,Pending,Bifurcation,1971
+Lahul and Spiti,Lahul & Spiti,2001,2011,Himachal Pradesh,High,Pending,Bifurcation,2011
+Mahasu,Kinnaur,1951,1961,Himachal Pradesh,High,Pending,Bifurcation,1961
+Mahasu,Solan,1971,1981,Himachal Pradesh,High,Pending,Bifurcation,1981
+Mahasu,Shimla,1971,1981,Himachal Pradesh,High,Pending,Bifurcation,1981
+Mahasu,Shimla,1971,1981,Himachal Pradesh,High,Pending,Bifurcation,1981
+Simla,Solan,1971,1981,Himachal Pradesh,High,Pending,Bifurcation,1981
+Sirmoor,Sirmur,1951,1961,Himachal Pradesh,High,Pending,Bifurcation,1961
+Sirmur,Sirmaur,1961,1971,Himachal Pradesh,High,Pending,Bifurcation,1971
+Ambala,Yamunanagar,1981,1991,Haryana,High,Pending,Bifurcation,1991
+Ambala,Panchkula,1991,2001,Haryana,High,Pending,Bifurcation,2001
+Bhiwani,Charkhi Dadri,2011,2024,Haryana,High,Pending,Bifurcation,2024
+Faridabad,Palwal,2001,2011,Haryana,High,Pending,Bifurcation,2011
+Gurgaon,Mahendragarh,1971,1981,Haryana,High,Pending,Bifurcation,1981
+Gurgaon,Faridabad,1971,1981,Haryana,High,Pending,Bifurcation,1981
+Gurgaon,Faridabad,1971,1981,Haryana,High,Pending,Bifurcation,1981
+Gurgaon,Mewat,2001,2011,Haryana,High,Pending,Bifurcation,2011
+Gurgaon,Gurugram,2011,2024,Haryana,High,Pending,Bifurcation,2024
+Hisar,Sirsa,1971,1981,Haryana,High,Pending,Bifurcation,1981
+Hisar,Bhiwani,1971,1981,Haryana,High,Pending,Bifurcation,1981
+Hisar,Bhiwani,1971,1981,Haryana,High,Pending,Bifurcation,1981
+Hisar,Fatehabad,1991,2001,Haryana,High,Pending,Bifurcation,2001
+Hissar,Hisar,1961,1971,Haryana,High,Pending,Bifurcation,1971
+Hissar,Hisar,1961,1971,Haryana,High,Pending,Bifurcation,1971
+Hissar,Hisar,1961,1971,Haryana,High,Pending,Bifurcation,1971
+Hissar,Hisar,1961,1971,Haryana,High,Pending,Bifurcation,1971
+Hissar,Hisar,1961,1971,Haryana,High,Pending,Bifurcation,1971
+Karnal,Kurukshetra,1971,1981,Haryana,High,Pending,Bifurcation,1981
+Karnal,Kurukshetra,1971,1981,Haryana,High,Pending,Bifurcation,1981
+Karnal,Panipat,1981,1991,Haryana,High,Pending,Bifurcation,1991
+Kurukshetra,Kaithal,1981,1991,Haryana,High,Pending,Bifurcation,1991
+Mahendragarh,Rewari,1981,1991,Haryana,High,Pending,Bifurcation,1991
+Mewat,Nuh,2011,2024,Haryana,High,Pending,Bifurcation,2024
+Mohindergarh,Mahendragarh,1951,1961,Haryana,High,Pending,Bifurcation,1961
+Mohindergarh,Mahendragarh,1951,1961,Haryana,High,Pending,Bifurcation,1961
+Rohtak,Karnal,1971,1981,Haryana,High,Pending,Bifurcation,1981
+Rohtak,Sonipat,1971,1981,Haryana,High,Pending,Bifurcation,1981
+Rohtak,Jhajjar,1991,2001,Haryana,High,Pending,Bifurcation,2001
+Sangrur,Jind,1961,1971,Haryana,High,Pending,Bifurcation,1971
+Ahmadabad,Botad,2011,2024,Gujarat,High,Pending,Bifurcation,2024
+Ahmedabad,Ahmadabad,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Ahmedabad,Gandhinagar,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Ahmedabad,Ahmadabad,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Banaskantha,Banas Kantha,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Baroda,Vadodara,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Baroda,Vadodara,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Bharuch,Narmada,1991,2001,Gujarat,High,Pending,Bifurcation,2001
+Bhavnagar,Botad,2011,2024,Gujarat,High,Pending,Bifurcation,2024
+Broach,Bharuch,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Broach,Bharuch,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Central Saurashtra,Rajkot,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Central Saurashtra,Rajkot,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Dangs,The Dangs,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Gohilwad,Bhavnagar,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Gohilwad,Bhavnagar,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Halar,Jamnagar,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Halar,Jamnagar,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Halar,Jamnagar,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Jamnagar,Devbhumi Dwarka,2011,2024,Gujarat,High,Pending,Bifurcation,2024
+Jamnagar,Morbi,2011,2024,Gujarat,High,Pending,Bifurcation,2024
+Junagadh,Porbandar,1991,2001,Gujarat,High,Pending,Bifurcation,2001
+Junagadh,Gir Somnath,2011,2024,Gujarat,High,Pending,Bifurcation,2024
+Kaira,Kheda,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Kaira,Kheda,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Kaira,Kheda,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Kheda,Anand,1991,2001,Gujarat,High,Pending,Bifurcation,2001
+Kheda,Mahisagar,2011,2024,Gujarat,High,Pending,Bifurcation,2024
+Kutch,Kachchh,1971,1981,Gujarat,High,Pending,Bifurcation,1981
+Mahesana,Patan,1991,2001,Gujarat,High,Pending,Bifurcation,2001
+Mehsana,Gandhinagar,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Mehsana,Mahesana,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Mehsana,Mahesana,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Panch Mahals,Panchmahals,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Panch Mahals,Panchmahals,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Panch Mahals,Panchmahals,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Panch Mahals,Dohad,1991,2001,Gujarat,High,Pending,Bifurcation,2001
+Panch Mahals,Mahisagar,2011,2024,Gujarat,High,Pending,Bifurcation,2024
+Panchmahals,Panch Mahals,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Panchmahals,Panch Mahals,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Panchmahals,Panch Mahals,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Rajkot,Morbi,2011,2024,Gujarat,High,Pending,Bifurcation,2024
+Sabar Kantha,Aravalli,2011,2024,Gujarat,High,Pending,Bifurcation,2024
+Sabarkantha,Sabar Kantha,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Sabarkantha,Sabar Kantha,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Sorath,Junagadh,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Sorath,Junagadh,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Sorath,Junagadh,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Surat,Valsad,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Surat,Valsad,1961,1971,Gujarat,High,Pending,Bifurcation,1971
+Surat,Tapi,2001,2011,Gujarat,High,Pending,Bifurcation,2011
+Surendranagar,Morbi,2011,2024,Gujarat,High,Pending,Bifurcation,2024
+Vadodara,Chhota Udepur,2011,2024,Gujarat,High,Pending,Bifurcation,2024
+Valsad,Navsari,1991,2001,Gujarat,High,Pending,Bifurcation,2001
+Zalawad,Surendranagar,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Zalawad,Surendranagar,1951,1961,Gujarat,High,Pending,Bifurcation,1961
+Goa,North Goa,1981,1991,Goa,High,Pending,Bifurcation,1991
+Goa,South Goa,1981,1991,Goa,High,Pending,Bifurcation,1991
+Delhi,North West,1991,2001,Delhi,High,Pending,Bifurcation,2001
+Delhi,South,1991,2001,Delhi,High,Pending,Bifurcation,2001
+Delhi,North East,1991,2001,Delhi,High,Pending,Bifurcation,2001
+Delhi,East,1991,2001,Delhi,High,Pending,Bifurcation,2001
+Delhi,South West,1991,2001,Delhi,High,Pending,Bifurcation,2001
+East,Shahdara,2011,2024,Delhi,High,Pending,Bifurcation,2024
+North East,Shahdara,2011,2024,Delhi,High,Pending,Bifurcation,2024
+North West,North,2011,2024,Delhi,High,Pending,Bifurcation,2024
+South,South East,2011,2024,Delhi,High,Pending,Bifurcation,2024
+South West,New Delhi,2011,2024,Delhi,High,Pending,Bifurcation,2024
+Dadra and Nagar Haveli,Dadra & Nagar Haveli,2001,2011,Dadara & Nagar Havelli,High,Pending,Bifurcation,2011
+Bastar,Kanker,1991,2001,Chhattisgarh,High,Pending,Bifurcation,2001
+Bastar,Dantewada,1991,2001,Chhattisgarh,High,Pending,Bifurcation,2001
+Bastar,Dantewada,1991,2001,Chhattisgarh,High,Pending,Bifurcation,2001
+Bastar,Dantewada,1991,2001,Chhattisgarh,High,Pending,Bifurcation,2001
+Bastar,Narayanpur,2001,2011,Chhattisgarh,High,Pending,Bifurcation,2011
+Bastar,Kondagaon,2011,2024,Chhattisgarh,High,Pending,Bifurcation,2024
+Bilaspur,Korba,1991,2001,Chhattisgarh,High,Pending,Bifurcation,2001
+Bilaspur,Janjgir-Champa,1991,2001,Chhattisgarh,High,Pending,Bifurcation,2001
+Bilaspur,Mungeli,2011,2024,Chhattisgarh,High,Pending,Bifurcation,2024
+Bilaspur,Gaurela-Pendra-Marwahi,2011,2024,Chhattisgarh,High,Pending,Bifurcation,2024
+Dakshin Bastar Dantewada,Sukma,2011,2024,Chhattisgarh,High,Pending,Bifurcation,2024
+Dantewada,Dakshin Bastar Dantewada,2001,2011,Chhattisgarh,High,Pending,Bifurcation,2011
+Dantewada,Bijapur,2001,2011,Chhattisgarh,High,Pending,Bifurcation,2011
+Dantewada,Dakshin Bastar Dantewada,2001,2011,Chhattisgarh,High,Pending,Bifurcation,2011
+Durg,Raj Nandgaon,1971,1981,Chhattisgarh,High,Pending,Bifurcation,1981
+Durg,Raj Nandgaon,1971,1981,Chhattisgarh,High,Pending,Bifurcation,1981
+Durg,Balod,2011,2024,Chhattisgarh,High,Pending,Bifurcation,2024
+Durg,Bemetara,2011,2024,Chhattisgarh,High,Pending,Bifurcation,2024
+Kanker,Uttar Bastar Kanker,2001,2011,Chhattisgarh,High,Pending,Bifurcation,2011
+Kawardha,Kabeerdham,2001,2011,Chhattisgarh,High,Pending,Bifurcation,2011
+Raigarh,Jashpur,1991,2001,Chhattisgarh,High,Pending,Bifurcation,2001
+Raipur,Mahasamund,1991,2001,Chhattisgarh,High,Pending,Bifurcation,2001
+Raipur,Dhamtari,1991,2001,Chhattisgarh,High,Pending,Bifurcation,2001
+Raipur,Baloda Bazar,2011,2024,Chhattisgarh,High,Pending,Bifurcation,2024
+Raipur,Gariyaband,2011,2024,Chhattisgarh,High,Pending,Bifurcation,2024
+Raj Nandgaon,Kawardha,1991,2001,Chhattisgarh,High,Pending,Bifurcation,2001
+Raj Nandgaon,Rajnandgaon,1991,2001,Chhattisgarh,High,Pending,Bifurcation,2001
+Surguja,Koriya,1991,2001,Chhattisgarh,High,Pending,Bifurcation,2001
+Surguja,Balrampur,2011,2024,Chhattisgarh,High,Pending,Bifurcation,2024
+Surguja,Surajpur,2011,2024,Chhattisgarh,High,Pending,Bifurcation,2024
+Ambala,Chandigarh,1961,1971,Chandigarh,High,Pending,Bifurcation,1971
+Bhagalpur,Banka,1991,2001,Bihar,High,Pending,Bifurcation,2001
+Bhojpur,Buxar,1991,2001,Bihar,High,Pending,Bifurcation,2001
+Champaran,Pashchim Champaran,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Champaran,Purba Champaran,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Darbhanga,Madhubani,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Darbhanga,Samastipur,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Gaya,Aurangabad,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Gaya,Nawada,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Gaya,Jehanabad,1981,1991,Bihar,High,Pending,Bifurcation,1991
+Gaya,Jehanabad,1981,1991,Bihar,High,Pending,Bifurcation,1991
+Jehanabad,Arwal,2001,2011,Bihar,High,Pending,Bifurcation,2011
+Monghyr,Begusarai,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Monghyr,Munger,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Monghyr,Munger,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Monghyr,Munger,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Monghyr,Munger,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Monghyr,Munger,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Munger,Khagaria,1981,1991,Bihar,High,Pending,Bifurcation,1991
+Munger,Lakhisarai,1991,2001,Bihar,High,Pending,Bifurcation,2001
+Munger,Sheikhpura,1991,2001,Bihar,High,Pending,Bifurcation,2001
+Munger,Jamui,1991,2001,Bihar,High,Pending,Bifurcation,2001
+Muzaffarpur,Sitamarhi,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Muzaffarpur,Sitamarhi,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Muzaffarpur,Vaishali,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Nawada,Nawadah,1981,1991,Bihar,High,Pending,Bifurcation,1991
+Nawadah,Nawada,1991,2001,Bihar,High,Pending,Bifurcation,2001
+Patna,Nalanda,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Purnea,Purnia,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Purnea,Purnia,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Purnea,Purnia,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Purnea,Katihar,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Purnia,Araria,1981,1991,Bihar,High,Pending,Bifurcation,1991
+Purnia,Kishanganj,1981,1991,Bihar,High,Pending,Bifurcation,1991
+Rohtas,Kaimur (Bhabua),1991,2001,Bihar,High,Pending,Bifurcation,2001
+Saharsa,Madhepura,1981,1991,Bihar,High,Pending,Bifurcation,1991
+Saharsa,Supaul,1991,2001,Bihar,High,Pending,Bifurcation,2001
+Saran,Gopalganj,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Saran,Siwan,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Shahabad,Bhojpur,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Shahabad,Bhojpur,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Shahabad,Rohtas,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Shahabad,Rohtas,1971,1981,Bihar,High,Pending,Bifurcation,1981
+Sitamarhi,Sheohar,1991,2001,Bihar,High,Pending,Bifurcation,2001
+Baksa,Tamulpur,2011,2024,Assam,High,Pending,Bifurcation,2024
+Barpeta,Baksa,2001,2011,Assam,High,Pending,Bifurcation,2011
+Barpeta,Bajali,2011,2024,Assam,High,Pending,Bifurcation,2024
+Bongaigaon,Chirang,2001,2011,Assam,High,Pending,Bifurcation,2011
+Cachar,Karimganj,1981,1991,Assam,High,Pending,Bifurcation,1991
+Cachar,Hailakandi,1981,1991,Assam,High,Pending,Bifurcation,1991
+Darrang,Sonitpur,1981,1991,Assam,High,Pending,Bifurcation,1991
+Darrang,Sonitpur,1981,1991,Assam,High,Pending,Bifurcation,1991
+Darrang,Baksa,2001,2011,Assam,High,Pending,Bifurcation,2011
+Darrang,Udalguri,2001,2011,Assam,High,Pending,Bifurcation,2011
+Darrang,Baksa,2001,2011,Assam,High,Pending,Bifurcation,2011
+Dhubri,South Salmara-Mankachar,2011,2024,Assam,High,Pending,Bifurcation,2024
+Dhuburi,Dhubri,2001,2011,Assam,High,Pending,Bifurcation,2011
+Dhuburi,Dhubri,2001,2011,Assam,High,Pending,Bifurcation,2011
+Dibrugarh,Tinsukia,1981,1991,Assam,High,Pending,Bifurcation,1991
+Goalpara,Kokrajhar,1981,1991,Assam,High,Pending,Bifurcation,1991
+Goalpara,Kokrajhar,1981,1991,Assam,High,Pending,Bifurcation,1991
+Goalpara,Dhuburi,1981,1991,Assam,High,Pending,Bifurcation,1991
+Goalpara,Bongaigaon,1981,1991,Assam,High,Pending,Bifurcation,1991
+Goalpara,Bongaigaon,1981,1991,Assam,High,Pending,Bifurcation,1991
+Goalpara,Dhuburi,1981,1991,Assam,High,Pending,Bifurcation,1991
+Jorhat,Majuli,2011,2024,Assam,High,Pending,Bifurcation,2024
+Kamrup,Barpeta,1981,1991,Assam,High,Pending,Bifurcation,1991
+Kamrup,Nalbari,1981,1991,Assam,High,Pending,Bifurcation,1991
+Kamrup,Barpeta,1981,1991,Assam,High,Pending,Bifurcation,1991
+Kamrup,Nalbari,1981,1991,Assam,High,Pending,Bifurcation,1991
+Kamrup,Barpeta,1981,1991,Assam,High,Pending,Bifurcation,1991
+Kamrup,Kamrup Metropolitan,2001,2011,Assam,High,Pending,Bifurcation,2011
+Kamrup,Baksa,2001,2011,Assam,High,Pending,Bifurcation,2011
+Karbi Anglong,West Karbi Anglong,2011,2024,Assam,High,Pending,Bifurcation,2024
+Kokrajhar,Chirang,2001,2011,Assam,High,Pending,Bifurcation,2011
+Lakhimpur,Dibrugarh,1971,1981,Assam,High,Pending,Bifurcation,1981
+Lakhimpur,Dibrugarh,1971,1981,Assam,High,Pending,Bifurcation,1981
+Lakhimpur,Dhemaji,1981,1991,Assam,High,Pending,Bifurcation,1991
+Marigaon,Morigaon,2001,2011,Assam,High,Pending,Bifurcation,2011
+Mikir Hills,Karbi Anglong,1971,1981,Assam,High,Pending,Bifurcation,1981
+Mikir Hills,Karbi Anglong,1971,1981,Assam,High,Pending,Bifurcation,1981
+Nagaon,Marigaon,1981,1991,Assam,High,Pending,Bifurcation,1991
+Nagaon,Hojai,2011,2024,Assam,High,Pending,Bifurcation,2024
+Nalbari,Baksa,2001,2011,Assam,High,Pending,Bifurcation,2011
+North Cachar Hills,Dima Hasao,2001,2011,Assam,High,Pending,Bifurcation,2011
+Nowgong,Nagaon,1971,1981,Assam,High,Pending,Bifurcation,1981
+Nowgong,Nagaon,1971,1981,Assam,High,Pending,Bifurcation,1981
+Nowgong,Nagaon,1971,1981,Assam,High,Pending,Bifurcation,1981
+Sibsagar,Jorhat,1981,1991,Assam,High,Pending,Bifurcation,1991
+Sibsagar,Golaghat,1981,1991,Assam,High,Pending,Bifurcation,1991
+Sibsagar,Jorhat,1981,1991,Assam,High,Pending,Bifurcation,1991
+Sibsagar,Sivasagar,2001,2011,Assam,High,Pending,Bifurcation,2011
+Sibsagar,Sivasagar,2001,2011,Assam,High,Pending,Bifurcation,2011
+Sivasagar,Charaideo,2011,2024,Assam,High,Pending,Bifurcation,2024
+Sonitpur,Biswanath,2011,2024,Assam,High,Pending,Bifurcation,2024
+United Mikir and North Cachar Hills,Mikir Hills,1961,1971,Assam,High,Pending,Bifurcation,1971
+United Mikir and North Cachar Hills,North Cachar Hills,1961,1971,Assam,High,Pending,Bifurcation,1971
+United Mikir and North Cachar Hills,Mikir Hills,1961,1971,Assam,High,Pending,Bifurcation,1971
+Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Abor Hills,Siang Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Balipara Frontier Tract,Kameng Frontier,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Balipara Frontier Tract,Kameng Frontier,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Balipara Frontier Tract,Kameng Frontier,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Balipara Frontier Tract,Kameng Frontier,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Balipara Frontier Tract,Subansiri Frontier,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Dibang Valley,Lower Dibang Valley,2001,2011,Arunachal Pradesh,High,Pending,Bifurcation,2011
+East Kameng,Pakke-Kesang,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+East Siang,Upper Siang,1991,2001,Arunachal Pradesh,High,Pending,Bifurcation,2001
+East Siang,Siang,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+East Siang,Lower Siang,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+East Siang,Lepa - Rada,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+Kameng,West Kameng,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Kameng,West Kameng,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Kameng,East Kameng,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Kameng,East Kameng,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Kameng Frontier,Kameng,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Kameng Frontier,Kameng,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Kameng Frontier,Kameng,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Kameng Frontier,Kameng,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Kurung Kumey,Kra Daadi,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+Lohit,Anjaw,2001,2011,Arunachal Pradesh,High,Pending,Bifurcation,2011
+Lohit,Namsai,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+Lohit Frontier Division,Lohit,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Lohit Frontier Division,Lohit,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Lohit Frontier Division,Lohit,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Lower Subansiri,Papum Pare,1991,2001,Arunachal Pradesh,High,Pending,Bifurcation,2001
+Lower Subansiri,Kurung Kumey,2001,2011,Arunachal Pradesh,High,Pending,Bifurcation,2011
+Lower Subansiri,Kurung Kumey,2001,2011,Arunachal Pradesh,High,Pending,Bifurcation,2011
+Lower Subansiri,Kamle,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+Mishmi Hills,Lohit Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Mishmi Hills,Lohit Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Mishmi Hills,Lohit Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Siang,West Siang,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Siang,West Siang,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Siang,West Siang,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Siang,West Siang,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Siang,West Siang,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Siang,West Siang,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Siang,East Siang,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Siang,East Siang,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Siang,East Siang,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Siang,East Siang,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Siang,East Siang,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Siang Frontier Division,Siang,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Subansiri,Lower Subansiri,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Subansiri,Upper Subansiri,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Subansiri,Upper Subansiri,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Subansiri,Lower Subansiri,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Subansiri,Lower Subansiri,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Subansiri,Lower Subansiri,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Subansiri,Lower Subansiri,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Subansiri Frontier,Subansiri,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Tirap,Dibang Valley,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Tirap,Dibang Valley,1971,1981,Arunachal Pradesh,High,Pending,Bifurcation,1981
+Tirap,Changlang,1981,1991,Arunachal Pradesh,High,Pending,Bifurcation,1991
+Tirap,Longding,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+Tirap Frontier Division,Tirap,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Tirap Frontier Division,Tirap,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Tirap Frontier Division,Tirap,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Tirap Frontier Division,Tirap,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Tirap Frontier Division,Tirap,1961,1971,Arunachal Pradesh,High,Pending,Bifurcation,1971
+Tirap Frontier Tract,Tirap Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Tirap Frontier Tract,Tirap Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Tirap Frontier Tract,Tirap Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Tirap Frontier Tract,Tirap Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Tirap Frontier Tract,Tirap Frontier Division,1951,1961,Arunachal Pradesh,High,Pending,Bifurcation,1961
+Upper Subansiri,Kamle,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+West Kameng,Tawang,1981,1991,Arunachal Pradesh,High,Pending,Bifurcation,1991
+West Siang,Siang,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+West Siang,Lower Siang,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+West Siang,Lepa - Rada,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+West Siang,Shi-Yomi,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+West Siang,Lower Siang,2011,2024,Arunachal Pradesh,High,Pending,Bifurcation,2024
+Anantapur,Sri Sathya Sai,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Chittoor,Annamayya,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Chittoor,Tirupati,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Cuddapah,Y.S.R.,2001,2011,Andhra Pradesh,High,Pending,Bifurcation,2011
+Cuddapah,Y.S.R.,2001,2011,Andhra Pradesh,High,Pending,Bifurcation,2011
+East Godavari,Alluri Sitharama Raju,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+East Godavari,Dr. B. R. Ambedkar Konaseema,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+East Godavari,Kakinada,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Guntur,Bapatla,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Guntur,Palnadu,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Krishna,NTR,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Kurnool,Nandyal,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Nellore,Prakasam,1971,1981,Andhra Pradesh,High,Pending,Bifurcation,1981
+Nellore,Sri Potti Sriramulu Nellore,2001,2011,Andhra Pradesh,High,Pending,Bifurcation,2011
+Nellore,Sri Potti Sriramulu Nellore,2001,2011,Andhra Pradesh,High,Pending,Bifurcation,2011
+Sri Potti Sriramulu Nellore,Tirupati,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Srikakulam,Vizianagaram,1971,1981,Andhra Pradesh,High,Pending,Bifurcation,1981
+Srikakulam,Vizianagaram,1971,1981,Andhra Pradesh,High,Pending,Bifurcation,1981
+Srikakulam,Parvathipuram Manyam,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Visakhapatnam,Vizianagaram,1971,1981,Andhra Pradesh,High,Pending,Bifurcation,1981
+Visakhapatnam,Vizianagaram,1971,1981,Andhra Pradesh,High,Pending,Bifurcation,1981
+Visakhapatnam,Vishakhapatnam,1971,1981,Andhra Pradesh,High,Pending,Bifurcation,1981
+Visakhapatnam,Vishakhapatnam,1971,1981,Andhra Pradesh,High,Pending,Bifurcation,1981
+Visakhapatnam,Vishakhapatnam,1971,1981,Andhra Pradesh,High,Pending,Bifurcation,1981
+Visakhapatnam,Alluri Sitharama Raju,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Visakhapatnam,Anakapalli,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Vishakhapatnam,Visakhapatnam,1981,1991,Andhra Pradesh,High,Pending,Bifurcation,1991
+Vishakhapatnam,Visakhapatnam,1981,1991,Andhra Pradesh,High,Pending,Bifurcation,1991
+Vishakhapatnam,Visakhapatnam,1981,1991,Andhra Pradesh,High,Pending,Bifurcation,1991
+Vizagapatnam,Visakhapatnam,1951,1961,Andhra Pradesh,High,Pending,Bifurcation,1961
+Vizagapatnam,Visakhapatnam,1951,1961,Andhra Pradesh,High,Pending,Bifurcation,1961
+Vizagapatnam,Visakhapatnam,1951,1961,Andhra Pradesh,High,Pending,Bifurcation,1961
+Vizagapatnam,Visakhapatnam,1951,1961,Andhra Pradesh,High,Pending,Bifurcation,1961
+Vizagapatnam,Visakhapatnam,1951,1961,Andhra Pradesh,High,Pending,Bifurcation,1961
+Vizianagaram,Parvathipuram Manyam,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Vizianagaram,Alluri Sitharama Raju,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+West Godavari,Eluru,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Y.S.R.,Annamayya,2011,2024,Andhra Pradesh,High,Pending,Bifurcation,2024
+Andaman,Andamans,1981,1991,Andaman and Nicobar Islands,High,Pending,Bifurcation,1991
+Andaman,Andamans,1981,1991,Andaman and Nicobar Islands,High,Pending,Bifurcation,1991
+Andaman and Nicobar Islands,Nicobar,1971,1981,Andaman and Nicobar Islands,High,Pending,Bifurcation,1981
+Andaman and Nicobar Islands,Andaman,1971,1981,Andaman and Nicobar Islands,High,Pending,Bifurcation,1981
+Andaman and Nicobar Islands,Andaman,1971,1981,Andaman and Nicobar Islands,High,Pending,Bifurcation,1981
+Andamans,North & Middle Andaman,2001,2011,Andaman and Nicobar Islands,High,Pending,Bifurcation,2011
+Andamans,South Andaman,2001,2011,Andaman and Nicobar Islands,High,Pending,Bifurcation,2011
+Nicobar,Nicobars,1981,1991,Andaman and Nicobar Islands,High,Pending,Bifurcation,1991
+Nicobars,Nicobar,2001,2011,Andaman and Nicobar Islands,High,Pending,Bifurcation,2011

@@ -1,38 +1,22 @@
+# Environment
+.venv/
+env/
+.env
 
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
 
-# Virtual Env
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# Data & Output
+output/
+# Keep data/raw and data/processed but ignore contents if large, for now we keep them tracked unless specified otherwise.
+# If data is large:
+# data/raw/*
+# !data/raw/.gitkeep
+# data/processed/*
+# !data/processed/.gitkeep
 
-
-
-# Mac
+# OS
 .DS_Store
-data/raw/satyam.xlsx
+Thumbs.db
