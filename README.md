@@ -1,76 +1,64 @@
-# District Evolution: India (1951-2024)
 
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
-![Python](https://img.shields.io/badge/python-3.9%2B-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Data Integrity](https://img.shields.io/badge/data-verified-blueviolet)
+# I-ASCAP: Indian Agri-Spatial Comparative Analytics Platform
 
-A research-grade dashboard and analytical tool to visualize and explore the administrative evolution of Indian districts from 1951 to 2024. This tool tracks the proliferation of districts, analyzes split events, and provides a "Time-Machine" map view.
+## Overview
+I-ASCAP is a research-grade geospatial platform designed to visualize and analyze the evolution of Indian agriculture at the district level from 1966 to 2024. It addresses the challenge of strictly comparing data across changing administrative boundaries through a "Harmonization" and "Apportioning" engine.
 
-## 🚀 Quick Start
+## Architecture
+- **Frontend**: Next.js 14 (App Router), React 18, Tailwind CSS, Mapbox GL JS.
+- **Backend**: Python 3.10+, FastAPI, GeoPandas, Rasterstats.
+- **Database**: PostgreSQL 15 + PostGIS (via Docker).
+- **Data Engineering**: Custom `DistrictHarmonizer` class to handle topological splits.
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/Satyamkumar2610/DistrictEvolution1951-2024.git
-    cd DistrictEvolution1951-2024
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3.  **Run the ETL Pipeline (Optional if data is pre-packaged):**
-    ```bash
-    python src/etl.py
-    ```
-    *This processes `data/raw/` and generates clean data in `data/processed/`.*
-
-4.  **Launch the Dashboard:**
-    ```bash
-    streamlit run app/main.py
-    ```
-
-## 🏗️ Project Architecture
-
+## Project Structure
 ```
 .
-├── app/                # Frontend Application
-│   └── main.py         # Streamlit Dashboard Entry Point
-├── data/               # Data Storage
-│   ├── raw/            # Immutable Source Data (Excel/CSV)
-│   ├── processed/      # Cleaned Data & Lineage JSON
-│   └── README.md       # Data Dictionary & Legend
-├── src/                # Core Logic
-│   └── etl.py          # Extract-Transform-Load Pipeline
-├── tests/              # Validations
-│   └── test_data_integrity.py # Data Integrity Unit Tests
-├── requirements.txt    # Project Dependencies
-└── README.md           # Project Documentation
+├── backend/                # Python FastAPI Backend
+│   ├── app/
+│   │   ├── core/           # Core logic (Harmonizer, Climate)
+│   │   └── main.py         # API Entry point
+│   └── Dockerfile
+├── frontend/               # Next.js Frontend
+│   ├── src/app/            # App Router pages and components
+│   └── Dockerfile
+├── data/                   # Data storage (CSVs, GeoJSONs)
+├── docker-compose.yml      # Deployment configuration
+└── requirements.txt        # Python dependencies
 ```
 
-## 🧪 Methodology
+## Setup & Running
 
-This project relies on a comprehensive dataset of gazette notifications and census records.
+### Prerequisites
+- Docker & Docker Compose
+- Node.js 18+ (for local dev)
+- Python 3.10+ (for local dev)
 
-1.  **Data Ingestion**: Raw data is ingested from `data/raw/`.
-2.  **Validation**: Every record is validated to ensure `Source District != Dest District` (preventing self-loops).
-3.  **Enrichment**:
-    - **Confidence Score**: Calculated based on the completeness of critical fields (State, Year, District Name).
-    - **High**: All fields present.
-    - **Medium**: Year estimated or partial data.
-    - **Low**: Critical context missing (State).
-4.  **Visualization**:
-    - **Network Graph**: Uses `streamlit-agraph` to show parent-child relationships.
-    - **Analysis**: Aggregates split events by state and time period.
+### Quick Start (Docker)
+Run the entire stack (DB, Backend, Frontend) with one command:
+```bash
+docker-compose up --build
+```
+- Frontend: [http://localhost:3000](http://localhost:3000)
+- Backend API Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
 
-## 🤝 Contributing
+### Local Development
 
-1.  Fork the repo.
-2.  Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4.  Push to the branch (`git push origin feature/AmazingFeature`).
-5.  Open a Pull Request.
+#### Backend
+1. Navigate to `backend/`
+2. Create venv: `python -m venv venv && source venv/bin/activate`
+3. Install deps: `pip install -r requirements.txt`
+4. Run: `uvicorn app.main:app --reload`
 
----
-*Maintained by Satyam Kumar*
+#### Frontend
+1. Navigate to `frontend/`
+2. Install deps: `npm install`
+3. Run: `npm run dev`
+
+## Key Features
+- **Dynamic Time Slider**: Toggle between 1966 and 2024.
+- **Harmonization Engine**: Automatically apportions historical data to modern district boundaries.
+- **Lineage Tracking**: View the ancestry of split districts (e.g., Adilabad -> Nirmal).
+
+## Configuration
+- **Mapbox Token**: Set `NEXT_PUBLIC_MAPBOX_TOKEN` in `frontend/.env.local`.
+- **Database**: Configure `DATABASE_URL` in `docker-compose.yml`.
