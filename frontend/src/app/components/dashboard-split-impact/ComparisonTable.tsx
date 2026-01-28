@@ -15,8 +15,12 @@ export function ComparisonTable({ data, series, splitYear, metric }: any) {
         const postData = data.filter((d: any) => d.year >= splitYear && d.year <= splitYear + 5 && d[s.id] != null)
             .map((d: any) => d[s.id]);
 
-        const avgPre = preData.length > 0 ? preData.reduce((a: number, b: number) => a + b, 0) / preData.length : null;
-        const avgPost = postData.length > 0 ? postData.reduce((a: number, b: number) => a + b, 0) / postData.length : null;
+        // Calculate Standard Deviation for Volatility
+        const stdDevPre = preData.length > 0 ? Math.sqrt(preData.reduce((acc: number, val: number) => acc + Math.pow(val - (avgPre || 0), 2), 0) / preData.length) : null;
+        const stdDevPost = postData.length > 0 ? Math.sqrt(postData.reduce((acc: number, val: number) => acc + Math.pow(val - (avgPost || 0), 2), 0) / postData.length) : null;
+
+        const cvPre = (avgPre && avgPre !== 0) ? (stdDevPre! / avgPre) * 100 : null;
+        const cvPost = (avgPost && avgPost !== 0) ? (stdDevPost! / avgPost) * 100 : null;
 
         let change = null;
         if (avgPre != null && avgPost != null && avgPre !== 0) {
@@ -27,6 +31,8 @@ export function ComparisonTable({ data, series, splitYear, metric }: any) {
             entity: s.label,
             pre: avgPre,
             post: avgPost,
+            cvPre: cvPre,
+            cvPost: cvPost,
             change: change,
             yearsPre: preData.length,
             yearsPost: postData.length
@@ -35,8 +41,9 @@ export function ComparisonTable({ data, series, splitYear, metric }: any) {
 
     return (
         <div className="mt-6 bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden">
-            <div className="px-4 py-2 bg-slate-900/80 border-b border-slate-800 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                Statistical Comparison (±5 Year Window)
+            <div className="px-4 py-2 bg-slate-900/80 border-b border-slate-800 text-xs font-bold text-slate-400 uppercase tracking-wider flex justify-between">
+                <span>Statistical Comparison (±5 Year Window)</span>
+                <span className="text-[10px] normal-case text-slate-500 hidden sm:inline">CV = Volatility (Lower is more stable)</span>
             </div>
             <table className="w-full text-xs text-left">
                 <thead>
@@ -45,6 +52,7 @@ export function ComparisonTable({ data, series, splitYear, metric }: any) {
                         <th className="px-4 py-2 text-right">Avg (Pre-{splitYear})</th>
                         <th className="px-4 py-2 text-right">Avg (Post-{splitYear})</th>
                         <th className="px-4 py-2 text-right">% Change</th>
+                        <th className="px-4 py-2 text-right">Volatility (CV)</th>
                         <th className="px-4 py-2 text-center">Confidence</th>
                     </tr>
                 </thead>
@@ -63,6 +71,14 @@ export function ComparisonTable({ data, series, splitYear, metric }: any) {
                                     <span className={`${r.change > 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono font-bold`}>
                                         {r.change > 0 ? '+' : ''}{r.change.toFixed(1)}%
                                     </span>
+                                ) : '—'}
+                            </td>
+                            <td className="px-4 py-3 text-right font-mono text-slate-400">
+                                {r.cvPre !== null && r.cvPost !== null ? (
+                                    <div className="flex flex-col items-end leading-none gap-0.5">
+                                        <span className="text-[10px]">Pre: {r.cvPre.toFixed(1)}%</span>
+                                        <span className={`${r.cvPost < r.cvPre ? 'text-emerald-500' : 'text-amber-500'}`}>Post: {r.cvPost.toFixed(1)}%</span>
+                                    </div>
                                 ) : '—'}
                             </td>
                             <td className="px-4 py-3 text-center">

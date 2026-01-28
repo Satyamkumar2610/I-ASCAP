@@ -32,6 +32,13 @@ export function ComparisonContextBanner({ event, mode, metric }: any) {
                     </div>
                 </div>
                 <div>
+                    <span className="text-slate-500 block">Fragmentation Index (AFI)</span>
+                    <span className="text-slate-200 flex items-center gap-1 font-mono">
+                        {(event.childrenNames.length / 1.0).toFixed(1)}
+                        <span className="text-slate-600 text-[10px] ml-1">splits/parent</span>
+                    </span>
+                </div>
+                <div>
                     <span className="text-slate-500 block">Methodology</span>
                     <span className="text-slate-200 flex items-center gap-1">
                         Boundary Adjusted
