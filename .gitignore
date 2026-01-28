@@ -29,3 +29,7 @@ frontend/.next/
 
 # Temp
 ~$*
+
+# Private Docs
+README_DATABASE.md
+INTERVIEW_GUIDE.md
