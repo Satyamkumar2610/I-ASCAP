@@ -21,8 +21,8 @@ This starts PostgreSQL 15 on port `5432` with user `user`, password `password`, 
 Once the database is up, run the Python ETL script to create the schema and load the data.
 
 ```bash
-# Use the python environment with pandas/sqlalchemy installed
-/opt/anaconda3/bin/python3 src/etl/load_to_postgres.py
+# When your container is running (green status), run the ETL script to load data:
+python scripts/etl/load_to_postgres.py
 ```
 
 ## 4. Check Data
