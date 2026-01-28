@@ -1,6 +1,9 @@
 
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import { Search, ChevronDown, ChevronUp, MapPin, Activity, Calendar, Share2, Download } from 'lucide-react';
+import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import bridgeData from '../../data/map_bridge.json';
 
 interface DashboardProps {
@@ -59,6 +62,22 @@ const Dashboard: React.FC<DashboardProps> = ({
         const dists = Object.keys(raw).map(k => k.split('|')[0]);
         return Array.from(new Set(dists)).sort();
     }, []);
+
+    // History State
+    const [history, setHistory] = useState<any[]>([]);
+
+    useEffect(() => {
+        if (selectedDistrict) {
+            setHistory([]);
+            // Basic fetch - in future pass ID/state if available
+            fetch(`/api/history?district=${encodeURIComponent(selectedDistrict)}&crop=${currentCrop}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (Array.isArray(data)) setHistory(data);
+                })
+                .catch(err => console.error("Failed to load history", err));
+        }
+    }, [selectedDistrict, currentCrop]);
 
     // Real Search Logic
     useEffect(() => {
@@ -157,7 +176,7 @@ const Dashboard: React.FC<DashboardProps> = ({
                     </div>
                 </div>
 
-                {/* 2. Selected District Info */}
+                {/* 2. Selected District Info & Analytics */}
                 {selectedDistrict ? (
                     <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 bg-emerald-950/20 border border-emerald-900/50 rounded-lg p-4">
                         <div className="flex justify-between items-start mb-2">
@@ -166,11 +185,35 @@ const Dashboard: React.FC<DashboardProps> = ({
                         </div>
                         <div className="text-slate-400 text-xs mb-4 font-mono">Year: {currentYear}</div>
 
-                        <div className="text-3xl font-bold text-emerald-400 font-mono tracking-tight">
+                        <div className="text-3xl font-bold text-emerald-400 font-mono tracking-tight mb-6">
                             {districtData?.value != null ? districtData.value.toLocaleString(undefined, { maximumFractionDigits: 1 }) : '—'}
+                            <span className="text-xs text-slate-500 ml-2 font-normal uppercase">{currentMetric}</span>
                         </div>
-                        <div className="text-xs text-emerald-600/80 mt-1 uppercase font-semibold">
-                            {currentMetric}
+
+                        {/* Analytics Chart */}
+                        <div className="border-t border-white/5 pt-4">
+                            <h4 className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-3 flex items-center gap-2">
+                                <Activity size={10} /> Historical Trend
+                            </h4>
+                            <div className="h-32 w-full -ml-4">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <LineChart data={history}>
+                                        <XAxis dataKey="year" stroke="#475569" fontSize={8} tickLine={false} axisLine={false} />
+                                        <Tooltip
+                                            contentStyle={{ backgroundColor: '#020617', border: '1px solid #1e293b', borderRadius: '4px', fontSize: '10px' }}
+                                            itemStyle={{ color: '#34d399' }}
+                                        />
+                                        <Line
+                                            type="monotone"
+                                            dataKey={currentMetric}
+                                            stroke="#34d399"
+                                            strokeWidth={2}
+                                            dot={false}
+                                            activeDot={{ r: 4, fill: '#fff' }}
+                                        />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
                         </div>
                     </div>
                 ) : (
