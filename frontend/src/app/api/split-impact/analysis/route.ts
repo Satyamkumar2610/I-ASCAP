@@ -11,17 +11,18 @@ export async function GET(request: Request) {
     const splitYearStr = searchParams.get('splitYear');
     const crop = (searchParams.get('crop') || 'wheat').toLowerCase();
     const metric = (searchParams.get('metric') || 'yield').toLowerCase();
+    const mode = searchParams.get('mode') || 'before_after';
 
-    if (!parentCdk || !childCdksStr || !splitYearStr) {
+    if (!parentCdk || !splitYearStr) {
         return NextResponse.json({ error: "Missing required params" }, { status: 400 });
     }
 
-    const childCdks = childCdksStr.split(',');
     const splitYear = parseInt(splitYearStr);
+    const childCdks = childCdksStr ? childCdksStr.split(',') : [];
 
     const client = await pool.connect();
     try {
-        // Fetch Area, Production, Yield for all relevant districts
+        // Fetch Data
         const variables = [`${crop}_area`, `${crop}_production`, `${crop}_yield`];
         const allCdks = [parentCdk, ...childCdks];
 
@@ -35,19 +36,25 @@ export async function GET(request: Request) {
 
         const res = await client.query(query, [allCdks, variables]);
 
-        // Pivot: Map<Year, Map<CDK, { area, prod, yield }>>
-        const dataMap = new Map<number, Map<string, { area: number, prod: number, yld: number }>>();
+        // Helper to extract value
+        const getValue = (yrMap: Map<string, any>, cdk: string) => {
+            const d = yrMap.get(cdk);
+            if (!d || d.area === 0) return null;
+            if (metric === 'area') return d.area;
+            if (metric === 'production') return d.prod;
+            if (metric === 'yield') return d.yld;
+            return null;
+        };
 
+        // Pivot Data
+        const dataMap = new Map<number, Map<string, { area: number, prod: number, yld: number }>>();
         res.rows.forEach(r => {
             const y = r.year;
-            const cdk = r.cdk;
-            const val = parseFloat(r.value);
-
             if (!dataMap.has(y)) dataMap.set(y, new Map());
             const yrMap = dataMap.get(y)!;
-            if (!yrMap.has(cdk)) yrMap.set(cdk, { area: 0, prod: 0, yld: 0 });
-
-            const rec = yrMap.get(cdk)!;
+            if (!yrMap.has(r.cdk)) yrMap.set(r.cdk, { area: 0, prod: 0, yld: 0 });
+            const rec = yrMap.get(r.cdk)!;
+            const val = parseFloat(r.value);
             if (r.variable_name.endsWith('_area')) rec.area = val;
             else if (r.variable_name.endsWith('_production')) rec.prod = val;
             else if (r.variable_name.endsWith('_yield')) rec.yld = val;
@@ -55,66 +62,81 @@ export async function GET(request: Request) {
 
         const timeline: any[] = [];
         const years = Array.from(dataMap.keys()).sort((a, b) => a - b);
+        const seriesMeta: any[] = [];
 
-        years.forEach(y => {
-            const yrMap = dataMap.get(y)!;
-            let finalVal = 0;
-            let type = 'unknown';
+        // Logic Branching
+        if (mode === 'before_after') {
+            seriesMeta.push({ id: 'value', label: 'Boundary Adjusted District', style: 'solid' });
 
-            // Phase 1: Pre-Split (Parent)
-            // Even if we are post-split, we can show Parent data if it exists (ghost parent?)
-            // Usually parent stops existing.
-            // Split Impact logic: Before = Parent. After = Sum(Children).
+            years.forEach(y => {
+                const yrMap = dataMap.get(y)!;
+                let val = null;
 
-            if (y < splitYear) {
-                type = 'parent';
-                const p = yrMap.get(parentCdk);
-                if (p) {
-                    if (metric === 'area') finalVal = p.area;
-                    else if (metric === 'production') finalVal = p.prod;
-                    else if (metric === 'yield') finalVal = p.yld;
-                }
-            } else {
-                type = 'reconstructed';
-                // Aggregate Children
-                let sumArea = 0;
-                let sumProd = 0;
-                let weightedYieldSum = 0;
-                let validChildren = 0;
-
-                childCdks.forEach(c => {
-                    const cData = yrMap.get(c);
-                    if (cData && cData.area > 0) { // Only count if Area exists
-                        sumArea += cData.area;
-                        sumProd += cData.prod;
-                        weightedYieldSum += (cData.yld * cData.area);
-                        validChildren++;
+                if (y < splitYear) {
+                    val = getValue(yrMap, parentCdk);
+                } else {
+                    // Reconstruct
+                    let sumArea = 0, sumProd = 0, wYld = 0, cnt = 0;
+                    childCdks.forEach(c => {
+                        const d = yrMap.get(c);
+                        if (d && d.area > 0) {
+                            sumArea += d.area;
+                            sumProd += d.prod;
+                            wYld += (d.yld * d.area);
+                            cnt++;
+                        }
+                    });
+                    if (sumArea > 0) {
+                        if (metric === 'area') val = sumArea;
+                        else if (metric === 'production') val = sumProd;
+                        else if (metric === 'yield') val = wYld / sumArea;
                     }
-                });
-
-                if (sumArea > 0) {
-                    if (metric === 'area') finalVal = sumArea;
-                    else if (metric === 'production') finalVal = sumProd;
-                    else if (metric === 'yield') finalVal = weightedYieldSum / sumArea;
                 }
-            }
+                if (val !== null) timeline.push({ year: y, value: val });
+            });
 
-            // Only add if we have a value
-            if (finalVal > 0) {
-                timeline.push({
-                    year: y,
-                    type: type,
-                    value: finalVal,
-                    // Pass raw components for tooltip debugging
-                    raw: { metric, splitYear }
+        } else if (mode === 'parent_child') {
+            // Parent Series
+            seriesMeta.push({ id: 'parent', label: `Parent (${parentCdk})`, style: 'solid' });
+            // Children Series
+            childCdks.forEach(c => {
+                seriesMeta.push({ id: c, label: `Child (${c})`, style: 'dashed' });
+            });
+
+            years.forEach(y => {
+                const yrMap = dataMap.get(y)!;
+                const row: any = { year: y };
+
+                // Parent Data
+                const pVal = getValue(yrMap, parentCdk);
+                if (pVal !== null) row['parent'] = pVal;
+
+                // Children Data
+                childCdks.forEach(c => {
+                    const cVal = getValue(yrMap, c);
+                    if (cVal !== null) row[c] = cVal;
                 });
+
+                // Only push if at least one value
+                if (Object.keys(row).length > 1) timeline.push(row);
+            });
+        }
+
+        // Add 'compare_children' logic? For now 'parent_child' covers it.
+        // User asked for "Parent vs Child" explicitly.
+
+        return NextResponse.json({
+            data: timeline,
+            series: seriesMeta,
+            meta: {
+                splitYear,
+                mode,
+                metric
             }
         });
 
-        return NextResponse.json(timeline);
-
     } catch (e) {
-        console.error("Analysis API Error", e);
+        console.error("API Error", e);
         return NextResponse.json({ error: "Analysis Failed" }, { status: 500 });
     } finally {
         client.release();

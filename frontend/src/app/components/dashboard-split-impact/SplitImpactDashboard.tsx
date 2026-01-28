@@ -5,7 +5,8 @@ import React, { useState, useEffect } from 'react';
 import { StateSummaryPanel } from './StateSummaryPanel';
 import { SplitDistrictTable } from './SplitDistrictTable';
 import { ComparisonView } from './ComparisonView';
-import { LayoutDashboard, Filter } from 'lucide-react';
+import { ComparisonModeSelector } from './ComparisonModeSelector';
+import { LayoutDashboard } from 'lucide-react';
 
 export function SplitImpactDashboard() {
     const [states, setStates] = useState<string[]>([]);
@@ -18,6 +19,7 @@ export function SplitImpactDashboard() {
 
     // Selection
     const [selectedEvent, setSelectedEvent] = useState<any>(null);
+    const [comparisonMode, setComparisonMode] = useState('before_after');
 
     // Initial Load of States
     useEffect(() => {
@@ -46,12 +48,11 @@ export function SplitImpactDashboard() {
                     </h1>
                     <p className="text-slate-400 mt-2 max-w-2xl text-sm leading-relaxed">
                         A scientific dashboard for evaluating agricultural performance changes across district reorganization events using harmonized v1.5 panel data.
-                        Select a state and a metric to begin the longitudinal comparison.
                     </p>
                 </div>
 
-                {/* Controls */}
-                <div className="flex gap-3 bg-slate-900 p-2 rounded-lg border border-slate-800">
+                {/* Global Controls */}
+                <div className="flex gap-3 bg-slate-900 p-2 rounded-lg border border-slate-800 shadow-xl">
                     {/* State Selector */}
                     <div className="flex flex-col gap-1">
                         <label className="text-[10px] uppercase font-bold text-slate-500 px-1">State</label>
@@ -102,7 +103,7 @@ export function SplitImpactDashboard() {
             {/* Main Content */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 {/* Table (Left) */}
-                <div className="lg:col-span-5 h-[calc(100vh-320px)] min-h-[500px]">
+                <div className="lg:col-span-5 flex flex-col gap-4">
                     <SplitDistrictTable
                         state={selectedState}
                         onSelect={setSelectedEvent}
@@ -111,21 +112,22 @@ export function SplitImpactDashboard() {
                 </div>
 
                 {/* Charts (Right) */}
-                <div className="lg:col-span-7 h-[calc(100vh-320px)] min-h-[500px]">
+                <div className="lg:col-span-7 flex flex-col h-[calc(100vh-350px)] min-h-[600px]">
                     {selectedEvent ? (
-                        <div className="h-full flex flex-col gap-6">
-                            <ComparisonView event={selectedEvent} crop={selectedCrop} metric={selectedMetric} />
-
-                            {/* Placeholder for View B/C future expansion */}
-                            <div className="flex-1 bg-slate-900/30 border border-slate-800/50 rounded-xl p-6 flex items-center justify-center text-slate-500 text-sm">
-                                Parent vs Child Detailed breakdown (View B) coming soon.
-                            </div>
-                        </div>
+                        <>
+                            <ComparisonModeSelector mode={comparisonMode} onChange={setComparisonMode} />
+                            <ComparisonView
+                                event={selectedEvent}
+                                crop={selectedCrop}
+                                metric={selectedMetric}
+                                mode={comparisonMode}
+                            />
+                        </>
                     ) : (
                         <div className="h-full border border-dashed border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-500 bg-slate-900/20">
                             <LayoutDashboard size={48} className="mb-4 opacity-50 text-emerald-500" />
                             <p className="text-lg font-medium text-slate-400">Select a split event</p>
-                            <p className="text-sm opacity-70">Choose a district from the left to analyze the boundary impact.</p>
+                            <p className="text-sm opacity-70">Choose a district from the left to begin analysis.</p>
                         </div>
                     )}
                 </div>
