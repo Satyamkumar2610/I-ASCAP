@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ChevronDown, ChevronUp, MapPin, Activity, Calendar, Share2, Download } from 'lucide-react';
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import Link from 'next/link';
 import bridgeData from '../../data/map_bridge.json';
 
 interface DashboardProps {
@@ -174,6 +175,25 @@ const Dashboard: React.FC<DashboardProps> = ({
                             </select>
                         </div>
                     </div>
+                </div>
+
+                {/* Modules */}
+                <div className="pt-2">
+                    <Link
+                        href="/dashboard/split-impact"
+                        className="flex items-center justify-between p-3 rounded-lg bg-slate-900/50 border border-slate-800 hover:border-emerald-500/50 hover:bg-slate-800 transition-all group"
+                    >
+                        <div className="flex items-center gap-3">
+                            <div className="p-1.5 bg-emerald-500/10 rounded-md group-hover:bg-emerald-500/20">
+                                <Activity size={14} className="text-emerald-500" />
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-xs font-bold text-slate-200 group-hover:text-white">Split Impact</span>
+                                <span className="text-[10px] text-slate-500 group-hover:text-slate-400">Boundary Analysis</span>
+                            </div>
+                        </div>
+                        <ChevronDown size={14} className="text-slate-600 -rotate-90 group-hover:translate-x-0.5 transition-transform" />
+                    </Link>
                 </div>
 
                 {/* 2. Selected District Info & Analytics */}
