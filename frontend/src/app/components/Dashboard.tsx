@@ -1,20 +1,51 @@
 
 import React, { useState, useEffect } from 'react';
 import { Search, ChevronDown, ChevronUp, MapPin, Activity, Calendar, Share2, Download } from 'lucide-react';
+import bridgeData from '../../data/map_bridge.json';
 
 interface DashboardProps {
     selectedDistrict: string | null;
     currentYear: number;
     onClose: () => void;
     onDistrictSelect: (district: string) => void;
-    districtData?: any; // To be typed properly later
+    // New Props for Data Control
+    currentCrop: string;
+    onCropChange: (c: string) => void;
+    currentMetric: string;
+    onMetricChange: (m: string) => void;
+    districtData?: any;
 }
+
+const CROPS = [
+    { value: 'wheat', label: 'Wheat' },
+    { value: 'rice', label: 'Rice' },
+    { value: 'maize', label: 'Maize' },
+    { value: 'sorghum', label: 'Sorghum' },
+    { value: 'pearl_millet', label: 'Pearl Millet' },
+    { value: 'finger_millet', label: 'Finger Millet' },
+    { value: 'barley', label: 'Barley' },
+    { value: 'chickpea', label: 'Chickpea' },
+    { value: 'pigeonpea', label: 'Pigeonpea' },
+    { value: 'groundnut', label: 'Groundnut' },
+    { value: 'soyabean', label: 'Soyabean' },
+    { value: 'sesamum', label: 'Sesamum' },
+    { value: 'rapeseed_and_mustard', label: 'Rapeseed & Mustard' },
+    { value: 'sunflower', label: 'Sunflower' },
+    { value: 'sugarcane', label: 'Sugarcane' },
+    { value: 'cotton', label: 'Cotton' },
+    { value: 'oilseeds', label: 'Total Oilseeds' },
+];
 
 const Dashboard: React.FC<DashboardProps> = ({
     selectedDistrict,
+    // ...
     currentYear,
     onClose,
     onDistrictSelect,
+    currentCrop,
+    onCropChange,
+    currentMetric,
+    onMetricChange,
     districtData
 }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -22,78 +53,66 @@ const Dashboard: React.FC<DashboardProps> = ({
     const [isSearching, setIsSearching] = useState(false);
     const [isExpanded, setIsExpanded] = useState(true);
 
-    // Mock search logic - replace with API call
+    // Load available districts from Import
+    const availableDistricts = React.useMemo(() => {
+        const raw = bridgeData as Record<string, string>;
+        const dists = Object.keys(raw).map(k => k.split('|')[0]);
+        return Array.from(new Set(dists)).sort();
+    }, []);
+
+    // Real Search Logic
     useEffect(() => {
         if (searchTerm.length > 2) {
             setIsSearching(true);
-            // Simulate API delay
-            const timer = setTimeout(() => {
-                // Mock results based on user input
-                const mockDistricts = [
-                    "Barddhaman", "Paschim Barddhaman", "Purba Barddhaman",
-                    "Kolkata", "Darjeeling", "Kalimpong",
-                    "Mumbai", "Thane", "Palghar",
-                    "Bangalore Urban", "Bangalore Rural"
-                ];
-
-                const filtered = mockDistricts.filter(d =>
-                    d.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-                setSearchResults(filtered);
-                setIsSearching(false);
-            }, 300);
-            return () => clearTimeout(timer);
+            const filtered = availableDistricts.filter(d =>
+                d.toLowerCase().includes(searchTerm.toLowerCase())
+            ).slice(0, 10);
+            setSearchResults(filtered);
+            setIsSearching(false);
         } else {
             setSearchResults([]);
         }
-    }, [searchTerm]);
+    }, [searchTerm, availableDistricts]);
 
+    // Full Sidebar Layout
     return (
-        <div className={`fixed top-4 left-4 z-20 flex flex-col gap-4 transition-all duration-300 ${isExpanded ? 'w-96' : 'w-12'}`}>
+        <div className="fixed top-0 left-0 h-full w-80 bg-slate-950 border-r border-slate-800 z-50 shadow-2xl flex flex-col transform transition-transform duration-300">
+            {/* Header / Branding */}
+            <div className="p-6 border-b border-slate-800 bg-slate-900/50">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent font-serif tracking-tight">
+                    I-ASCAP
+                </h1>
+                <p className="text-[10px] text-slate-500 mt-2 uppercase tracking-[0.2em] font-medium leading-relaxed">
+                    Indian Agri-Spatial<br />Comparative Analytics
+                </p>
+            </div>
 
-            {/* Search Bar Container - Always Visible (mostly) */}
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl rounded-2xl p-2 relative overflow-visible">
-                <div className="flex items-center gap-2">
-                    {!isExpanded && (
-                        <button onClick={() => setIsExpanded(true)} className="p-2 text-white hover:bg-white/10 rounded-full">
-                            <Search size={20} />
-                        </button>
-                    )}
-
-                    {isExpanded && (
-                        <>
-                            <Search className="text-gray-400 ml-2" size={20} />
-                            <input
-                                type="text"
-                                placeholder="Search districts (e.g., Barddhaman)..."
-                                className="bg-transparent border-none outline-none text-white placeholder-gray-400 w-full p-2"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                            <button
-                                onClick={() => setIsExpanded(false)}
-                                className="p-2 text-gray-400 hover:text-white"
-                            >
-                                <ChevronUp size={20} />
-                            </button>
-                        </>
-                    )}
+            {/* Search Section */}
+            <div className="p-4 border-b border-slate-800 relative z-20">
+                <div className="relative">
+                    <Search className="absolute left-3 top-2.5 text-slate-500" size={16} />
+                    <input
+                        type="text"
+                        placeholder="Search district..."
+                        className="w-full bg-slate-900 border border-slate-800 text-slate-200 rounded-md py-2 pl-9 pr-3 text-sm focus:border-emerald-500 outline-none transition-colors"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
                 </div>
-
                 {/* Search Results Dropdown */}
-                {isExpanded && searchResults.length > 0 && (
-                    <div className="absolute top-full left-0 right-0 mt-2 bg-[#0f172a]/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl max-h-64 overflow-y-auto">
+                {searchResults.length > 0 && (
+                    <div className="absolute top-full left-4 right-4 mt-2 bg-slate-900 border border-slate-700 rounded-lg shadow-xl max-h-48 overflow-y-auto z-30">
                         {searchResults.map((result, idx) => (
                             <div
                                 key={idx}
-                                className="p-3 hover:bg-blue-600/30 text-gray-200 cursor-pointer flex items-center gap-3 transition-colors border-b border-white/5 last:border-0"
+                                className="p-2.5 hover:bg-slate-800 text-slate-300 cursor-pointer flex items-center gap-2 text-sm border-b border-slate-800 last:border-0"
                                 onClick={() => {
                                     onDistrictSelect(result);
                                     setSearchTerm('');
                                     setSearchResults([]);
                                 }}
                             >
-                                <MapPin size={16} className="text-blue-400" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                 {result}
                             </div>
                         ))}
@@ -101,97 +120,71 @@ const Dashboard: React.FC<DashboardProps> = ({
                 )}
             </div>
 
-            {/* District Details Panel */}
-            {isExpanded && selectedDistrict && (
-                <div className="bg-[#0f172a]/80 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-6 text-white overflow-y-auto max-h-[70vh] animate-in slide-in-from-left-4 fade-in duration-300">
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-thin scrollbar-thumb-slate-800">
 
-                    <div className="flex justify-between items-start mb-6">
+                {/* 1. Data Controls (Always Visible) */}
+                <div className="space-y-4">
+                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                        <Activity size={12} className="text-emerald-500" /> Variables
+                    </h3>
+
+                    <div className="space-y-3">
                         <div>
-                            <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-                                {selectedDistrict}
-                            </h2>
-                            <p className="text-sm text-gray-400 flex items-center gap-1 mt-1">
-                                <Calendar size={12} /> Data for {currentYear}
-                            </p>
+                            <label className="text-[10px] text-slate-500 uppercase font-bold block mb-1">Crop Type</label>
+                            <select
+                                value={currentCrop}
+                                onChange={(e) => onCropChange(e.target.value)}
+                                className="w-full bg-slate-900 border border-slate-800 text-slate-300 rounded focus:border-emerald-500 outline-none text-sm p-2"
+                            >
+                                {CROPS.map(c => (
+                                    <option key={c.value} value={c.value}>{c.label}</option>
+                                ))}
+                            </select>
                         </div>
-                        <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors">✕</button>
-                    </div>
-
-                    {/* Quick Stats Grid */}
-                    <div className="grid grid-cols-2 gap-4 mb-8">
-                        <div className="bg-white/5 p-4 rounded-xl border border-white/5 hover:border-blue-500/30 transition-colors">
-                            <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Crop Yield</p>
-                            <p className="text-2xl font-semibold text-emerald-400">2,450 <span className="text-xs text-gray-500">kg/ha</span></p>
-                        </div>
-                        <div className="bg-white/5 p-4 rounded-xl border border-white/5 hover:border-blue-500/30 transition-colors">
-                            <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Rainfall</p>
-                            <p className="text-2xl font-semibold text-blue-400">1,200 <span className="text-xs text-gray-500">mm</span></p>
-                        </div>
-                    </div>
-
-                    {/* Lineage Section - The "Killer Feature" */}
-                    <div className="mb-8">
-                        <div className="flex items-center gap-2 mb-3">
-                            <Activity size={18} className="text-purple-400" />
-                            <h3 className="font-semibold text-lg">District Lineage</h3>
-                        </div>
-
-                        <div className="relative pl-4 border-l-2 border-dashed border-gray-700 space-y-6">
-                            {/* Parent */}
-                            <div className="relative">
-                                <div className="absolute -left-[21px] top-1 w-3 h-3 rounded-full bg-gray-600 border-2 border-[#0f172a]"></div>
-                                <p className="text-xs text-gray-500 mb-1">Parent (1960)</p>
-                                <p className="font-medium text-gray-300">Orignal {selectedDistrict}</p>
-                            </div>
-
-                            {/* Current */}
-                            <div className="relative">
-                                <div className="absolute -left-[21px] top-1 w-4 h-4 rounded-full bg-blue-500 border-4 border-[#0f172a] shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
-                                <p className="text-xs text-blue-400 mb-1 font-bold">Current ({currentYear})</p>
-                                <p className="font-bold text-white text-lg">{selectedDistrict}</p>
-                                <p className="text-xs text-gray-400 mt-1">Confirmed bifurcation in 2014</p>
-                            </div>
-
-                            {/* Children (Projected or Actual) */}
-                            <div className="relative">
-                                <div className="absolute -left-[21px] top-1 w-3 h-3 rounded-full bg-gray-600 border-2 border-[#0f172a]"></div>
-                                <p className="text-xs text-gray-500 mb-1">Child (2020)</p>
-                                <p className="font-medium text-gray-300">Sub-District A</p>
-                            </div>
+                        <div>
+                            <label className="text-[10px] text-slate-500 uppercase font-bold block mb-1">Metric</label>
+                            <select
+                                value={currentMetric}
+                                onChange={(e) => onMetricChange(e.target.value)}
+                                className="w-full bg-slate-900 border border-slate-800 text-slate-300 rounded focus:border-emerald-500 outline-none text-sm p-2"
+                            >
+                                <option value="yield">Yield (kg/ha)</option>
+                                <option value="production">Production (Tons)</option>
+                                <option value="area">Area (1000 ha)</option>
+                            </select>
                         </div>
                     </div>
-
-                    {/* Analytics Placeholder */}
-                    <div className="bg-white/5 rounded-xl p-4 h-48 flex items-center justify-center border border-white/5 mb-4 relative overflow-hidden group">
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <p className="text-gray-500 italic relative z-10">Advanced Analytics Graph Placeholder</p>
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex gap-2">
-                        <button className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
-                            <Share2 size={16} /> Share
-                        </button>
-                        <button className="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20">
-                            <Download size={16} /> Export Data
-                        </button>
-                    </div>
-
                 </div>
-            )}
 
-            {/* Floating State Filter (Bottom Left) */}
-            {!selectedDistrict && isExpanded && (
-                <div className="bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-2xl">
-                    <h3 className="text-white text-sm font-semibold mb-2">Filters</h3>
-                    <select className="w-full bg-black/20 border border-white/10 text-white rounded-lg p-2 text-sm outline-none focus:border-blue-500">
-                        <option>All States</option>
-                        <option>West Bengal</option>
-                        <option>Uttar Pradesh</option>
-                        <option>Maharashtra</option>
-                    </select>
-                </div>
-            )}
+                {/* 2. Selected District Info */}
+                {selectedDistrict ? (
+                    <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 bg-emerald-950/20 border border-emerald-900/50 rounded-lg p-4">
+                        <div className="flex justify-between items-start mb-2">
+                            <h2 className="text-lg font-bold text-white leading-none">{selectedDistrict}</h2>
+                            <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors">✕</button>
+                        </div>
+                        <div className="text-slate-400 text-xs mb-4 font-mono">Year: {currentYear}</div>
+
+                        <div className="text-3xl font-bold text-emerald-400 font-mono tracking-tight">
+                            {districtData?.value != null ? districtData.value.toLocaleString(undefined, { maximumFractionDigits: 1 }) : '—'}
+                        </div>
+                        <div className="text-xs text-emerald-600/80 mt-1 uppercase font-semibold">
+                            {currentMetric}
+                        </div>
+                    </div>
+                ) : (
+                    <div className="p-4 border border-dashed border-slate-800 rounded-lg text-center">
+                        <p className="text-xs text-slate-600 italic">Select a district on the map to view specific values.</p>
+                    </div>
+                )}
+            </div>
+
+            {/* Footer */}
+            <div className="p-4 border-t border-slate-900 text-[10px] text-slate-600 font-mono flex justify-between items-center">
+                <span>v1.5 Harmonized</span>
+                <span className="flex items-center gap-1"><span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> UDP</span>
+            </div>
         </div>
     );
 };

@@ -1,0 +1,11 @@
+ETL HEALING REPORT
+=====================
+Total Healing Actions: 6
+  - Backdated Greater Bombay from 1991 to 1951
+  - Backdated Kozhikode from 1961 to 1951
+  - Backdated Palghat from 1961 to 1951
+  - Backdated East Siang from 1981 to 1971
+  - Backdated West Siang from 1981 to 1971
+  - Backdated Vishakhapatnam from 1981 to 1961
+
+Validation Status: PASSED (With Auto-Correction)

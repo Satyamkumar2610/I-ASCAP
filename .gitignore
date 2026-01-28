@@ -20,3 +20,12 @@ output/
 # OS
 .DS_Store
 Thumbs.db
+
+# Node
+node_modules/
+.next/
+frontend/node_modules/
+frontend/.next/
+
+# Temp
+~$*

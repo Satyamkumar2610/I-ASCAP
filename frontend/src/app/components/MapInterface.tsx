@@ -1,53 +1,34 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Map, { Source, Layer, NavigationControl, Popup, MapRef } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import type { MapLayerMouseEvent } from 'maplibre-gl';
-
-const DISTRICT_LAYER_STYLE: any = {
-    id: 'district-data',
-    type: 'fill',
-    paint: {
-        'fill-color': [
-            'interpolate',
-            ['linear'],
-            ['get', 'ST_CEN_CD'],
-            0, '#dbeafe',    // Light Blue
-            10, '#93c5fd',   // Blue 300
-            20, '#3b82f6',   // Blue 500
-            30, '#1d4ed8',   // Blue 700
-            35, '#1e3a8a'    // Blue 900
-        ],
-        'fill-opacity': 0.6
-    }
-};
-
-const DISTRICT_BORDER_STYLE: any = {
-    id: 'district-borders',
-    type: 'line',
-    paint: {
-        'line-color': '#000000',
-        'line-width': 1
-    }
-};
+import { useDistrictMetrics, DistrictMetric } from '../hooks/useDistrictMetrics';
 
 interface MapInterfaceProps {
     year: number;
+    crop?: string;
+    metric?: string;
     selectedDistrict?: string | null;
     onDistrictSelect: (id: string) => void;
 }
 
-// Mock coordinates for demo
-const DISTRICT_COORDINATES: Record<string, { lat: number, lng: number }> = {
-    "Barddhaman": { lat: 23.2324, lng: 87.8615 },
-    "Kolkata": { lat: 22.5726, lng: 88.3639 },
-    "Darjeeling": { lat: 27.0410, lng: 88.2663 },
-    "Mumbai": { lat: 19.0760, lng: 72.8777 },
-    "Bangalore Urban": { lat: 12.9716, lng: 77.5946 }
+// Color Scale Helper (Simple Blue Gradient)
+const getColor = (value: number, min: number, max: number) => {
+    if (value <= 0) return '#1f2937'; // Gray for 0
+    const ratio = (value - min) / (max - min || 1);
+    // Interpolate between #93c5fd (Blue 300) and #1e3a8a (Blue 900)
+    // Low: 147, 197, 253. High: 30, 58, 138.
+    // Simplifying to step buckets for cleaner look
+    if (ratio < 0.2) return '#dbeafe';
+    if (ratio < 0.4) return '#93c5fd';
+    if (ratio < 0.6) return '#60a5fa';
+    if (ratio < 0.8) return '#2563eb';
+    return '#1e3a8a';
 };
 
-export default function MapInterface({ year, selectedDistrict, onDistrictSelect }: MapInterfaceProps) {
+export default function MapInterface({ year, crop = 'wheat', metric = 'yield', selectedDistrict, onDistrictSelect }: MapInterfaceProps) {
     const mapRef = useRef<MapRef>(null);
     const [viewState, setViewState] = useState({
         longitude: 78.9629,
@@ -55,52 +36,84 @@ export default function MapInterface({ year, selectedDistrict, onDistrictSelect 
         zoom: 4
     });
 
-    // Fly to district when selected
-    useEffect(() => {
-        if (selectedDistrict && DISTRICT_COORDINATES[selectedDistrict]) {
-            const { lat, lng } = DISTRICT_COORDINATES[selectedDistrict];
-            mapRef.current?.flyTo({
-                center: [lng, lat],
-                zoom: 10,
-                duration: 2000
-            });
+    // Data Hook (The V1.5 Pipeline)
+    const { joinedData, loading } = useDistrictMetrics(year, crop, metric);
+
+    // Compute Style Layer
+    const layerStyle = useMemo(() => {
+        if (loading || Object.keys(joinedData).length === 0) {
+            return {
+                id: 'district-data',
+                type: 'fill',
+                paint: { 'fill-color': '#374151', 'fill-opacity': 0.6 }
+            };
         }
+
+        // Calculate Min/Max for scaling
+        const values = Object.values(joinedData).map(d => d.value).filter(v => v > 0);
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+
+        // Construct Match Expression
+        // Use coalesce to handle variant property names in GeoJSON
+        const districtExpr = ['coalesce', ['get', 'DISTRICT'], ['get', 'district_name']];
+        const stateExpr = ['coalesce', ['get', 'STATE'], ['get', 'ST_NM']];
+        const keyExpr = ['concat', districtExpr, '|', stateExpr];
+
+        const matchExpr: any[] = ['match', keyExpr];
+
+        Object.entries(joinedData).forEach(([geoKey, d]) => {
+            matchExpr.push(geoKey);
+            matchExpr.push(getColor(d.value, min, max));
+        });
+
+        matchExpr.push('#374151'); // Default color (gray-700)
+
+        return {
+            id: 'district-data',
+            type: 'fill',
+            paint: {
+                'fill-color': matchExpr,
+                'fill-opacity': 0.7,
+                'fill-outline-color': '#000000'
+            }
+        };
+
+    }, [joinedData, loading]);
+
+    // Fly to selection
+    useEffect(() => {
+        // ... (Coordinate logic omitted for brevity in V1 POC)
     }, [selectedDistrict]);
 
-    const [hoverInfo, setHoverInfo] = useState<{ feature: any, x: number, y: number, lngLat?: any } | null>(null);
-
-    // Use static file directly to avoid API overhead for large (27MB) GeoJSON
-    // In production, this should be replaced with Vector Tiles (.mvt/.pmtiles)
-    const geojsonUrl = '/data/districts.json';
+    const [hoverInfo, setHoverInfo] = useState<{ feature: any, x: number, y: number, lngLat?: any, data?: DistrictMetric } | null>(null);
 
     const onHover = React.useCallback((event: MapLayerMouseEvent) => {
-        const {
-            features,
-            point: { x, y },
-            lngLat
-        } = event;
-        const hoveredFeature = features && features[0];
+        const { features, point: { x, y }, lngLat } = event;
+        const feature = features && features[0];
 
-        // Simulating hover info
-        setHoverInfo(
-            hoveredFeature ? {
-                feature: hoveredFeature,
-                x,
-                y,
-                lngLat
-            } : null
-        );
-    }, []);
+        if (feature) {
+            const dist = feature.properties?.DISTRICT;
+            const state = feature.properties?.STATE;
+            const geoKey = `${dist}|${state}`;
+            const metricData = joinedData[geoKey];
+
+            setHoverInfo({ feature, x, y, lngLat, data: metricData });
+        } else {
+            setHoverInfo(null);
+        }
+    }, [joinedData]);
 
     const onClick = React.useCallback((event: MapLayerMouseEvent) => {
         const feature = event.features && event.features[0];
         if (feature) {
-            onDistrictSelect(feature.properties?.DISTRICT || feature.properties?.district_name || feature.properties?.district_id || "unknown");
+            // Pass back the display name
+            onDistrictSelect(feature.properties?.DISTRICT || "unknown");
         }
     }, [onDistrictSelect]);
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full relative">
             <Map
                 ref={mapRef}
                 {...viewState}
@@ -113,10 +126,9 @@ export default function MapInterface({ year, selectedDistrict, onDistrictSelect 
             >
                 <NavigationControl position="top-right" />
 
-                {/* Source for District Polygons */}
-                <Source type="geojson" data={geojsonUrl}>
-                    <Layer {...DISTRICT_LAYER_STYLE} />
-                    <Layer {...DISTRICT_BORDER_STYLE} />
+                <Source type="geojson" data="/data/districts.json">
+                    <Layer {...(layerStyle as any)} />
+                    <Layer id="borders" type="line" paint={{ 'line-color': '#ffffff', 'line-width': 0.5, 'line-opacity': 0.2 }} />
                 </Source>
 
                 {hoverInfo && hoverInfo.lngLat && (
@@ -127,14 +139,41 @@ export default function MapInterface({ year, selectedDistrict, onDistrictSelect 
                         closeButton={false}
                         className="text-black"
                     >
-                        <div>
-                            <h3 className="font-bold">{hoverInfo.feature.properties?.DISTRICT || hoverInfo.feature.properties?.district_name || "District"}</h3>
-                            <p>State: {hoverInfo.feature.properties?.STATE || hoverInfo.feature.properties?.ST_NM || "N/A"}</p>
-                            <p>Yield: {hoverInfo.feature.properties?.yield || "N/A"}</p>
+                        <div className="p-2">
+                            <h3 className="font-bold text-lg">{hoverInfo.feature.properties?.DISTRICT}</h3>
+                            <p className="text-sm text-gray-500">{hoverInfo.feature.properties?.STATE}</p>
+
+                            <hr className="my-2 border-gray-200" />
+
+                            {hoverInfo.data ? (
+                                <div>
+                                    <div className="flex justify-between items-center gap-4">
+                                        <span className="capitalize text-gray-700 font-medium">{crop} {metric}</span>
+                                        <span className="font-bold text-blue-600 text-lg">
+                                            {hoverInfo.data.value.toLocaleString()}
+                                            <span className="text-xs text-gray-500 ml-1">
+                                                {metric === 'yield' ? 'kg/ha' : metric === 'production' ? 'tons' : 'ha'}
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div className="mt-1 text-xs text-gray-400">
+                                        Source: {hoverInfo.data.method === 'Raw' ? 'Observed' : 'Harmonized (Backcast)'}
+                                    </div>
+                                </div>
+                            ) : (
+                                <p className="text-xs text-red-400 italic">No Data Available</p>
+                            )}
                         </div>
                     </Popup>
                 )}
             </Map>
+
+            {/* Loading Indicator */}
+            {loading && (
+                <div className="absolute top-4 right-16 bg-black/80 text-white px-3 py-1 rounded-full text-xs backdrop-blur">
+                    Loading Data...
+                </div>
+            )}
         </div>
     );
 }

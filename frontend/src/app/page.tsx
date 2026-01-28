@@ -1,13 +1,17 @@
+
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import TimeSlider from './components/TimeSlider';
 import Dashboard from './components/Dashboard';
+import { useDistrictMetrics } from './hooks/useDistrictMetrics';
 
 // Define props interface
 interface MapInterfaceProps {
   year: number;
+  crop?: string;
+  metric?: string;
   selectedDistrict?: string | null;
   onDistrictSelect: (id: string) => void;
 }
@@ -19,45 +23,64 @@ const MapInterface = dynamic<MapInterfaceProps>(() => import('./components/MapIn
 });
 
 export default function Home() {
-  const [year, setYear] = useState(2024);
+  const [year, setYear] = useState(2001); // Default to 2001 (Data rich)
   const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
+  const [crop, setCrop] = useState('wheat');
+  const [metric, setMetric] = useState('yield');
+
+  // Fetch Data for Dashboard Lookup
+  const { joinedData } = useDistrictMetrics(year, crop, metric);
+
+  // Lookup selected district value
+  // joinedData keys are "District|State"
+  const selectedData = selectedDistrict ? (() => {
+    // Exact match?
+    if (joinedData[selectedDistrict]) return joinedData[selectedDistrict];
+    // Lookup by Name prefix (e.g. "Kanpur Nagar" matches "Kanpur Nagar|Uttar Pradesh")
+    const key = Object.keys(joinedData).find(k => k.startsWith(selectedDistrict + '|'));
+    return key ? joinedData[key] : null;
+  })() : null;
 
   return (
-    <main className="flex h-screen w-screen flex-col overflow-hidden bg-black">
-      {/* Header / Title Overlay */}
-      <div className="absolute top-0 left-0 z-10 w-full p-6 bg-gradient-to-b from-black/80 to-transparent pointer-events-none flex justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 drop-shadow-lg tracking-tight">
-            I-ASCAP
-          </h1>
-          <p className="text-gray-300 text-xs md:text-sm font-light tracking-widest uppercase opacity-80 mt-1">
-            Indian Agri-Spatial Comparative Analytics Platform
-          </p>
-        </div>
-      </div>
+    <main className="flex h-screen w-screen bg-slate-950 overflow-hidden">
 
-      {/* Main Map Area */}
-      <div className="absolute inset-0 z-0">
-        <MapInterface year={year} selectedDistrict={selectedDistrict} onDistrictSelect={setSelectedDistrict} />
-      </div>
-
-      {/* Dashboard & Left Panel */}
+      {/* Sidebar / Dashboard */}
       <Dashboard
         selectedDistrict={selectedDistrict}
         currentYear={year}
         onClose={() => setSelectedDistrict(null)}
         onDistrictSelect={setSelectedDistrict}
+        currentCrop={crop}
+        onCropChange={setCrop}
+        currentMetric={metric}
+        onMetricChange={setMetric}
+        districtData={selectedData}
       />
 
-      {/* Time Slider Control */}
-      <div className="absolute bottom-0 w-full z-10 pointer-events-none">
-        <div className="pointer-events-auto pb-8 pt-4 bg-gradient-to-t from-black/90 to-transparent">
-          <TimeSlider
-            minYear={1966}
-            maxYear={2024}
-            currentYear={year}
-            onChange={setYear}
+      {/* Main Content Area (Offset by Sidebar Width) */}
+      <div className="flex-1 flex flex-col h-full relative ml-80">
+
+        {/* Map Area */}
+        <div className="flex-1 relative z-0">
+          <MapInterface
+            year={year}
+            crop={crop}
+            metric={metric}
+            selectedDistrict={selectedDistrict}
+            onDistrictSelect={setSelectedDistrict}
           />
+        </div>
+
+        {/* Time Slider Control */}
+        <div className="absolute bottom-6 left-10 right-10 z-10 pointer-events-none flex justify-center">
+          <div className="pointer-events-auto w-full max-w-4xl bg-slate-900/80 backdrop-blur-md border border-slate-700 p-4 rounded-xl shadow-2xl">
+            <TimeSlider
+              minYear={1990}
+              maxYear={2017}
+              currentYear={year}
+              onChange={setYear}
+            />
+          </div>
         </div>
       </div>
     </main>
