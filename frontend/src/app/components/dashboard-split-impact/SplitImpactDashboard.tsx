@@ -21,6 +21,16 @@ export function SplitImpactDashboard() {
     const [selectedEvent, setSelectedEvent] = useState<any>(null);
     const [comparisonMode, setComparisonMode] = useState('before_after');
 
+    // Helper: Smart Default for Crop based on Region
+    const getDefaultCrop = (stateName: string) => {
+        const s = stateName.toLowerCase();
+        // Wheat Belt
+        const wheatStates = ['punjab', 'haryana', 'uttar pradesh', 'madhya pradesh', 'rajasthan', 'bihar', 'gujarat', 'himachal', 'uttarakhand'];
+        if (wheatStates.some(w => s.includes(w))) return 'wheat';
+        // Default to Rice (South, East, Islands)
+        return 'rice';
+    };
+
     // Initial Load of States
     useEffect(() => {
         fetch('/api/split-impact/summary')
@@ -29,7 +39,12 @@ export function SplitImpactDashboard() {
                 if (d.states && Array.isArray(d.states)) {
                     setStates(d.states);
                     setAllStats(d.stats);
-                    if (d.states.length > 0) setSelectedState(d.states[0]);
+                    if (d.states.length > 0) {
+                        const firstState = d.states[0];
+                        setSelectedState(firstState);
+                        // Set smart default crop
+                        setSelectedCrop(getDefaultCrop(firstState));
+                    }
                 }
             })
             .catch(e => console.error("Summary Fetch Fail", e));
@@ -58,7 +73,13 @@ export function SplitImpactDashboard() {
                         <label className="text-[10px] uppercase font-bold text-slate-500 px-1">State</label>
                         <select
                             value={selectedState}
-                            onChange={e => { setSelectedState(e.target.value); setSelectedEvent(null); }}
+                            onChange={e => {
+                                const s = e.target.value;
+                                setSelectedState(s);
+                                // Auto-switch crop to prominent one for the state
+                                setSelectedCrop(getDefaultCrop(s));
+                                setSelectedEvent(null);
+                            }}
                             className="bg-slate-950 border border-slate-700 rounded px-3 py-1.5 text-sm focus:ring-1 focus:ring-emerald-500 outline-none text-white min-w-[150px]"
                         >
                             {states.map(s => <option key={s} value={s}>{s}</option>)}
@@ -78,6 +99,8 @@ export function SplitImpactDashboard() {
                             <option value="maize">Maize</option>
                             <option value="sorghum">Sorghum</option>
                             <option value="groundnut">Groundnut</option>
+                            <option value="cotton">Cotton</option>
+                            <option value="sugarcane">Sugarcane</option>
                         </select>
                     </div>
 
@@ -103,7 +126,7 @@ export function SplitImpactDashboard() {
             {/* Main Content */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 {/* Table (Left) */}
-                <div className="lg:col-span-5 flex flex-col gap-4">
+                <div className="lg:col-span-5 flex flex-col gap-4 max-h-[calc(100vh-350px)] overflow-hidden">
                     <SplitDistrictTable
                         state={selectedState}
                         onSelect={setSelectedEvent}

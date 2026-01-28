@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { ComparisonChart } from './ComparisonChart';
 import { ComparisonTable } from './ComparisonTable';
 import { ComparisonContextBanner } from './ComparisonContextBanner';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Sprout } from 'lucide-react';
 
 interface ComparisonViewProps {
     event: any;
@@ -37,33 +37,54 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
 
     if (!event) return null;
 
+    const hasData = payload && payload.data && payload.data.length > 0;
+
     return (
         <div className="bg-slate-900/50 p-6 rounded-xl border border-slate-800 animate-in fade-in duration-500 flex flex-col h-full">
             {/* Context Banner */}
             <ComparisonContextBanner event={event} mode={mode} metric={metric} />
 
-            <div className="flex-1 flex flex-col min-h-0">
-                {loading || !payload ? (
-                    <div className="flex-1 flex items-center justify-center text-slate-500">
-                        {loading ? 'Analyzing Data...' : 'No Data Available'}
+            <div className="flex-1 flex flex-col min-h-0 bg-slate-950/30 rounded-lg border border-slate-800/50 relative">
+                {loading ? (
+                    <div className="absolute inset-0 flex items-center justify-center text-slate-500 bg-slate-900/50 z-10">
+                        Analyzing Data...
+                    </div>
+                ) : !hasData ? (
+                    <div className="flex-1 flex flex-col items-center justify-center text-slate-500 p-8 text-center">
+                        <Sprout size={48} className="text-slate-700 mb-4" />
+                        <h3 className="text-lg font-medium text-slate-400">No Data Available</h3>
+                        <p className="max-w-xs mt-2 text-sm opacity-70">
+                            We found no records for <span className="text-emerald-500 font-bold">{crop.toUpperCase()}</span> in
+                            <span className="text-white font-semibold"> {event.parentName}</span>.
+                        </p>
+                        <p className="mt-4 text-xs bg-slate-900 px-3 py-2 rounded text-slate-400 border border-slate-800">
+                            Suggestion: Try selecting <strong>Rice</strong>, <strong>Maize</strong>, or another crop common to this region.
+                        </p>
                     </div>
                 ) : (
                     <>
-                        <ComparisonChart
-                            data={payload.data}
-                            series={payload.series}
-                            splitYear={event.splitYear}
-                            metric={metric}
-                        />
+                        {/* Chart Area */}
+                        <div className="flex-1 min-h-[300px] p-4">
+                            <ComparisonChart
+                                data={payload.data}
+                                series={payload.series}
+                                splitYear={event.splitYear}
+                                metric={metric}
+                            />
+                        </div>
 
-                        <ComparisonTable
-                            data={payload.data}
-                            series={payload.series}
-                            splitYear={event.splitYear}
-                            metric={metric}
-                        />
+                        {/* Stats Table */}
+                        <div className="px-4 pb-4">
+                            <ComparisonTable
+                                data={payload.data}
+                                series={payload.series}
+                                splitYear={event.splitYear}
+                                metric={metric}
+                            />
+                        </div>
 
-                        <div className="mt-4 flex items-start gap-2 text-[10px] text-slate-500 leading-tight">
+                        {/* Footer Note */}
+                        <div className="px-4 pb-2 flex items-start gap-2 text-[10px] text-slate-500 leading-tight">
                             <AlertCircle size={12} className="mt-0.5 shrink-0" />
                             <p>
                                 Data provided by harmonized v1.5 panel.
