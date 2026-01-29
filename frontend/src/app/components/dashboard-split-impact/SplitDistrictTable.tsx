@@ -34,15 +34,15 @@ export function SplitDistrictTable({ state, onSelect, selectedEventId }: SplitDi
     if (splits.length === 0) return <div className="text-slate-500 text-sm text-center py-10">No recorded district splits found for {state}.</div>;
 
     return (
-        <div className="bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-800 bg-slate-900/80">
+        <div className="bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden flex flex-col h-full">
+            <div className="px-6 py-4 border-b border-slate-800 bg-slate-900/80 shrink-0">
                 <h3 className="font-semibold text-slate-200 flex items-center gap-2">
                     <GitFork size={18} className="text-emerald-500" />
                     Split Events ({splits.length})
                 </h3>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="overflow-auto flex-1 custom-scrollbar">
                 <table className="w-full text-left text-sm">
                     <thead>
                         <tr className="border-b border-slate-800 text-slate-400 bg-slate-950/30">

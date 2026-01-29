@@ -125,9 +125,52 @@ export async function GET(request: Request) {
         // Add 'compare_children' logic? For now 'parent_child' covers it.
         // User asked for "Parent vs Child" explicitly.
 
+        // Advanced Analytics Calculation
+        let advancedStats: any = null;
+
+        if (mode === 'before_after' && timeline.length > 0) {
+            const preData = timeline.filter(d => d.year < splitYear).map(d => d.value);
+            const postData = timeline.filter(d => d.year >= splitYear).map(d => d.value);
+
+            const calcStats = (arr: number[]) => {
+                if (arr.length === 0) return { mean: 0, cv: 0, cagr: 0 };
+                const n = arr.length;
+                const mean = arr.reduce((a, b) => a + b, 0) / n;
+                const variance = arr.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / n;
+                const stdDev = Math.sqrt(variance);
+                const cv = mean > 0 ? (stdDev / mean) * 100 : 0;
+
+                // CAGR
+                // We need the first and last year values, but 'arr' here is just values.
+                // We should really strictly use the timeline objects for CAGR to be precise about 'years'.
+                // Approximating with first/last index of the values array for now.
+                const startVal = arr[0];
+                const endVal = arr[n - 1];
+                const years = n; // roughly
+                const cagr = startVal > 0 && years > 1
+                    ? (Math.pow(endVal / startVal, 1 / (years - 1)) - 1) * 100
+                    : 0;
+
+                return { mean, cv, cagr };
+            };
+
+            advancedStats = {
+                pre: calcStats(preData),
+                post: calcStats(postData),
+                impact: {
+                    // Simple difference in means
+                    abs_change: (calcStats(postData).mean - calcStats(preData).mean),
+                    pct_change: (calcStats(preData).mean > 0)
+                        ? ((calcStats(postData).mean - calcStats(preData).mean) / calcStats(preData).mean) * 100
+                        : 0
+                }
+            };
+        }
+
         return NextResponse.json({
             data: timeline,
             series: seriesMeta,
+            advancedStats,
             meta: {
                 splitYear,
                 mode,

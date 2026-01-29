@@ -33,10 +33,21 @@ export async function GET(request: Request) {
         events.forEach(e => {
             // Check if parent belongs to requested State
             const pInfo = meta.get(e.parent_cdk);
+            let relevant = false;
 
-            // Loose matching: If pInfo exists, check state.
-            // If pInfo missing? (Maybe pre-1951 parent). We skip.
+            // 1. Check Parent State
             if (pInfo && pInfo.state === state) {
+                relevant = true;
+            }
+            // 2. Check Child State (if parent didn't match)
+            else {
+                const cInfo = meta.get(e.child_cdk);
+                if (cInfo && cInfo.state === state) {
+                    relevant = true;
+                }
+            }
+
+            if (relevant) {
                 const key = `${e.parent_cdk}|${e.event_year}`;
                 if (!groups.has(key)) {
                     groups.set(key, {
@@ -62,6 +73,7 @@ export async function GET(request: Request) {
                 splitYear: g.year,
                 childrenCdks: childrenList,
                 childrenNames: cNames,
+                childrenCount: childrenList.length,
                 // Placeholder: Real coverage check requires querying metrics table count
                 coverage: 'High'
             };

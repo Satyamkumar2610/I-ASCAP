@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { ComparisonChart } from './ComparisonChart';
 import { ComparisonTable } from './ComparisonTable';
 import { ComparisonContextBanner } from './ComparisonContextBanner';
+import { AdvancedStatsPanel } from './AdvancedStatsPanel';
 import { AlertCircle, Sprout } from 'lucide-react';
 
 interface ComparisonViewProps {
@@ -63,6 +64,13 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
                     </div>
                 ) : (
                     <>
+                        {/* Advanced Stats */}
+                        {payload.advancedStats && (
+                            <div className="px-4 pt-4">
+                                <AdvancedStatsPanel stats={payload.advancedStats} metric={metric} />
+                            </div>
+                        )}
+
                         {/* Chart Area */}
                         <div className="flex-1 min-h-[300px] p-4">
                             <ComparisonChart

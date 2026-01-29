@@ -1,4 +1,3 @@
-
 "use client";
 import React from 'react';
 
@@ -15,12 +14,15 @@ export function ComparisonTable({ data, series, splitYear, metric }: any) {
         const postData = data.filter((d: any) => d.year >= splitYear && d.year <= splitYear + 5 && d[s.id] != null)
             .map((d: any) => d[s.id]);
 
+        const avgPre = preData.length > 0 ? preData.reduce((a: number, b: number) => a + b, 0) / preData.length : null;
+        const avgPost = postData.length > 0 ? postData.reduce((a: number, b: number) => a + b, 0) / postData.length : null;
+
         // Calculate Standard Deviation for Volatility
         const stdDevPre = preData.length > 0 ? Math.sqrt(preData.reduce((acc: number, val: number) => acc + Math.pow(val - (avgPre || 0), 2), 0) / preData.length) : null;
         const stdDevPost = postData.length > 0 ? Math.sqrt(postData.reduce((acc: number, val: number) => acc + Math.pow(val - (avgPost || 0), 2), 0) / postData.length) : null;
 
-        const cvPre = (avgPre && avgPre !== 0) ? (stdDevPre! / avgPre) * 100 : null;
-        const cvPost = (avgPost && avgPost !== 0) ? (stdDevPost! / avgPost) * 100 : null;
+        const cvPre = (avgPre && avgPre !== 0 && stdDevPre !== null) ? (stdDevPre / avgPre) * 100 : null;
+        const cvPost = (avgPost && avgPost !== 0 && stdDevPost !== null) ? (stdDevPost / avgPost) * 100 : null;
 
         let change = null;
         if (avgPre != null && avgPost != null && avgPre !== 0) {
