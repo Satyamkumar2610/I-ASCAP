@@ -107,15 +107,18 @@ export async function GET(request: Request) {
                 const yrMap = dataMap.get(y)!;
                 const row: any = { year: y };
 
-                // Parent Data
+                // Parent Data - show for all years (parent existed before split)
                 const pVal = getValue(yrMap, parentCdk);
                 if (pVal !== null) row['parent'] = pVal;
 
-                // Children Data
-                childCdks.forEach(c => {
-                    const cVal = getValue(yrMap, c);
-                    if (cVal !== null) row[c] = cVal;
-                });
+                // Children Data - ONLY show for years >= splitYear
+                // Children did not exist before the split, any pre-split data is invalid backcast
+                if (y >= splitYear) {
+                    childCdks.forEach(c => {
+                        const cVal = getValue(yrMap, c);
+                        if (cVal !== null) row[c] = cVal;
+                    });
+                }
 
                 // Only push if at least one value
                 if (Object.keys(row).length > 1) timeline.push(row);

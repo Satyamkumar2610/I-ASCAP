@@ -1,0 +1,64 @@
+"""
+Metrics API: Endpoints for agricultural/domain metrics.
+"""
+from typing import Optional, List
+
+from fastapi import APIRouter, Depends, Query
+import asyncpg
+
+from app.api.deps import get_db
+from app.repositories.district_repo import DistrictRepository
+from app.repositories.metric_repo import MetricRepository
+from app.schemas.metric import AggregatedMetric, MetricTimeSeries
+
+router = APIRouter()
+
+
+@router.get("", response_model=List[AggregatedMetric])
+async def get_metrics(
+    year: int = Query(2020, description="Year to fetch"),
+    crop: str = Query("wheat", description="Crop name"),
+    metric: str = Query("yield", description="Metric type: yield, area, production"),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """
+    Get metric values for all districts for a given year/crop/metric.
+    
+    Used for choropleth map visualization.
+    """
+    repo = MetricRepository(db)
+    variable = f"{crop.lower()}_{metric.lower()}"
+    return await repo.get_by_year_and_variable(year, variable)
+
+
+@router.get("/history")
+async def get_time_series(
+    cdk: Optional[str] = Query(None, description="District CDK"),
+    district: Optional[str] = Query(None, description="District name (if CDK not provided)"),
+    state: Optional[str] = Query(None, description="State name (helps resolve district name)"),
+    crop: str = Query("wheat", description="Crop name"),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """
+    Get time series for a single district.
+    
+    Returns {year, area, production, yield} for the specified crop.
+    """
+    district_repo = DistrictRepository(db)
+    metric_repo = MetricRepository(db)
+    
+    target_cdk = cdk
+    
+    # Resolve CDK from name if needed
+    if not target_cdk and district:
+        results = await district_repo.search(district, state)
+        if results:
+            target_cdk = results[0].cdk
+    
+    if not target_cdk:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail="District not found")
+    
+    timeline = await metric_repo.get_time_series_pivoted(target_cdk, crop.lower())
+    
+    return timeline
