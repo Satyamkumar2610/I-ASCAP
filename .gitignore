@@ -33,3 +33,7 @@ frontend/.next/
 # Private Docs
 README_DATABASE.md
 INTERVIEW_GUIDE.md
+
+# Raw ingestion data (too large for git)
+data/raw/
+data/quarantine/
