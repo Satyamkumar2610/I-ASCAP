@@ -27,4 +27,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import httpx; httpx.get('http://localhost:8000/health').raise_for_status()"
 
 # Run with uvicorn - use shell form for $PORT variable expansion
-CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
+# Run with gunicorn
+CMD ["gunicorn", "-c", "gunicorn_conf.py", "app.main:app"]
