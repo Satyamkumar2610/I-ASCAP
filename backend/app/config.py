@@ -26,6 +26,14 @@ class Settings(BaseSettings):
     db_pool_min_size: int = 2
     db_pool_max_size: int = 10
     db_command_timeout: int = 60
+    db_query_timeout: int = 30  # Statement timeout in seconds
+    
+    # Logging
+    log_level: str = "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    
+    # Rate Limiting
+    rate_limit_per_minute: int = 60
+    rate_limit_burst: int = 20
     
     @property
     def requires_ssl(self) -> bool:
