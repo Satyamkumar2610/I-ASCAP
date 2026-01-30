@@ -65,9 +65,9 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
                 ) : (
                     <>
                         {/* Advanced Stats */}
-                        {payload.advancedStats && (
+                        {(payload.advancedStats || payload.advanced_stats) && (
                             <div className="px-4 pt-4">
-                                <AdvancedStatsPanel stats={payload.advancedStats} metric={metric} />
+                                <AdvancedStatsPanel stats={payload.advancedStats || payload.advanced_stats} metric={metric} />
                             </div>
                         )}
 
