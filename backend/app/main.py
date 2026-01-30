@@ -97,6 +97,11 @@ app.add_middleware(
 from app.rate_limit import RateLimitMiddleware
 app.add_middleware(RateLimitMiddleware)
 
+# Security Middleware
+from app.security import SecurityHeadersMiddleware, HTTPSRedirectMiddleware
+app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(HTTPSRedirectMiddleware)
+
 
 # -----------------------------------------------------------------------------
 # Request Logging Middleware
