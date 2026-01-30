@@ -11,7 +11,7 @@ interface ComparisonModeSelectorProps {
 export function ComparisonModeSelector({ mode, onChange }: ComparisonModeSelectorProps) {
     const modes = [
         { id: 'before_after', label: 'Before vs After (Reconstructed)', icon: History },
-        { id: 'parent_child', label: 'Parent vs Child', icon: Network },
+        { id: 'entity_comparison', label: 'Parent vs Child', icon: Network },
         // { id: 'child_parent', label: 'Child vs Parent', icon: GitCompare }, // Merged conceptually
         // { id: 'district_disrict', label: 'District vs District', icon: Map }, // Future
     ];
