@@ -4,12 +4,7 @@ Impact Analyzer: Compare pre/post split periods with statistical rigor.
 from typing import List, Optional
 from dataclasses import dataclass
 
-from app.analytics.statistics import (
-    calculate_mean,
-    calculate_variance,
-    calculate_cv,
-    calculate_cagr_from_series,
-)
+from app.analytics.statistics import get_analyzer
 from app.analytics.harmonizer import HarmonizedPoint
 from app.schemas.common import PeriodStats, ImpactStats, UncertaintyBounds
 
@@ -41,6 +36,7 @@ class ImpactAnalyzer:
             min_observations: Minimum data points required per period
         """
         self.min_observations = min_observations
+        self.stats = get_analyzer()
     
     def analyze(
         self,
@@ -113,11 +109,16 @@ class ImpactAnalyzer:
                 n_observations=0,
             )
         
+        # Calculate CAGR
+        cagr = 0
+        if len(values) >= 2 and values[0] > 0 and values[-1] > 0:
+            cagr = self.stats.cagr(values[0], values[-1], len(values) - 1)
+        
         return PeriodStats(
-            mean=calculate_mean(values),
-            variance=calculate_variance(values),
-            cv=calculate_cv(values),
-            cagr=calculate_cagr_from_series(values),
+            mean=self.stats.mean(values),
+            variance=self.stats.variance(values),
+            cv=self.stats.coefficient_of_variation(values),
+            cagr=cagr,
             n_observations=len(values),
         )
     
