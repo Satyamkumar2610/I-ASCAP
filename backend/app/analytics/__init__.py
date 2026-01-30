@@ -1,20 +1,31 @@
-"""Analytics Engine package - Pure deterministic mathematical logic."""
+"""
+Analytics module for I-ASCAP.
+Provides statistical analysis, time series, and comparison tools.
+"""
+
 from app.analytics.statistics import (
-    calculate_mean,
-    calculate_variance,
-    calculate_cv,
-    calculate_cagr,
+    StatisticalAnalyzer,
+    TrendDirection,
+    TrendResult,
+    StatisticResult,
+    get_analyzer,
 )
-from app.analytics.harmonizer import BoundaryHarmonizer
-from app.analytics.impact_analyzer import ImpactAnalyzer
-from app.analytics.uncertainty import calculate_bootstrap_ci
+
+from app.analytics.timeseries import (
+    TimeSeriesAnalyzer,
+    TimeSeriesAnalysis,
+    AnomalyResult,
+    get_time_series_analyzer,
+)
 
 __all__ = [
-    "calculate_mean",
-    "calculate_variance", 
-    "calculate_cv",
-    "calculate_cagr",
-    "BoundaryHarmonizer",
-    "ImpactAnalyzer",
-    "calculate_bootstrap_ci",
+    "StatisticalAnalyzer",
+    "TrendDirection",
+    "TrendResult",
+    "StatisticResult",
+    "get_analyzer",
+    "TimeSeriesAnalyzer",
+    "TimeSeriesAnalysis",
+    "AnomalyResult",
+    "get_time_series_analyzer",
 ]
