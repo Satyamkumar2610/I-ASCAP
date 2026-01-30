@@ -1,64 +1,88 @@
-
 # I-ASCAP: Indian Agri-Spatial Comparative Analytics Platform
 
+[![Deploy Status](https://img.shields.io/badge/Deployment-Live-success)](https://i-ascap.onrender.com)
+[![Documentation](https://img.shields.io/badge/API-Docs-blue)](https://i-ascap.onrender.com/docs)
+
 ## Overview
-I-ASCAP is a research-grade geospatial platform designed to visualize and analyze the evolution of Indian agriculture at the district level from 1966 to 2024. It addresses the challenge of strictly comparing data across changing administrative boundaries through a "Harmonization" and "Apportioning" engine.
+I-ASCAP is a research-grade geospatial platform designed to visualize and analyze the evolution of Indian agriculture at the district level from 1966 to 2024. It solves the "Modifiable Areal Unit Problem" (MAUP) through a lineage-aware harmonization engine that tracks district splits and merges over 60 years.
 
-## Architecture
-- **Frontend**: Next.js 14 (App Router), React 18, Tailwind CSS, Mapbox GL JS.
-- **Backend**: Python 3.10+, FastAPI, GeoPandas, Rasterstats.
-- **Database**: PostgreSQL 15 + PostGIS (via Docker).
-- **Data Engineering**: Custom `DistrictHarmonizer` class to handle topological splits.
+## Key Features
 
-## Project Structure
-```
-.
-├── backend/                # Python FastAPI Backend
-│   ├── app/
-│   │   ├── core/           # Core logic (Harmonizer, Climate)
-│   │   └── main.py         # API Entry point
-│   └── Dockerfile
-├── frontend/               # Next.js Frontend
-│   ├── src/app/            # App Router pages and components
-│   └── Dockerfile
-├── data/                   # Data storage (CSVs, GeoJSONs)
-├── docker-compose.yml      # Deployment configuration
-└── requirements.txt        # Python dependencies
-```
+### 🔬 Research-Grade Analytics
+- **Lineage Tracking**: Full ancestry visualization for split districts (e.g., Adilabad → Nirmal).
+- **Statistical Analysis**: CAGR, YoY growth, linear trends, and inflection point detection.
+- **Uncertainty Propagation**: Confidence intervals for all apportioned data.
+- **Period Comparison**: Statistical t-tests comparing pre- and post-split performance.
 
-## Setup & Running
+### 🛡️ Robust Architecture
+- **Reliability**: Custom error handling, rate limiting (60 req/min), and health checks.
+- **Performance**: In-memory LRU caching, database connection pooling, and Gunicorn/Uvicorn workers.
+- **Security**: OWASP security headers, input sanitization, and SQL injection protection.
+
+### 📊 Data & Export
+- **Formats**: Export to CSV, JSON, and GeoJSON.
+- **Validation**: Strict schema validation for years, crops, and CDKs.
+- **Coverage**: 928+ districts, 60+ years, 1M+ agricultural records.
+
+## Technology Stack
+
+- **Frontend**: Next.js 14, React 18, Tailwind CSS, Mapbox GL JS (Optimized for Vercel).
+- **Backend**: FastAPI, Python 3.11, AsyncPG, NumPy/SciPy (Optimized for Render).
+- **Database**: PostgreSQL 15 + PostGIS (Neon Serverless).
+- **Infrastructure**: Docker, Gunicorn, GitHub Actions.
+
+## Setup & Development
 
 ### Prerequisites
 - Docker & Docker Compose
-- Node.js 18+ (for local dev)
-- Python 3.10+ (for local dev)
+- Python 3.11+
+- Node.js 18+
 
 ### Quick Start (Docker)
-Run the entire stack (DB, Backend, Frontend) with one command:
 ```bash
 docker-compose up --build
 ```
 - Frontend: [http://localhost:3000](http://localhost:3000)
-- Backend API Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+- Backend: [http://localhost:8000](http://localhost:8000)
+- API Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ### Local Development
 
 #### Backend
-1. Navigate to `backend/`
-2. Create venv: `python -m venv venv && source venv/bin/activate`
-3. Install deps: `pip install -r requirements.txt`
-4. Run: `uvicorn app.main:app --reload`
+```bash
+cd backend
+python -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
 
 #### Frontend
-1. Navigate to `frontend/`
-2. Install deps: `npm install`
-3. Run: `npm run dev`
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-## Key Features
-- **Dynamic Time Slider**: Toggle between 1966 and 2024.
-- **Harmonization Engine**: Automatically apportions historical data to modern district boundaries.
-- **Lineage Tracking**: View the ancestry of split districts (e.g., Adilabad -> Nirmal).
+### Testing
+Run the comprehensive test suite:
+```bash
+cd backend
+pytest tests/ -v
+```
 
-## Configuration
-- **Mapbox Token**: Set `NEXT_PUBLIC_MAPBOX_TOKEN` in `frontend/.env.local`.
-- **Database**: Configure `DATABASE_URL` in `docker-compose.yml`.
+## API Documentation
+Interactive Swagger documentation is available at `/docs`.
+Key endpoints:
+- `GET /metrics`: Retrieve agricultural data
+- `GET /lineage`: Trace district evolution
+- `GET /analysis`: Perform split impact analysis
+- `GET /export`: Download datasets
+- `GET /stats`: System health and metrics
+
+## Deployment
+- **Backend**: Deployed on Render using `gunicorn` with Uvicorn workers.
+- **Frontend**: Deployed on Vercel with edge caching.
+- **Database**: Hosted on Neon with connection pooling.
+
+## License
+MIT License. Data sources: ICRISAT, Directorate of Economics and Statistics.
