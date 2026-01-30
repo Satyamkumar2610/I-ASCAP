@@ -2,6 +2,8 @@
 Async Database Connection Pool using asyncpg.
 """
 import asyncpg
+import ssl
+import os
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator, Optional
 
@@ -17,12 +19,25 @@ async def init_db_pool() -> asyncpg.Pool:
     """Initialize the database connection pool."""
     global _pool
     if _pool is None:
-        _pool = await asyncpg.create_pool(
-            dsn=settings.database_url,
-            min_size=settings.db_pool_min_size,
-            max_size=settings.db_pool_max_size,
-            command_timeout=settings.db_command_timeout,
-        )
+        # Use DATABASE_URL from environment if available
+        dsn = os.environ.get("DATABASE_URL", settings.database_url)
+        
+        # Prepare connection kwargs
+        pool_kwargs = {
+            "dsn": dsn,
+            "min_size": settings.db_pool_min_size,
+            "max_size": settings.db_pool_max_size,
+            "command_timeout": settings.db_command_timeout,
+        }
+        
+        # Add SSL for Neon/cloud databases
+        if "neon.tech" in dsn or "sslmode=require" in dsn:
+            ssl_context = ssl.create_default_context()
+            ssl_context.check_hostname = False
+            ssl_context.verify_mode = ssl.CERT_NONE
+            pool_kwargs["ssl"] = ssl_context
+        
+        _pool = await asyncpg.create_pool(**pool_kwargs)
     return _pool
 
 

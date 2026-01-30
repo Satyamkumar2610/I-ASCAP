@@ -23,9 +23,14 @@ class Settings(BaseSettings):
     
     # Database
     database_url: str = "postgresql://user:password@localhost:5432/i_ascap"
-    db_pool_min_size: int = 5
-    db_pool_max_size: int = 20
+    db_pool_min_size: int = 2
+    db_pool_max_size: int = 10
     db_command_timeout: int = 60
+    
+    @property
+    def requires_ssl(self) -> bool:
+        """Check if database URL requires SSL (e.g., Neon, Supabase)."""
+        return "neon.tech" in self.database_url or "sslmode=require" in self.database_url
     
     # CORS
     cors_origins: List[str] = [
