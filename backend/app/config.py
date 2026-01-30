@@ -28,7 +28,12 @@ class Settings(BaseSettings):
     db_command_timeout: int = 60
     
     # CORS
-    cors_origins: List[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    cors_origins: List[str] = [
+        "http://localhost:3000", 
+        "http://127.0.0.1:3000",
+        "https://i-ascap.vercel.app",
+        "https://i-ascap-git-main-satyamsinhjis-projects.vercel.app",
+    ]
     
     # Data Paths
     data_dir: str = "/app/data"
