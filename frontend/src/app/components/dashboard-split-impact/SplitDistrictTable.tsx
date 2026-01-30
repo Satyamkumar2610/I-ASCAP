@@ -20,8 +20,22 @@ export function SplitDistrictTable({ state, onSelect, selectedEventId }: SplitDi
         fetch(`/api/split-impact/districts?state=${encodeURIComponent(state)}`)
             .then(r => r.json())
             .then(d => {
-                if (Array.isArray(d)) setSplits(d);
-                else setSplits([]);
+                if (Array.isArray(d)) {
+                    // Transform snake_case API response to camelCase
+                    const transformed = d.map(item => ({
+                        id: item.id,
+                        parentCdk: item.parent_cdk || item.parentCdk,
+                        parentName: item.parent_name || item.parentName,
+                        splitYear: item.split_year || item.splitYear,
+                        childrenCdks: item.children_cdks || item.childrenCdks || [],
+                        childrenNames: item.children_names || item.childrenNames || [],
+                        childrenCount: item.children_count || item.childrenCount || 0,
+                        coverage: item.coverage,
+                    }));
+                    setSplits(transformed);
+                } else {
+                    setSplits([]);
+                }
                 setLoading(false);
             })
             .catch(() => setLoading(false));

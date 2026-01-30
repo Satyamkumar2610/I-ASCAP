@@ -50,15 +50,23 @@ class LineageRepository:
             reader = csv.DictReader(f)
             for row in reader:
                 try:
+                    # CSV columns: parent_cdk, child_cdk, event_year, event_type, confidence_score, weight_type
+                    parent = row.get("parent_cdk", "")
+                    child = row.get("child_cdk", "")
+                    year = int(row.get("event_year", 0))
+                    
+                    if not parent or not child or year == 0:
+                        continue
+                    
                     event = LineageEvent(
-                        id=f"{row.get('parent', '')}_{row.get('year', '')}",
-                        parent_cdk=row.get("parent", ""),
-                        children_cdks=[row.get("child", "")],
+                        id=f"{parent}_{year}",
+                        parent_cdk=parent,
+                        children_cdks=[child],
                         children_names=[],
                         children_count=1,
-                        event_year=int(row.get("year", 0)),
+                        event_year=year,
                         event_type=EventType.SPLIT,
-                        confidence=float(row.get("conf", 1.0)),
+                        confidence=float(row.get("confidence_score", 1.0)),
                     )
                     events.append(event)
                 except (ValueError, KeyError):
