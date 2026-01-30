@@ -93,6 +93,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Rate Limiting Middleware
+from app.rate_limit import RateLimitMiddleware
+app.add_middleware(RateLimitMiddleware)
+
 
 # -----------------------------------------------------------------------------
 # Request Logging Middleware
@@ -219,7 +223,36 @@ async def root():
         "docs": "/docs",
         "redoc": "/redoc",
         "health": "/health",
+        "stats": "/stats",
         "api": "/api/v1",
+    }
+
+
+@app.get("/stats", tags=["System"], summary="System statistics")
+async def get_system_stats():
+    """
+    Get system statistics including cache and rate limiter metrics.
+    
+    Useful for monitoring application health and performance.
+    """
+    from app.cache import get_cache
+    from app.rate_limit import get_rate_limiter
+    from app.database import get_pool
+    
+    cache = get_cache()
+    rate_limiter = get_rate_limiter()
+    pool = await get_pool()
+    
+    return {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "cache": cache.stats(),
+        "rate_limiter": rate_limiter.stats(),
+        "database": {
+            "pool_size": pool.get_size() if pool else 0,
+            "pool_free": pool.get_idle_size() if pool else 0,
+            "min_size": settings.db_pool_min_size,
+            "max_size": settings.db_pool_max_size,
+        },
     }
 
 
