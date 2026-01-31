@@ -57,8 +57,8 @@ export default function Home() {
         districtData={selectedData}
       />
 
-      {/* Main Content Area (Offset by Sidebar Width) */}
-      <div className="flex-1 flex flex-col h-full relative ml-80">
+      {/* Main Content Area (Offset by Sidebar Width on desktop only) */}
+      <div className="flex-1 flex flex-col h-full relative md:ml-80">
 
         {/* Map Area */}
         <div className="flex-1 relative z-0">
@@ -72,8 +72,8 @@ export default function Home() {
         </div>
 
         {/* Time Slider Control */}
-        <div className="absolute bottom-6 left-10 right-10 z-10 pointer-events-none flex justify-center">
-          <div className="pointer-events-auto w-full max-w-4xl bg-slate-900/80 backdrop-blur-md border border-slate-700 p-4 rounded-xl shadow-2xl">
+        <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-10 md:right-10 z-10 pointer-events-none flex justify-center">
+          <div className="pointer-events-auto w-full max-w-4xl bg-slate-900/80 backdrop-blur-md border border-slate-700 p-3 md:p-4 rounded-xl shadow-2xl">
             <TimeSlider
               minYear={1990}
               maxYear={2017}
