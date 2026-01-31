@@ -18,6 +18,9 @@ interface DashboardProps {
     currentMetric: string;
     onMetricChange: (m: string) => void;
     districtData?: any;
+    // Rainfall Layer
+    showRainfallLayer?: boolean;
+    onRainfallLayerToggle?: () => void;
 }
 
 const CROPS = [
@@ -50,7 +53,9 @@ const Dashboard: React.FC<DashboardProps> = ({
     onCropChange,
     currentMetric,
     onMetricChange,
-    districtData
+    districtData,
+    showRainfallLayer,
+    onRainfallLayerToggle,
 }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState<string[]>([]);
@@ -225,18 +230,26 @@ const Dashboard: React.FC<DashboardProps> = ({
                         </Link>
 
                         {/* Rainfall Layer Toggle */}
-                        <div className="flex items-center justify-between p-3 rounded-lg bg-slate-900/50 border border-slate-800">
+                        <button
+                            onClick={onRainfallLayerToggle}
+                            className={`w-full flex items-center justify-between p-3 rounded-lg border transition-all ${showRainfallLayer
+                                    ? 'bg-blue-500/20 border-blue-500/50'
+                                    : 'bg-slate-900/50 border-slate-800 hover:border-blue-500/30'
+                                }`}
+                        >
                             <div className="flex items-center gap-3">
-                                <div className="p-1.5 bg-blue-500/10 rounded-md">
+                                <div className={`p-1.5 rounded-md ${showRainfallLayer ? 'bg-blue-500/30' : 'bg-blue-500/10'}`}>
                                     <Calendar size={14} className="text-blue-400" />
                                 </div>
-                                <div className="flex flex-col">
+                                <div className="flex flex-col text-left">
                                     <span className="text-xs font-bold text-slate-200">Rainfall Layer</span>
                                     <span className="text-[10px] text-slate-500">IMD Normals 1951-2000</span>
                                 </div>
                             </div>
-                            <span className="text-[10px] text-slate-600 font-mono">Coming Soon</span>
-                        </div>
+                            <div className={`w-10 h-5 rounded-full transition-colors ${showRainfallLayer ? 'bg-blue-500' : 'bg-slate-700'}`}>
+                                <div className={`w-4 h-4 rounded-full bg-white shadow-sm transform transition-transform mt-0.5 ${showRainfallLayer ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                            </div>
+                        </button>
                     </div>
 
                     {/* 2. Selected District Info & Analytics */}

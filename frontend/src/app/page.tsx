@@ -14,6 +14,7 @@ interface MapInterfaceProps {
   metric?: string;
   selectedDistrict?: string | null;
   onDistrictSelect: (id: string) => void;
+  showRainfallLayer?: boolean;
 }
 
 // Dynamically import MapInterface to avoid SSR issues with Mapbox/Window
@@ -27,6 +28,7 @@ export default function Home() {
   const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
   const [crop, setCrop] = useState('wheat');
   const [metric, setMetric] = useState('yield');
+  const [showRainfallLayer, setShowRainfallLayer] = useState(false);
 
   // Fetch Data for Dashboard Lookup
   const { joinedData } = useDistrictMetrics(year, crop, metric);
@@ -55,6 +57,8 @@ export default function Home() {
         currentMetric={metric}
         onMetricChange={setMetric}
         districtData={selectedData}
+        showRainfallLayer={showRainfallLayer}
+        onRainfallLayerToggle={() => setShowRainfallLayer(!showRainfallLayer)}
       />
 
       {/* Main Content Area (Offset by Sidebar Width on desktop only) */}
@@ -68,6 +72,7 @@ export default function Home() {
             metric={metric}
             selectedDistrict={selectedDistrict}
             onDistrictSelect={setSelectedDistrict}
+            showRainfallLayer={showRainfallLayer}
           />
         </div>
 

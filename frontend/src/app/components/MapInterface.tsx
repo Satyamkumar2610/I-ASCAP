@@ -12,23 +12,32 @@ interface MapInterfaceProps {
     metric?: string;
     selectedDistrict?: string | null;
     onDistrictSelect: (id: string) => void;
+    showRainfallLayer?: boolean;
 }
 
-// Color Scale Helper (Simple Blue Gradient)
-const getColor = (value: number, min: number, max: number) => {
+// Color Scale Helper (Agricultural Metric - Green Gradient)
+const getAgriColor = (value: number, min: number, max: number) => {
     if (value <= 0) return '#1f2937'; // Gray for 0
     const ratio = (value - min) / (max - min || 1);
-    // Interpolate between #93c5fd (Blue 300) and #1e3a8a (Blue 900)
-    // Low: 147, 197, 253. High: 30, 58, 138.
-    // Simplifying to step buckets for cleaner look
-    if (ratio < 0.2) return '#dbeafe';
-    if (ratio < 0.4) return '#93c5fd';
-    if (ratio < 0.6) return '#60a5fa';
-    if (ratio < 0.8) return '#2563eb';
-    return '#1e3a8a';
+    if (ratio < 0.2) return '#d1fae5'; // emerald-100
+    if (ratio < 0.4) return '#6ee7b7'; // emerald-300
+    if (ratio < 0.6) return '#10b981'; // emerald-500
+    if (ratio < 0.8) return '#059669'; // emerald-600
+    return '#047857'; // emerald-700
 };
 
-export default function MapInterface({ year, crop = 'wheat', metric = 'yield', selectedDistrict, onDistrictSelect }: MapInterfaceProps) {
+// Color Scale Helper (Rainfall - Blue Gradient)
+const getRainfallColor = (value: number, min: number, max: number) => {
+    if (value <= 0) return '#1f2937'; // Gray for 0
+    const ratio = (value - min) / (max - min || 1);
+    if (ratio < 0.2) return '#dbeafe'; // blue-100
+    if (ratio < 0.4) return '#93c5fd'; // blue-300
+    if (ratio < 0.6) return '#60a5fa'; // blue-400
+    if (ratio < 0.8) return '#2563eb'; // blue-600
+    return '#1e40af'; // blue-800
+};
+
+export default function MapInterface({ year, crop = 'wheat', metric = 'yield', selectedDistrict, onDistrictSelect, showRainfallLayer = false }: MapInterfaceProps) {
     const mapRef = useRef<MapRef>(null);
     const [viewState, setViewState] = useState({
         longitude: 78.9629,
@@ -62,9 +71,12 @@ export default function MapInterface({ year, crop = 'wheat', metric = 'yield', s
 
         const matchExpr: any[] = ['match', keyExpr];
 
+        // Use different color schemes based on layer mode
+        const colorFn = showRainfallLayer ? getRainfallColor : getAgriColor;
+
         Object.entries(joinedData).forEach(([geoKey, d]) => {
             matchExpr.push(geoKey);
-            matchExpr.push(getColor(d.value, min, max));
+            matchExpr.push(colorFn(d.value, min, max));
         });
 
         matchExpr.push('#374151'); // Default color (gray-700)
@@ -79,7 +91,7 @@ export default function MapInterface({ year, crop = 'wheat', metric = 'yield', s
             }
         };
 
-    }, [joinedData, loading]);
+    }, [joinedData, loading, showRainfallLayer]);
 
     // Fly to selection
     useEffect(() => {
