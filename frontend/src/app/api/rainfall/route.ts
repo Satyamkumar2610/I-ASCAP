@@ -7,16 +7,35 @@ const BACKEND_URL = process.env.NODE_ENV === 'production'
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const state = searchParams.get('state');
+    const district = searchParams.get('district');
 
     try {
-        // Build query params
+        // If both state and district provided, get specific district
+        if (state && district) {
+            const params = new URLSearchParams({ state, district });
+            const url = `${BACKEND_URL}/api/v1/climate/rainfall?${params.toString()}`;
+
+            const response = await fetch(url, {
+                headers: { 'Accept': 'application/json' },
+                next: { revalidate: 3600 },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Backend returned ${response.status}`);
+            }
+
+            const data = await response.json();
+            return NextResponse.json(data);
+        }
+
+        // Otherwise, get all rainfall data (for map)
         const params = new URLSearchParams();
         if (state) params.append('state', state);
 
         const url = `${BACKEND_URL}/api/v1/climate/rainfall/all${params.toString() ? '?' + params.toString() : ''}`;
         const response = await fetch(url, {
             headers: { 'Accept': 'application/json' },
-            next: { revalidate: 3600 }, // Cache for 1 hour
+            next: { revalidate: 3600 },
         });
 
         if (!response.ok) {

@@ -62,6 +62,8 @@ const Dashboard: React.FC<DashboardProps> = ({
     const [isSearching, setIsSearching] = useState(false);
     const [isExpanded, setIsExpanded] = useState(true);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const [rainfallData, setRainfallData] = useState<any>(null);
+    const [rainfallLoading, setRainfallLoading] = useState(false);
 
     // Load available districts from Import
     const availableDistricts = React.useMemo(() => {
@@ -85,6 +87,28 @@ const Dashboard: React.FC<DashboardProps> = ({
                 .catch(err => console.error("Failed to load history", err));
         }
     }, [selectedDistrict, currentCrop]);
+
+    // Fetch rainfall data when district is selected and rainfall layer is on
+    useEffect(() => {
+        if (selectedDistrict && showRainfallLayer) {
+            setRainfallLoading(true);
+            setRainfallData(null);
+            // Try to get state from bridge data
+            const raw = bridgeData as Record<string, string>;
+            const stateKey = Object.keys(raw).find(k => k.startsWith(selectedDistrict + '|'));
+            const stateName = stateKey ? stateKey.split('|')[1] : '';
+
+            fetch(`/api/rainfall?state=${encodeURIComponent(stateName)}&district=${encodeURIComponent(selectedDistrict)}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (!data.error) setRainfallData(data);
+                })
+                .catch(err => console.error('Failed to load rainfall', err))
+                .finally(() => setRainfallLoading(false));
+        } else {
+            setRainfallData(null);
+        }
+    }, [selectedDistrict, showRainfallLayer]);
 
     // Real Search Logic
     useEffect(() => {
@@ -233,8 +257,8 @@ const Dashboard: React.FC<DashboardProps> = ({
                         <button
                             onClick={onRainfallLayerToggle}
                             className={`w-full flex items-center justify-between p-3 rounded-lg border transition-all ${showRainfallLayer
-                                    ? 'bg-blue-500/20 border-blue-500/50'
-                                    : 'bg-slate-900/50 border-slate-800 hover:border-blue-500/30'
+                                ? 'bg-blue-500/20 border-blue-500/50'
+                                : 'bg-slate-900/50 border-slate-800 hover:border-blue-500/30'
                                 }`}
                         >
                             <div className="flex items-center gap-3">
@@ -261,10 +285,45 @@ const Dashboard: React.FC<DashboardProps> = ({
                             </div>
                             <div className="text-slate-400 text-xs mb-4 font-mono">Year: {currentYear}</div>
 
-                            <div className="text-3xl font-bold text-emerald-400 font-mono tracking-tight mb-6">
+                            <div className="text-3xl font-bold text-emerald-400 font-mono tracking-tight mb-4">
                                 {districtData?.value != null ? districtData.value.toLocaleString(undefined, { maximumFractionDigits: 1 }) : '—'}
                                 <span className="text-xs text-slate-500 ml-2 font-normal uppercase">{currentMetric}</span>
                             </div>
+
+                            {/* Rainfall Data Panel */}
+                            {showRainfallLayer && (
+                                <div className="bg-blue-950/30 border border-blue-900/50 rounded-lg p-3 mb-4">
+                                    <h4 className="text-[10px] text-blue-400 uppercase tracking-widest font-bold mb-2 flex items-center gap-2">
+                                        <Calendar size={10} /> Rainfall (IMD 1951-2000)
+                                    </h4>
+                                    {rainfallLoading ? (
+                                        <div className="text-xs text-slate-500">Loading...</div>
+                                    ) : rainfallData ? (
+                                        <div className="space-y-2">
+                                            <div className="flex justify-between">
+                                                <span className="text-xs text-slate-400">Annual</span>
+                                                <span className="text-sm font-bold text-blue-400">{rainfallData.annual} mm</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                                <span className="text-xs text-slate-400">Monsoon (JJAS)</span>
+                                                <span className="text-sm font-mono text-blue-300">{rainfallData.seasonal?.monsoon_jjas} mm</span>
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-blue-900/30">
+                                                <div className="text-center">
+                                                    <div className="text-[10px] text-slate-500">Pre-Monsoon</div>
+                                                    <div className="text-xs text-blue-300">{rainfallData.seasonal?.pre_monsoon_mam} mm</div>
+                                                </div>
+                                                <div className="text-center">
+                                                    <div className="text-[10px] text-slate-500">Post-Monsoon</div>
+                                                    <div className="text-xs text-blue-300">{rainfallData.seasonal?.post_monsoon_ond} mm</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="text-xs text-slate-500 italic">No rainfall data</div>
+                                    )}
+                                </div>
+                            )}
 
                             {/* Analytics Chart */}
                             <div className="border-t border-white/5 pt-4">
