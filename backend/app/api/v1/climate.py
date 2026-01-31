@@ -1,65 +1,48 @@
 """
 Climate API endpoints: Rainfall data and correlation analysis.
+Data served from database (populated via ETL from IMD API).
 """
 
-from typing import Optional, List, Dict, Any
-from dataclasses import asdict
+from typing import Optional
 
-from fastapi import APIRouter, Depends, Query, BackgroundTasks
+from fastapi import APIRouter, Depends, Query
 import asyncpg
 
 from app.api.deps import get_db
-from app.services.rainfall_service import get_rainfall_service, RainfallData
+from app.services.rainfall_service import (
+    get_rainfall_by_district,
+    get_all_rainfall,
+    get_state_rainfall_stats,
+    get_rainfall_count,
+)
 from app.analytics import get_analyzer
 
 router = APIRouter()
 
 
-@router.get("/rainfall/load")
-async def load_rainfall_data(
-    background_tasks: BackgroundTasks,
-    force: bool = Query(False, description="Force reload even if cache is valid"),
-):
-    """
-    Load/refresh rainfall data from IMD API.
-    
-    This is called automatically on first request, but can be triggered manually.
-    """
-    service = get_rainfall_service()
-    
-    # Load in background if not forced
-    if force:
-        count = await service.load_data(force=True)
-        return {"status": "loaded", "record_count": count}
-    else:
-        background_tasks.add_task(service.load_data)
-        return {"status": "loading", "message": "Data loading in background"}
-
-
 @router.get("/rainfall/stats")
-async def get_rainfall_stats():
-    """Get cache statistics for rainfall data."""
-    service = get_rainfall_service()
-    return service.get_cache_stats()
+async def get_rainfall_db_stats(db: asyncpg.Connection = Depends(get_db)):
+    """Get database statistics for rainfall data."""
+    count = await get_rainfall_count(db)
+    return {
+        "source": "IMD 1951-2000 Normals (database)",
+        "record_count": count,
+        "status": "loaded" if count > 0 else "empty",
+    }
 
 
 @router.get("/rainfall")
 async def get_rainfall(
     state: str = Query(..., description="State name"),
     district: str = Query(..., description="District name"),
+    db: asyncpg.Connection = Depends(get_db),
 ):
     """
     Get rainfall normals for a specific district.
     
     Returns monthly, seasonal, and annual rainfall data (1951-2000 normals).
     """
-    service = get_rainfall_service()
-    
-    # Ensure data is loaded
-    if not service._cache:
-        await service.load_data()
-    
-    rainfall = service.get_rainfall(state, district)
+    rainfall = await get_rainfall_by_district(db, state, district)
     
     if not rainfall:
         return {"error": f"No rainfall data found for {district}, {state}"}
@@ -93,34 +76,25 @@ async def get_rainfall(
 
 
 @router.get("/rainfall/all")
-async def get_all_rainfall(
+async def get_all_rainfall_data(
     state: Optional[str] = Query(None, description="Filter by state"),
+    db: asyncpg.Connection = Depends(get_db),
 ):
     """
     Get rainfall data for all districts (or filter by state).
-    
     For map visualization.
     """
-    service = get_rainfall_service()
-    
-    if not service._cache:
-        await service.load_data()
-    
-    if state:
-        data = service.get_state_rainfall(state)
-    else:
-        data = service.get_all_rainfall()
-    
-    # Return simplified format for map
-    return [
-        {
-            "state": r.state,
-            "district": r.district,
-            "annual": r.annual,
-            "monsoon": r.monsoon_jjas,
-        }
-        for r in data
-    ]
+    data = await get_all_rainfall(db, state)
+    return data
+
+
+@router.get("/rainfall/state-stats")
+async def get_state_stats(
+    state: str = Query(..., description="State name"),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """Get aggregated rainfall statistics for a state."""
+    return await get_state_rainfall_stats(db, state)
 
 
 @router.get("/correlation")
@@ -135,29 +109,25 @@ async def get_rainfall_yield_correlation(
     
     Compares annual/monsoon rainfall against district yields.
     """
-    service = get_rainfall_service()
     analyzer = get_analyzer()
     
-    if not service._cache:
-        await service.load_data()
-    
     # Get yield data for state
-    query = """
+    yield_query = """
         SELECT district_name, yield
         FROM agri_metrics
         WHERE state_name = $1 AND LOWER(crop) = LOWER($2) AND year = $3
         AND yield IS NOT NULL AND yield > 0
     """
-    rows = await db.fetch(query, state, crop, year)
+    yield_rows = await db.fetch(yield_query, state, crop, year)
     
-    if not rows or len(rows) < 5:
+    if not yield_rows or len(yield_rows) < 5:
         return {"error": "Insufficient yield data (need at least 5 districts)"}
     
     # Match with rainfall data
     matched_data = []
-    for row in rows:
+    for row in yield_rows:
         district_name = row["district_name"]
-        rainfall = service.get_rainfall(state, district_name)
+        rainfall = await get_rainfall_by_district(db, state, district_name)
         
         if rainfall:
             matched_data.append({

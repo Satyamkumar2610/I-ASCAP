@@ -1,21 +1,11 @@
 """
 IMD Rainfall Data Service.
-Fetches and caches district-level rainfall normals from data.gov.in API.
+Reads district-level rainfall normals from database (populated via ETL).
 """
 
-import httpx
-import asyncio
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
-from datetime import datetime, timedelta
-import logging
-
-logger = logging.getLogger(__name__)
-
-# IMD API Configuration
-IMD_API_BASE = "https://api.data.gov.in/resource/d0419b03-b41b-4226-b48b-0bc92bf139f8"
-IMD_API_KEY = "579b464db66ec23bdd0000011d0179460bed4f26443f90cf4bee20d0"
-CACHE_TTL_HOURS = 24
+import asyncpg
 
 
 @dataclass
@@ -42,176 +32,111 @@ class RainfallData:
     post_monsoon_ond: float  # Oct-Dec
 
 
-class RainfallService:
-    """Service to fetch and cache IMD rainfall data."""
+async def get_rainfall_by_district(
+    db: asyncpg.Connection,
+    state: str,
+    district: str
+) -> Optional[RainfallData]:
+    """
+    Get rainfall data for a specific district from database.
+    """
+    row = await db.fetchrow("""
+        SELECT state_ut, district, jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec_month,
+               annual, jjas, mam, ond, jan_feb
+        FROM rainfall_normals
+        WHERE UPPER(state_ut) = UPPER($1) AND UPPER(district) = UPPER($2)
+    """, state, district)
     
-    def __init__(self):
-        self._cache: Dict[str, RainfallData] = {}
-        self._cache_time: Optional[datetime] = None
-        self._loading = False
+    if not row:
+        return None
     
-    def _normalize_name(self, name: str) -> str:
-        """Normalize district/state names for matching."""
-        return name.strip().upper().replace("&", "AND")
+    return RainfallData(
+        state=row["state_ut"],
+        district=row["district"],
+        jan=float(row["jan"] or 0),
+        feb=float(row["feb"] or 0),
+        mar=float(row["mar"] or 0),
+        apr=float(row["apr"] or 0),
+        may=float(row["may"] or 0),
+        jun=float(row["jun"] or 0),
+        jul=float(row["jul"] or 0),
+        aug=float(row["aug"] or 0),
+        sep=float(row["sep"] or 0),
+        oct=float(row["oct"] or 0),
+        nov=float(row["nov"] or 0),
+        dec=float(row["dec_month"] or 0),
+        annual=float(row["annual"] or 0),
+        monsoon_jjas=float(row["jjas"] or 0),
+        winter_jf=float(row["jan_feb"] or 0),
+        pre_monsoon_mam=float(row["mam"] or 0),
+        post_monsoon_ond=float(row["ond"] or 0),
+    )
+
+
+async def get_all_rainfall(
+    db: asyncpg.Connection,
+    state: Optional[str] = None
+) -> List[Dict[str, Any]]:
+    """
+    Get all rainfall data (optionally filtered by state) from database.
+    Returns simplified format for map visualization.
+    """
+    if state:
+        rows = await db.fetch("""
+            SELECT state_ut, district, annual, jjas as monsoon
+            FROM rainfall_normals
+            WHERE UPPER(state_ut) = UPPER($1)
+            ORDER BY district
+        """, state)
+    else:
+        rows = await db.fetch("""
+            SELECT state_ut, district, annual, jjas as monsoon
+            FROM rainfall_normals
+            ORDER BY state_ut, district
+        """)
     
-    def _make_key(self, state: str, district: str) -> str:
-        """Create cache key from state and district."""
-        return f"{self._normalize_name(district)}|{self._normalize_name(state)}"
-    
-    async def _fetch_all_records(self) -> List[Dict[str, Any]]:
-        """Fetch all records from IMD API (paginated)."""
-        all_records = []
-        offset = 0
-        limit = 100  # API appears to support this
-        total = 641  # Known total from API
-        
-        async with httpx.AsyncClient(timeout=30.0) as client:
-            while offset < total:
-                url = f"{IMD_API_BASE}?api-key={IMD_API_KEY}&format=json&limit={limit}&offset={offset}"
-                try:
-                    response = await client.get(url)
-                    response.raise_for_status()
-                    data = response.json()
-                    
-                    records = data.get("records", [])
-                    all_records.extend(records)
-                    
-                    # Update total if API provides it
-                    if "total" in data:
-                        total = int(data["total"])
-                    
-                    offset += limit
-                    logger.info(f"Fetched {len(all_records)}/{total} rainfall records")
-                    
-                except httpx.HTTPError as e:
-                    logger.error(f"Failed to fetch rainfall data: {e}")
-                    break
-        
-        return all_records
-    
-    def _parse_float(self, value: Any) -> float:
-        """Safely parse float from API response."""
-        try:
-            return float(value) if value else 0.0
-        except (ValueError, TypeError):
-            return 0.0
-    
-    async def load_data(self, force: bool = False) -> int:
-        """
-        Load rainfall data from API and populate cache.
-        
-        Args:
-            force: If True, reload even if cache is valid
-        
-        Returns:
-            Number of records loaded
-        """
-        # Check if cache is still valid
-        if not force and self._cache_time:
-            age = datetime.now() - self._cache_time
-            if age < timedelta(hours=CACHE_TTL_HOURS) and self._cache:
-                return len(self._cache)
-        
-        # Prevent concurrent loading
-        if self._loading:
-            return len(self._cache)
-        
-        self._loading = True
-        try:
-            records = await self._fetch_all_records()
-            
-            new_cache = {}
-            for record in records:
-                state = record.get("state_ut", "")
-                district = record.get("district", "")
-                
-                if not state or not district:
-                    continue
-                
-                rainfall = RainfallData(
-                    state=state,
-                    district=district,
-                    jan=self._parse_float(record.get("jan")),
-                    feb=self._parse_float(record.get("feb")),
-                    mar=self._parse_float(record.get("mar")),
-                    apr=self._parse_float(record.get("apr")),
-                    may=self._parse_float(record.get("may")),
-                    jun=self._parse_float(record.get("jun")),
-                    jul=self._parse_float(record.get("jul")),
-                    aug=self._parse_float(record.get("aug")),
-                    sep=self._parse_float(record.get("sep")),
-                    oct=self._parse_float(record.get("oct")),
-                    nov=self._parse_float(record.get("nov")),
-                    dec=self._parse_float(record.get("dec")),
-                    annual=self._parse_float(record.get("annual")),
-                    monsoon_jjas=self._parse_float(record.get("jjas")),
-                    winter_jf=self._parse_float(record.get("jan_feb")),
-                    pre_monsoon_mam=self._parse_float(record.get("mam")),
-                    post_monsoon_ond=self._parse_float(record.get("ond")),
-                )
-                
-                key = self._make_key(state, district)
-                new_cache[key] = rainfall
-            
-            self._cache = new_cache
-            self._cache_time = datetime.now()
-            logger.info(f"Loaded {len(self._cache)} rainfall records")
-            
-            return len(self._cache)
-        finally:
-            self._loading = False
-    
-    def get_rainfall(self, state: str, district: str) -> Optional[RainfallData]:
-        """
-        Get rainfall data for a specific district.
-        
-        Args:
-            state: State name
-            district: District name
-        
-        Returns:
-            RainfallData if found, None otherwise
-        """
-        key = self._make_key(state, district)
-        return self._cache.get(key)
-    
-    def get_all_rainfall(self) -> List[RainfallData]:
-        """Get all cached rainfall data."""
-        return list(self._cache.values())
-    
-    def get_state_rainfall(self, state: str) -> List[RainfallData]:
-        """Get all districts' rainfall for a state."""
-        state_norm = self._normalize_name(state)
-        return [
-            r for r in self._cache.values()
-            if self._normalize_name(r.state) == state_norm
-        ]
-    
-    def search_district(self, query: str) -> List[RainfallData]:
-        """Search for districts by partial name match."""
-        query_norm = self._normalize_name(query)
-        return [
-            r for r in self._cache.values()
-            if query_norm in self._normalize_name(r.district)
-        ][:20]  # Limit results
-    
-    def get_cache_stats(self) -> Dict[str, Any]:
-        """Get cache statistics."""
-        return {
-            "record_count": len(self._cache),
-            "cache_time": self._cache_time.isoformat() if self._cache_time else None,
-            "is_loading": self._loading,
-            "ttl_hours": CACHE_TTL_HOURS,
+    return [
+        {
+            "state": row["state_ut"],
+            "district": row["district"],
+            "annual": float(row["annual"] or 0),
+            "monsoon": float(row["monsoon"] or 0),
         }
+        for row in rows
+    ]
 
 
-# Singleton instance
-_rainfall_service: Optional[RainfallService] = None
+async def get_state_rainfall_stats(
+    db: asyncpg.Connection,
+    state: str
+) -> Dict[str, Any]:
+    """
+    Get aggregated rainfall statistics for a state.
+    """
+    row = await db.fetchrow("""
+        SELECT 
+            COUNT(*) as district_count,
+            AVG(annual) as avg_annual,
+            MIN(annual) as min_annual,
+            MAX(annual) as max_annual,
+            AVG(jjas) as avg_monsoon
+        FROM rainfall_normals
+        WHERE UPPER(state_ut) = UPPER($1)
+    """, state)
+    
+    if not row or row["district_count"] == 0:
+        return {"error": f"No data for state: {state}"}
+    
+    return {
+        "state": state,
+        "district_count": row["district_count"],
+        "avg_annual_mm": round(float(row["avg_annual"] or 0), 2),
+        "min_annual_mm": round(float(row["min_annual"] or 0), 2),
+        "max_annual_mm": round(float(row["max_annual"] or 0), 2),
+        "avg_monsoon_mm": round(float(row["avg_monsoon"] or 0), 2),
+    }
 
 
-def get_rainfall_service() -> RainfallService:
-    """Get singleton rainfall service instance."""
-    global _rainfall_service
-    if _rainfall_service is None:
-        _rainfall_service = RainfallService()
-    return _rainfall_service
+async def get_rainfall_count(db: asyncpg.Connection) -> int:
+    """Get total number of rainfall records in database."""
+    return await db.fetchval("SELECT COUNT(*) FROM rainfall_normals")
