@@ -207,7 +207,7 @@ const Dashboard: React.FC<DashboardProps> = ({
                     </div>
 
                     {/* Modules */}
-                    <div className="pt-2">
+                    <div className="pt-2 space-y-2">
                         <Link
                             href="/dashboard/split-impact"
                             className="flex items-center justify-between p-3 rounded-lg bg-slate-900/50 border border-slate-800 hover:border-emerald-500/50 hover:bg-slate-800 transition-all group"
@@ -223,6 +223,20 @@ const Dashboard: React.FC<DashboardProps> = ({
                             </div>
                             <ChevronDown size={14} className="text-slate-600 -rotate-90 group-hover:translate-x-0.5 transition-transform" />
                         </Link>
+
+                        {/* Rainfall Layer Toggle */}
+                        <div className="flex items-center justify-between p-3 rounded-lg bg-slate-900/50 border border-slate-800">
+                            <div className="flex items-center gap-3">
+                                <div className="p-1.5 bg-blue-500/10 rounded-md">
+                                    <Calendar size={14} className="text-blue-400" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-bold text-slate-200">Rainfall Layer</span>
+                                    <span className="text-[10px] text-slate-500">IMD Normals 1951-2000</span>
+                                </div>
+                            </div>
+                            <span className="text-[10px] text-slate-600 font-mono">Coming Soon</span>
+                        </div>
                     </div>
 
                     {/* 2. Selected District Info & Analytics */}
