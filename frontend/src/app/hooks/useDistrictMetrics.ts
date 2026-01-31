@@ -22,7 +22,7 @@ export const useDistrictMetrics = (year: number, crop: string, metric: string) =
     // 1. Fetch Metrics (On Change)
     useEffect(() => {
         setLoading(true);
-        fetch(`/api/metrics?year=${year}&crop=${crop}&metric=${metric}`)
+        fetch(`/api/v1/metrics?year=${year}&crop=${crop}&metric=${metric}`)
             .then(res => res.json())
             .then((json) => {
                 if (Array.isArray(json)) {

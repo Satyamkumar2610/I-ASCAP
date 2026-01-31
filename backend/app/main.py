@@ -186,7 +186,7 @@ async def readiness_check():
     """
     from app.database import get_pool
     
-    pool = get_pool()
+    pool = await get_pool()
     if pool is None:
         return JSONResponse(
             status_code=503,
