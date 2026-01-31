@@ -18,6 +18,15 @@ from app.analytics.timeseries import (
     get_time_series_analyzer,
 )
 
+from app.analytics.advanced import (
+    AdvancedAnalyzer,
+    DiversificationResult,
+    EfficiencyResult,
+    RiskProfile,
+    RiskCategory,
+    get_advanced_analyzer,
+)
+
 __all__ = [
     "StatisticalAnalyzer",
     "TrendDirection",
@@ -28,4 +37,10 @@ __all__ = [
     "TimeSeriesAnalysis",
     "AnomalyResult",
     "get_time_series_analyzer",
+    "AdvancedAnalyzer",
+    "DiversificationResult",
+    "EfficiencyResult",
+    "RiskProfile",
+    "RiskCategory",
+    "get_advanced_analyzer",
 ]

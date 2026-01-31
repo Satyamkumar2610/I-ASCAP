@@ -83,3 +83,134 @@ async def analyze_split_impact(
         mode=mode,
         query_hash=query_hash,
     )
+
+
+# -----------------------------------------------------------------------------
+# Advanced Analytics Endpoints
+# -----------------------------------------------------------------------------
+
+from app.analytics import get_advanced_analyzer
+
+
+@router.get("/diversification")
+async def get_crop_diversification(
+    state: str = Query(..., description="State name"),
+    year: int = Query(..., description="Year to analyze"),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """
+    Calculate Crop Diversification Index (CDI) for a state.
+    
+    Uses Simpson's Diversity Index: 1 - Σ(pi²)
+    Higher values indicate more diverse cropping patterns.
+    """
+    # Get crop area data aggregated by crop for the state/year
+    query = """
+        SELECT crop, SUM(area) as total_area
+        FROM agri_metrics
+        WHERE state_name = $1 AND year = $2 AND area IS NOT NULL AND area > 0
+        GROUP BY crop
+    """
+    rows = await db.fetch(query, state, year)
+    
+    if not rows:
+        return {"error": "No data found for specified state and year"}
+    
+    crop_areas = {row["crop"]: float(row["total_area"]) for row in rows}
+    
+    analyzer = get_advanced_analyzer()
+    result = analyzer.calculate_diversification(crop_areas)
+    
+    return {
+        "state": state,
+        "year": year,
+        **result.__dict__,
+    }
+
+
+@router.get("/efficiency")
+async def get_yield_efficiency(
+    cdk: str = Query(..., description="District CDK"),
+    crop: str = Query(..., description="Crop name"),
+    year: int = Query(..., description="Year to analyze"),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """
+    Calculate yield efficiency for a district compared to state potential.
+    
+    Potential = 95th percentile yield in the state.
+    """
+    # Get district info
+    district_query = """
+        SELECT state_name, yield FROM agri_metrics
+        WHERE cdk = $1 AND LOWER(crop) = LOWER($2) AND year = $3
+    """
+    district_row = await db.fetchrow(district_query, cdk, crop, year)
+    
+    if not district_row:
+        return {"error": "No data found for specified district, crop, and year"}
+    
+    state_name = district_row["state_name"]
+    district_yield = float(district_row["yield"]) if district_row["yield"] else 0
+    
+    # Get all state yields for this crop/year
+    state_query = """
+        SELECT yield FROM agri_metrics
+        WHERE state_name = $1 AND LOWER(crop) = LOWER($2) AND year = $3
+        AND yield IS NOT NULL AND yield > 0
+    """
+    state_rows = await db.fetch(state_query, state_name, crop, year)
+    state_yields = [float(r["yield"]) for r in state_rows]
+    
+    analyzer = get_advanced_analyzer()
+    result = analyzer.calculate_efficiency(district_yield, state_yields)
+    
+    return {
+        "cdk": cdk,
+        "crop": crop,
+        "year": year,
+        "state": state_name,
+        **result.__dict__,
+    }
+
+
+@router.get("/risk-profile")
+async def get_risk_profile(
+    cdk: str = Query(..., description="District CDK"),
+    crop: str = Query(..., description="Crop name"),
+    metric: str = Query("yield", description="Metric: yield, area, production"),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """
+    Calculate risk profile based on historical volatility.
+    
+    Returns risk category, volatility score, and reliability rating.
+    """
+    query = f"""
+        SELECT year, {metric} FROM agri_metrics
+        WHERE cdk = $1 AND LOWER(crop) = LOWER($2)
+        AND {metric} IS NOT NULL AND {metric} > 0
+        ORDER BY year
+    """
+    rows = await db.fetch(query, cdk, crop)
+    
+    if not rows or len(rows) < 3:
+        return {"error": "Insufficient historical data (need at least 3 years)"}
+    
+    yearly_values = {row["year"]: float(row[metric]) for row in rows}
+    
+    analyzer = get_advanced_analyzer()
+    result = analyzer.calculate_risk_profile(yearly_values)
+    
+    return {
+        "cdk": cdk,
+        "crop": crop,
+        "metric": metric,
+        "years_analyzed": len(yearly_values),
+        "risk_category": result.risk_category.value,
+        "volatility_score": result.volatility_score,
+        "reliability_rating": result.reliability_rating,
+        "trend_stability": result.trend_stability,
+        "worst_year": result.worst_year,
+        "best_year": result.best_year,
+    }
