@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Search, ChevronDown, ChevronUp, MapPin, Activity, Calendar, Share2, Download, Menu, X } from 'lucide-react';
+import { Search, MapPin, Calendar, Menu, X, Leaf, BarChart3, Layers, CloudRain, ChevronRight, Activity, ChevronDown } from 'lucide-react';
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import Link from 'next/link';
 import bridgeData from '../../data/map_bridge.json';
@@ -18,7 +18,7 @@ interface DashboardProps {
     onCropChange: (c: string) => void;
     currentMetric: string;
     onMetricChange: (m: string) => void;
-    districtData?: any;
+    districtData?: { value: number };
     // Rainfall Layer
     showRainfallLayer?: boolean;
     onRainfallLayerToggle?: () => void;
