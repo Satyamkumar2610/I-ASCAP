@@ -67,7 +67,7 @@ export default function Home() {
         onCropChange={setCrop}
         currentMetric={metric}
         onMetricChange={setMetric}
-        districtData={selectedData}
+        districtData={selectedData || undefined}
         showRainfallLayer={showRainfallLayer}
         onRainfallLayerToggle={() => setShowRainfallLayer(!showRainfallLayer)}
       />

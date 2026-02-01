@@ -148,17 +148,20 @@ const Dashboard: React.FC<DashboardProps> = ({
 
     // Real Search Logic
     useEffect(() => {
-        if (searchTerm.length > 2) {
-            setIsSearching(true);
-            const filtered = availableDistricts.filter(d =>
-                d.toLowerCase().includes(searchTerm.toLowerCase())
-            ).slice(0, 10);
-            setSearchResults(filtered);
-            setIsSearching(false);
-        } else {
-            setSearchResults([]);
-        }
+        const timer = setTimeout(() => {
+            if (searchTerm.length > 2) {
+                const filtered = availableDistricts.filter(d =>
+                    d.toLowerCase().includes(searchTerm.toLowerCase())
+                ).slice(0, 10);
+                setSearchResults(filtered);
+            } else {
+                setSearchResults([]);
+            }
+        }, 300);
+
+        return () => clearTimeout(timer);
     }, [searchTerm, availableDistricts]);
+
 
     // Full Sidebar Layout
     return (
