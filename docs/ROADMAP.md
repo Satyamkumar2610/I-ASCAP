@@ -39,7 +39,7 @@
 ### Phase 1: Hardening the Core (Reliability)
 - [x] **Async Database:** (Already implemented with `asyncpg`)
 - [x] **Caching Layer:** Implement in-memory caching for metrics.
-- [ ] **Type Safety:** Fix the remaining `any` types.
+- [x] **Type Safety:** Fix the remaining `any` types.
 
 ### Phase 2: Scientific Validity (Innovation)
 - [ ] **"Confidence Interval" Visualization:** Boundaries are fuzzy. We should visualize the "uncertainty" of our harmonization (e.g., dotted lines for disputed/estimated borders).

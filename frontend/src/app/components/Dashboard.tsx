@@ -61,9 +61,28 @@ const Dashboard: React.FC<DashboardProps> = ({
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState<string[]>([]);
     const [isSearching, setIsSearching] = useState(false);
-    const [isExpanded, setIsExpanded] = useState(true);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
-    const [rainfallData, setRainfallData] = useState<any>(null);
+
+    // Type Definitions
+    interface RainfallData {
+        annual: number;
+        monsoon: number;
+        classification: string;
+        deviation: number;
+        seasonal?: {
+            monsoon_jjas: number;
+            pre_monsoon_mam: number;
+            post_monsoon_ond: number;
+            winter_jf: number;
+        };
+    }
+
+    interface HistoryData {
+        year: number;
+        value: number;
+    }
+
+    const [rainfallData, setRainfallData] = useState<RainfallData | null>(null);
     const [rainfallLoading, setRainfallLoading] = useState(false);
 
     // Load available districts from Import
@@ -74,42 +93,58 @@ const Dashboard: React.FC<DashboardProps> = ({
     }, []);
 
     // History State
-    const [history, setHistory] = useState<any[]>([]);
+    // History State
+    const [history, setHistory] = useState<HistoryData[]>([]);
 
     useEffect(() => {
+        let active = true;
         if (selectedDistrict) {
             setHistory([]);
             // Basic fetch - in future pass ID/state if available
             fetch(`/api/history?district=${encodeURIComponent(selectedDistrict)}&crop=${currentCrop}`)
                 .then(r => r.json())
                 .then(data => {
-                    if (Array.isArray(data)) setHistory(data);
+                    if (active && Array.isArray(data)) setHistory(data);
                 })
                 .catch(err => console.error("Failed to load history", err));
         }
+        return () => { active = false; };
     }, [selectedDistrict, currentCrop]);
 
     // Fetch rainfall data when district is selected and rainfall layer is on
+    // Fetch rainfall data when district is selected and rainfall layer is on
     useEffect(() => {
-        if (selectedDistrict && showRainfallLayer) {
-            setRainfallLoading(true);
-            setRainfallData(null);
-            // Try to get state from bridge data
-            const raw = bridgeData as Record<string, string>;
-            const stateKey = Object.keys(raw).find(k => k.startsWith(selectedDistrict + '|'));
-            const stateName = stateKey ? stateKey.split('|')[1] : '';
+        let active = true;
 
-            fetch(`/api/rainfall?state=${encodeURIComponent(stateName)}&district=${encodeURIComponent(selectedDistrict)}`)
-                .then(r => r.json())
-                .then(data => {
-                    if (!data.error) setRainfallData(data);
-                })
-                .catch(err => console.error('Failed to load rainfall', err))
-                .finally(() => setRainfallLoading(false));
-        } else {
-            setRainfallData(null);
-        }
-    }, [selectedDistrict, showRainfallLayer]);
+        const fetchData = async () => {
+            if (selectedDistrict && showRainfallLayer) {
+                setRainfallLoading(true);
+                setRainfallData(null);
+
+                // Try to get state from bridge data
+                const raw = bridgeData as Record<string, string>;
+                const stateKey = Object.keys(raw).find(k => k.startsWith(selectedDistrict + '|'));
+                const stateName = stateKey ? stateKey.split('|')[1] : '';
+
+                try {
+                    const res = await fetch(`/api/rainfall?district=${encodeURIComponent(selectedDistrict)}&state=${encodeURIComponent(stateName)}&year=${currentYear}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (active && !data.error) setRainfallData(data);
+                    }
+                } catch (err) {
+                    console.error('Failed to load rainfall', err);
+                } finally {
+                    if (active) setRainfallLoading(false);
+                }
+            } else {
+                if (active) setRainfallData(null);
+            }
+        };
+
+        fetchData();
+        return () => { active = false; };
+    }, [selectedDistrict, showRainfallLayer, currentYear]);
 
     // Real Search Logic
     useEffect(() => {
