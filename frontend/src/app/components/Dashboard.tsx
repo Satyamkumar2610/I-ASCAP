@@ -131,7 +131,7 @@ const Dashboard: React.FC<DashboardProps> = ({
             <button
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
                 className="fixed top-4 left-4 z-[60] md:hidden bg-slate-900 border border-slate-700 p-2 rounded-lg shadow-lg"
-                aria-label="Toggle menu"
+                aria-label={isMobileOpen ? "Close menu" : "Open menu"}
             >
                 {isMobileOpen ? (
                     <X size={24} className="text-emerald-400" />
@@ -175,26 +175,28 @@ const Dashboard: React.FC<DashboardProps> = ({
                             className="w-full bg-slate-900 border border-slate-800 text-slate-200 rounded-md py-2 pl-9 pr-3 text-sm focus:border-emerald-500 outline-none transition-colors"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
+                            aria-label="Search district"
                         />
                     </div>
                     {/* Search Results Dropdown */}
                     {searchResults.length > 0 && (
-                        <div className="absolute top-full left-4 right-4 mt-2 bg-slate-900 border border-slate-700 rounded-lg shadow-xl max-h-48 overflow-y-auto z-30">
+                        <ul className="absolute top-full left-4 right-4 mt-2 bg-slate-900 border border-slate-700 rounded-lg shadow-xl max-h-48 overflow-y-auto z-30 list-none p-0" role="listbox" aria-label="Search Results">
                             {searchResults.map((result, idx) => (
-                                <div
-                                    key={idx}
-                                    className="p-2.5 hover:bg-slate-800 text-slate-300 cursor-pointer flex items-center gap-2 text-sm border-b border-slate-800 last:border-0"
-                                    onClick={() => {
-                                        onDistrictSelect(result);
-                                        setSearchTerm('');
-                                        setSearchResults([]);
-                                    }}
-                                >
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                    {result}
-                                </div>
+                                <li key={idx} role="option" aria-selected={false}>
+                                    <button
+                                        className="w-full text-left p-2.5 hover:bg-slate-800 text-slate-300 cursor-pointer flex items-center gap-2 text-sm border-b border-slate-800 last:border-0"
+                                        onClick={() => {
+                                            onDistrictSelect(result);
+                                            setSearchTerm('');
+                                            setSearchResults([]);
+                                        }}
+                                    >
+                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        {result}
+                                    </button>
+                                </li>
                             ))}
-                        </div>
+                        </ul>
                     )}
                 </div>
 
@@ -209,8 +211,9 @@ const Dashboard: React.FC<DashboardProps> = ({
 
                         <div className="space-y-3">
                             <div>
-                                <label className="text-[10px] text-slate-500 uppercase font-bold block mb-1">Crop Type</label>
+                                <label htmlFor="crop-select" className="text-[10px] text-slate-500 uppercase font-bold block mb-1">Crop Type</label>
                                 <select
+                                    id="crop-select"
                                     value={currentCrop}
                                     onChange={(e) => onCropChange(e.target.value)}
                                     className="w-full bg-slate-900 border border-slate-800 text-slate-300 rounded focus:border-emerald-500 outline-none text-sm p-2"
@@ -221,8 +224,9 @@ const Dashboard: React.FC<DashboardProps> = ({
                                 </select>
                             </div>
                             <div>
-                                <label className="text-[10px] text-slate-500 uppercase font-bold block mb-1">Metric</label>
+                                <label htmlFor="metric-select" className="text-[10px] text-slate-500 uppercase font-bold block mb-1">Metric</label>
                                 <select
+                                    id="metric-select"
                                     value={currentMetric}
                                     onChange={(e) => onMetricChange(e.target.value)}
                                     className="w-full bg-slate-900 border border-slate-800 text-slate-300 rounded focus:border-emerald-500 outline-none text-sm p-2"
@@ -256,6 +260,7 @@ const Dashboard: React.FC<DashboardProps> = ({
                         {/* Rainfall Layer Toggle */}
                         <button
                             onClick={onRainfallLayerToggle}
+                            aria-pressed={showRainfallLayer}
                             className={`w-full flex items-center justify-between p-3 rounded-lg border transition-all ${showRainfallLayer
                                 ? 'bg-blue-500/20 border-blue-500/50'
                                 : 'bg-slate-900/50 border-slate-800 hover:border-blue-500/30'
@@ -281,7 +286,13 @@ const Dashboard: React.FC<DashboardProps> = ({
                         <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 bg-emerald-950/20 border border-emerald-900/50 rounded-lg p-4">
                             <div className="flex justify-between items-start mb-2">
                                 <h2 className="text-lg font-bold text-white leading-none">{selectedDistrict}</h2>
-                                <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors">✕</button>
+                                <button
+                                    onClick={onClose}
+                                    className="text-slate-500 hover:text-white transition-colors"
+                                    aria-label="Close details"
+                                >
+                                    <X size={20} />
+                                </button>
                             </div>
                             <div className="text-slate-400 text-xs mb-4 font-mono">Year: {currentYear}</div>
 
@@ -352,8 +363,9 @@ const Dashboard: React.FC<DashboardProps> = ({
                             </div>
                         </div>
                     ) : (
-                        <div className="p-4 border border-dashed border-slate-800 rounded-lg text-center">
-                            <p className="text-xs text-slate-600 italic">Select a district on the map to view specific values.</p>
+                        <div className="p-8 border border-dashed border-slate-800 rounded-lg text-center flex flex-col items-center justify-center opacity-50">
+                            <MapPin size={24} className="text-slate-600 mb-2" />
+                            <p className="text-xs text-slate-500 italic max-w-[200px]">Select a district on the map or search to view specific values.</p>
                         </div>
                     )}
                 </div>

@@ -20,7 +20,12 @@ interface MapInterfaceProps {
 // Dynamically import MapInterface to avoid SSR issues with Mapbox/Window
 const MapInterface = dynamic<MapInterfaceProps>(() => import('./components/MapInterface'), {
   ssr: false,
-  loading: () => <div className="h-full w-full flex items-center justify-center bg-gray-900 text-white">Initializing Geospatial Engine...</div>
+  loading: () => (
+    <div className="h-full w-full flex flex-col items-center justify-center bg-slate-950 text-white space-y-4">
+      <div className="w-12 h-12 border-4 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin"></div>
+      <div className="text-sm font-mono text-emerald-400 animate-pulse uppercase tracking-widest">Initializing Engine...</div>
+    </div>
+  )
 });
 
 export default function Home() {
@@ -44,7 +49,13 @@ export default function Home() {
   })() : null;
 
   return (
-    <main className="flex h-screen w-screen bg-slate-950 overflow-hidden">
+    <main className="flex h-screen w-screen bg-slate-950 overflow-hidden relative">
+      <a
+        href="#main-map"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[100] bg-emerald-600 text-white px-4 py-2 rounded-md shadow-lg font-bold transition-all"
+      >
+        Skip to Main Map
+      </a>
 
       {/* Sidebar / Dashboard */}
       <Dashboard
@@ -65,7 +76,7 @@ export default function Home() {
       <div className="flex-1 flex flex-col h-full relative md:ml-80">
 
         {/* Map Area */}
-        <div className="flex-1 relative z-0">
+        <div id="main-map" className="flex-1 relative z-0" aria-label="Interactive Map Region">
           <MapInterface
             year={year}
             crop={crop}

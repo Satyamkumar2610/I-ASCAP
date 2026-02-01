@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 
 interface TimeSliderProps {
     minYear: number;
@@ -32,6 +32,11 @@ const TimeSlider: React.FC<TimeSliderProps> = ({ minYear, maxYear, currentYear, 
                 value={currentYear}
                 onChange={(e) => onChange(parseInt(e.target.value))}
                 className="w-full h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500 hover:accent-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+                aria-label="Select Year"
+                aria-valuemin={minYear}
+                aria-valuemax={maxYear}
+                aria-valuenow={currentYear}
+                aria-valuetext={`Year ${currentYear}`}
             />
 
             {/* Ticks */}
