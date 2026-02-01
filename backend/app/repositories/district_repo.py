@@ -7,11 +7,13 @@ import asyncpg
 
 from app.repositories.base import BaseRepository
 from app.schemas.district import District
+from app.cache import cached, CacheTTL
 
 
 class DistrictRepository(BaseRepository):
     """Repository for district data access."""
     
+    @cached(ttl=CacheTTL.DISTRICTS, prefix="districts:all")
     async def get_all(self, state: Optional[str] = None) -> List[District]:
         """Get all districts, optionally filtered by state."""
         if state:
@@ -73,6 +75,7 @@ class DistrictRepository(BaseRepository):
         rows = await self.fetch_all(query)
         return {r["cdk"]: {"name": r["district_name"], "state": r["state_name"]} for r in rows}
     
+    @cached(ttl=CacheTTL.STATES, prefix="states:all")
     async def get_states(self) -> List[str]:
         """Get list of all unique states."""
         query = "SELECT DISTINCT state_name FROM districts ORDER BY state_name"

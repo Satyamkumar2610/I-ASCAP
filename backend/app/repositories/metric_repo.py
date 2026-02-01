@@ -7,6 +7,7 @@ import asyncpg
 
 from app.repositories.base import BaseRepository
 from app.schemas.metric import MetricPoint, AggregatedMetric
+from app.cache import cached, CacheTTL
 
 
 class MetricRepository(BaseRepository):
@@ -62,6 +63,7 @@ class MetricRepository(BaseRepository):
             for r in rows
         ]
     
+    @cached(ttl=CacheTTL.METRICS, prefix="metrics:year")
     async def get_by_year_and_variable(
         self, 
         year: int, 
@@ -88,6 +90,7 @@ class MetricRepository(BaseRepository):
             for r in rows
         ]
     
+    @cached(ttl=CacheTTL.METRICS, prefix="metrics:ts")
     async def get_time_series_pivoted(
         self, 
         cdk: str, 
@@ -120,6 +123,7 @@ class MetricRepository(BaseRepository):
         
         return list(timeline.values())
     
+    @cached(ttl=CacheTTL.SUMMARY, prefix="metrics:map")
     async def build_data_map(
         self, 
         cdks: List[str], 
