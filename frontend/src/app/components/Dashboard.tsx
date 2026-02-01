@@ -6,6 +6,7 @@ import { Search, ChevronDown, ChevronUp, MapPin, Activity, Calendar, Share2, Dow
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import Link from 'next/link';
 import bridgeData from '../../data/map_bridge.json';
+import AnalyticsPanel from './AnalyticsPanel';
 
 interface DashboardProps {
     selectedDistrict: string | null;
@@ -361,6 +362,27 @@ const Dashboard: React.FC<DashboardProps> = ({
                                     </ResponsiveContainer>
                                 </div>
                             </div>
+
+                            {/* 4. Advanced Analytics Panel */}
+                            {(() => {
+                                // Resolve CDK and State
+                                const raw = bridgeData as Record<string, string>;
+                                const stateKey = Object.keys(raw).find(k => k.startsWith(selectedDistrict + '|'));
+                                if (stateKey) {
+                                    const cdk = raw[stateKey];
+                                    const stateName = stateKey.split('|')[1];
+                                    return (
+                                        <AnalyticsPanel
+                                            cdk={cdk}
+                                            state={stateName}
+                                            year={currentYear}
+                                            crop={currentCrop}
+                                            districtName={selectedDistrict}
+                                        />
+                                    );
+                                }
+                                return null;
+                            })()}
                         </div>
                     ) : (
                         <div className="p-8 border border-dashed border-slate-800 rounded-lg text-center flex flex-col items-center justify-center opacity-50">
