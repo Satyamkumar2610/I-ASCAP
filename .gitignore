@@ -37,3 +37,6 @@ INTERVIEW_GUIDE.md
 # Raw ingestion data (too large for git)
 data/raw/
 data/quarantine/
+
+# Legacy Code
+legacy/
