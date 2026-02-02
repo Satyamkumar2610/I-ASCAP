@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import bridgeData from '../../data/map_bridge.json';
 
 export interface DistrictMetric {
@@ -17,7 +17,7 @@ export const useDistrictMetrics = (year: number, crop: string, metric: string) =
     const bridge = bridgeData as Record<string, string>;
 
     const [loading, setLoading] = useState(true);
-    const [joinedData, setJoinedData] = useState<Record<string, DistrictMetric>>({});
+
 
     // 1. Fetch Metrics (On Change)
     useEffect(() => {
@@ -39,9 +39,9 @@ export const useDistrictMetrics = (year: number, crop: string, metric: string) =
             });
     }, [year, crop, metric]);
 
-    // 2. Join
-    useEffect(() => {
-        if (!data.length) return;
+    // 2. Join (Derived State)
+    const joinedData = React.useMemo(() => {
+        if (!data.length) return {};
 
         // Map CDK -> Metric
         const cdkToMetric: Record<string, DistrictMetric> = {};
@@ -57,8 +57,8 @@ export const useDistrictMetrics = (year: number, crop: string, metric: string) =
             }
         });
 
-        setJoinedData(join);
-    }, [data]);
+        return join;
+    }, [data, bridge]);
 
     return { joinedData, loading, rawData: data };
 };

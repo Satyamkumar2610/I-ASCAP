@@ -93,21 +93,33 @@ export default function AnalyticsPanel({ cdk, state, year, crop, districtName }:
     const [diversification, setDiversification] = useState<DiversificationData | null>(null);
     const [correlation, setCorrelation] = useState<CorrelationData | null>(null);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!cdk || !state) return;
 
         const fetchData = async () => {
             setLoading(true);
+            setError(null);
             try {
                 // Fetch Efficiency
                 const efficRes = await fetch(`/api/analysis/efficiency?cdk=${cdk}&crop=${crop}&year=${year}`);
-                if (efficRes.ok) setEfficiency(await efficRes.json());
-                else setEfficiency(null); // Reset on error
+                if (efficRes.ok) {
+                    setEfficiency(await efficRes.json());
+                } else {
+                    console.warn(`Efficiency fetch failed: ${efficRes.status}`);
+                    // Don't set null here, keep previous state or separate error
+                    setEfficiency(null);
+                }
 
                 // Fetch Risk & Decision Metrics
                 const riskRes = await fetch(`/api/analysis/risk-profile?cdk=${cdk}&crop=${crop}`);
-                if (riskRes.ok) setRiskData(await riskRes.json());
+                if (riskRes.ok) {
+                    setRiskData(await riskRes.json());
+                } else {
+                    console.warn(`Risk fetch failed: ${riskRes.status}`);
+                    setRiskData(null);
+                }
 
                 // Fetch Diversification
                 const divRes = await fetch(`/api/analysis/diversification?state=${encodeURIComponent(state)}&year=${year}`);
@@ -116,11 +128,10 @@ export default function AnalyticsPanel({ cdk, state, year, crop, districtName }:
                 // Fetch Climate Correlation
                 const corrRes = await fetch(`/api/climate/correlation?state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`);
                 if (corrRes.ok) setCorrelation(await corrRes.json());
-                else setCorrelation(null);
-
 
             } catch (err) {
                 console.error("Analytics fetch failed", err);
+                setError("Network error loading analytics.");
             } finally {
                 setLoading(false);
             }
@@ -129,15 +140,36 @@ export default function AnalyticsPanel({ cdk, state, year, crop, districtName }:
         fetchData();
     }, [cdk, state, year, crop]);
 
-    if (loading) return <div className="p-4 text-center text-slate-500 text-xs">Loading analytics...</div>;
+    if (loading) return (
+        <div className="p-4 border border-dashed border-slate-800 rounded-lg text-center flex flex-col items-center justify-center min-h-[100px]">
+            <div className="animate-spin w-5 h-5 border-2 border-emerald-500 border-t-transparent rounded-full mb-2"></div>
+            <div className="text-slate-500 text-xs">Loading analytics...</div>
+        </div>
+    );
+
+    if (error) return (
+        <div className="p-4 bg-red-950/20 border border-red-900/50 rounded-lg text-center min-h-[100px] flex flex-col items-center justify-center">
+            <AlertTriangle className="text-red-500 mb-2" size={16} />
+            <div className="text-red-400 text-xs">{error}</div>
+        </div>
+    );
+
+    // Check if we have minimal data to display anything
+    const hasData = efficiency || riskData || diversification || correlation;
+
+    if (!hasData) return (
+        <div className="p-6 bg-slate-900/30 border border-slate-800 rounded-lg text-center min-h-[100px] flex flex-col items-center justify-center">
+            <div className="text-slate-500 text-xs">No analytics data available for this selection.</div>
+        </div>
+    );
 
     const risk = riskData?.risk_profile;
 
     return (
-        <div className="space-y-4 mt-4 animate-in fade-in duration-500">
+        <div className="space-y-4 mt-4 animate-in fade-in duration-500 pb-10">
 
-            {/* 1. Yield Efficiency (Renamed & Expanded) */}
-            {efficiency && efficiency.relative_efficiency.potential_yield > 0 && (
+            {/* 1. Yield Efficiency */}
+            {efficiency ? (
                 <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
                     <h4 className="text-[10px] text-emerald-400 uppercase font-bold mb-3 flex items-center gap-2">
                         <TrendingUp size={12} /> Efficiency Metrics
@@ -169,9 +201,9 @@ export default function AnalyticsPanel({ cdk, state, year, crop, districtName }:
                         </div>
 
                         {/* Tooltip */}
-                        <div className="absolute left-0 bottom-full mb-2 w-48 bg-slate-900 border border-slate-700 p-2 rounded text-[10px] text-slate-300 hidden group-hover/tooltip:block z-50 shadow-xl">
+                        <div className="absolute left-0 bottom-full mb-2 w-48 bg-slate-900 border border-slate-700 p-2 rounded text-[10px] text-slate-300 hidden group-hover/tooltip:block z-50 shadow-xl pointer-events-none">
                             <div className="font-bold text-emerald-400 mb-1">Relative Efficiency</div>
-                            Compares your yield ({efficiency.relative_efficiency.district_yield}) to the state's top 5% performers ({efficiency.relative_efficiency.potential_yield}).
+                            Compares yield ({efficiency.relative_efficiency.district_yield}) to state top 5% ({efficiency.relative_efficiency.potential_yield}).
                         </div>
                     </div>
 
@@ -199,22 +231,26 @@ export default function AnalyticsPanel({ cdk, state, year, crop, districtName }:
                             <div
                                 className={`h-full ${efficiency.historical_efficiency.is_above_trend ? 'bg-blue-500' : 'bg-amber-500'}`}
                                 style={{
-                                    width: `${Math.min(Math.abs(efficiency.historical_efficiency.efficiency_ratio - 1) * 100, 50)}%`, // Scale deviation
+                                    width: `${Math.min(Math.abs(efficiency.historical_efficiency.efficiency_ratio - 1) * 100, 50)}%`,
                                     marginLeft: efficiency.historical_efficiency.is_above_trend ? '50%' : `${50 - Math.min(Math.abs(efficiency.historical_efficiency.efficiency_ratio - 1) * 100, 50)}%`
                                 }}
                             />
                         </div>
                         {/* Tooltip */}
-                        <div className="absolute left-0 bottom-full mb-2 w-48 bg-slate-900 border border-slate-700 p-2 rounded text-[10px] text-slate-300 hidden group-hover/tooltip:block z-50 shadow-xl">
+                        <div className="absolute left-0 bottom-full mb-2 w-48 bg-slate-900 border border-slate-700 p-2 rounded text-[10px] text-slate-300 hidden group-hover/tooltip:block z-50 shadow-xl pointer-events-none">
                             <div className="font-bold text-blue-400 mb-1">Historical Efficiency</div>
-                            Compares current yield ({efficiency.historical_efficiency.current_yield}) against your 10-year average ({efficiency.historical_efficiency.historical_mean}).
+                            vs 10y Mean ({efficiency.historical_efficiency.historical_mean.toFixed(1)}).
                         </div>
                     </div>
+                </div>
+            ) : (
+                <div className="bg-slate-900/30 border border-slate-800 rounded-lg p-3">
+                    <div className="text-xs text-slate-500 text-center">Efficiency data unavailable</div>
                 </div>
             )}
 
             {/* 2. Decision Intelligence (NEW) */}
-            {riskData && riskData.resilience_index && (
+            {riskData && riskData.resilience_index ? (
                 <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
                     <h4 className="text-[10px] text-indigo-400 uppercase font-bold mb-3 flex items-center gap-2">
                         <Shield size={12} /> Strategic Analysis
@@ -251,6 +287,10 @@ export default function AnalyticsPanel({ cdk, state, year, crop, districtName }:
                             </div>
                         </div>
                     </div>
+                </div>
+            ) : (
+                <div className="bg-slate-900/30 border border-slate-800 rounded-lg p-3">
+                    <div className="text-xs text-slate-500 text-center">Strategic Analysis unavailable</div>
                 </div>
             )}
 
@@ -307,7 +347,7 @@ export default function AnalyticsPanel({ cdk, state, year, crop, districtName }:
                         {correlation.validity?.climate_assumption === 'stationary' && (
                             <div className="relative group/tooltip">
                                 <AlertTriangle size={12} className="text-amber-500 cursor-help" />
-                                <div className="absolute left-0 bottom-full mb-2 w-48 bg-slate-900 border border-slate-700 p-2 rounded text-[10px] text-slate-300 hidden group-hover/tooltip:block z-50 shadow-xl">
+                                <div className="absolute left-0 bottom-full mb-2 w-48 bg-slate-900 border border-slate-700 p-2 rounded text-[10px] text-slate-300 hidden group-hover/tooltip:block z-50 shadow-xl pointer-events-none">
                                     <div className="font-bold text-amber-500 mb-1">Methodology Warning</div>
                                     {correlation.validity.warning}
                                     <div className="mt-1 text-slate-500">Baseline: {correlation.validity.baseline_period}</div>
