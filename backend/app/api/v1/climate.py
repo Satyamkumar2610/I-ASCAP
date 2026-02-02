@@ -33,8 +33,8 @@ async def get_rainfall_db_stats(db: asyncpg.Connection = Depends(get_db)):
 
 @router.get("/rainfall")
 async def get_rainfall(
-    state: str = Query(..., description="State name"),
-    district: str = Query(..., description="District name"),
+    state: str = Query(..., description="State name", max_length=50),
+    district: str = Query(..., description="District name", max_length=50),
     db: asyncpg.Connection = Depends(get_db),
 ):
     """
@@ -77,7 +77,7 @@ async def get_rainfall(
 
 @router.get("/rainfall/all")
 async def get_all_rainfall_data(
-    state: Optional[str] = Query(None, description="Filter by state"),
+    state: Optional[str] = Query(None, description="Filter by state", max_length=50),
     db: asyncpg.Connection = Depends(get_db),
 ):
     """
@@ -90,7 +90,7 @@ async def get_all_rainfall_data(
 
 @router.get("/rainfall/state-stats")
 async def get_state_stats(
-    state: str = Query(..., description="State name"),
+    state: str = Query(..., description="State name", max_length=50),
     db: asyncpg.Connection = Depends(get_db),
 ):
     """Get aggregated rainfall statistics for a state."""
@@ -99,9 +99,9 @@ async def get_state_stats(
 
 @router.get("/correlation")
 async def get_rainfall_yield_correlation(
-    state: str = Query(..., description="State name"),
-    crop: str = Query(..., description="Crop name"),
-    year: int = Query(..., description="Year to analyze"),
+    state: str = Query(..., description="State name", max_length=50),
+    crop: str = Query(..., description="Crop name", max_length=30),
+    year: int = Query(..., description="Year to analyze", ge=1950, le=2025),
     db: asyncpg.Connection = Depends(get_db),
 ):
     """
