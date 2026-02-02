@@ -35,17 +35,20 @@ export async function fetchFromBackend<T>(
 ): Promise<T> {
     const url = new URL(endpoint, BACKEND_URL);
 
+    let queryString = '';
+
     if (params) {
         const searchParams = params instanceof URLSearchParams
             ? params
             : new URLSearchParams(params);
-        url.search = searchParams.toString();
+        queryString = `?${searchParams.toString()}`;
     }
 
-    const response = await fetch(url.toString(), {
+    const response = await fetch(`${BACKEND_URL}${endpoint}${queryString}`, {
         ...options,
         headers: {
-            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-API-Key': process.env.API_KEY || 'dev-secret-key-123',
             ...options?.headers,
         },
     });

@@ -98,9 +98,10 @@ from app.rate_limit import RateLimitMiddleware
 app.add_middleware(RateLimitMiddleware)
 
 # Security Middleware
-from app.security import SecurityHeadersMiddleware, HTTPSRedirectMiddleware
+from app.security import SecurityHeadersMiddleware, HTTPSRedirectMiddleware, APIKeyMiddleware
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(HTTPSRedirectMiddleware)
+app.add_middleware(APIKeyMiddleware)
 
 
 # -----------------------------------------------------------------------------

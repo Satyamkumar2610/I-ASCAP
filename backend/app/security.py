@@ -86,6 +86,49 @@ class SecurityConfig:
     ]
 
 
+from starlette.responses import JSONResponse
+from app.config import get_settings
+
+settings = get_settings()
+
+class APIKeyMiddleware(BaseHTTPMiddleware):
+    """
+    Middleware to enforce API Key authentication.
+    """
+    # Public paths that do not require authentication
+    PUBLIC_PATHS = {
+        "/", 
+        "/docs", 
+        "/redoc", 
+        "/openapi.json", 
+        "/health", 
+        "/health/ready",
+        "/favicon.ico"
+    }
+
+    async def dispatch(self, request: Request, call_next):
+        # Allow public paths
+        if request.url.path in self.PUBLIC_PATHS:
+            return await call_next(request)
+            
+        # Check API Key
+        api_key = request.headers.get("X-API-Key")
+        if not api_key or api_key != settings.api_key:
+            return JSONResponse(
+                status_code=401,
+                content={
+                    "success": False,
+                    "error": {
+                        "code": "UNAUTHORIZED",
+                        "message": "Invalid or missing API Key",
+                        "status_code": 401
+                    }
+                }
+            )
+            
+        return await call_next(request)
+
+
 def sanitize_headers_for_logging(headers: dict) -> dict:
     """Remove sensitive information from headers before logging."""
     sanitized = {}

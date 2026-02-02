@@ -41,10 +41,11 @@ class Settings(BaseSettings):
         """Check if database URL requires SSL (e.g., Neon, Supabase)."""
         return "neon.tech" in self.database_url or "sslmode=require" in self.database_url
     
-    # CORS
+    # Security
+    api_key: str = "dev-secret-key-123"  # Override in production
     cors_origins: List[str] = [
         "http://localhost:3000", 
-        "http://127.0.0.1:3000",
+        "https://i-ascap.onrender.com", 
         "https://i-ascap.vercel.app",
         "https://i-ascap-git-main-satyamsinhjis-projects.vercel.app",
     ]
