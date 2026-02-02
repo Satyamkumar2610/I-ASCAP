@@ -17,6 +17,7 @@ export async function GET(request: Request) {
             metric: metric.toLowerCase(),
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const data = await fetchFromBackend<any[]>('/api/v1/metrics', params);
 
         // Transform to match expected frontend format

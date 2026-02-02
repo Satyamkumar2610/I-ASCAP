@@ -19,6 +19,7 @@ export async function GET(request: Request) {
             crop: crop.toLowerCase(),
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const data = await fetchFromBackend<any[]>('/api/v1/metrics/history', params);
 
         return NextResponse.json(data);

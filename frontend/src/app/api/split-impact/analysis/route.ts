@@ -27,6 +27,7 @@ export async function GET(request: Request) {
             mode,
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const data = await fetchFromBackend<any>('/api/v1/analysis/split-impact/analysis', params);
         return NextResponse.json(data);
     } catch (error) {
