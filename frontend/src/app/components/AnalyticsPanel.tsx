@@ -266,8 +266,8 @@ export default function AnalyticsPanel({ cdk, state, year, crop, districtName }:
                         </div>
                         <div className="text-right">
                             <div className={`text-xs font-bold px-2 py-0.5 rounded border ${riskData.resilience_index.reliability_rating === 'A' ? 'border-green-500 text-green-400 bg-green-500/10' :
-                                    riskData.resilience_index.reliability_rating === 'B' ? 'border-blue-500 text-blue-400 bg-blue-500/10' :
-                                        'border-amber-500 text-amber-400 bg-amber-500/10'
+                                riskData.resilience_index.reliability_rating === 'B' ? 'border-blue-500 text-blue-400 bg-blue-500/10' :
+                                    'border-amber-500 text-amber-400 bg-amber-500/10'
                                 }`}>
                                 Grade {riskData.resilience_index.reliability_rating}
                             </div>
@@ -376,7 +376,7 @@ export default function AnalyticsPanel({ cdk, state, year, crop, districtName }:
                     </div>
 
                     <div className="text-[10px] text-slate-500 border-t border-slate-800 pt-2 mt-2 italic">
-                        "{correlation.note}"
+                        &quot;{correlation.note}&quot;
                     </div>
                 </div>
             )}

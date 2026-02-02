@@ -5,7 +5,9 @@ import path from 'path';
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
-    const year = searchParams.get('year');
+    // Basic filtering if search term exists (This is computationally expensive on large files, 
+    // but works for this scale). For 'year', we would need year-specific files.
+    // const year = searchParams.get('year'); // Unused for now
     const search = searchParams.get('search');
 
     try {
@@ -18,9 +20,8 @@ export async function GET(request: Request) {
         const fileContents = fs.readFileSync(geojsonPath, 'utf8');
         const geojson = JSON.parse(fileContents);
 
-        // Basic filtering if search term exists (This is computationally expensive on large files, 
-        // but works for this scale). For 'year', we would need year-specific files.
         if (search) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const filteredFeatures = geojson.features.filter((f: any) => {
                 // Check common name properties
                 const name = f.properties.DISTRICT || f.properties.NAME || f.properties.district_name || "";

@@ -10,6 +10,7 @@ import { LayoutDashboard, ChevronLeft, Menu, X } from 'lucide-react';
 
 export function SplitImpactDashboard() {
     const [states, setStates] = useState<string[]>([]);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [allStats, setAllStats] = useState<any>({});
 
     // Selectors
@@ -18,6 +19,7 @@ export function SplitImpactDashboard() {
     const [selectedMetric, setSelectedMetric] = useState('yield');
 
     // Selection
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [selectedEvent, setSelectedEvent] = useState<any>(null);
     const [comparisonMode, setComparisonMode] = useState('before_after');
 
@@ -63,6 +65,7 @@ export function SplitImpactDashboard() {
 
     const currentStateStats = allStats[selectedState] || null;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleEventSelect = (event: any) => {
         setSelectedEvent(event);
         // Auto-switch to analysis view on mobile
@@ -161,8 +164,8 @@ export function SplitImpactDashboard() {
                 <button
                     onClick={() => setMobileView('list')}
                     className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${mobileView === 'list'
-                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'
-                            : 'bg-slate-900 text-slate-400 border border-slate-700'
+                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'
+                        : 'bg-slate-900 text-slate-400 border border-slate-700'
                         }`}
                 >
                     Split Events
@@ -170,8 +173,8 @@ export function SplitImpactDashboard() {
                 <button
                     onClick={() => setMobileView('analysis')}
                     className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${mobileView === 'analysis'
-                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'
-                            : 'bg-slate-900 text-slate-400 border border-slate-700'
+                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'
+                        : 'bg-slate-900 text-slate-400 border border-slate-700'
                         }`}
                     disabled={!selectedEvent}
                 >

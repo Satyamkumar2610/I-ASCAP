@@ -69,6 +69,7 @@ export default function MapInterface({ year, crop = 'wheat', metric = 'yield', s
         const stateExpr = ['coalesce', ['get', 'STATE'], ['get', 'ST_NM']];
         const keyExpr = ['concat', districtExpr, '|', stateExpr];
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const matchExpr: any[] = ['match', keyExpr];
 
         // Use different color schemes based on layer mode
@@ -139,6 +140,7 @@ export default function MapInterface({ year, crop = 'wheat', metric = 'yield', s
                 <NavigationControl position="top-right" />
 
                 <Source type="geojson" data="/data/districts.json">
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     <Layer {...(layerStyle as any)} />
                     <Layer id="borders" type="line" paint={{ 'line-color': '#ffffff', 'line-width': 0.5, 'line-opacity': 0.2 }} />
                 </Source>

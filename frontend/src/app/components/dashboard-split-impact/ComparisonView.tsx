@@ -9,6 +9,7 @@ import { AdvancedStatsPanel } from './AdvancedStatsPanel';
 import { AlertCircle, Sprout, Loader2 } from 'lucide-react';
 
 interface ComparisonViewProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     event: any;
     crop: string;
     metric: string;
@@ -16,24 +17,40 @@ interface ComparisonViewProps {
 }
 
 export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProps) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [payload, setPayload] = useState<any>(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!event) return;
-        setLoading(true);
-        const childrenStr = event.childrenCdks.join(',');
 
-        fetch(`/api/split-impact/analysis?parent=${event.parentCdk}&children=${childrenStr}&splitYear=${event.splitYear}&crop=${crop}&metric=${metric}&mode=${mode}`)
-            .then(r => r.json())
-            .then(d => {
-                setPayload(d);
-                setLoading(false);
-            })
-            .catch(e => {
+        let isMounted = true;
+
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const childrenStr = event.childrenCdks.join(',');
+                const url = `/api/split-impact/analysis?parent=${event.parentCdk}&children=${childrenStr}&splitYear=${event.splitYear}&crop=${crop}&metric=${metric}&mode=${mode}`;
+                const res = await fetch(url);
+                const data = await res.json();
+
+                if (isMounted) {
+                    setPayload(data);
+                }
+            } catch (e) {
                 console.error(e);
-                setLoading(false);
-            });
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            isMounted = false;
+        };
     }, [event, crop, metric, mode]);
 
     if (!event) return null;

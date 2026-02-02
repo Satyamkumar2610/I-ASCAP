@@ -16,29 +16,44 @@ export function SplitDistrictTable({ state, onSelect, selectedEventId }: SplitDi
 
     useEffect(() => {
         if (!state) return;
-        setLoading(true);
-        fetch(`/api/split-impact/districts?state=${encodeURIComponent(state)}`)
-            .then(r => r.json())
-            .then(d => {
-                if (Array.isArray(d)) {
-                    // Transform snake_case API response to camelCase
-                    const transformed = d.map(item => ({
-                        id: item.id,
-                        parentCdk: item.parent_cdk || item.parentCdk,
-                        parentName: item.parent_name || item.parentName,
-                        splitYear: item.split_year || item.splitYear,
-                        childrenCdks: item.children_cdks || item.childrenCdks || [],
-                        childrenNames: item.children_names || item.childrenNames || [],
-                        childrenCount: item.children_count || item.childrenCount || 0,
-                        coverage: item.coverage,
-                    }));
-                    setSplits(transformed);
-                } else {
-                    setSplits([]);
+
+        let isMounted = true;
+
+        const fetchSplits = async () => {
+            setLoading(true);
+            try {
+                const res = await fetch(`/api/split-impact/districts?state=${encodeURIComponent(state)}`);
+                const d = await res.json();
+
+                if (isMounted) {
+                    if (Array.isArray(d)) {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        const transformed = d.map((item: any) => ({
+                            id: item.id,
+                            parentCdk: item.parent_cdk || item.parentCdk,
+                            parentName: item.parent_name || item.parentName,
+                            splitYear: item.split_year || item.splitYear,
+                            childrenCdks: item.children_cdks || item.childrenCdks || [],
+                            childrenNames: item.children_names || item.childrenNames || [],
+                            childrenCount: item.children_count || item.childrenCount || 0,
+                            coverage: item.coverage,
+                        }));
+                        setSplits(transformed);
+                    } else {
+                        setSplits([]);
+                    }
                 }
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
+            } catch (e) {
+                console.error(e);
+                if (isMounted) setSplits([]);
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        };
+
+        fetchSplits();
+
+        return () => { isMounted = false; };
     }, [state]);
 
     if (!state) return <div className="text-slate-500 text-sm text-center py-10">Select a state to view lineage events</div>;
@@ -64,8 +79,8 @@ export function SplitDistrictTable({ state, onSelect, selectedEventId }: SplitDi
                             key={split.id}
                             onClick={() => onSelect(split)}
                             className={`w-full text-left p-4 transition-colors ${selectedEventId === split.id
-                                    ? 'bg-emerald-900/20 border-l-2 border-emerald-500'
-                                    : 'hover:bg-slate-800/30'
+                                ? 'bg-emerald-900/20 border-l-2 border-emerald-500'
+                                : 'hover:bg-slate-800/30'
                                 }`}
                         >
                             <div className="flex items-start justify-between gap-3">
