@@ -85,7 +85,7 @@ interface CorrelationData {
     };
 }
 
-export default function AnalyticsPanel({ cdk, state, year, crop, districtName }: AnalyticsPanelProps) {
+export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPanelProps) {
     const [efficiency, setEfficiency] = useState<EfficiencyData | null>(null);
     const [riskData, setRiskData] = useState<RiskData | null>(null);
     const [diversification, setDiversification] = useState<DiversificationData | null>(null);
