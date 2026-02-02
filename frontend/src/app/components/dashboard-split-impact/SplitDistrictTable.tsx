@@ -49,11 +49,15 @@ export default function SplitDistrictTable({ splits, onSelect, selectedEventId }
                     </div>
 
                     <div className="space-y-1 pl-4 border-l-2 border-indigo-500/20">
-                        {item.children_names.map((childName: string) => (
-                            <div key={childName} className="flex justify-between items-center text-xs">
-                                <span className="text-indigo-300">{childName}</span>
-                            </div>
-                        ))}
+                        {item.children_names && Array.isArray(item.children_names) ? (
+                            item.children_names.map((childName: string) => (
+                                <div key={childName} className="flex justify-between items-center text-xs">
+                                    <span className="text-indigo-300">{childName}</span>
+                                </div>
+                            ))
+                        ) : (
+                            <span className="text-xs text-slate-500">No children data</span>
+                        )}
                     </div>
                 </div>
             ))}
