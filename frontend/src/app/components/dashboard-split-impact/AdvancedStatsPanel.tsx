@@ -106,6 +106,30 @@ export function AdvancedStatsPanel({ stats, metric }: AdvancedStatsPanelProps) {
                     </span>
                     <span className="text-xs text-slate-500 mb-1.5">avg. shift</span>
                 </div>
+
+                {stats.impact.uncertainty && (
+                    <div className="mt-2 text-xs">
+                        <div className="flex items-center gap-1.5 mb-1">
+                            <span className="text-slate-400">
+                                (±{((stats.impact.uncertainty.upper - stats.impact.uncertainty.lower) / 2).toFixed(1)}%)
+                            </span>
+                            {/* Check Significance: If interval crosses 0 (signs differ), it's inconclusive */}
+                            {(stats.impact.uncertainty.lower > 0 || stats.impact.uncertainty.upper < 0) ? (
+                                <span className="text-[9px] px-1.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/50 font-bold uppercase">
+                                    Significant
+                                </span>
+                            ) : (
+                                <span className="text-[9px] px-1.5 rounded bg-slate-500/10 text-slate-400 border border-slate-500/50 font-bold uppercase">
+                                    Inconclusive
+                                </span>
+                            )}
+                        </div>
+                        <div className="text-[9px] text-slate-600">
+                            95% CI: [{stats.impact.uncertainty.lower.toFixed(1)}, {stats.impact.uncertainty.upper.toFixed(1)}]
+                        </div>
+                    </div>
+                )}
+
                 <p className="text-xs text-slate-500 mt-2">
                     Analysis compares average performance levels between the two administrative eras.
                 </p>
