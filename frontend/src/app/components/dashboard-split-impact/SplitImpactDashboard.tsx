@@ -12,6 +12,8 @@ export function SplitImpactDashboard() {
     const [states, setStates] = useState<string[]>([]);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [allStats, setAllStats] = useState<any>({});
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [splitEvents, setSplitEvents] = useState<any[]>([]);
 
     // Selectors
     const [selectedState, setSelectedState] = useState('');
@@ -55,6 +57,30 @@ export function SplitImpactDashboard() {
             })
             .catch(e => console.error("Summary Fetch Fail", e));
     }, []);
+
+    // Fetch split events when state changes
+    useEffect(() => {
+        if (!selectedState) return;
+
+        setSplitEvents([]); // Clear previous events
+        const fetchEvents = async () => {
+            try {
+                const response = await fetch(`/api/split-impact/districts?state=${encodeURIComponent(selectedState)}`);
+                const data = await response.json();
+                if (Array.isArray(data)) {
+                    setSplitEvents(data);
+                } else {
+                    console.error("Split events data is not array:", data);
+                    setSplitEvents([]);
+                }
+            } catch (error) {
+                console.error("Failed to fetch split events:", error);
+                setSplitEvents([]);
+            }
+        };
+
+        fetchEvents();
+    }, [selectedState]);
 
     // Switch to analysis view when event is selected on mobile
     // Handled in handleEventSelect now to avoid useEffect loop
@@ -190,7 +216,7 @@ export function SplitImpactDashboard() {
                 <div className={`lg:col-span-5 flex flex-col gap-4 ${mobileView === 'analysis' ? 'hidden lg:flex' : 'flex'}`}>
                     <div className="max-h-[50vh] lg:max-h-[calc(100vh-350px)] overflow-hidden">
                         <SplitDistrictTable
-                            splits={currentStateStats}
+                            splits={splitEvents}
                             onSelect={handleEventSelect}
                             selectedEventId={selectedEvent?.id}
                         />
