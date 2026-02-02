@@ -25,8 +25,8 @@ export function ComparisonContextBanner({ event, mode }: { event: any; mode: str
                 <div>
                     <span className="text-slate-500 block">Parent District</span>
                     <span className="text-slate-200 font-semibold truncate block">
-                        {event.parentName}
-                        <span className="text-slate-600 ml-1 hidden sm:inline">(Pre-{event.splitYear})</span>
+                        {event.parent_name}
+                        <span className="text-slate-600 ml-1 hidden sm:inline">(Pre-{event.split_year})</span>
                     </span>
                 </div>
 
@@ -34,13 +34,13 @@ export function ComparisonContextBanner({ event, mode }: { event: any; mode: str
                 <div className="col-span-2 sm:col-span-1">
                     <span className="text-slate-500 block">Descendants</span>
                     <div className="flex flex-wrap gap-1 mt-0.5">
-                        {event.childrenNames.slice(0, 3).map((c: string) => (
+                        {event.children_names && event.children_names.slice(0, 3).map((c: string) => (
                             <span key={c} className="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300 text-[9px] md:text-xs truncate max-w-[80px] md:max-w-none">
                                 {c}
                             </span>
                         ))}
-                        {event.childrenNames.length > 3 && (
-                            <span className="text-slate-500">+{event.childrenNames.length - 3}</span>
+                        {event.children_names && event.children_names.length > 3 && (
+                            <span className="text-slate-500">+{event.children_names.length - 3}</span>
                         )}
                     </div>
                 </div>
@@ -48,7 +48,7 @@ export function ComparisonContextBanner({ event, mode }: { event: any; mode: str
                 <div className="hidden sm:block">
                     <span className="text-slate-500 block">Fragmentation Index</span>
                     <span className="text-slate-200 flex items-center gap-1 font-mono">
-                        {(event.childrenNames.length / 1.0).toFixed(1)}
+                        {event.children_names ? (event.children_names.length / 1.0).toFixed(1) : '0.0'}
                         <span className="text-slate-600 text-[10px] ml-1">splits/parent</span>
                     </span>
                 </div>

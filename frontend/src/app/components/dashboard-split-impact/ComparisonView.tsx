@@ -29,8 +29,8 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
 
         const fetchData = async () => {
             try {
-                const childrenStr = event.childrenCdks.join(',');
-                const url = `/api/split-impact/analysis?parent=${event.parentCdk}&children=${childrenStr}&splitYear=${event.splitYear}&crop=${crop}&metric=${metric}&mode=${mode}`;
+                const childrenStr = event.children_cdks.join(',');
+                const url = `/api/split-impact/analysis?parent=${event.parent_cdk}&children=${childrenStr}&splitYear=${event.split_year}&crop=${crop}&metric=${metric}&mode=${mode}`;
                 const res = await fetch(url);
                 const data = await res.json();
 
@@ -74,7 +74,7 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
                         <h3 className="text-base md:text-lg font-medium text-slate-400">No Data Available</h3>
                         <p className="max-w-xs mt-2 text-xs md:text-sm opacity-70">
                             We found no records for <span className="text-emerald-500 font-bold">{crop.toUpperCase()}</span> in
-                            <span className="text-white font-semibold"> {event.parentName}</span>.
+                            <span className="text-white font-semibold"> {event.parent_name}</span>.
                         </p>
                         <p className="mt-3 md:mt-4 text-[10px] md:text-xs bg-slate-900 px-3 py-2 rounded text-slate-400 border border-slate-800">
                             Try selecting <strong>Rice</strong>, <strong>Maize</strong>, or another crop.
@@ -94,7 +94,7 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
                             <ComparisonChart
                                 data={payload.data}
                                 series={payload.series}
-                                splitYear={event.splitYear}
+                                splitYear={event.split_year}
                             />
                         </div>
 
@@ -103,7 +103,7 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
                             <ComparisonTable
                                 data={payload.data}
                                 series={payload.series}
-                                splitYear={event.splitYear}
+                                splitYear={event.split_year}
                             />
                         </div>
 
