@@ -1,9 +1,15 @@
-
 "use client";
 import React from 'react';
-import { Info, AlertCircle } from 'lucide-react';
+import { Info } from 'lucide-react';
 
-export function ComparisonContextBanner({ event, mode, metric }: any) {
+interface ComparisonContextBannerProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    event: any;
+    metric: string;
+    mode: string;
+}
+
+export function ComparisonContextBanner({ event, mode, metric }: ComparisonContextBannerProps) {
     if (!event) return null;
 
     return (

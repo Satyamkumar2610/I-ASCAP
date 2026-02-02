@@ -1,8 +1,23 @@
 "use client";
 import React from 'react';
 
-export function ComparisonTable({ data, series, splitYear, metric }: any) {
+interface ComparisonTableProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data: any[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    series: any[];
+    splitYear: number;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    metric: string;
+}
+
+export function ComparisonTable({ data, series, splitYear, metric }: ComparisonTableProps) {
     if (!data || data.length === 0) return null;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const parent = series.find((s: any) => s.type === 'parent');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const children = series.filter((s: any) => s.type === 'child');
 
     // Calculate Stats for each Series
     const rows = series.map((s: any) => {

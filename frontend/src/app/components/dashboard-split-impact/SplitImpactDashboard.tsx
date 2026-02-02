@@ -59,6 +59,7 @@ export function SplitImpactDashboard() {
     // Switch to analysis view when event is selected on mobile
     useEffect(() => {
         if (selectedEvent && window.innerWidth < 1024) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setMobileView('analysis');
         }
     }, [selectedEvent]);

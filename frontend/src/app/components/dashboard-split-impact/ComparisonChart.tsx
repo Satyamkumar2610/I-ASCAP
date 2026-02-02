@@ -5,7 +5,17 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 const COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ec4899', '#8b5cf6'];
 
-export function ComparisonChart({ data, series, splitYear, metric }: any) {
+interface ComparisonChartProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data: any[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    series: any[];
+    splitYear: number;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    metric: string;
+}
+
+export function ComparisonChart({ data, series, splitYear, metric }: ComparisonChartProps) {
     return (
         <div className="h-64 md:h-80 w-full bg-slate-950/50 rounded-lg p-2 md:p-4 border border-slate-800/50">
             <ResponsiveContainer width="100%" height="100%">

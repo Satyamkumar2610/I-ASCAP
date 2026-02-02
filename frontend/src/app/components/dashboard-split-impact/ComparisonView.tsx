@@ -27,6 +27,7 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
         let isMounted = true;
 
         const fetchData = async () => {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setLoading(true);
             try {
                 const childrenStr = event.childrenCdks.join(',');

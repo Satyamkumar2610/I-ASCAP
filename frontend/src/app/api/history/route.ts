@@ -1,4 +1,4 @@
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server';
 import { fetchFromBackend, buildParams, BackendApiError } from '@/lib/api';
 

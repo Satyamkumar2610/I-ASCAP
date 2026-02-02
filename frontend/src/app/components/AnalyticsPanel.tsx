@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { Shield, TrendingUp, AlertTriangle, CheckCircle, PieChart, CloudRain } from 'lucide-react';
+import { Shield, TrendingUp, AlertTriangle, PieChart, CloudRain } from 'lucide-react';
 
 interface AnalyticsPanelProps {
     cdk: string;

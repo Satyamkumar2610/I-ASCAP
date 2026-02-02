@@ -20,6 +20,7 @@ export function SplitDistrictTable({ state, onSelect, selectedEventId }: SplitDi
         let isMounted = true;
 
         const fetchSplits = async () => {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setLoading(true);
             try {
                 const res = await fetch(`/api/split-impact/districts?state=${encodeURIComponent(state)}`);

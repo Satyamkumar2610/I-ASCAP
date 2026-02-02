@@ -35,10 +35,17 @@ function StatCard({ label, pre, post, unit = "", inverse = false }: StatsCardPro
     );
 }
 
-export function AdvancedStatsPanel({ stats, metric }: { stats: any, metric: string }) {
+interface AdvancedStatsPanelProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    stats: any;
+    metric: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function AdvancedStatsPanel({ stats, metric }: AdvancedStatsPanelProps) {
     if (!stats) return null;
 
-    const unit = metric === 'yield' ? '%' : ''; // CAGR/CV are %-based, but Mean keeps original unit? 
+    const unit = metric === 'yield' ? 'kg/ha' : metric === 'production' ? 'tons' : 'ha'; // CAGR/CV are %-based, but Mean keeps original unit? 
     // Actually CAGR/CV are always %. Mean is raw.
 
     return (
