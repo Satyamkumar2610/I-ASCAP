@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { StateSummaryPanel } from './StateSummaryPanel';
-import { SplitDistrictTable } from './SplitDistrictTable';
+import SplitDistrictTable from './SplitDistrictTable';
 import { ComparisonView } from './ComparisonView';
 import { ComparisonModeSelector } from './ComparisonModeSelector';
 import { LayoutDashboard, ChevronLeft, Menu, X } from 'lucide-react';
@@ -190,7 +190,7 @@ export function SplitImpactDashboard() {
                 <div className={`lg:col-span-5 flex flex-col gap-4 ${mobileView === 'analysis' ? 'hidden lg:flex' : 'flex'}`}>
                     <div className="max-h-[50vh] lg:max-h-[calc(100vh-350px)] overflow-hidden">
                         <SplitDistrictTable
-                            state={selectedState}
+                            splits={currentStateStats}
                             onSelect={handleEventSelect}
                             selectedEventId={selectedEvent?.id}
                         />
