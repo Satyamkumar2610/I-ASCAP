@@ -15,8 +15,8 @@ router = APIRouter()
 
 @router.get("", response_model=DistrictList)
 async def list_districts(
-    state: Optional[str] = Query(None, description="Filter by state name", max_length=50),
-    search: Optional[str] = Query(None, description="Search by district name", min_length=3, max_length=50),
+    state: Optional[str] = Query(None, description="Filter by state name"),
+    search: Optional[str] = Query(None, description="Search by district name"),
     db: asyncpg.Connection = Depends(get_db),
 ):
     """

@@ -48,35 +48,11 @@ class AnalysisMeta(BaseModel):
 
 class SplitImpactRequest(BaseModel):
     """Request parameters for split impact analysis."""
-    parent_cdk: str = Field(
-        ..., 
-        description="Parent district CDK",
-        min_length=5,
-        max_length=64,
-        pattern=r"^[A-Za-z0-9_]+$"
-    )
-    children_cdks: List[str] = Field(
-        ..., 
-        description="Children district CDKs",
-        min_length=1,
-        max_length=20
-    )
-    split_year: int = Field(
-        ..., 
-        description="Year of split event",
-        ge=1947,
-        le=2025
-    )
-    domain: str = Field(
-        default="agriculture", 
-        description="Metric domain",
-        max_length=30
-    )
-    variable: str = Field(
-        default="wheat_yield", 
-        description="Variable to analyze",
-        max_length=50
-    )
+    parent_cdk: str = Field(..., description="Parent district CDK")
+    children_cdks: List[str] = Field(..., description="Children district CDKs")
+    split_year: int = Field(..., description="Year of split event")
+    domain: str = Field(default="agriculture", description="Metric domain")
+    variable: str = Field(default="wheat_yield", description="Variable to analyze")
     mode: AnalysisMode = Field(default=AnalysisMode.BEFORE_AFTER)
 
 

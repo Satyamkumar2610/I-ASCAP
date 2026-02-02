@@ -16,23 +16,11 @@ interface ComparisonChartProps {
     data: any[];
     series: ChartSeries[];
     splitYear: number;
-    metric?: string;
 }
 
-export function ComparisonChart({ data, series, splitYear, metric = 'yield' }: ComparisonChartProps) {
-    const getUnitCallback = (val: number) => {
-        if (metric === 'yield') return `${val.toLocaleString()} kg/ha`;
-        if (metric === 'production') return `${val.toLocaleString()} tons`;
-        if (metric === 'area') return `${val.toLocaleString()} ha`;
-        return `${val.toLocaleString()}`;
-    };
-
+export function ComparisonChart({ data, series, splitYear }: ComparisonChartProps) {
     return (
-        <div
-            className="h-64 md:h-80 w-full bg-slate-950/50 rounded-lg p-2 md:p-4 border border-slate-800/50"
-            role="img"
-            aria-label={`Line chart showing ${metric} trends relative to split year ${splitYear}`}
-        >
+        <div className="h-64 md:h-80 w-full bg-slate-950/50 rounded-lg p-2 md:p-4 border border-slate-800/50">
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={data} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -61,8 +49,6 @@ export function ComparisonChart({ data, series, splitYear, metric = 'yield' }: C
                             borderRadius: '6px'
                         }}
                         labelStyle={{ color: '#94a3b8', fontSize: '10px' }}
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        formatter={(value: any) => [getUnitCallback(Number(value || 0)), '']}
                     />
                     <Legend
                         wrapperStyle={{ fontSize: '10px' }}
