@@ -95,6 +95,7 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
                                 data={payload.data}
                                 series={payload.series}
                                 splitYear={event.split_year}
+                                metric={metric}
                             />
                         </div>
 

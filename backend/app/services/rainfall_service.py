@@ -32,6 +32,27 @@ class RainfallData:
     post_monsoon_ond: float  # Oct-Dec
 
 
+
+STATE_MAPPING = {
+    "CHHATTISGARH": "CHATISGARH",
+    "ODISHA": "ORISSA",
+    "UTTARAKHAND": "UTTARANCHAL",
+    "HIMACHAL PRADESH": "HIMACHAL",
+    "PUDUCHERRY": "PONDICHERRY",
+    "ANDAMAN & NICOBAR ISLANDS": "ANDAMAN And NICOBAR ISLANDS",
+    "DADRA & NAGAR HAVELI": "DADAR NAGAR HAVELI",
+    "DAMAN & DIU": "DAMAN AND DUI"
+}
+
+def normalize_state(state: str) -> str:
+    """Normalize state name to match rainfall_normals database conventions."""
+    if not state:
+        return state
+    
+    upper_state = state.upper()
+    return STATE_MAPPING.get(upper_state, upper_state)
+
+
 async def get_rainfall_by_district(
     db: asyncpg.Connection,
     state: str,
@@ -40,12 +61,14 @@ async def get_rainfall_by_district(
     """
     Get rainfall data for a specific district from database.
     """
+    db_state = normalize_state(state)
+    
     row = await db.fetchrow("""
         SELECT state_ut, district, jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec_month,
                annual, jjas, mam, ond, jan_feb
         FROM rainfall_normals
-        WHERE UPPER(state_ut) = UPPER($1) AND UPPER(district) = UPPER($2)
-    """, state, district)
+        WHERE UPPER(state_ut) = $1 AND UPPER(district) = UPPER($2)
+    """, db_state, district)
     
     if not row:
         return None
@@ -82,12 +105,13 @@ async def get_all_rainfall(
     Returns simplified format for map visualization.
     """
     if state:
+        db_state = normalize_state(state)
         rows = await db.fetch("""
             SELECT state_ut, district, annual, jjas as monsoon
             FROM rainfall_normals
-            WHERE UPPER(state_ut) = UPPER($1)
+            WHERE UPPER(state_ut) = $1
             ORDER BY district
-        """, state)
+        """, db_state)
     else:
         rows = await db.fetch("""
             SELECT state_ut, district, annual, jjas as monsoon
@@ -113,6 +137,8 @@ async def get_state_rainfall_stats(
     """
     Get aggregated rainfall statistics for a state.
     """
+    db_state = normalize_state(state)
+    
     row = await db.fetchrow("""
         SELECT 
             COUNT(*) as district_count,
@@ -121,8 +147,8 @@ async def get_state_rainfall_stats(
             MAX(annual) as max_annual,
             AVG(jjas) as avg_monsoon
         FROM rainfall_normals
-        WHERE UPPER(state_ut) = UPPER($1)
-    """, state)
+        WHERE UPPER(state_ut) = $1
+    """, db_state)
     
     if not row or row["district_count"] == 0:
         return {"error": f"No data for state: {state}"}
