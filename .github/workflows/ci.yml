@@ -46,11 +46,6 @@ jobs:
       env:
         DATABASE_URL: postgresql://user:password@localhost:5432/i_ascap
       run: |
-        # Create a dummy test file if none exists to avoid failure
-        mkdir -p tests
-        if [ ! -f tests/test_basic.py ]; then
-          echo "def test_placeholder(): assert True" > tests/test_basic.py
-        fi
         pytest
 
   test-frontend:
