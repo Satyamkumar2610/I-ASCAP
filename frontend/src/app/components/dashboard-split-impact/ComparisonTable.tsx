@@ -1,10 +1,10 @@
 "use client";
-import React from 'react';
+import { ChartSeries } from './ComparisonChart';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 interface ComparisonTableProps {
     data: any[];
-    series: any[];
+    series: ChartSeries[];
     splitYear: number;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     metric: string;

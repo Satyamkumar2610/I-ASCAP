@@ -5,11 +5,16 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 const COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ec4899', '#8b5cf6'];
 
+export interface ChartSeries {
+    id: string;
+    label: string;
+    style?: 'solid' | 'dashed';
+}
+
 interface ComparisonChartProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: any[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    series: any[];
+    series: ChartSeries[];
     splitYear: number;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     metric: string;
