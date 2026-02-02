@@ -1,24 +1,34 @@
 'use client';
 
 import React, { useEffect, useState, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, TrendingUp, Shield, Activity, AlertTriangle } from 'lucide-react';
-import { useBookmarks, Bookmark } from '../hooks/useBookmarks';
+import { ArrowLeft } from 'lucide-react';
 import {
     Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
     Legend, Tooltip as RechartsTooltip
 } from 'recharts';
+import { EfficiencyData, RiskData } from '../../types/analysis';
+
+interface ComparisonData {
+    id: string;
+    district: string;
+    year: number;
+    crop: string;
+    efficiency: EfficiencyData | null;
+    risk: RiskData | null;
+}
+
+interface RadarDataPoint {
+    metric: string;
+    fullMark: number;
+    [key: string]: string | number;
+}
 
 // Helper to fetch data
-async function fetchComparisonData(id: string) {
+async function fetchComparisonData(id: string): Promise<ComparisonData> {
     const [district, yearStr, crop] = id.split('-');
     const year = parseInt(yearStr);
-
-    // We need bridge data to get CDK... assuming district name IS the CDK or close enough for now
-    // Ideally we pass CDK in the ID. Let's assume ID is "DistrictName-Year-Crop"
-    // In real app, we might need a lookup if CDK != Name. 
-    // For V1, let's try using the name as CDK or fetching the bridge.
 
     // Fetch all metrics in parallel
     const [efficRes, riskRes] = await Promise.all([
@@ -38,10 +48,10 @@ async function fetchComparisonData(id: string) {
 
 function CompareContent() {
     const searchParams = useSearchParams();
-    const router = useRouter();
-    const ids = searchParams.get('ids')?.split(',') || [];
+    const idsString = searchParams.get('ids');
+    const ids = React.useMemo(() => idsString?.split(',') || [], [idsString]);
 
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<ComparisonData[]>([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -60,7 +70,7 @@ function CompareContent() {
         };
 
         load();
-    }, [searchParams]);
+    }, [ids]);
 
     if (ids.length === 0) {
         return (
@@ -78,7 +88,6 @@ function CompareContent() {
     }
 
     // Transform Data for Radar Chart
-    // Metrics: Efficiency, Resilience, Stability (100-CV), Growth (CAGR scaled?)
     const radarMetrics = [
         { metric: 'Efficiency', fullMark: 100 },
         { metric: 'Resilience', fullMark: 100 },
@@ -87,7 +96,7 @@ function CompareContent() {
     ];
 
     const radarData = radarMetrics.map(m => {
-        const point: any = { metric: m.metric, fullMark: m.fullMark };
+        const point: RadarDataPoint = { metric: m.metric, fullMark: m.fullMark };
         data.forEach((d, i) => {
             let val = 0;
             if (d.efficiency && d.risk) {
@@ -229,7 +238,7 @@ function CompareContent() {
                                 <td className="px-6 py-3 font-medium text-slate-300">Resilience Index</td>
                                 {data.map((d, i) => (
                                     <td key={i} className="px-6 py-3 font-bold">
-                                        {(d.risk?.resilience_index.resilience_score * 100).toFixed(0) || '-'}
+                                        {d.risk ? (d.risk.resilience_index.resilience_score * 100).toFixed(0) : '-'}
                                     </td>
                                 ))}
                             </tr>
@@ -237,7 +246,7 @@ function CompareContent() {
                                 <td className="px-6 py-3 font-medium text-slate-300">Relative Efficiency</td>
                                 {data.map((d, i) => (
                                     <td key={i} className="px-6 py-3">
-                                        {(d.efficiency?.relative_efficiency.efficiency_score * 100).toFixed(1)}%
+                                        {d.efficiency ? (d.efficiency.relative_efficiency.efficiency_score * 100).toFixed(1) : '-'}%
                                     </td>
                                 ))}
                             </tr>
@@ -245,7 +254,7 @@ function CompareContent() {
                                 <td className="px-6 py-3 font-medium text-slate-300">Yield (kg/ha)</td>
                                 {data.map((d, i) => (
                                     <td key={i} className="px-6 py-3">
-                                        {d.efficiency?.relative_efficiency.district_yield.toFixed(0) || '-'}
+                                        {d.efficiency ? d.efficiency.relative_efficiency.district_yield.toFixed(0) : '-'}
                                     </td>
                                 ))}
                             </tr>
@@ -253,7 +262,7 @@ function CompareContent() {
                                 <td className="px-6 py-3 font-medium text-slate-300">Volatility (CV)</td>
                                 {data.map((d, i) => (
                                     <td key={i} className="px-6 py-3">
-                                        {d.risk?.risk_profile.volatility_score.toFixed(1)}%
+                                        {d.risk ? d.risk.risk_profile.volatility_score.toFixed(1) : '-'}%
                                     </td>
                                 ))}
                             </tr>
@@ -261,7 +270,7 @@ function CompareContent() {
                                 <td className="px-6 py-3 font-medium text-slate-300">Growth (CAGR)</td>
                                 {data.map((d, i) => (
                                     <td key={i} className="px-6 py-3">
-                                        {d.risk?.growth_matrix.cagr_5y}%
+                                        {d.risk ? d.risk.growth_matrix.cagr_5y : '-'}%
                                     </td>
                                 ))}
                             </tr>

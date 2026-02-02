@@ -107,7 +107,6 @@ export default function MapInterface({ year, crop = 'wheat', metric = 'yield', s
     const onHover = React.useCallback((event: MapLayerMouseEvent) => {
         const { features, point: { x, y } } = event;
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const feature = features && features[0];
 
         if (feature) {

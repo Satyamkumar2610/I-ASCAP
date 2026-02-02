@@ -1,4 +1,6 @@
-export function exportToCSV(data: any, filename: string) {
+import { AnalysisExportData } from '../types/analysis';
+
+export function exportToCSV(data: AnalysisExportData, filename: string) {
     if (!data) return;
 
     // Flatten logic depends on structure. 

@@ -16,11 +16,9 @@ interface ComparisonChartProps {
     data: any[];
     series: ChartSeries[];
     splitYear: number;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    metric: string;
 }
 
-export function ComparisonChart({ data, series, splitYear, metric }: ComparisonChartProps) {
+export function ComparisonChart({ data, series, splitYear }: ComparisonChartProps) {
     return (
         <div className="h-64 md:h-80 w-full bg-slate-950/50 rounded-lg p-2 md:p-4 border border-slate-800/50">
             <ResponsiveContainer width="100%" height="100%">

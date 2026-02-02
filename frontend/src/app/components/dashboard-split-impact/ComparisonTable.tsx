@@ -2,33 +2,24 @@
 import { ChartSeries } from './ComparisonChart';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+// Simplified props for now
 interface ComparisonTableProps {
-    data: any[];
-    series: ChartSeries[];
+    data: any; // Will type properly later
     splitYear: number;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    metric: string;
+    series: ChartSeries[];
 }
 
-export function ComparisonTable({ data, series, splitYear, metric }: ComparisonTableProps) {
-    if (!data || data.length === 0) return null;
+export function ComparisonTable({ data, splitYear, series }: ComparisonTableProps) {
+    if (!data) return null;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const parent = series.find((s: any) => s.type === 'parent');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const children = series.filter((s: any) => s.type === 'child');
-
-    // Calculate Stats for each Series
-    const rows = (series || []).map((s: any) => {
-        // Pre-Split Window (Split-5 to Split-1)
+    const rows = series.map((s: ChartSeries) => {
         const preData = data.filter((d: any) => d.year >= splitYear - 5 && d.year < splitYear && d[s.id] != null)
-            .map((d: any) => d[s.id]);
+        const avgPre = preData.length > 0 ? preData.reduce((a: number, b: number) => a + b, 0) / preData.length : null;
 
         // Post-Split Window (Split to Split+5)
         const postData = data.filter((d: any) => d.year >= splitYear && d.year <= splitYear + 5 && d[s.id] != null)
             .map((d: any) => d[s.id]);
 
-        const avgPre = preData.length > 0 ? preData.reduce((a: number, b: number) => a + b, 0) / preData.length : null;
         const avgPost = postData.length > 0 ? postData.reduce((a: number, b: number) => a + b, 0) / postData.length : null;
 
         // Calculate Standard Deviation for Volatility

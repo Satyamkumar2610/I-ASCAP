@@ -14,7 +14,6 @@ export async function GET(request: Request) {
 
     try {
         const params = buildParams({ state });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const data = await fetchFromBackend<any[]>('/api/v1/analysis/split-impact/districts', params);
         return NextResponse.json(data);
     } catch (error) {

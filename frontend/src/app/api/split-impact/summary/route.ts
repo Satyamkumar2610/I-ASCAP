@@ -6,8 +6,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
     try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const data = await fetchFromBackend<any>('/api/v1/analysis/split-impact/summary');
+        const data = await fetchFromBackend<any>('/api/v1/split-impact/summary', {});
         return NextResponse.json(data);
     } catch (error) {
         console.error('Split Impact Summary API Error:', error);

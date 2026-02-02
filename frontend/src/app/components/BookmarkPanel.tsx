@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Bookmark, useBookmarks } from '../hooks/useBookmarks';
-import { Trash2, ExternalLink, Calendar, Sprout } from 'lucide-react';
+import { Trash2, Calendar, Sprout } from 'lucide-react';
 
 interface BookmarkPanelProps {
     onSelect: (b: Bookmark) => void;

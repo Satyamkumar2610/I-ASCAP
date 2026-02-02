@@ -33,7 +33,7 @@ export async function fetchFromBackend<T>(
     params?: URLSearchParams | Record<string, string>,
     options?: RequestInit
 ): Promise<T> {
-    const url = new URL(endpoint, BACKEND_URL);
+
 
     let queryString = '';
 

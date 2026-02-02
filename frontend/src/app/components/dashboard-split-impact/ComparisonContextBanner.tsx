@@ -2,14 +2,10 @@
 import React from 'react';
 import { Info } from 'lucide-react';
 
-interface ComparisonContextBannerProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    event: any;
-    metric: string;
-    mode: string;
-}
 
-export function ComparisonContextBanner({ event, mode, metric }: ComparisonContextBannerProps) {
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function ComparisonContextBanner({ event, mode }: { event: any; mode: string }) {
     if (!event) return null;
 
     return (

@@ -60,7 +60,7 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
     return (
         <div className="bg-slate-900/50 p-3 md:p-6 rounded-xl border border-slate-800 animate-in fade-in duration-500 flex flex-col h-full overflow-hidden">
             {/* Context Banner */}
-            <ComparisonContextBanner event={event} mode={mode} metric={metric} />
+            <ComparisonContextBanner event={event} mode={mode} />
 
             <div className="flex-1 flex flex-col min-h-0 bg-slate-950/30 rounded-lg border border-slate-800/50 relative overflow-hidden">
                 {loading ? (
@@ -95,7 +95,6 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
                                 data={payload.data}
                                 series={payload.series}
                                 splitYear={event.splitYear}
-                                metric={metric}
                             />
                         </div>
 
@@ -105,7 +104,6 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
                                 data={payload.data}
                                 series={payload.series}
                                 splitYear={event.splitYear}
-                                metric={metric}
                             />
                         </div>
 

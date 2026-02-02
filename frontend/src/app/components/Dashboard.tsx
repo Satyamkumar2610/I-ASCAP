@@ -60,7 +60,6 @@ const Dashboard: React.FC<DashboardProps> = ({
 }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState<string[]>([]);
-    const [showFilters] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
 
     // Type Definitions

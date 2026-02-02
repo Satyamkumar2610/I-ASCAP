@@ -1,39 +1,12 @@
 
 import React from 'react';
-import { TrendingUp, Activity, BarChart3, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import {
+    TrendingUp,
+    Activity,
+    BarChart3
+} from 'lucide-react';
 
-interface StatsCardProps {
-    label: string;
-    pre: number;
-    post: number;
-    unit?: string;
-    inverse?: boolean; // If true, lower is better (e.g. Volatility)
-}
 
-function StatCard({ label, pre, post, unit = "", inverse = false }: StatsCardProps) {
-    const diff = post - pre;
-    const isGood = inverse ? diff < 0 : diff > 0;
-    const color = isGood ? "text-emerald-400" : "text-rose-400";
-    const Icon = diff > 0 ? ArrowUpRight : ArrowDownRight;
-
-    return (
-        <div className="bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
-            <div className="text-[10px] uppercase text-slate-500 font-semibold mb-1">{label}</div>
-            <div className="flex items-baseline justify-between">
-                <div className="text-white font-mono text-lg">
-                    {post.toFixed(1)}{unit}
-                </div>
-                <div className={`flex items-center text-xs font-bold ${color}`}>
-                    <Icon size={12} className="mr-0.5" />
-                    {Math.abs(diff).toFixed(1)}{unit}
-                </div>
-            </div>
-            <div className="text-[10px] text-slate-600 mt-1 flex justify-between">
-                <span>Pre: {pre.toFixed(1)}{unit}</span>
-            </div>
-        </div>
-    );
-}
 
 interface AdvancedStatsPanelProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,8 +18,9 @@ interface AdvancedStatsPanelProps {
 export function AdvancedStatsPanel({ stats, metric }: AdvancedStatsPanelProps) {
     if (!stats) return null;
 
-    const unit = metric === 'yield' ? 'kg/ha' : metric === 'production' ? 'tons' : 'ha'; // CAGR/CV are %-based, but Mean keeps original unit? 
-    // Actually CAGR/CV are always %. Mean is raw.
+    if (!stats) return null;
+
+    // unit variable removed as it was unused (stats cards have hardcoded formatting for now)
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 animate-in fade-in slide-in-from-bottom-2 duration-700">
