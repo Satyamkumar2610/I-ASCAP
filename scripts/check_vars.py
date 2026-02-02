@@ -1,7 +1,8 @@
 
 from sqlalchemy import create_engine, text
 
-DB_URL = "postgresql://user:password@localhost:5432/i_ascap"
+import os
+DB_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/i_ascap")
 engine = create_engine(DB_URL)
 
 def get_vars():

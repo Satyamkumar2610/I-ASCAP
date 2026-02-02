@@ -6,7 +6,10 @@ import os
 import logging
 
 # Config
-DB_URL = "postgresql://user:password@localhost:5432/i_ascap"
+# Config
+DB_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/i_ascap") # Fallback to local if not set, but prefers ENV
+if not os.getenv("DATABASE_URL"):
+    logger.warning("DATABASE_URL not set, using default local URL.")
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ICRISAT_PATH = os.path.join(BASE_DIR, 'data', 'raw', 'ICRISAT_correct.csv')
 

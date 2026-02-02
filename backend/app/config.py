@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     debug: bool = False
     
     # Database
-    database_url: str = "postgresql://user:password@localhost:5432/i_ascap"
+    database_url: str = "postgresql://user:password@localhost:5432/i_ascap" # Override with DATABASE_URL env var
     db_pool_min_size: int = 2
     db_pool_max_size: int = 10
     db_command_timeout: int = 60

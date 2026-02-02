@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const BACKEND_URL = process.env.NODE_ENV === 'production'
-    ? 'https://i-ascap.onrender.com'
-    : 'http://127.0.0.1:8000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || 'https://i-ascap.onrender.com';
 
 export async function GET(
     request: Request,
@@ -21,7 +19,10 @@ export async function GET(
         const url = `${BACKEND_URL}/api/v1/analysis/${action}?${searchParams.toString()}`;
 
         const response = await fetch(url, {
-            headers: { 'Accept': 'application/json' },
+            headers: {
+                'Accept': 'application/json',
+                'X-API-Key': process.env.API_KEY || 'dev-secret-key-123'
+            },
             next: { revalidate: 3600 }, // Cache for 1 hour
         });
 

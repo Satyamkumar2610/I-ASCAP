@@ -5,8 +5,9 @@ import plotly.io as pio
 import os
 
 # Define paths
-RAW_DATA_PATH = '/Users/satyamkumar/Desktop/DistrictEvolution/data/raw/district_proliferation_1951_2024.xlsx'
-OUTPUT_DIR = '/Users/satyamkumar/Desktop/DistrictEvolution/output/visualizations'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+RAW_DATA_PATH = os.path.join(BASE_DIR, 'data', 'raw', 'district_proliferation_1951_2024.xlsx')
+OUTPUT_DIR = os.path.join(BASE_DIR, 'output', 'visualizations')
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, 'national_timeline.html')
 
 def generate_timeline():

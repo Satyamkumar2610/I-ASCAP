@@ -38,13 +38,18 @@ I-ASCAP is a research-grade geospatial platform designed to visualize and analyz
 - Python 3.11+
 - Node.js 18+
 
-### Quick Start (Docker)
+### Quick Start (Docker - Local Dev)
 ```bash
 docker-compose up --build
 ```
 - Frontend: [http://localhost:3000](http://localhost:3000)
 - Backend: [http://localhost:8000](http://localhost:8000)
 - API Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+*(Requires `.env` file with `DATABASE_URL`)*
+
+### Live Production
+- **Frontend**: [https://i-ascap.onrender.com](https://i-ascap.onrender.com) (or Vercel URL)
+- **API Docs**: [https://i-ascap.onrender.com/docs](https://i-ascap.onrender.com/docs)
 
 ### Local Development
 

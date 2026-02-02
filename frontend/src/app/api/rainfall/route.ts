@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const BACKEND_URL = process.env.NODE_ENV === 'production'
-    ? 'https://i-ascap.onrender.com'
-    : 'http://127.0.0.1:8000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || 'https://i-ascap.onrender.com';
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -16,7 +14,10 @@ export async function GET(request: Request) {
             const url = `${BACKEND_URL}/api/v1/climate/rainfall?${params.toString()}`;
 
             const response = await fetch(url, {
-                headers: { 'Accept': 'application/json' },
+                headers: {
+                    'Accept': 'application/json',
+                    'X-API-Key': process.env.API_KEY || 'dev-secret-key-123'
+                },
                 next: { revalidate: 3600 },
             });
 
@@ -34,7 +35,10 @@ export async function GET(request: Request) {
 
         const url = `${BACKEND_URL}/api/v1/climate/rainfall/all${params.toString() ? '?' + params.toString() : ''}`;
         const response = await fetch(url, {
-            headers: { 'Accept': 'application/json' },
+            headers: {
+                'Accept': 'application/json',
+                'X-API-Key': process.env.API_KEY || 'dev-secret-key-123'
+            },
             next: { revalidate: 3600 },
         });
 
