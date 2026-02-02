@@ -45,9 +45,25 @@
 - [ ] **"Confidence Interval" Visualization:** Boundaries are fuzzy. We should visualize the "uncertainty" of our harmonization (e.g., dotted lines for disputed/estimated borders).
 - [ ] **Climate Correlation:** Overlay the Rainfall Layer *mathematically* (Correlation Coefficient) against Yield, not just visually.
 
-### Phase 3: Deployment Grade
-- [ ] **Docker Compose:** Create a single `docker-compose.prod.yml` that spins up Frontend, Backend, and PostGIS with one command.
-- [ ] **CI/CD:** GitHub Action to run `pytest` and `eslint` on every push.
+### Phase 4: Critical Foundations (P0 - Immediate)
+- [ ] **Security**: Patch SQL Injection & enforce unit validation.
+- [ ] **Methodology**: Add `climate_assumption="stationary"` flag and disclaimer.
+- [ ] **Data Governance**: Explicit unit labeling in API & UI.
 
-## 5. Conclusion
-I have built a **Research-Grade Prototype**. It works beautifully for demos and individual analysis. To make it a **Production Platform**, we must invest in **Backend Performance (Async/Caching)** and **Automated Testing**.
+### Phase 5: Metrics & Taxonomy (P1 - Short Term)
+- [ ] **Historical Efficiency**: Implement `yield / 10-year district mean`.
+- [ ] **Taxonomy Cleanup**: Rename "Efficiency" -> "Relative Efficiency".
+- [ ] **UX/Education**: Tooltips defining "CV", "Stability", and units.
+
+### Phase 6: Decision Intelligence (P2 - Medium Term)
+- [ ] **Resilience Index**: Composite of Yield Stability (1/CV) + Drought Retention.
+- [ ] **Growth Matrix**: 2x2 Cluster Map (CAGR vs Yield).
+- [ ] **Simulated Impact**: Regression-based scenarios with confidence bands.
+
+## 5. Critical Vulnerability Log (Status)
+- [ ] **[CRITICAL] SQL Injection**: Identified in `analysis.py`. **Fixing Now.**
+- [ ] **[HIGH] Logic Error**: Relative vs Historical Efficiency. **Scheduled P1.**
+- [ ] **[MED] Data Validity**: Climate Normals. **Fixing P0.**
+
+## 6. Conclusion
+I have built a **Research-Grade Prototype**. It works beautifully for demos and individual analysis. To make it a **Production Platform**, we must invest in **Backend Performance (Async/Caching)** and **Automated Testing**. To make it a **Decision Engine**, we must implement Phase 4.

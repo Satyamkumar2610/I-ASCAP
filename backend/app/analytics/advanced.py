@@ -51,6 +51,16 @@ class RiskProfile:
     best_year: Optional[int]
 
 
+@dataclass
+class HistoricalEfficiencyResult:
+    """Result of historical efficiency analysis."""
+    efficiency_ratio: float  # current / historical_mean
+    current_yield: float
+    historical_mean: float  # 10-year mean
+    yield_diff: float  # current - mean
+    is_above_trend: bool
+
+
 class AdvancedAnalyzer:
     """
     Advanced analytics for agricultural data.
@@ -188,75 +198,163 @@ class AdvancedAnalyzer:
             yield_gap_pct=round(max(0, yield_gap_pct), 2),
             percentile_rank=round(percentile_rank, 2),
         )
+
+    def calculate_historical_efficiency(
+        self,
+        current_yield: float,
+        historical_yields: List[float],
+    ) -> HistoricalEfficiencyResult:
+        """
+        Calculate efficiency compared to district's own history (10-year mean).
+        
+        Args:
+            current_yield: Yield for the current year
+            historical_yields: List of yields for previous years (up to 10)
+        
+        Returns:
+            HistoricalEfficiencyResult
+        """
+        if not historical_yields:
+            return HistoricalEfficiencyResult(
+                efficiency_ratio=0,
+                current_yield=current_yield,
+                historical_mean=0,
+                yield_diff=0,
+                is_above_trend=False,
+            )
+        
+        # Calculate 10-year mean (or available)
+        mean_yield = sum(historical_yields) / len(historical_yields)
+        
+        if mean_yield == 0:
+             return HistoricalEfficiencyResult(
+                efficiency_ratio=0,
+                current_yield=current_yield,
+                historical_mean=0,
+                yield_diff=0,
+                is_above_trend=False,
+            )
+            
+        ratio = current_yield / mean_yield
+        diff = current_yield - mean_yield
+        
+        return HistoricalEfficiencyResult(
+            efficiency_ratio=round(ratio, 4),
+            current_yield=round(current_yield, 2),
+            historical_mean=round(mean_yield, 2),
+            yield_diff=round(diff, 2),
+            is_above_trend=diff > 0
+        )
     
     # -------------------------------------------------------------------------
     # Risk Profiling
     # -------------------------------------------------------------------------
     
-    def calculate_risk_profile(
-        self,
-        yearly_values: Dict[int, float],
-    ) -> RiskProfile:
+@dataclass
+class ResilienceResult:
+    """Result of resilience analysis."""
+    resilience_score: float  # 0-1 composite score
+    volatility_component: float  # normalized (1-CV)
+    retention_component: float  # P10/Median ratio
+    drought_risk: str  # Low/Med/High based on retention
+    reliability_rating: str  # A-F
+
+@dataclass
+class GrowthResult:
+    """Result of growth matrix analysis."""
+    cagr_5y: float
+    mean_yield_5y: float
+    matrix_quadrant: str  # Star, Cash Cow, Emerging, Lagging
+    trend_direction: str
+
+
+class AdvancedAnalyzer:
+# ... (existing init) ...
+    # -------------------------------------------------------------------------
+    # Resilience & Growth
+    # -------------------------------------------------------------------------
+
+    def calculate_resilience(self, yearly_values: Dict[int, float]) -> ResilienceResult:
         """
-        Calculate risk profile based on historical volatility.
-        
-        Args:
-            yearly_values: Dictionary of year -> metric value
-        
-        Returns:
-            RiskProfile with category and detailed metrics
+        Calculate resilience score.
+        Score = 0.6 * (1 - CV_norm) + 0.4 * Retention_Ratio
+        Retention_Ratio = 10th Percentile Yield / Median Yield (Proxy for drought resistance)
         """
-        if not yearly_values or len(yearly_values) < 3:
-            return RiskProfile(
-                risk_category=RiskCategory.MEDIUM,
-                volatility_score=0,
-                reliability_rating="N/A",
-                trend_stability="Insufficient data",
-                worst_year=None,
-                best_year=None,
-            )
+        if not yearly_values or len(yearly_values) < 5:
+             return ResilienceResult(0, 0, 0, "N/A", "N/A")
+
+        values = list(yearly_values.values())
         
-        years = sorted(yearly_values.keys())
-        values = [yearly_values[y] for y in years]
-        
-        # Calculate volatility (CV)
+        # 1. Volatility Component
         cv = self.stats.coefficient_of_variation(values)
+        # Normalize CV: Assume CV > 40% is 0 score, CV < 5% is 1 score.
+        cv_norm = max(0, min(1, (40 - cv) / 35))
         
-        # Categorize risk
-        if cv < 10:
-            risk_category = RiskCategory.LOW
-            reliability_rating = "A"
-        elif cv < 20:
-            risk_category = RiskCategory.MEDIUM
-            reliability_rating = "B"
-        elif cv < 35:
-            risk_category = RiskCategory.HIGH
-            reliability_rating = "C"
-        else:
-            risk_category = RiskCategory.CRITICAL
-            reliability_rating = "D"
+        # 2. Retention Component (Drought Proxy)
+        median = self.stats.percentile(values, 50)
+        p10 = self.stats.percentile(values, 10)
+        retention = (p10 / median) if median > 0 else 0
+        retention = min(retention, 1.0)
         
-        # Trend stability
-        trend = self.stats.linear_trend(values)
-        if trend.r_squared > 0.7 and trend.significant:
-            trend_stability = "Stable trend"
-        elif trend.r_squared > 0.4:
-            trend_stability = "Moderate stability"
-        else:
-            trend_stability = "Unstable/volatile"
+        # Composite Score
+        score = (0.6 * cv_norm) + (0.4 * retention)
         
-        # Best and worst years
-        worst_year = years[values.index(min(values))]
-        best_year = years[values.index(max(values))]
+        # Categorization
+        if retention < 0.6: drought_risk = "High"
+        elif retention < 0.8: drought_risk = "Medium"
+        else: drought_risk = "Low"
         
-        return RiskProfile(
-            risk_category=risk_category,
-            volatility_score=round(cv, 2),
-            reliability_rating=reliability_rating,
-            trend_stability=trend_stability,
-            worst_year=worst_year,
-            best_year=best_year,
+        rating = "A" if score > 0.8 else "B" if score > 0.6 else "C" if score > 0.4 else "D"
+        
+        return ResilienceResult(
+            resilience_score=round(score, 2),
+            volatility_component=round(cv_norm, 2),
+            retention_component=round(retention, 2),
+            drought_risk=drought_risk,
+            reliability_rating=rating
         )
+
+    def calculate_growth_matrix(self, yearly_values: Dict[int, float]) -> GrowthResult:
+        """
+        Calculate Compound Annual Growth Rate (CAGR) and classify matrix quadrant.
+        """
+        if not yearly_values or len(yearly_values) < 5:
+            return GrowthResult(0, 0, "Insufficient Data", "Flat")
+            
+        sorted_years = sorted(yearly_values.keys())
+        recent_years = sorted_years[-5:] # Last 5 years
+        
+        start_val = yearly_values[recent_years[0]]
+        end_val = yearly_values[recent_years[-1]]
+        years = len(recent_years) - 1
+        
+        # CAGR Formula: (End/Start)^(1/n) - 1
+        if start_val > 0 and years > 0:
+            cagr = (end_val / start_val) ** (1/years) - 1
+        else:
+            cagr = 0
+            
+        mean_yield = sum(yearly_values[y] for y in recent_years) / len(recent_years)
+        
+        # Determine Quadrant (Thresholds need state context, but using generic for now)
+        # Assuming "High Growth" > 2%, "High Yield" > ??? (Relative to what? Self-history?)
+        # Ideally this needs State Mean context. For now, we return raw values.
+        # We'll use a placeholder classification based on CAGR.
+        
+        if cagr > 0.02:
+             quadrant = "Growth Leader"
+        elif cagr > 0:
+             quadrant = "Stable"
+        else:
+             quadrant = "Declining"
+             
+        return GrowthResult(
+            cagr_5y=round(cagr * 100, 2),
+            mean_yield_5y=round(mean_yield, 2),
+            matrix_quadrant=quadrant,
+            trend_direction="Positive" if cagr > 0 else "Negative"
+        )
+
     
     # -------------------------------------------------------------------------
     # Batch Analysis Helpers

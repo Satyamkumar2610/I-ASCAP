@@ -180,4 +180,9 @@ async def get_rainfall_yield_correlation(
         },
         "data_points": matched_data,
         "note": "Correlation uses IMD 1951-2000 rainfall normals vs actual yields",
+        "validity": {
+            "climate_assumption": "stationary",
+            "baseline_period": "1951-2000",
+            "warning": "Correlation based on historic climate normals. Not valid for real-time weather impact."
+        }
     }

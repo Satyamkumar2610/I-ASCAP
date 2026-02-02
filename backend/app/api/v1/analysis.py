@@ -162,15 +162,30 @@ async def get_yield_efficiency(
     state_rows = await db.fetch(state_query, state_name, crop, year)
     state_yields = [float(r["yield"]) for r in state_rows]
     
+    # Get historical yields for this district (last 10 years)
+    history_query = """
+        SELECT yield FROM agri_metrics
+        WHERE cdk = $1 AND LOWER(crop) = LOWER($2) 
+        AND year < $3 AND year >= $3 - 10
+        AND yield IS NOT NULL AND yield > 0
+        ORDER BY year
+    """
+    history_rows = await db.fetch(history_query, cdk, crop, year)
+    historical_yields = [float(r["yield"]) for r in history_rows]
+
     analyzer = get_advanced_analyzer()
-    result = analyzer.calculate_efficiency(district_yield, state_yields)
+    relative_result = analyzer.calculate_efficiency(district_yield, state_yields)
+    historical_result = analyzer.calculate_historical_efficiency(district_yield, historical_yields)
     
     return {
         "cdk": cdk,
         "crop": crop,
         "year": year,
         "state": state_name,
-        **result.__dict__,
+        "relative_efficiency": relative_result.__dict__,
+        "historical_efficiency": historical_result.__dict__,
+        # legacy key for backward compatibility if needed, but we want to enforce the new taxonomy
+        # "efficiency_score": relative_result.efficiency_score 
     }
 
 
@@ -186,6 +201,12 @@ async def get_risk_profile(
     
     Returns risk category, volatility score, and reliability rating.
     """
+    # Security: Validate metric against whitelist to prevent SQL Injection
+    ALLOWED_METRICS = {"yield", "area", "production"}
+    if metric.lower() not in ALLOWED_METRICS:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=400, detail=f"Invalid metric. Allowed: {ALLOWED_METRICS}")
+    
     query = f"""
         SELECT year, {metric} FROM agri_metrics
         WHERE cdk = $1 AND LOWER(crop) = LOWER($2)
@@ -201,16 +222,22 @@ async def get_risk_profile(
     
     analyzer = get_advanced_analyzer()
     result = analyzer.calculate_risk_profile(yearly_values)
+    resilience = analyzer.calculate_resilience(yearly_values)
+    growth = analyzer.calculate_growth_matrix(yearly_values)
     
     return {
         "cdk": cdk,
         "crop": crop,
         "metric": metric,
         "years_analyzed": len(yearly_values),
-        "risk_category": result.risk_category.value,
-        "volatility_score": result.volatility_score,
-        "reliability_rating": result.reliability_rating,
-        "trend_stability": result.trend_stability,
-        "worst_year": result.worst_year,
-        "best_year": result.best_year,
+        "risk_profile": {
+            "risk_category": result.risk_category.value,
+            "volatility_score": result.volatility_score,
+            "reliability_rating": result.reliability_rating,
+            "trend_stability": result.trend_stability,
+            "worst_year": result.worst_year,
+            "best_year": result.best_year,
+        },
+        "resilience_index": resilience.__dict__,
+        "growth_matrix": growth.__dict__,
     }

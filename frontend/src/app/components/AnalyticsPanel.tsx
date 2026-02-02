@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { Shield, TrendingUp, AlertTriangle, CheckCircle, PieChart } from 'lucide-react';
+import { Shield, TrendingUp, AlertTriangle, CheckCircle, PieChart, CloudRain } from 'lucide-react';
 
 interface AnalyticsPanelProps {
     cdk: string;
@@ -10,17 +10,53 @@ interface AnalyticsPanelProps {
     districtName: string;
 }
 
-interface EfficiencyData {
+interface EfficiencyResult {
     efficiency_score: number;
     potential_yield: number;
     district_yield: number;
     yield_gap_pct: number;
+    percentile_rank: number;
+}
+
+interface HistoricalEfficiencyResult {
+    efficiency_ratio: number;
+    current_yield: number;
+    historical_mean: number;
+    yield_diff: number;
+    is_above_trend: boolean;
+}
+
+interface EfficiencyData {
+    relative_efficiency: EfficiencyResult;
+    historical_efficiency: HistoricalEfficiencyResult;
 }
 
 interface RiskProfile {
     risk_category: string;
     volatility_score: number;
     trend_stability: string;
+    reliability_rating: string;
+}
+
+interface ResilienceIndex {
+    resilience_score: number;
+    volatility_component: number;
+    retention_component: number;
+    drought_risk: string;
+    reliability_rating: string;
+}
+
+interface GrowthMatrix {
+    cagr_5y: number;
+    mean_yield_5y: number;
+    matrix_quadrant: string;
+    trend_direction: string;
+}
+
+interface RiskData {
+    risk_profile: RiskProfile;
+    resilience_index: ResilienceIndex;
+    growth_matrix: GrowthMatrix;
 }
 
 interface DiversificationData {
@@ -30,10 +66,32 @@ interface DiversificationData {
     breakdown: Record<string, number>;
 }
 
+interface CorrelationData {
+    correlations: {
+        annual_rainfall: {
+            r: number;
+            interpretation: string;
+            direction: string;
+        };
+        monsoon_rainfall: {
+            r: number;
+            interpretation: string;
+            direction: string;
+        };
+    };
+    note: string;
+    validity?: {
+        climate_assumption: string;
+        baseline_period: string;
+        warning: string;
+    };
+}
+
 export default function AnalyticsPanel({ cdk, state, year, crop, districtName }: AnalyticsPanelProps) {
     const [efficiency, setEfficiency] = useState<EfficiencyData | null>(null);
-    const [risk, setRisk] = useState<RiskProfile | null>(null);
+    const [riskData, setRiskData] = useState<RiskData | null>(null);
     const [diversification, setDiversification] = useState<DiversificationData | null>(null);
+    const [correlation, setCorrelation] = useState<CorrelationData | null>(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -47,13 +105,19 @@ export default function AnalyticsPanel({ cdk, state, year, crop, districtName }:
                 if (efficRes.ok) setEfficiency(await efficRes.json());
                 else setEfficiency(null); // Reset on error
 
-                // Fetch Risk (independent of year)
+                // Fetch Risk & Decision Metrics
                 const riskRes = await fetch(`/api/analysis/risk-profile?cdk=${cdk}&crop=${crop}`);
-                if (riskRes.ok) setRisk(await riskRes.json());
+                if (riskRes.ok) setRiskData(await riskRes.json());
 
                 // Fetch Diversification
                 const divRes = await fetch(`/api/analysis/diversification?state=${encodeURIComponent(state)}&year=${year}`);
                 if (divRes.ok) setDiversification(await divRes.json());
+
+                // Fetch Climate Correlation
+                const corrRes = await fetch(`/api/climate/correlation?state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`);
+                if (corrRes.ok) setCorrelation(await corrRes.json());
+                else setCorrelation(null);
+
 
             } catch (err) {
                 console.error("Analytics fetch failed", err);
@@ -67,53 +131,140 @@ export default function AnalyticsPanel({ cdk, state, year, crop, districtName }:
 
     if (loading) return <div className="p-4 text-center text-slate-500 text-xs">Loading analytics...</div>;
 
+    const risk = riskData?.risk_profile;
+
     return (
         <div className="space-y-4 mt-4 animate-in fade-in duration-500">
 
-            {/* 1. Yield Efficiency */}
-            {efficiency && efficiency.potential_yield > 0 && (
+            {/* 1. Yield Efficiency (Renamed & Expanded) */}
+            {efficiency && efficiency.relative_efficiency.potential_yield > 0 && (
                 <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
-                    <h4 className="text-[10px] text-emerald-400 uppercase font-bold mb-2 flex items-center gap-2">
-                        <TrendingUp size={12} /> Yield Efficiency
+                    <h4 className="text-[10px] text-emerald-400 uppercase font-bold mb-3 flex items-center gap-2">
+                        <TrendingUp size={12} /> Efficiency Metrics
                     </h4>
 
-                    <div className="flex justify-between items-end mb-2">
-                        <div>
-                            <div className="text-2xl font-bold text-slate-200">{(efficiency.efficiency_score * 100).toFixed(0)}%</div>
-                            <div className="text-[10px] text-slate-500">of State Potential</div>
+                    {/* A. Relative Efficiency */}
+                    <div className="mb-3 group/tooltip relative">
+                        <div className="flex justify-between items-end mb-1">
+                            <div>
+                                <div className="text-xl font-bold text-slate-200">
+                                    {(efficiency.relative_efficiency.efficiency_score * 100).toFixed(0)}%
+                                </div>
+                                <div className="text-[10px] text-slate-500 border-b border-dotted border-slate-600 cursor-help w-max">
+                                    Relative (vs State)
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <div className="text-xs font-mono text-red-400">
+                                    -{efficiency.relative_efficiency.yield_gap_pct.toFixed(1)}%
+                                </div>
+                                <div className="text-[10px] text-slate-500">Gap</div>
+                            </div>
                         </div>
-                        <div className="text-right">
-                            <div className="text-xs font-mono text-red-400">-{efficiency.yield_gap_pct.toFixed(1)}%</div>
-                            <div className="text-[10px] text-slate-500">Gap</div>
+                        <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden flex">
+                            <div
+                                className="h-full bg-emerald-500"
+                                style={{ width: `${Math.min(efficiency.relative_efficiency.efficiency_score * 100, 100)}%` }}
+                            />
+                        </div>
+
+                        {/* Tooltip */}
+                        <div className="absolute left-0 bottom-full mb-2 w-48 bg-slate-900 border border-slate-700 p-2 rounded text-[10px] text-slate-300 hidden group-hover/tooltip:block z-50 shadow-xl">
+                            <div className="font-bold text-emerald-400 mb-1">Relative Efficiency</div>
+                            Compares your yield ({efficiency.relative_efficiency.district_yield}) to the state's top 5% performers ({efficiency.relative_efficiency.potential_yield}).
                         </div>
                     </div>
 
-                    {/* Mini Bar Chart */}
-                    <div className="h-2 bg-slate-800 rounded-full overflow-hidden flex">
-                        <div
-                            className="h-full bg-emerald-500"
-                            style={{ width: `${Math.min(efficiency.efficiency_score * 100, 100)}%` }}
-                        />
-                        <div className="h-full bg-slate-700 flex-1" />
-                    </div>
-                    <div className="flex justify-between text-[10px] text-slate-500 mt-1 font-mono">
-                        <span>{efficiency.district_yield} (You)</span>
-                        <span>{efficiency.potential_yield} (Max)</span>
+                    {/* B. Historical Efficiency */}
+                    <div className="group/tooltip relative">
+                        <div className="flex justify-between items-end mb-1">
+                            <div>
+                                <div className={`text-xl font-bold ${efficiency.historical_efficiency.is_above_trend ? 'text-blue-400' : 'text-amber-400'}`}>
+                                    {(efficiency.historical_efficiency.efficiency_ratio * 100).toFixed(0)}%
+                                </div>
+                                <div className="text-[10px] text-slate-500 border-b border-dotted border-slate-600 cursor-help w-max">
+                                    Historical (vs 10y)
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <div className={`text-xs font-mono ${efficiency.historical_efficiency.is_above_trend ? 'text-blue-400' : 'text-amber-400'}`}>
+                                    {efficiency.historical_efficiency.yield_diff > 0 ? '+' : ''}{efficiency.historical_efficiency.yield_diff.toFixed(1)}
+                                </div>
+                                <div className="text-[10px] text-slate-500">Diff</div>
+                            </div>
+                        </div>
+                        <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden relative">
+                            {/* Center marker at 100% */}
+                            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-slate-600 z-10"></div>
+                            <div
+                                className={`h-full ${efficiency.historical_efficiency.is_above_trend ? 'bg-blue-500' : 'bg-amber-500'}`}
+                                style={{
+                                    width: `${Math.min(Math.abs(efficiency.historical_efficiency.efficiency_ratio - 1) * 100, 50)}%`, // Scale deviation
+                                    marginLeft: efficiency.historical_efficiency.is_above_trend ? '50%' : `${50 - Math.min(Math.abs(efficiency.historical_efficiency.efficiency_ratio - 1) * 100, 50)}%`
+                                }}
+                            />
+                        </div>
+                        {/* Tooltip */}
+                        <div className="absolute left-0 bottom-full mb-2 w-48 bg-slate-900 border border-slate-700 p-2 rounded text-[10px] text-slate-300 hidden group-hover/tooltip:block z-50 shadow-xl">
+                            <div className="font-bold text-blue-400 mb-1">Historical Efficiency</div>
+                            Compares current yield ({efficiency.historical_efficiency.current_yield}) against your 10-year average ({efficiency.historical_efficiency.historical_mean}).
+                        </div>
                     </div>
                 </div>
             )}
 
-            {/* 2. Risk Profile */}
+            {/* 2. Decision Intelligence (NEW) */}
+            {riskData && riskData.resilience_index && (
+                <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
+                    <h4 className="text-[10px] text-indigo-400 uppercase font-bold mb-3 flex items-center gap-2">
+                        <Shield size={12} /> Strategic Analysis
+                    </h4>
+
+                    {/* Resilience Score */}
+                    <div className="flex justify-between items-center mb-4 pb-3 border-b border-slate-800">
+                        <div>
+                            <div className="text-[10px] text-slate-400 mb-1">Resilience Index</div>
+                            <div className="text-2xl font-bold text-slate-200">
+                                {(riskData.resilience_index.resilience_score * 100).toFixed(0)}
+                            </div>
+                        </div>
+                        <div className="text-right">
+                            <div className={`text-xs font-bold px-2 py-0.5 rounded border ${riskData.resilience_index.reliability_rating === 'A' ? 'border-green-500 text-green-400 bg-green-500/10' :
+                                    riskData.resilience_index.reliability_rating === 'B' ? 'border-blue-500 text-blue-400 bg-blue-500/10' :
+                                        'border-amber-500 text-amber-400 bg-amber-500/10'
+                                }`}>
+                                Grade {riskData.resilience_index.reliability_rating}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Growth Matrix */}
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <div className="text-[10px] text-slate-400 mb-1">Growth Quadrant</div>
+                            <div className="text-sm font-bold text-slate-200">{riskData.growth_matrix.matrix_quadrant}</div>
+                        </div>
+                        <div className="text-right">
+                            <div className="text-[10px] text-slate-500">5y CAGR</div>
+                            <div className={`text-xs font-mono ${riskData.growth_matrix.cagr_5y > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                {riskData.growth_matrix.cagr_5y > 0 ? '+' : ''}{riskData.growth_matrix.cagr_5y}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 3. Risk Profile (Detailed) */}
             {risk && (
                 <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
-                    <h4 className="text-[10px] text-amber-500 uppercase font-bold mb-2 flex items-center gap-2">
-                        <Shield size={12} /> Risk Profile
+                    <h4 className="text-[10px] text-slate-400 uppercase font-bold mb-2 flex items-center gap-2">
+                        <AlertTriangle size={12} /> Risk Details
                     </h4>
 
                     <div className="flex items-center gap-3">
                         <div className={`px-2 py-1 rounded text-xs font-bold uppercase border ${risk.risk_category === 'low' ? 'bg-green-500/10 border-green-500 text-green-400' :
-                                risk.risk_category === 'medium' ? 'bg-yellow-500/10 border-yellow-500 text-yellow-400' :
-                                    'bg-red-500/10 border-red-500 text-red-400'
+                            risk.risk_category === 'medium' ? 'bg-yellow-500/10 border-yellow-500 text-yellow-400' :
+                                'bg-red-500/10 border-red-500 text-red-400'
                             }`}>
                             {risk.risk_category} Risk
                         </div>
@@ -144,6 +295,48 @@ export default function AnalyticsPanel({ cdk, state, year, crop, districtName }:
                     <div className="text-xs text-slate-500 border-t border-slate-800 pt-2 mt-2">
                         Dominant: <span className="text-slate-300 capitalize">{diversification.dominant_crop.replace(/_/g, ' ')}</span>
                         <span className="text-slate-500"> ({(diversification.breakdown[diversification.dominant_crop] * 100).toFixed(1)}%)</span>
+                    </div>
+                </div>
+            )}
+
+            {/* 4. Climate Correlation */}
+            {correlation && (
+                <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800 relative group/warnings">
+                    <h4 className="text-[10px] text-blue-400 uppercase font-bold mb-2 flex items-center gap-2">
+                        <CloudRain size={12} /> Climate Correlation
+                        {correlation.validity?.climate_assumption === 'stationary' && (
+                            <div className="relative group/tooltip">
+                                <AlertTriangle size={12} className="text-amber-500 cursor-help" />
+                                <div className="absolute left-0 bottom-full mb-2 w-48 bg-slate-900 border border-slate-700 p-2 rounded text-[10px] text-slate-300 hidden group-hover/tooltip:block z-50 shadow-xl">
+                                    <div className="font-bold text-amber-500 mb-1">Methodology Warning</div>
+                                    {correlation.validity.warning}
+                                    <div className="mt-1 text-slate-500">Baseline: {correlation.validity.baseline_period}</div>
+                                </div>
+                            </div>
+                        )}
+                    </h4>
+
+                    <div className="flex justify-between items-center mb-2">
+                        <div className="text-center">
+                            <div className="text-xl font-bold text-slate-200">
+                                {correlation.correlations.monsoon_rainfall.r > 0 ? '+' : ''}
+                                {correlation.correlations.monsoon_rainfall.r.toFixed(2)}
+                            </div>
+                            <div className="text-[10px] text-slate-500">Monsoon R</div>
+                        </div>
+                        <div className="text-right">
+                            <div className={`text-xs font-bold uppercase ${correlation.correlations.monsoon_rainfall.direction === 'positive'
+                                ? 'text-emerald-400'
+                                : 'text-red-400'
+                                }`}>
+                                {correlation.correlations.monsoon_rainfall.interpretation}
+                            </div>
+                            <div className="text-[10px] text-slate-500">Correlation</div>
+                        </div>
+                    </div>
+
+                    <div className="text-[10px] text-slate-500 border-t border-slate-800 pt-2 mt-2 italic">
+                        "{correlation.note}"
                     </div>
                 </div>
             )}
