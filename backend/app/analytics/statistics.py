@@ -200,7 +200,7 @@ class StatisticalAnalyzer:
         slope, intercept, r_value, p_value, std_err = scipy_stats.linregress(x, values)
         
         r_squared = r_value ** 2
-        significant = p_value < self.alpha
+        significant = bool(p_value < self.alpha)
         
         # Determine direction
         if significant:
@@ -280,7 +280,7 @@ class StatisticalAnalyzer:
         return StatisticResult(
             value=round(float(r), 4),
             p_value=round(float(p_value), 4),
-            significant=p_value < self.alpha,
+            significant=bool(p_value < self.alpha),
             method="pearson",
         )
     
@@ -298,7 +298,7 @@ class StatisticalAnalyzer:
         return StatisticResult(
             value=round(float(rho), 4),
             p_value=round(float(p_value), 4),
-            significant=p_value < self.alpha,
+            significant=bool(p_value < self.alpha),
             method="spearman",
         )
     
@@ -333,7 +333,7 @@ class StatisticalAnalyzer:
         return StatisticResult(
             value=round(float(stat), 4),
             p_value=round(float(p_value), 4),
-            significant=p_value >= self.alpha,  # Significant means IS normal
+            significant=bool(p_value >= self.alpha),  # Significant means IS normal
             method="shapiro-wilk",
         )
     

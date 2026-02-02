@@ -21,22 +21,38 @@ export const useDistrictMetrics = (year: number, crop: string, metric: string) =
 
     // 1. Fetch Metrics (On Change)
     useEffect(() => {
-        setLoading(true);
-        fetch(`/api/v1/metrics?year=${year}&crop=${crop}&metric=${metric}`)
-            .then(res => res.json())
-            .then((json) => {
-                if (Array.isArray(json)) {
-                    setData(json);
-                } else {
-                    console.error("API returned error", json);
-                    setData([]);
+        let isMounted = true;
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const url = `/api/v1/metrics?year=${year}&crop=${crop}&metric=${metric}`;
+                const res = await fetch(url);
+                const json: DistrictMetric[] | { error: string } = await res.json();
+
+                if (isMounted) {
+                    if (Array.isArray(json)) {
+                        setData(json);
+                    } else {
+                        console.error("API returned error", json);
+                        setData([]);
+                    }
                 }
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error("Failed to load metrics", err);
-                setLoading(false);
-            });
+            } catch (err) {
+                if (isMounted) {
+                    console.error("Failed to load metrics", err);
+                }
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            isMounted = false;
+        };
     }, [year, crop, metric]);
 
     // 2. Join (Derived State)
