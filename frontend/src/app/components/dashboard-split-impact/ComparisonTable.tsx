@@ -19,7 +19,7 @@ export function ComparisonTable({ data, series, splitYear, metric }: ComparisonT
     const children = series.filter((s: any) => s.type === 'child');
 
     // Calculate Stats for each Series
-    const rows = series.map((s: any) => {
+    const rows = (series || []).map((s: any) => {
         // Pre-Split Window (Split-5 to Split-1)
         const preData = data.filter((d: any) => d.year >= splitYear - 5 && d.year < splitYear && d[s.id] != null)
             .map((d: any) => d[s.id]);

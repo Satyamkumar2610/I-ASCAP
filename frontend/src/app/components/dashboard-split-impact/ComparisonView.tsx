@@ -55,7 +55,7 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
 
     if (!event) return null;
 
-    const hasData = payload && payload.data && payload.data.length > 0;
+    const hasData = payload && Array.isArray(payload.data) && payload.data.length > 0 && Array.isArray(payload.series);
 
     return (
         <div className="bg-slate-900/50 p-3 md:p-6 rounded-xl border border-slate-800 animate-in fade-in duration-500 flex flex-col h-full overflow-hidden">
