@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Shield, TrendingUp, AlertTriangle, PieChart, Calculator } from 'lucide-react';
+import { Shield, TrendingUp, AlertTriangle, PieChart, Calculator, Bookmark as BookmarkIcon, Check, ExternalLink } from 'lucide-react';
 import SimulationPanel from './SimulationPanel';
 import ClimateCorrelationCard from './ClimateCorrelationCard';
+import { useBookmarks } from '../hooks/useBookmarks';
+import { exportToCSV } from '../../lib/reports';
 
 interface AnalyticsPanelProps {
     cdk: string;
@@ -101,10 +103,15 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    const { addBookmark, isBookmarked, removeBookmark } = useBookmarks();
+    const isSaved = isBookmarked(cdk, year, crop);
+
     useEffect(() => {
         if (!cdk || !state) return;
 
         const fetchData = async () => {
+            // ... existing fetch logic
+
             setLoading(true);
             setError(null);
             try {
@@ -173,6 +180,44 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
 
     return (
         <div className="space-y-4 mt-4 animate-in fade-in duration-500 pb-10">
+
+            {/* Header / Actions */}
+            <div className="flex justify-between items-center bg-slate-900/50 p-2 rounded -mt-2 mb-2">
+                <span className="text-[10px] text-slate-500 font-mono">ID: {cdk}</span>
+
+                <div className="flex gap-2">
+                    <button
+                        onClick={() => {
+                            // Construct composite data object for export
+                            const exportData = { efficiency, risk: riskData };
+                            // Note: diversification/correlation logic could be added to reports.ts later
+                            exportToCSV(exportData, `i-ascap-analysis-${cdk}-${year}.csv`);
+                        }}
+                        className="flex items-center gap-1.5 px-2 py-1 rounded text-[10px] font-bold transition-all border bg-slate-800 text-slate-400 border-slate-700 hover:text-blue-400 hover:border-blue-500/50"
+                    >
+                        <ExternalLink size={10} /> Export
+                    </button>
+
+                    <button
+                        onClick={() => {
+                            if (isSaved) {
+                                // Find ID to remove? useBookmarks might need logic refactor or just rebuild ID
+                                const id = `${cdk}-${year}-${crop}`;
+                                removeBookmark(id);
+                            } else {
+                                addBookmark(cdk, state, year, crop);
+                            }
+                        }}
+                        className={`flex items-center gap-1.5 px-2 py-1 rounded text-[10px] font-bold transition-all border ${isSaved
+                            ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50'
+                            : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-emerald-400 hover:border-emerald-500/50'
+                            }`}
+                    >
+                        {isSaved ? <Check size={10} /> : <BookmarkIcon size={10} />}
+                        {isSaved ? 'Saved' : 'Save'}
+                    </button>
+                </div>
+            </div>
 
             {/* 1. Yield Efficiency */}
             {efficiency ? (

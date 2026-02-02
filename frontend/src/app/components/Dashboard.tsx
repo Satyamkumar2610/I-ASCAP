@@ -6,6 +6,7 @@ import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import Link from 'next/link';
 import bridgeData from '../../data/map_bridge.json';
 import AnalyticsPanel from './AnalyticsPanel';
+import BookmarkPanel from './BookmarkPanel';
 
 interface DashboardProps {
     selectedDistrict: string | null;
@@ -240,6 +241,16 @@ const Dashboard: React.FC<DashboardProps> = ({
 
                 {/* Scrollable Content */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-thin scrollbar-thumb-slate-800">
+
+                    {/* 0. Saved Views (New) */}
+                    <BookmarkPanel
+                        onSelect={(b) => {
+                            onDistrictSelect(b.district); // Ideally pass state/year/crop too but Dashboard props need updating
+                            // For V1, let's just trigger dist select. 
+                            // TODO: Propagate year/crop/metric changes up to Dashboard via a unified `setContext`?
+                            // For now, let's just select the district.
+                        }}
+                    />
 
                     {/* 1. Data Controls (Always Visible) */}
                     <div className="space-y-4">
