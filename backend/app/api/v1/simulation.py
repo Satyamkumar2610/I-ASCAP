@@ -36,6 +36,15 @@ async def get_simulation(
     Slope = Sensitivity of yield to long-term rainfall differences.
     We apply this sensitivity to simulate "Deviation from Normal".
     """
+    # Cache Key Generation
+    cache_key = f"sim:{state}:{district}:{crop}:{year}"
+    
+    from app.cache import get_cache, CacheTTL
+    cache = get_cache()
+    cached_result = await cache.get(cache_key)
+    if cached_result:
+        return cached_result
+
     analyzer = get_advanced_analyzer()
     
     # 1. Fetch Yields for ALL districts in the state for the given year
@@ -52,7 +61,7 @@ async def get_simulation(
     if len(yield_rows) < 5:
         # Fallback: Try average over last 5 years if single year is sparse?
         # For now, strict fail or maybe relax? Let's return empty result.
-         raise HTTPException(status_code=404, detail="Insufficient state data for spatial regression")
+        raise HTTPException(status_code=404, detail="Insufficient state data for spatial regression")
 
     # 2. Fetch Rainfall Normals for these districts
     # We can join or loop. Loop is easier given rainfall_service.py structure and likely small N (<50 districts).
@@ -92,7 +101,7 @@ async def get_simulation(
                 target_district_rain = r_val
 
     if len(rainfall_x) < 5:
-         raise HTTPException(status_code=404, detail="Insufficient matching rainfall/yield data")
+        raise HTTPException(status_code=404, detail="Insufficient matching rainfall/yield data")
 
     # 4. Run Regression
     # We use the existing 'calculate_impact_simulation' which expects (rain, yield, years).
@@ -105,10 +114,14 @@ async def get_simulation(
     # The slope is generic for the state.
     # Prediction = Intercept + Slope * Rain.
     
-    return SimulationResponse(
+    result = SimulationResponse(
         district=district,
         state=state,
         crop=crop,
         result=sim_result,
         note="Spatial Regression Proxy: Sensitivity derived from cross-district comparison within state."
     )
+    
+    # Cache Result
+    await cache.set(cache_key, result, CacheTTL.ANALYSIS)
+    return result

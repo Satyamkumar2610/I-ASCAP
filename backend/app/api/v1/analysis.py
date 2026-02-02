@@ -73,8 +73,15 @@ async def analyze_split_impact(
     variable = f"{crop.lower()}_{metric.lower()}"
     query_hash = _generate_query_hash(request)
     
+    # Check Cache
+    from app.cache import get_cache, CacheTTL
+    cache = get_cache()
+    cached_result = await cache.get(query_hash)
+    if cached_result:
+        return cached_result
+
     service = AnalysisService(db)
-    return await service.analyze_split_impact(
+    result = await service.analyze_split_impact(
         parent_cdk=parent,
         children_cdks=children_list,
         split_year=splitYear,
@@ -83,6 +90,10 @@ async def analyze_split_impact(
         mode=mode,
         query_hash=query_hash,
     )
+    
+    # Set Cache
+    await cache.set(query_hash, result, CacheTTL.ANALYSIS)
+    return result
 
 
 # -----------------------------------------------------------------------------
