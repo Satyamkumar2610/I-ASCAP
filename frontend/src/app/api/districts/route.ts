@@ -6,8 +6,7 @@ import path from 'path';
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     // Basic filtering if search term exists (This is computationally expensive on large files, 
-    // but works for this scale). For 'year', we would need year-specific files.
-    // const year = searchParams.get('year'); // Unused for now
+    // but works for this scale). Year filtering requires year-specific files.
     const search = searchParams.get('search');
 
     try {

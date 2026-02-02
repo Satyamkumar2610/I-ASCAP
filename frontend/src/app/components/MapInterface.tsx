@@ -37,6 +37,13 @@ const getRainfallColor = (value: number, min: number, max: number) => {
     return '#1e40af'; // blue-800
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function processGeoJSON(data: any): any {
+    // This function body is empty as it was not provided in the instruction.
+    // It's assumed to be a placeholder or will be filled later.
+    return data;
+}
+
 export default function MapInterface({ year, crop = 'wheat', metric = 'yield', selectedDistrict, onDistrictSelect, showRainfallLayer = false }: MapInterfaceProps) {
     const mapRef = useRef<MapRef>(null);
     const [viewState, setViewState] = useState({
@@ -103,6 +110,7 @@ export default function MapInterface({ year, crop = 'wheat', metric = 'yield', s
 
     const onHover = React.useCallback((event: MapLayerMouseEvent) => {
         const { features, point: { x, y }, lngLat } = event;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const feature = features && features[0];
 
         if (feature) {

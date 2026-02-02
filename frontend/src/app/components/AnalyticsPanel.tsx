@@ -6,7 +6,6 @@ interface AnalyticsPanelProps {
     state: string;
     year: number;
     crop: string;
-    districtName: string;
 }
 
 interface EfficiencyResult {

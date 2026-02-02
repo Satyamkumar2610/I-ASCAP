@@ -57,12 +57,13 @@ export function SplitImpactDashboard() {
     }, []);
 
     // Switch to analysis view when event is selected on mobile
-    useEffect(() => {
-        if (selectedEvent && window.innerWidth < 1024) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
-            setMobileView('analysis');
-        }
-    }, [selectedEvent]);
+    // Handled in handleEventSelect now to avoid useEffect loop
+
+    // useEffect(() => {
+    //     if (selectedEvent && window.innerWidth < 1024) {
+    //         setMobileView('analysis');
+    //     }
+    // }, [selectedEvent]);
 
     const currentStateStats = allStats[selectedState] || null;
 
