@@ -35,6 +35,7 @@ class LineageRepository:
             Path("/app/data/v1/district_lineage.csv"),
             Path("../data/v1/district_lineage.csv"),
             Path("data/v1/district_lineage.csv"),
+            Path("backend/data/v1/district_lineage.csv"),
         ]
         
         csv_path = None
