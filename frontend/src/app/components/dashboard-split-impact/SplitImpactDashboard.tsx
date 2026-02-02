@@ -214,7 +214,7 @@ export function SplitImpactDashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 lg:gap-8">
                 {/* Table (Left) - Hidden on mobile when viewing analysis */}
                 <div className={`lg:col-span-5 flex flex-col gap-4 ${mobileView === 'analysis' ? 'hidden lg:flex' : 'flex'}`}>
-                    <div className="max-h-[50vh] lg:max-h-[calc(100vh-350px)] overflow-hidden">
+                    <div className="max-h-[50vh] lg:max-h-[calc(100vh-350px)] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent pr-2">
                         <SplitDistrictTable
                             splits={splitEvents}
                             onSelect={handleEventSelect}
@@ -224,7 +224,7 @@ export function SplitImpactDashboard() {
                 </div>
 
                 {/* Charts (Right) - Full width on mobile when viewing analysis */}
-                <div className={`lg:col-span-7 flex flex-col min-h-[60vh] lg:min-h-[600px] lg:h-[calc(100vh-350px)] ${mobileView === 'list' ? 'hidden lg:flex' : 'flex'}`}>
+                <div className={`lg:col-span-7 flex flex-col min-h-[60vh] lg:min-h-[600px] lg:h-[calc(100vh-350px)] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent ${mobileView === 'list' ? 'hidden lg:flex' : 'flex'}`}>
                     {selectedEvent ? (
                         <>
                             {/* Back button on mobile */}
