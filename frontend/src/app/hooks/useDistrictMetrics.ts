@@ -25,7 +25,7 @@ export const useDistrictMetrics = (year: number, crop: string, metric: string) =
         const fetchData = async () => {
             setLoading(true);
             try {
-                const url = `/api/v1/metrics?year=${year}&crop=${crop}&metric=${metric}`;
+                const url = `/api/metrics?year=${year}&crop=${crop}&metric=${metric}`;
                 const res = await fetch(url);
                 const json: DistrictMetric[] | { error: string } = await res.json();
 
