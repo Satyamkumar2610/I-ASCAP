@@ -14,6 +14,7 @@ export function ComparisonTable({ data, splitYear, series }: ComparisonTableProp
 
     const rows = series.map((s: ChartSeries) => {
         const preData = data.filter((d: any) => d.year >= splitYear - 5 && d.year < splitYear && d[s.id] != null)
+            .map((d: any) => d[s.id]);
         const avgPre = preData.length > 0 ? preData.reduce((a: number, b: number) => a + b, 0) / preData.length : null;
 
         // Post-Split Window (Split to Split+5)
