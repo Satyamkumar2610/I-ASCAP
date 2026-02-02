@@ -37,7 +37,7 @@ class AnalysisService:
         self.conn = conn
         self.district_repo = DistrictRepository(conn)
         self.metric_repo = MetricRepository(conn)
-        self.lineage_repo = LineageRepository()
+        self.lineage_repo = LineageRepository(conn)
         self.harmonizer = BoundaryHarmonizer()
         self.impact_analyzer = ImpactAnalyzer()
     
@@ -51,7 +51,7 @@ class AnalysisService:
         }
         
         # Count boundary changes per state from lineage
-        events = self.lineage_repo.get_all_events()
+        events = await self.lineage_repo.get_all_events()
         state_changes: Dict[str, set] = {}
         
         for e in events:
@@ -77,7 +77,7 @@ class AnalysisService:
         cdk_meta = await self.district_repo.get_cdk_to_meta_map()
         cdk_to_state = {cdk: meta["state"] for cdk, meta in cdk_meta.items()}
         
-        events = self.lineage_repo.get_events_by_state(state, cdk_to_state)
+        events = await self.lineage_repo.get_events_by_state(state, cdk_to_state)
         groups = self.lineage_repo.group_by_parent_year(events)
         
         results = []

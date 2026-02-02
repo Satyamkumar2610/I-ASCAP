@@ -1,92 +1,46 @@
 """
-Lineage Repository: Data access for lineage events (CSV-based).
+Lineage Repository: Data access for lineage events (DB-based).
 """
-import csv
-from pathlib import Path
 from typing import List, Dict, Optional, Set
-from functools import lru_cache
-
-from app.config import get_settings
+from app.repositories.base import BaseRepository
 from app.schemas.lineage import LineageEvent, EventType
 
-settings = get_settings()
-
-
-class LineageRepository:
+class LineageRepository(BaseRepository):
     """
-    Repository for lineage event data.
-    Currently reads from CSV; designed for future DB migration.
+    Repository for lineage event data (DB implementation).
     """
     
-    def __init__(self, lineage_path: Optional[str] = None):
-        self.lineage_path = Path(lineage_path or settings.lineage_csv_path)
-        self._cache: Optional[List[LineageEvent]] = None
-    
-    def _load_events(self) -> List[LineageEvent]:
-        """Load and parse lineage CSV."""
-        if self._cache is not None:
-            return self._cache
+    async def get_all_events(self) -> List[LineageEvent]:
+        """Get all lineage events from DB."""
+        query = """
+            SELECT parent_cdk, child_cdk, event_year, confidence_score
+            FROM lineage_events
+        """
+        rows = await self.fetch_all(query)
         
         events = []
-        
-        # Try multiple possible paths
-        possible_paths = [
-            self.lineage_path,
-            Path("/app/data/v1/district_lineage.csv"),
-            Path("../data/v1/district_lineage.csv"),
-            Path("data/v1/district_lineage.csv"),
-            Path("backend/data/v1/district_lineage.csv"),
-        ]
-        
-        csv_path = None
-        for p in possible_paths:
-            if p.exists():
-                csv_path = p
-                break
-        
-        if not csv_path:
-            return []
-        
-        with open(csv_path, "r", encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                try:
-                    # CSV columns: parent_cdk, child_cdk, event_year, event_type, confidence_score, weight_type
-                    parent = row.get("parent_cdk", "")
-                    child = row.get("child_cdk", "")
-                    year = int(row.get("event_year", 0))
-                    
-                    if not parent or not child or year == 0:
-                        continue
-                    
-                    event = LineageEvent(
-                        id=f"{parent}_{year}",
-                        parent_cdk=parent,
-                        children_cdks=[child],
-                        children_names=[],
-                        children_count=1,
-                        event_year=year,
-                        event_type=EventType.SPLIT,
-                        confidence=float(row.get("confidence_score", 1.0)),
-                    )
-                    events.append(event)
-                except (ValueError, KeyError):
-                    continue
-        
-        self._cache = events
+        for r in rows:
+            events.append(LineageEvent(
+                id=f"{r['parent_cdk']}_{r['event_year']}",
+                parent_cdk=r['parent_cdk'],
+                children_cdks=[r['child_cdk']],
+                children_names=[],
+                children_count=1,
+                event_year=r['event_year'],
+                event_type=EventType.SPLIT,
+                confidence=float(r['confidence_score']),
+            ))
         return events
     
-    def get_all_events(self) -> List[LineageEvent]:
-        """Get all lineage events."""
-        return self._load_events()
-    
-    def get_events_by_state(
+    async def get_events_by_state(
         self, 
         state: str, 
         cdk_to_state: Dict[str, str]
     ) -> List[LineageEvent]:
         """Filter events where parent or child belongs to given state."""
-        events = self._load_events()
+        # For now, fetch all and filter in memory to utilize the passed cdk schema
+        # Optimization: Could join with districts table in SQL if we drop cdk_to_state dependency
+        events = await self.get_all_events()
         filtered = []
         
         for e in events:
@@ -120,17 +74,3 @@ class LineageRepository:
             groups[key]["children"].update(e.children_cdks)
         
         return groups
-    
-    def get_parent_cdks(self) -> Set[str]:
-        """Get all unique parent CDKs."""
-        events = self._load_events()
-        return {e.parent_cdk for e in events}
-    
-    def get_children_for_parent(self, parent_cdk: str) -> List[str]:
-        """Get all child CDKs for a given parent."""
-        events = self._load_events()
-        children = set()
-        for e in events:
-            if e.parent_cdk == parent_cdk:
-                children.update(e.children_cdks)
-        return list(children)
