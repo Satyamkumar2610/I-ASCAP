@@ -41,6 +41,18 @@ class TrendResult:
     projected_values: Optional[List[float]] = None
 
 
+@dataclass
+class RegressionResult:
+    """Result of linear regression analysis."""
+    slope: float
+    intercept: float
+    r_squared: float
+    p_value: float
+    std_err: float
+    significant: bool
+
+
+
 class StatisticalAnalyzer:
     """
     Comprehensive statistical analysis for time series agricultural data.
@@ -263,9 +275,29 @@ class StatisticalAnalyzer:
         return inflection_points
     
     # -------------------------------------------------------------------------
-    # Correlation Analysis
+    # Correlation & Regression
     # -------------------------------------------------------------------------
     
+    def linear_regression(self, x: List[float], y: List[float]) -> RegressionResult:
+        """
+        Perform linear regression of y on x.
+        Returns detailed regression statistics.
+        """
+        if len(x) != len(y) or len(x) < 3:
+             return RegressionResult(0, 0, 0, 1.0, 0, False)
+        
+        # scipy.stats.linregress(x, y)
+        slope, intercept, r_value, p_value, std_err = scipy_stats.linregress(x, y)
+        
+        return RegressionResult(
+            slope=float(slope),
+            intercept=float(intercept),
+            r_squared=float(r_value**2),
+            p_value=float(p_value),
+            std_err=float(std_err),
+            significant=bool(p_value < self.alpha)
+        )
+
     def pearson_correlation(
         self, 
         x: List[float], 

@@ -101,10 +101,12 @@ export default function MapInterface({ year, crop = 'wheat', metric = 'yield', s
         // ... (Coordinate logic omitted for brevity in V1 POC)
     }, [selectedDistrict]);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [hoverInfo, setHoverInfo] = useState<{ feature: any, x: number, y: number, lngLat?: any, data?: DistrictMetric } | null>(null);
 
     const onHover = React.useCallback((event: MapLayerMouseEvent) => {
-        const { features, point: { x, y }, lngLat } = event;
+        const { features, point: { x, y } } = event;
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const feature = features && features[0];
 
@@ -114,7 +116,14 @@ export default function MapInterface({ year, crop = 'wheat', metric = 'yield', s
             const geoKey = `${dist}|${state}`;
             const metricData = joinedData[geoKey];
 
-            setHoverInfo({ feature, x, y, lngLat, data: metricData });
+            setHoverInfo({
+                feature: feature,
+                x: x,
+                y: y,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                lngLat: event.lngLat as any,
+                data: metricData
+            });
         } else {
             setHoverInfo(null);
         }

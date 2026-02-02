@@ -1,10 +1,9 @@
 "use client";
 import React from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 interface ComparisonTableProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: any[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     series: any[];
     splitYear: number;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Calendar, Activity, Menu, X, ChevronDown, Filter, ArrowRight, Layout } from 'lucide-react';
+import { Search, MapPin, Calendar, Activity, Menu, X, ChevronDown } from 'lucide-react';
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import Link from 'next/link';
 import bridgeData from '../../data/map_bridge.json';
@@ -59,7 +59,7 @@ const Dashboard: React.FC<DashboardProps> = ({
 }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState<string[]>([]);
-    const [showFilters, setShowFilters] = useState(false);
+    const [showFilters] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
 
     // Type Definitions

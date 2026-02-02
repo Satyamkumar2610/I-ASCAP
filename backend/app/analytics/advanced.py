@@ -385,6 +385,68 @@ class AdvancedAnalyzer:
             },
         }
 
+@dataclass
+class SimulationResult:
+    """Result of impact simulation model."""
+    baseline_yield: float
+    slope: float  # kg/ha change per mm rainfall
+    intercept: float
+    r_squared: float
+    correlation: float
+    confidence_interval: float  # Margin of error at 95%
+    data_points: List[Dict[str, float]]  # For scatter plot
+    model_equation: str  # String representation
+
+
+class AdvancedAnalyzer:
+# ... (existing methods)
+
+    # -------------------------------------------------------------------------
+    # Simulation Models
+    # -------------------------------------------------------------------------
+
+    def calculate_impact_simulation(
+        self,
+        rainfall: List[float],
+        yields: List[float],
+        years: List[int]
+    ) -> SimulationResult:
+        """
+        Create a linear simulation model for Rainfall -> Yield.
+        """
+        if not rainfall or not yields or len(rainfall) != len(yields) or len(rainfall) < 5:
+            return SimulationResult(0, 0, 0, 0, 0, 0, [], "Insufficient Data")
+            
+        # 1. Regression
+        reg = self.stats.linear_regression(rainfall, yields)
+        corr = self.stats.pearson_correlation(rainfall, yields)
+        
+        # 2. Baseline (Current Expected Yield at Mean Rainfall)
+        mean_rain = self.stats.mean(rainfall)
+        baseline_yield = (reg.slope * mean_rain) + reg.intercept
+        
+        # 3. Confidence Interval (Simplified estimation)
+        # Using standard error of estimate for prediction interval would be better, 
+        # but for now we use std_err of slope * range as a proxy for visual margin
+        ci = reg.std_err * 1.96 * (max(rainfall) - min(rainfall)) if reg.slope != 0 else 0
+        
+        # 4. Data Points for Plotting
+        points = [
+            {"year": y, "rain": r, "yield": yld} 
+            for y, r, yld in zip(years, rainfall, yields)
+        ]
+        
+        return SimulationResult(
+            baseline_yield=round(baseline_yield, 2),
+            slope=round(reg.slope, 4),
+            intercept=round(reg.intercept, 4),
+            r_squared=round(reg.r_squared, 4),
+            correlation=round(corr.value, 4),
+            confidence_interval=round(ci, 2),
+            data_points=points,
+            model_equation=f"Yield = {reg.slope:.2f} * Rain + {reg.intercept:.2f}"
+        )
+
 
 def get_advanced_analyzer() -> AdvancedAnalyzer:
     """Get an advanced analyzer instance."""

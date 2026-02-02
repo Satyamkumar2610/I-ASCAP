@@ -56,7 +56,7 @@ export function ComparisonChart({ data, series, splitYear, metric }: ComparisonC
                         <Label value="SPLIT" position="insideTopLeft" fill="#ef4444" fontSize={9} />
                     </ReferenceLine>
 
-                    {series.map((s: any, idx: number) => (
+                    {series.map((s: ChartSeries, idx: number) => (
                         <Line
                             key={s.id}
                             type="monotone"
