@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Shield, TrendingUp, AlertTriangle, PieChart, CloudRain, Calculator } from 'lucide-react';
+import { Shield, TrendingUp, AlertTriangle, PieChart, Calculator } from 'lucide-react';
 import SimulationPanel from './SimulationPanel';
+import ClimateCorrelationCard from './ClimateCorrelationCard';
 
 interface AnalyticsPanelProps {
     cdk: string;
@@ -79,6 +80,12 @@ interface CorrelationData {
         };
     };
     note: string;
+    data_points: {
+        district: string;
+        yield: number;
+        annual_rainfall: number;
+        monsoon_rainfall: number;
+    }[];
     validity?: {
         climate_assumption: string;
         baseline_period: string;
@@ -340,44 +347,7 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
 
             {/* 4. Climate Correlation */}
             {correlation && (
-                <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800 relative group/warnings">
-                    <h4 className="text-[10px] text-blue-400 uppercase font-bold mb-2 flex items-center gap-2">
-                        <CloudRain size={12} /> Climate Correlation
-                        {correlation.validity?.climate_assumption === 'stationary' && (
-                            <div className="relative group/tooltip">
-                                <AlertTriangle size={12} className="text-amber-500 cursor-help" />
-                                <div className="absolute left-0 bottom-full mb-2 w-48 bg-slate-900 border border-slate-700 p-2 rounded text-[10px] text-slate-300 hidden group-hover/tooltip:block z-50 shadow-xl pointer-events-none">
-                                    <div className="font-bold text-amber-500 mb-1">Methodology Warning</div>
-                                    {correlation.validity.warning}
-                                    <div className="mt-1 text-slate-500">Baseline: {correlation.validity.baseline_period}</div>
-                                </div>
-                            </div>
-                        )}
-                    </h4>
-
-                    <div className="flex justify-between items-center mb-2">
-                        <div className="text-center">
-                            <div className="text-xl font-bold text-slate-200">
-                                {correlation.correlations.monsoon_rainfall.r > 0 ? '+' : ''}
-                                {correlation.correlations.monsoon_rainfall.r.toFixed(2)}
-                            </div>
-                            <div className="text-[10px] text-slate-500">Monsoon R</div>
-                        </div>
-                        <div className="text-right">
-                            <div className={`text-xs font-bold uppercase ${correlation.correlations.monsoon_rainfall.direction === 'positive'
-                                ? 'text-emerald-400'
-                                : 'text-red-400'
-                                }`}>
-                                {correlation.correlations.monsoon_rainfall.interpretation}
-                            </div>
-                            <div className="text-[10px] text-slate-500">Correlation</div>
-                        </div>
-                    </div>
-
-                    <div className="text-[10px] text-slate-500 border-t border-slate-800 pt-2 mt-2 italic">
-                        &quot;{correlation.note}&quot;
-                    </div>
-                </div>
+                <ClimateCorrelationCard data={correlation} crop={crop} />
             )}
             {/* 5. Simulation (New) */}
             <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
