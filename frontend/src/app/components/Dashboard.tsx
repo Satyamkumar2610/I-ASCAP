@@ -414,7 +414,6 @@ const Dashboard: React.FC<DashboardProps> = ({
                                             state={stateName}
                                             year={currentYear}
                                             crop={currentCrop}
-                                            districtName={selectedDistrict}
                                         />
                                     );
                                 }
