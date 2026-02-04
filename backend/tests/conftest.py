@@ -11,26 +11,56 @@ from unittest.mock import MagicMock, patch
 
 
 
+
+from app.config import get_settings
+from app.database import init_db_pool, close_db_pool, get_pool
+
+@pytest.fixture(scope="session")
+def event_loop():
+    """Create an instance of the default event loop for each test session."""
+    loop = asyncio.new_event_loop()
+    yield loop
+    loop.close()
+
+@pytest.fixture(scope="session")
+async def db_pool():
+    """
+    Real database connection pool for integration tests.
+    Uses the DATABASE_URL environment variable (set in CI/docker).
+    """
+    pool = await init_db_pool()
+    yield pool
+    await close_db_pool()
+
 @pytest.fixture
 def mock_db_pool():
-    """Mock database pool for testing without real database."""
+    """Mock database pool for unit tests without DB."""
     mock_pool = MagicMock()
     mock_connection = MagicMock()
     mock_pool.acquire.return_value.__aenter__.return_value = mock_connection
     mock_pool.acquire.return_value.__aexit__.return_value = None
     return mock_pool
 
+@pytest.fixture
+async def client(db_pool) -> AsyncGenerator[AsyncClient, None]:
+    """
+    AsyncAPI client with REAL database connection.
+    Use this for integration tests.
+    """
+    from app.main import app
+    async with AsyncClient(app=app, base_url="http://test") as c:
+        yield c
 
 @pytest.fixture
-async def test_client() -> AsyncGenerator[AsyncClient, None]:
-    """Create an async test client for API testing."""
+async def mock_client() -> AsyncGenerator[AsyncClient, None]:
+    """
+    AsyncAPI client with MOCKED database.
+    Use this for unit tests.
+    """
     from app.main import app
-    
-    # Mock the database pool initialization
-    with patch('app.database.init_db_pool'):
-        with patch('app.database.close_db_pool'):
-            async with AsyncClient(app=app, base_url="http://test") as client:
-                yield client
+    with patch('app.database.init_db_pool'), patch('app.database.close_db_pool'):
+        async with AsyncClient(app=app, base_url="http://test") as c:
+            yield c
 
 
 # Sample test data

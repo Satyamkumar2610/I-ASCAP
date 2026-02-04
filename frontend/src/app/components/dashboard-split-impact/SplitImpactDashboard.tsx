@@ -41,7 +41,7 @@ export function SplitImpactDashboard() {
 
     // Initial Load of States
     useEffect(() => {
-        fetch('/api/split-impact/summary')
+        fetch('/api/v1/analysis/split-impact/summary')
             .then(r => r.json())
             .then(d => {
                 if (d.states && Array.isArray(d.states)) {
@@ -65,7 +65,7 @@ export function SplitImpactDashboard() {
         setSplitEvents([]); // Clear previous events
         const fetchEvents = async () => {
             try {
-                const response = await fetch(`/api/split-impact/districts?state=${encodeURIComponent(selectedState)}`);
+                const response = await fetch(`/api/v1/analysis/split-impact/districts?state=${encodeURIComponent(selectedState)}`);
                 const data = await response.json();
                 if (Array.isArray(data)) {
                     setSplitEvents(data);

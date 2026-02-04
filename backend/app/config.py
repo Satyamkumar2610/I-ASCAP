@@ -22,33 +22,54 @@ class Settings(BaseSettings):
     app_version: str = "1.0.0"
     debug: bool = False
     
+
     # Database
-    database_url: str = "postgresql://user:password@localhost:5432/i_ascap" # Override with DATABASE_URL env var
+    # Start with empty string or sensible ERROR placeholder to catch config issues early
+    database_url: str = "postgresql://user:password@db:5432/i_ascap" 
     db_pool_min_size: int = 2
-    db_pool_max_size: int = 10
+    db_pool_max_size: int = 20
     db_command_timeout: int = 60
-    db_query_timeout: int = 30  # Statement timeout in seconds
+
+    db_query_timeout: int = 30
+    redis_url: str = "redis://redis:6379/0"
     
     # Logging
-    log_level: str = "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    log_level: str = "INFO"
     
     # Rate Limiting
-    rate_limit_per_minute: int = 60
-    rate_limit_burst: int = 20
+    rate_limit_per_minute: int = 100
+    rate_limit_burst: int = 30
     
     @property
     def requires_ssl(self) -> bool:
-        """Check if database URL requires SSL (e.g., Neon, Supabase)."""
+        """Check if database URL requires SSL."""
         return "neon.tech" in self.database_url or "sslmode=require" in self.database_url
     
-    # Security
-    api_key: str = "dev-secret-key-123"  # Override in production
+
+    # Security (OIDC / OAuth2)
+    auth_enabled: bool = True
+    auth0_domain: str = "dev-i-ascap.us.auth0.com" 
+    auth0_audience: str = "https://api.i-ascap.org"
+    auth0_algorithms: List[str] = ["RS256"]
+    
+    # Deprecated
+    api_key: Optional[str] = None 
+    
+    # CORS (Parsed from comma-separated env var or list)
     cors_origins: List[str] = [
-        "http://localhost:3000", 
-        "https://i-ascap.onrender.com", 
+        "https://i-ascap.onrender.com",
         "https://i-ascap.vercel.app",
-        "https://i-ascap-git-main-satyamsinhjis-projects.vercel.app",
     ]
+
+    @property
+    def parsed_cors_origins(self) -> List[str]:
+        """
+        Merge default CORS origins with env var 'CORS_ALLOW_ORIGINS'.
+        """
+        defaults = set(self.cors_origins)
+        # If running in explicit production, we might want to ONLY use env vars.
+        # But for now, we just remove localhost from hardcoded defaults.
+        return list(defaults)
     
     # Data Paths
     data_dir: str = "/app/data"

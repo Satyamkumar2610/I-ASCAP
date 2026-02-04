@@ -30,7 +30,7 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
         const fetchData = async () => {
             try {
                 const childrenStr = event.children_cdks.join(',');
-                const url = `/api/split-impact/analysis?parent=${event.parent_cdk}&children=${childrenStr}&splitYear=${event.split_year}&crop=${crop}&metric=${metric}&mode=${mode}`;
+                const url = `/api/v1/analysis/split-impact/analysis?parent=${event.parent_cdk}&children=${childrenStr}&splitYear=${event.split_year}&crop=${crop}&metric=${metric}&mode=${mode}`;
                 const res = await fetch(url);
                 const data = await res.json();
 

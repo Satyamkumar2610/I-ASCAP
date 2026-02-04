@@ -30,7 +30,11 @@ def main():
 
     # 2. Check DB Content
     try:
-        engine = create_engine("postgresql://user:password@localhost:5432/i_ascap")
+        from dotenv import load_dotenv
+        load_dotenv()
+        
+        db_url = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/i_ascap")
+        engine = create_engine(db_url)
         with engine.connect() as conn:
             cnt = conn.execute(text("SELECT count(*) FROM agri_metrics")).scalar()
             print(f"[OK] DB Agri Metrics: {cnt} rows.")

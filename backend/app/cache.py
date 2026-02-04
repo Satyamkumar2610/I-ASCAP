@@ -16,19 +16,31 @@ from app.logging_config import get_logger
 logger = get_logger("cache")
 
 
-class TTLCache:
+
+import json
+import hashlib
+from typing import Any, Optional, Dict, Callable
+from functools import wraps
+import redis.asyncio as redis
+
+from app.config import get_settings
+from app.logging_config import get_logger
+
+logger = get_logger("cache")
+settings = get_settings()
+
+class RedisCache:
     """
-    Thread-safe TTL cache with LRU eviction.
-    Optimized for Render's single-instance deployment.
+    Redis-based caching system using redis-py (asyncio).
     """
     
-    def __init__(self, max_size: int = 1000, default_ttl: int = 3600):
-        self._cache: OrderedDict[str, Dict[str, Any]] = OrderedDict()
-        self._max_size = max_size
-        self._default_ttl = default_ttl
-        self._lock = asyncio.Lock()
-        self._hits = 0
-        self._misses = 0
+    def __init__(self):
+        self._redis = redis.from_url(
+            settings.redis_url, 
+            encoding="utf-8", 
+            decode_responses=True
+        )
+        self._default_ttl = 3600
     
     def _generate_key(self, prefix: str, *args, **kwargs) -> str:
         """Generate a cache key from function arguments."""
@@ -36,78 +48,52 @@ class TTLCache:
         return hashlib.md5(key_data.encode()).hexdigest()
     
     async def get(self, key: str) -> Optional[Any]:
-        """Get a value from cache if it exists and hasn't expired."""
-        async with self._lock:
-            if key not in self._cache:
-                self._misses += 1
-                return None
-            
-            entry = self._cache[key]
-            if time.time() > entry["expires_at"]:
-                del self._cache[key]
-                self._misses += 1
-                return None
-            
-            # Move to end (LRU)
-            self._cache.move_to_end(key)
-            self._hits += 1
-            return entry["value"]
+        """Get a value from cache."""
+        try:
+            val = await self._redis.get(key)
+            return json.loads(val) if val else None
+        except Exception as e:
+            logger.warning(f"Redis get failed: {e}")
+            return None
     
     async def set(self, key: str, value: Any, ttl: Optional[int] = None) -> None:
-        """Set a value in cache with optional TTL."""
-        async with self._lock:
-            # Evict oldest if at capacity
-            while len(self._cache) >= self._max_size:
-                self._cache.popitem(last=False)
-            
-            self._cache[key] = {
-                "value": value,
-                "expires_at": time.time() + (ttl or self._default_ttl),
-                "created_at": time.time(),
-            }
+        """Set a value in cache."""
+        try:
+            await self._redis.set(
+                key, 
+                json.dumps(value, default=str), 
+                ex=ttl or self._default_ttl
+            )
+        except Exception as e:
+             logger.warning(f"Redis set failed: {e}")
     
     async def delete(self, key: str) -> bool:
-        """Delete a specific key from cache."""
-        async with self._lock:
-            if key in self._cache:
-                del self._cache[key]
-                return True
+        """Delete a key."""
+        try:
+            return await self._redis.delete(key) > 0
+        except Exception as e:
+            logger.warning(f"Redis delete failed: {e}")
             return False
+
+    async def clear(self) -> None:
+        """Clear the database (use with caution)."""
+        await self._redis.flushdb()
     
-    async def clear(self) -> int:
-        """Clear all cache entries. Returns count of cleared entries."""
-        async with self._lock:
-            count = len(self._cache)
-            self._cache.clear()
-            return count
-    
-    async def invalidate_prefix(self, prefix: str) -> int:
-        """Invalidate all keys matching a prefix."""
-        async with self._lock:
-            keys_to_delete = [k for k in self._cache if k.startswith(prefix)]
-            for key in keys_to_delete:
-                del self._cache[key]
-            return len(keys_to_delete)
-    
-    def stats(self) -> Dict[str, Any]:
-        """Get cache statistics."""
-        total = self._hits + self._misses
-        return {
-            "size": len(self._cache),
-            "max_size": self._max_size,
-            "hits": self._hits,
-            "misses": self._misses,
-            "hit_rate": round(self._hits / total * 100, 2) if total > 0 else 0,
-            "default_ttl": self._default_ttl,
-        }
+    async def stats(self) -> Dict[str, Any]:
+        """Get Redis info."""
+        try:
+            info = await self._redis.info()
+            return {
+                "redis_version": info.get("redis_version"),
+                "used_memory_human": info.get("used_memory_human"),
+                "connected_clients": info.get("connected_clients"),
+            }
+        except Exception:
+            return {"status": "error"}
 
+_cache = RedisCache()
 
-# Global cache instance
-_cache = TTLCache(max_size=500, default_ttl=3600)  # 1 hour default
-
-
-def get_cache() -> TTLCache:
-    """Get the global cache instance."""
+def get_cache() -> RedisCache:
     return _cache
 
 

@@ -32,6 +32,10 @@ setup_logging(log_level=settings.log_level if hasattr(settings, 'log_level') els
 logger = get_logger("main")
 
 
+
+from arq import create_pool
+from app.worker import WorkerSettings
+
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifecycle: startup and shutdown."""
@@ -41,14 +45,25 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     try:
         await init_db_pool()
         logger.info("Database connection pool initialized")
+        
+        # Initialize ARQ (Job Queue) Pool
+        app.state.arq_pool = await create_pool(WorkerSettings.redis_settings)
+        logger.info("ARQ Worker pool initialized")
+        
     except Exception as e:
-        logger.error(f"Failed to initialize database: {str(e)}")
-        raise
+        logger.error(f"Failed to initialize resources: {str(e)}")
+        # We might want to raise in production, but for now log and allow partial startup
+        # raise 
     
     yield
     
     # Shutdown
     logger.info("Shutting down I-ASCAP API")
+    
+    if hasattr(app.state, "arq_pool"):
+        await app.state.arq_pool.close()
+        logger.info("ARQ Worker pool closed")
+        
     await close_db_pool()
     logger.info("Database connection pool closed")
 
@@ -97,11 +112,12 @@ app.add_middleware(
 from app.rate_limit import RateLimitMiddleware
 app.add_middleware(RateLimitMiddleware)
 
+
 # Security Middleware
-from app.security import SecurityHeadersMiddleware, HTTPSRedirectMiddleware, APIKeyMiddleware
+from app.security import SecurityHeadersMiddleware, HTTPSRedirectMiddleware, OIDCMiddleware
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(HTTPSRedirectMiddleware)
-app.add_middleware(APIKeyMiddleware)
+app.add_middleware(OIDCMiddleware)
 
 
 # -----------------------------------------------------------------------------

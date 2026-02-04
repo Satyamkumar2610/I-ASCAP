@@ -20,7 +20,7 @@ class SimulationResponse(BaseModel):
     result: SimulationResult
     note: str
 
-@router.get("/simulation", response_model=SimulationResponse)
+@router.get("/", response_model=SimulationResponse)
 async def get_simulation(
     district: str = Query(..., description="District Name"),
     crop: str = Query(..., description="Crop Name"),

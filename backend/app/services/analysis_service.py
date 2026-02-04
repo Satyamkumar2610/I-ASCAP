@@ -27,6 +27,9 @@ from app.config import get_settings
 settings = get_settings()
 
 
+
+from app.cache import cached, CacheTTL
+
 class AnalysisService:
     """
     Service for split impact analysis.
@@ -41,6 +44,7 @@ class AnalysisService:
         self.harmonizer = BoundaryHarmonizer()
         self.impact_analyzer = ImpactAnalyzer()
     
+    @cached(ttl=CacheTTL.SUMMARY, prefix="state_summary")
     async def get_state_summary(self) -> Dict[str, Any]:
         """Get summary statistics for all states."""
         states = await self.district_repo.get_states()
@@ -72,6 +76,7 @@ class AnalysisService:
         
         return {"states": states, "stats": stats}
     
+    @cached(ttl=CacheTTL.SPLIT_EVENTS, prefix="split_events")
     async def get_split_events_for_state(self, state: str) -> List[SplitEventSummary]:
         """Get all split events for a state."""
         cdk_meta = await self.district_repo.get_cdk_to_meta_map()
@@ -101,6 +106,7 @@ class AnalysisService:
         results.sort(key=lambda x: x.split_year, reverse=True)
         return results
     
+    @cached(ttl=CacheTTL.ANALYSIS, prefix="impact_analysis")
     async def analyze_split_impact(
         self,
         parent_cdk: str,
@@ -152,45 +158,28 @@ class AnalysisService:
             
             years = sorted(data_map.keys())
             
-            for year in years:
-                year_data = data_map[year]
-                value = None
-                
-                if year < split_year:
-                    # Use parent data
-                    if parent_cdk in year_data:
-                        d = year_data[parent_cdk]
-                        if metric_type == "area":
-                            value = d.get("area")
-                        elif metric_type == "production":
-                            value = d.get("prod")
-                        else:
-                            value = d.get("yld")
-                else:
-                    # Reconstruct from children
-                    sum_area = 0
-                    sum_prod = 0
-                    weighted_yld = 0
-                    
-                    for cdk in children_cdks:
-                        if cdk in year_data:
-                            d = year_data[cdk]
-                            area = d.get("area", 0)
-                            if area > 0:
-                                sum_area += area
-                                sum_prod += d.get("prod", 0)
-                                weighted_yld += d.get("yld", 0) * area
-                    
-                    if sum_area > 0:
-                        if metric_type == "area":
-                            value = sum_area
-                        elif metric_type == "production":
-                            value = sum_prod
-                        else:
-                            value = weighted_yld / sum_area
-                
-                if value is not None and value > 0:
-                    timeline.append({"year": year, "value": round(value, 2)})
+
+            # Use BoundaryHarmonizer for reconstruction
+            # 1. Get pre-split parent data
+            parent_series = self.harmonizer.get_parent_series(
+                data_map, parent_cdk, metric_type
+            )
+            
+            # 2. Reconstruct post-split data from children
+            reconstructed_series = self.harmonizer.reconstruct_parent_from_children(
+                data_map, children_cdks, metric_type
+            )
+            
+            # 3. Merge into single timeline
+            harmonized_points = self.harmonizer.merge_series(
+                parent_series, reconstructed_series, split_year
+            )
+            
+            # Convert to dictionary format expected by frontend
+            timeline = [
+                {"year": p.year, "value": round(p.value, 2)}
+                for p in harmonized_points
+            ]
             
             # Calculate advanced statistics
             if timeline:
