@@ -5,9 +5,10 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || 'https://i-ascap.onrender
 
 export async function GET(
     request: Request,
-    { params }: { params: { slug: string[] } }
+    { params }: { params: Promise<{ slug: string[] }> }
 ) {
-    const slugPath = params.slug.join('/');
+    const { slug } = await params;
+    const slugPath = slug.join('/');
     const { searchParams } = new URL(request.url);
     const queryString = searchParams.toString();
 
