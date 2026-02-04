@@ -1,10 +1,10 @@
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || 'https://i-ascap.onrender.com';
 
 export async function GET(
-    request: Request,
+    request: NextRequest,
     { params }: { params: Promise<{ slug: string[] }> }
 ) {
     const { slug } = await params;
