@@ -250,26 +250,75 @@ class AdvancedAnalyzer:
     # Risk Profiling
     # -------------------------------------------------------------------------
     
-@dataclass
-class ResilienceResult:
-    """Result of resilience analysis."""
-    resilience_score: float  # 0-1 composite score
-    volatility_component: float  # normalized (1-CV)
-    retention_component: float  # P10/Median ratio
-    drought_risk: str  # Low/Med/High based on retention
-    reliability_rating: str  # A-F
+    def calculate_risk_profile(
+        self,
+        yearly_values: Dict[int, float],
+    ) -> RiskProfile:
+        """
+        Calculate risk profile based on historical volatility.
+        """
+        if not yearly_values or len(yearly_values) < 3:
+            return RiskProfile(
+                risk_category=RiskCategory.MEDIUM, # Default
+                volatility_score=0,
+                reliability_rating="C",
+                trend_stability="Unknown",
+                worst_year=None,
+                best_year=None,
+            )
+            
+        values = list(yearly_values.values())
+        
+        # 1. Volatility (CV)
+        cv = self.stats.coefficient_of_variation(values)
+        
+        # 2. Risk Category
+        if cv < 15:
+            category = RiskCategory.LOW
+        elif cv < 30:
+            category = RiskCategory.MEDIUM
+        elif cv < 50:
+            category = RiskCategory.HIGH
+        else:
+            category = RiskCategory.CRITICAL
+            
+        # 3. Reliability Rating (Consistency)
+        # Based on how often yield is within 20% of mean
+        mean = self.stats.mean(values)
+        if mean > 0:
+            consistent_years = sum(1 for v in values if abs(v - mean) / mean <= 0.2)
+            consistency_ratio = consistent_years / len(values)
+        else:
+            consistency_ratio = 0
+            
+        if consistency_ratio > 0.8: rating = "A"
+        elif consistency_ratio > 0.6: rating = "B"
+        elif consistency_ratio > 0.4: rating = "C"
+        else: rating = "D"
+        
+        # 4. Trend Stability using Mann-Kendall proxy (simple linear slope for now)
+        trend = self.stats.linear_trend(yearly_values)
+        if trend.significant and trend.slope > 0:
+            stability = "Stable Growth"
+        elif trend.significant and trend.slope < 0:
+            stability = "Declining"
+        else:
+            stability = "Volatile" if cv > 30 else "Stable"
+            
+        # 5. Extremes
+        sorted_years = sorted(yearly_values.items(), key=lambda x: x[1])
+        worst_year = sorted_years[0][0]
+        best_year = sorted_years[-1][0]
+        
+        return RiskProfile(
+            risk_category=category,
+            volatility_score=round(cv, 2),
+            reliability_rating=rating,
+            trend_stability=stability,
+            worst_year=worst_year,
+            best_year=best_year,
+        )
 
-@dataclass
-class GrowthResult:
-    """Result of growth matrix analysis."""
-    cagr_5y: float
-    mean_yield_5y: float
-    matrix_quadrant: str  # Star, Cash Cow, Emerging, Lagging
-    trend_direction: str
-
-
-class AdvancedAnalyzer:
-# ... (existing init) ...
     # -------------------------------------------------------------------------
     # Resilience & Growth
     # -------------------------------------------------------------------------
@@ -384,22 +433,6 @@ class AdvancedAnalyzer:
                 "risk_category": risk.risk_category.value,
             },
         }
-
-@dataclass
-class SimulationResult:
-    """Result of impact simulation model."""
-    baseline_yield: float
-    slope: float  # kg/ha change per mm rainfall
-    intercept: float
-    r_squared: float
-    correlation: float
-    confidence_interval: float  # Margin of error at 95%
-    data_points: List[Dict[str, float]]  # For scatter plot
-    model_equation: str  # String representation
-
-
-class AdvancedAnalyzer:
-# ... (existing methods)
 
     # -------------------------------------------------------------------------
     # Simulation Models
