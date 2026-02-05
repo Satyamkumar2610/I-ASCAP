@@ -329,7 +329,7 @@ class AdvancedAnalyzer:
         else: rating = "D"
         
         # 4. Trend Stability using Mann-Kendall proxy (simple linear slope for now)
-        trend = self.stats.linear_trend(yearly_values)
+        trend = self.stats.linear_trend(values)
         if trend.significant and trend.slope > 0:
             stability = "Stable Growth"
         elif trend.significant and trend.slope < 0:
