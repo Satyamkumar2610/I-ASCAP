@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const API_URL = process.env.API_URL || 'https://i-ascap.onrender.com';
 
-async function handler(request: NextRequest, { params }: { params: { path: string[] } }) {
-    // Await params if necessary (Next.js 15+ changes, but safe to treat as likely sync or awaitable for now in 14/15 transition)
-    // In Next.js 13/14 params is an object, in 15 it might be a promise.
-    // We'll treat it safely.
+async function handler(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+    // In Next.js 15+, params is a Promise and must be awaited.
     const resolvedParams = await params;
     const path = resolvedParams.path.join('/');
 
