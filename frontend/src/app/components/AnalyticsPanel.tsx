@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../services/api';
 import { Shield, TrendingUp, AlertTriangle, PieChart, Calculator, Bookmark as BookmarkIcon, Check, ExternalLink } from 'lucide-react';
@@ -6,12 +6,6 @@ import SimulationPanel from './SimulationPanel';
 import ClimateCorrelationCard from './ClimateCorrelationCard';
 import { useBookmarks } from '../hooks/useBookmarks';
 import { exportToCSV } from '../../lib/reports';
-import {
-    EfficiencyData,
-    RiskData,
-    DiversificationData,
-    CorrelationData
-} from '../../types/analysis';
 
 interface AnalyticsPanelProps {
     cdk: string;
@@ -49,7 +43,7 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
     const isSaved = isBookmarked(cdk, year, crop);
 
     const loading = loadingEff || loadingRisk || loadingDiv || loadingCorr;
-    const error = null; // React Query handles this internally or we can use isError props
+    // React Query handles errors internally or we can use isError props
 
     if (loading) return (
         <div className="p-4 border border-dashed border-slate-800 rounded-lg text-center flex flex-col items-center justify-center min-h-[100px]">

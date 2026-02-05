@@ -11,17 +11,6 @@ interface SimulationPoint {
     yield: number;
 }
 
-interface SimulationResult {
-    baseline_yield: number;
-    slope: number;
-    intercept: number;
-    r_squared: number;
-    correlation: number;
-    confidence_interval: number;
-    data_points: SimulationPoint[];
-    model_equation: string;
-}
-
 interface SimulationPanelProps {
     district: string;
     state: string;

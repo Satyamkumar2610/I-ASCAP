@@ -64,24 +64,7 @@ const Dashboard: React.FC<DashboardProps> = ({
     const [searchResults, setSearchResults] = useState<string[]>([]);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-    // Type Definitions
-    interface RainfallData {
-        annual: number;
-        monsoon: number;
-        classification: string;
-        deviation: number;
-        seasonal?: {
-            monsoon_jjas: number;
-            pre_monsoon_mam: number;
-            post_monsoon_ond: number;
-            winter_jf: number;
-        };
-    }
 
-    interface HistoryData {
-        year: number;
-        value: number;
-    }
 
 
 

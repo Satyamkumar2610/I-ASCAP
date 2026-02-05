@@ -14,7 +14,7 @@ export function SplitImpactDashboard() {
     // New React Query Hooks
     const { data: summaryData } = useStateSummary();
     const [selectedState, setSelectedState] = useState('');
-    const { data: splitEventsData, isLoading: isLoadingEvents } = useSplitEvents(selectedState);
+    const { data: splitEventsData } = useSplitEvents(selectedState);
 
     // Derived state from query data
     const states = summaryData?.states || [];
@@ -45,13 +45,16 @@ export function SplitImpactDashboard() {
     };
 
     // Initial Load of States - Set Default State
+    // Initial Load of States - Set Default State
     useEffect(() => {
         if (states.length > 0 && !selectedState) {
             const firstState = states[0];
             setSelectedState(firstState);
             setSelectedCrop(getDefaultCrop(firstState));
         }
-    }, [states, selectedState]);
+        // Initialize only once when states load
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [states]);
 
     const currentStateStats = allStats[selectedState] || null;
 

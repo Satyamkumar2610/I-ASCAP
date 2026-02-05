@@ -1,6 +1,5 @@
-"use client";
 import React, { useEffect, useState } from 'react';
-import { ArrowRight, TrendingUp, TrendingDown } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface SplitDistrictTableProps {
