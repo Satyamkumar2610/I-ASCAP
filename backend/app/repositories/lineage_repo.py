@@ -35,22 +35,31 @@ class LineageRepository(BaseRepository):
     async def get_events_by_state(
         self, 
         state: str, 
-        cdk_to_state: Dict[str, str]
+        cdk_to_state: Dict[str, str]  # kept for backward compat, not used
     ) -> List[LineageEvent]:
-        """Filter events where parent or child belongs to given state."""
-        # For now, fetch all and filter in memory to utilize the passed cdk schema
-        # Optimization: Could join with districts table in SQL if we drop cdk_to_state dependency
-        events = await self.get_all_events()
-        filtered = []
+        """Filter events where parent belongs to given state using SQL JOIN."""
+        # Optimized: Use SQL JOIN with districts table for O(1) state filtering
+        query = """
+            SELECT le.parent_cdk, le.child_cdk, le.event_year, le.confidence_score
+            FROM lineage_events le
+            JOIN districts d ON le.parent_cdk = d.cdk
+            WHERE d.state_name = $1
+        """
+        rows = await self.fetch_all(query, state)
         
-        for e in events:
-            parent_state = cdk_to_state.get(e.parent_cdk)
-            child_states = [cdk_to_state.get(c) for c in e.children_cdks]
-            
-            if parent_state == state or state in child_states:
-                filtered.append(e)
-        
-        return filtered
+        events = []
+        for r in rows:
+            events.append(LineageEvent(
+                id=f"{r['parent_cdk']}_{r['event_year']}",
+                parent_cdk=r['parent_cdk'],
+                children_cdks=[r['child_cdk']],
+                children_names=[],
+                children_count=1,
+                event_year=r['event_year'],
+                event_type=EventType.SPLIT,
+                confidence=float(r['confidence_score']) if r['confidence_score'] else 0.8,
+            ))
+        return events
     
     def group_by_parent_year(
         self, 

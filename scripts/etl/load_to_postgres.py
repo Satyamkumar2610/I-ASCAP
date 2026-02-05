@@ -70,8 +70,18 @@ def setup_schema(engine):
                 FOREIGN KEY (child_cdk) REFERENCES districts(cdk)
             );
         """))
+        
+        # Create indexes for common query patterns
+        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_agri_metrics_cdk ON agri_metrics(cdk);"))
+        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_agri_metrics_year ON agri_metrics(year);"))
+        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_agri_metrics_variable ON agri_metrics(variable_name);"))
+        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_agri_metrics_cdk_var ON agri_metrics(cdk, variable_name);"))
+        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_lineage_parent ON lineage_events(parent_cdk);"))
+        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_lineage_child ON lineage_events(child_cdk);"))
+        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_districts_state ON districts(state_name);"))
+        
         conn.commit()
-    logger.info("Schema setup complete.")
+    logger.info("Schema setup complete with indexes.")
 
 
 def load_data():

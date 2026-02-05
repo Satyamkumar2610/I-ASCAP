@@ -167,8 +167,14 @@ class AnalysisService:
             )
             
             # 2. Reconstruct post-split data from children
+            # IMPORTANT: Only use post-split data for reconstruction
+            # Children did not exist before split_year, any pre-split data is invalid
+            post_split_data = {
+                year: data for year, data in data_map.items() 
+                if year >= split_year
+            }
             reconstructed_series = self.harmonizer.reconstruct_parent_from_children(
-                data_map, children_cdks, metric_type
+                post_split_data, children_cdks, metric_type
             )
             
             # 3. Merge into single timeline

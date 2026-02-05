@@ -592,7 +592,7 @@ DL_shahda_2024,Shahdara,Delhi,2024.0,,Bifurcation,,,,,
 DL_north_2024,North,Delhi,2024.0,,Bifurcation,,,,,
 DL_southe_2024,South East,Delhi,2024.0,,Bifurcation,,,,,
 DL_newdel_2024,New Delhi,Delhi,2024.0,,Bifurcation,,,,,
-DD_dadra_2001,Dadra and Nagar Haveli,Dadara & Nagar Havelli,2001.0,,Unknown,,,,,
+DA_dadra_2001,Dadra and Nagar Haveli,Dadara & Nagar Havelli,2001.0,,Unknown,,,,,
 CG_bastar_1991,Bastar,Chhattisgarh,1991.0,,Unknown,,,,,
 CG_kanker_2001,Kanker,Chhattisgarh,2001.0,,Bifurcation,,,,,
 CG_dantew_2001,Dantewada,Chhattisgarh,2001.0,,Bifurcation,,,,,
@@ -773,148 +773,159 @@ AN_nicoba_1981,Nicobar,Andaman and Nicobar Islands,1981.0,,Bifurcation,,,,,
 AN_northm_2011,North & Middle Andaman,Andaman and Nicobar Islands,2011.0,,Bifurcation,,,,,
 AN_southa_2011,South Andaman,Andaman and Nicobar Islands,2011.0,,Bifurcation,,,,,
 AN_adilab_1951,Adilabad,Andhra Pradesh,,,,1951.0,2024.0,,,1.0
-RJ_ajmer_1951,Ajmer,Rajasthan,,,,1951.0,2024.0,,,1.0
-KL_alappu_1951,Alappuzha,Kerala,,,,1951.0,2024.0,,,1.0
-RJ_alwar_1951,Alwar,Rajasthan,,,,1951.0,2024.0,,,1.0
-MH_amrava_1951,Amravati,Maharashtra,,,,1951.0,2024.0,,,1.0
-GJ_amreli_1951,Amreli,Gujarat,,,,1951.0,2024.0,,,1.0
+RA_ajmer_1951,Ajmer,Rajasthan,,,,1951.0,2024.0,,,1.0
+KE_alappu_1951,Alappuzha,Kerala,,,,1951.0,2024.0,,,1.0
+RA_alwar_1951,Alwar,Rajasthan,,,,1951.0,2024.0,,,1.0
+MA_amrava_1951,Amravati,Maharashtra,,,,1951.0,2024.0,,,1.0
+GU_amreli_1951,Amreli,Gujarat,,,,1951.0,2024.0,,,1.0
 AR_anjaw_1951,Anjaw,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
-MH_anuppu_1951,Anuppur,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
-MH_balagh_1951,Balaghat,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+MA_anuppu_1951,Anuppur,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+MA_balagh_1951,Balaghat,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
 UT_ballia_1951,Ballia,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-WB_bankur_1951,Bankura,West Bengal,,,,1951.0,2024.0,,,1.0
-RJ_banswa_1951,Banswara,Rajasthan,,,,1951.0,2024.0,,,1.0
+WE_bankur_1951,Bankura,West Bengal,,,,1951.0,2024.0,,,1.0
+RA_banswa_1951,Banswara,Rajasthan,,,,1951.0,2024.0,,,1.0
 UT_bareil_1951,Bareilly,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-RJ_barmer_1951,Barmer,Rajasthan,,,,1951.0,2024.0,,,1.0
+RA_barmer_1951,Barmer,Rajasthan,,,,1951.0,2024.0,,,1.0
 OD_bauda_1951,Bauda,Odisha,,,,1951.0,2024.0,,,1.0
-MH_betul_1951,Betul,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
-RJ_bhilwa_1951,Bhilwara,Rajasthan,,,,1951.0,2024.0,,,1.0
-MH_bhind_1951,Bhind,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+MA_betul_1951,Betul,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+RA_bhilwa_1951,Bhilwara,Rajasthan,,,,1951.0,2024.0,,,1.0
+MA_bhind_1951,Bhind,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
 KA_bidar_1951,Bidar,Karnataka,,,,1951.0,2024.0,,,1.0
 UT_bijnor_1951,Bijnor,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-RJ_bikane_1951,Bikaner,Rajasthan,,,,1951.0,2024.0,,,1.0
-HP_bilasp_1951,Bilaspur,Himachal Pradesh,,,,1951.0,2024.0,,,1.0
-WB_birbhu_1951,Birbhum,West Bengal,,,,1951.0,2024.0,,,1.0
-RJ_bundi_1951,Bundi,Rajasthan,,,,1951.0,2024.0,,,1.0
-HP_chamba_1951,Chamba,Himachal Pradesh,,,,1951.0,2024.0,,,1.0
+RA_bikane_1951,Bikaner,Rajasthan,,,,1951.0,2024.0,,,1.0
+HI_bilasp_1951,Bilaspur,Himachal Pradesh,,,,1951.0,2024.0,,,1.0
+WE_birbhu_1951,Birbhum,West Bengal,,,,1951.0,2024.0,,,1.0
+RA_bundi_1951,Bundi,Rajasthan,,,,1951.0,2024.0,,,1.0
+HI_chamba_1951,Chamba,Himachal Pradesh,,,,1951.0,2024.0,,,1.0
 KA_chamra_1951,Chamrajnagar,Karnataka,,,,1951.0,2024.0,,,1.0
-MH_chandr_1951,Chandrapur,Maharashtra,,,,1951.0,2024.0,,,1.0
+MA_chandr_1951,Chandrapur,Maharashtra,,,,1951.0,2024.0,,,1.0
 AR_changl_1951,Changlang,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
-TN_chenna_1951,Chennai,Tamil Nadu,,,,1951.0,2024.0,,,1.0
-MH_chhata_1951,Chhatarpur,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
-RJ_chitta_1951,Chittaurgarh,Rajasthan,,,,1951.0,2024.0,,,1.0
-RJ_churu_1951,Churu,Rajasthan,,,,1951.0,2024.0,,,1.0
-TN_cuddal_1951,Cuddalore,Tamil Nadu,,,,1951.0,2024.0,,,1.0
-DD_dadran_1951,Dadra & Nagar Haveli,Dadara & Nagar Havelli,,,,1951.0,2024.0,,,1.0
-WB_dakshi_1951,Dakshin Dinajpur,West Bengal,,,,1951.0,2024.0,,,1.0
-DD_daman_1951,Daman,Daman & Diu,,,,1951.0,2024.0,,,1.0
-WB_darjil_1951,Darjiling,West Bengal,,,,1951.0,2024.0,,,1.0
-JK_datano_1951,Data Not Available,Jammu & Kashmir,,,,1951.0,2024.0,,,1.0
-MH_datia_1951,Datia,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
-MH_dewas_1951,Dewas,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
-MH_dhar_1951,Dhar,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+TA_chenna_1951,Chennai,Tamil Nadu,,,,1951.0,2024.0,,,1.0
+MA_chhata_1951,Chhatarpur,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+KA_chitra_1951,Chitradurga,Karnataka,,,,1951.0,2024.0,,,1.0
+RA_chitta_1951,Chittaurgarh,Rajasthan,,,,1951.0,2024.0,,,1.0
+RA_churu_1951,Churu,Rajasthan,,,,1951.0,2024.0,,,1.0
+TA_cuddal_1951,Cuddalore,Tamil Nadu,,,,1951.0,2024.0,,,1.0
+DA_dadran_1951,Dadra & Nagar Haveli,Dadara & Nagar Havelli,,,,1951.0,2024.0,,,1.0
+WE_dakshi_1951,Dakshin Dinajpur,West Bengal,,,,1951.0,2024.0,,,1.0
+DA_daman_1951,Daman,Daman & Diu,,,,1951.0,2024.0,,,1.0
+WE_darjil_1951,Darjiling,West Bengal,,,,1951.0,2024.0,,,1.0
+JA_datano_1951,Data Not Available,Jammu & Kashmir,,,,1951.0,2024.0,,,1.0
+MA_datia_1951,Datia,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+MA_dewas_1951,Dewas,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+MA_dhar_1951,Dhar,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
 AR_dibang_1951,Dibang Valley,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
-DD_diu_1951,Diu,Daman & Diu,,,,1951.0,2024.0,,,1.0
-RJ_dungar_1951,Dungarpur,Rajasthan,,,,1951.0,2024.0,,,1.0
+DA_diu_1951,Diu,Daman & Diu,,,,1951.0,2024.0,,,1.0
+RA_dungar_1951,Dungarpur,Rajasthan,,,,1951.0,2024.0,,,1.0
 AR_eastka_1951,East Kameng,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
 AR_eastsi_1951,East Siang,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
 UT_fatehp_1951,Fatehpur,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-MH_garhch_1951,Garhchiroli,Maharashtra,,,,1951.0,2024.0,,,1.0
+PU_firozp_1951,Firozpur,Punjab,,,,1951.0,2024.0,,,1.0
+MA_garhch_1951,Garhchiroli,Maharashtra,,,,1951.0,2024.0,,,1.0
 UT_ghazip_1951,Ghazipur,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-WB_haora_1951,Haora,West Bengal,,,,1951.0,2024.0,,,1.0
+WE_haora_1951,Haora,West Bengal,,,,1951.0,2024.0,,,1.0
 UT_hardoi_1951,Hardoi,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
 KA_hassan_1951,Hassan,Karnataka,,,,1951.0,2024.0,,,1.0
 UT_mahama_1951,Mahamaya Nagar,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
 AN_hydera_1951,Hyderabad,Andhra Pradesh,,,,1951.0,2024.0,,,1.0
-MH_indore_1951,Indore,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
-RJ_jaisal_1951,Jaisalmer,Rajasthan,,,,1951.0,2024.0,,,1.0
+MA_indore_1951,Indore,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+RA_jaisal_1951,Jaisalmer,Rajasthan,,,,1951.0,2024.0,,,1.0
 UT_jalaun_1951,Jalaun,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-RJ_jalor_1951,Jalor,Rajasthan,,,,1951.0,2024.0,,,1.0
+MA_jalgao_1951,Jalgaon,Maharashtra,,,,1951.0,2024.0,,,1.0
+RA_jalor_1951,Jalor,Rajasthan,,,,1951.0,2024.0,,,1.0
+GU_jamnag_1951,Jamnagar,Gujarat,,,,1951.0,2024.0,,,1.0
 UT_jaunpu_1951,Jaunpur,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-RJ_jhalaw_1951,Jhalawar,Rajasthan,,,,1951.0,2024.0,,,1.0
-RJ_jodhpu_1951,Jodhpur,Rajasthan,,,,1951.0,2024.0,,,1.0
-TN_kanche_1951,Kancheepuram,Tamil Nadu,,,,1951.0,2024.0,,,1.0
-TN_kanniy_1951,Kanniyakumari,Tamil Nadu,,,,1951.0,2024.0,,,1.0
-KL_kannur_1951,Kannur,Kerala,,,,1951.0,2024.0,,,1.0
+RA_jhalaw_1951,Jhalawar,Rajasthan,,,,1951.0,2024.0,,,1.0
+RA_jodhpu_1951,Jodhpur,Rajasthan,,,,1951.0,2024.0,,,1.0
+TA_kanche_1951,Kancheepuram,Tamil Nadu,,,,1951.0,2024.0,,,1.0
+TA_kanniy_1951,Kanniyakumari,Tamil Nadu,,,,1951.0,2024.0,,,1.0
+KE_kannur_1951,Kannur,Kerala,,,,1951.0,2024.0,,,1.0
 UT_kansir_1951,Kansiram Nagar,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-PB_kapurt_1951,Kapurthala,Punjab,,,,1951.0,2024.0,,,1.0
+PU_kapurt_1951,Kapurthala,Punjab,,,,1951.0,2024.0,,,1.0
 AN_karimn_1951,Karimnagar,Andhra Pradesh,,,,1951.0,2024.0,,,1.0
-KL_kasara_1951,Kasaragod,Kerala,,,,1951.0,2024.0,,,1.0
+KE_kasara_1951,Kasaragod,Kerala,,,,1951.0,2024.0,,,1.0
 AN_khamma_1951,Khammam,Andhra Pradesh,,,,1951.0,2024.0,,,1.0
-GJ_kheda_1951,Kheda,Gujarat,,,,1951.0,2024.0,,,1.0
+GU_kheda_1951,Kheda,Gujarat,,,,1951.0,2024.0,,,1.0
 UT_kheri_1951,Kheri,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-WB_kochbi_1951,Koch Bihar,West Bengal,,,,1951.0,2024.0,,,1.0
+WE_kochbi_1951,Koch Bihar,West Bengal,,,,1951.0,2024.0,,,1.0
 KA_kodagu_1951,Kodagu,Karnataka,,,,1951.0,2024.0,,,1.0
-MH_kolhap_1951,Kolhapur,Maharashtra,,,,1951.0,2024.0,,,1.0
+MA_kolhap_1951,Kolhapur,Maharashtra,,,,1951.0,2024.0,,,1.0
+WE_kolkat_1951,Kolkata,West Bengal,,,,1951.0,2024.0,,,1.0
+KE_kollam_1951,Kollam,Kerala,,,,1951.0,2024.0,,,1.0
 AR_kurung_1951,Kurung Kumey,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
-MZ_lawang_1951,Lawangtlai,Mizoram,,,,1951.0,2024.0,,,1.0
+MI_lawang_1951,Lawangtlai,Mizoram,,,,1951.0,2024.0,,,1.0
 AR_lohit_1951,Lohit,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
 AR_lowerd_1951,Lower Dibang Valley,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
 AR_lowers_1951,Lower Subansiri,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
 UT_luckno_1951,Lucknow,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-PB_ludhia_1951,Ludhiana,Punjab,,,,1951.0,2024.0,,,1.0
+PU_ludhia_1951,Ludhiana,Punjab,,,,1951.0,2024.0,,,1.0
 AN_mahbub_1951,Mahbubnagar,Andhra Pradesh,,,,1951.0,2024.0,,,1.0
-PB_mahe_1951,Mahe,Puducherry,,,,1951.0,2024.0,,,1.0
-HP_mandi_1951,Mandi,Himachal Pradesh,,,,1951.0,2024.0,,,1.0
+PU_mahe_1951,Mahe,Puducherry,,,,1951.0,2024.0,,,1.0
+HI_mandi_1951,Mandi,Himachal Pradesh,,,,1951.0,2024.0,,,1.0
 KA_mandya_1951,Mandya,Karnataka,,,,1951.0,2024.0,,,1.0
 UT_mathur_1951,Mathura,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
 OD_mayurb_1951,Mayurbhanj,Odisha,,,,1951.0,2024.0,,,1.0
 AN_medak_1951,Medak,Andhra Pradesh,,,,1951.0,2024.0,,,1.0
-WB_murshi_1951,Murshidabad,West Bengal,,,,1951.0,2024.0,,,1.0
-WB_nadia_1951,Nadia,West Bengal,,,,1951.0,2024.0,,,1.0
-RJ_nagaur_1951,Nagaur,Rajasthan,,,,1951.0,2024.0,,,1.0
-MH_nagpur_1951,Nagpur,Maharashtra,,,,1951.0,2024.0,,,1.0
+WE_murshi_1951,Murshidabad,West Bengal,,,,1951.0,2024.0,,,1.0
+WE_nadia_1951,Nadia,West Bengal,,,,1951.0,2024.0,,,1.0
+RA_nagaur_1951,Nagaur,Rajasthan,,,,1951.0,2024.0,,,1.0
+MA_nagpur_1951,Nagpur,Maharashtra,,,,1951.0,2024.0,,,1.0
 AN_nalgon_1951,Nalgonda,Andhra Pradesh,,,,1951.0,2024.0,,,1.0
-MH_nanded_1951,Nanded,Maharashtra,,,,1951.0,2024.0,,,1.0
+MA_nanded_1951,Nanded,Maharashtra,,,,1951.0,2024.0,,,1.0
 AN_sripot_1951,Sri Potti Sriramulu Nellore,Andhra Pradesh,,,,1951.0,2024.0,,,1.0
 AN_nizama_1951,Nizamabad,Andhra Pradesh,,,,1951.0,2024.0,,,1.0
-WB_north2_1951,North 24 Parganas,West Bengal,,,,1951.0,2024.0,,,1.0
+WE_north2_1951,North 24 Parganas,West Bengal,,,,1951.0,2024.0,,,1.0
 JH_palamu_1951,Palamu,Jharkhand,,,,1951.0,2024.0,,,1.0
-RJ_pali_1951,Pali,Rajasthan,,,,1951.0,2024.0,,,1.0
-MH_panna_1951,Panna,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+RA_pali_1951,Pali,Rajasthan,,,,1951.0,2024.0,,,1.0
+MA_panna_1951,Panna,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
 AR_papump_1951,Papum Pare,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
 UT_pilibh_1951,Pilibhit,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
 UT_pratap_1951,Pratapgarh,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
+MA_pune_1951,Pune,Maharashtra,,,,1951.0,2024.0,,,1.0
 UT_raebar_1951,Rae Bareli,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-MH_raisen_1951,Raisen,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
-MH_rajgar_1951,Rajgarh,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+MA_raisen_1951,Raisen,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+MA_rajgar_1951,Rajgarh,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
 UT_rampur_1951,Rampur,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
 AN_rangar_1951,Rangareddy,Andhra Pradesh,,,,1951.0,2024.0,,,1.0
-MH_ratlam_1951,Ratlam,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
-MH_rewa_1951,Rewa,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+MA_ratlam_1951,Ratlam,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+MA_rewa_1951,Rewa,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
 UT_sahara_1951,Saharanpur,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-BR_saranc_1951,Saran (chhapra),Bihar,,,,1951.0,2024.0,,,1.0
-MH_satna_1951,Satna,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
-PB_shahid_1951,Shahid Bhagat Singh Nagar,Punjab,,,,1951.0,2024.0,,,1.0
+BI_saranc_1951,Saran (chhapra),Bihar,,,,1951.0,2024.0,,,1.0
+MA_satna_1951,Satna,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+PU_shahid_1951,Shahid Bhagat Singh Nagar,Punjab,,,,1951.0,2024.0,,,1.0
 UT_shahja_1951,Shahjahanpur,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-HP_shimla_1951,Shimla,Himachal Pradesh,,,,1951.0,2024.0,,,1.0
-MH_shivpu_1951,Shivpuri,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+HI_shimla_1951,Shimla,Himachal Pradesh,,,,1951.0,2024.0,,,1.0
+MA_shivpu_1951,Shivpuri,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
 AS_sivasa_1951,Sivasagar,Assam,,,,1951.0,2024.0,,,1.0
-RJ_sikar_1951,Sikar,Rajasthan,,,,1951.0,2024.0,,,1.0
-HP_sirmau_1951,Sirmaur,Himachal Pradesh,,,,1951.0,2024.0,,,1.0
-RJ_sirohi_1951,Sirohi,Rajasthan,,,,1951.0,2024.0,,,1.0
+RA_sikar_1951,Sikar,Rajasthan,,,,1951.0,2024.0,,,1.0
+HI_sirmau_1951,Sirmaur,Himachal Pradesh,,,,1951.0,2024.0,,,1.0
+RA_sirohi_1951,Sirohi,Rajasthan,,,,1951.0,2024.0,,,1.0
 UT_sitapu_1951,Sitapur,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-WB_south2_1951,South 24 Parganas,West Bengal,,,,1951.0,2024.0,,,1.0
+WE_south2_1951,South 24 Parganas,West Bengal,,,,1951.0,2024.0,,,1.0
 OD_sundar_1951,Sundargarh,Odisha,,,,1951.0,2024.0,,,1.0
 AR_tawang_1951,Tawang,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
-MH_thane_1951,Thane,Maharashtra,,,,1951.0,2024.0,,,1.0
-TN_thenil_1951,The Nilgiris,Tamil Nadu,,,,1951.0,2024.0,,,1.0
-TN_thooth_1951,Thoothukkudi,Tamil Nadu,,,,1951.0,2024.0,,,1.0
+MA_thane_1951,Thane,Maharashtra,,,,1951.0,2024.0,,,1.0
+TA_thanja_1951,Thanjavur,Tamil Nadu,,,,1951.0,2024.0,,,1.0
+TA_thenil_1951,The Nilgiris,Tamil Nadu,,,,1951.0,2024.0,,,1.0
+KE_thiruv_1951,Thiruvananthapuram,Kerala,,,,1951.0,2024.0,,,1.0
+TA_thooth_1951,Thoothukkudi,Tamil Nadu,,,,1951.0,2024.0,,,1.0
+KE_thriss_1951,Thrissur,Kerala,,,,1951.0,2024.0,,,1.0
 AR_tirap_1951,Tirap,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
-RJ_tonk_1951,Tonk,Rajasthan,,,,1951.0,2024.0,,,1.0
-MH_ujjain_1951,Ujjain,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+RA_tonk_1951,Tonk,Rajasthan,,,,1951.0,2024.0,,,1.0
+MA_ujjain_1951,Ujjain,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
 UT_unnao_1951,Unnao,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
 AR_uppers_1951,Upper Siang,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
+AR_uppers_1951,Upper Subansiri,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
 KA_uttara_1951,Uttara Kannada,Karnataka,,,,1951.0,2024.0,,,1.0
 UT_varana_1951,Varanasi,Uttar Pradesh,,,,1951.0,2024.0,,,1.0
-TN_virudu_1951,Virudunagar,Tamil Nadu,,,,1951.0,2024.0,,,1.0
+TA_virudu_1951,Virudunagar,Tamil Nadu,,,,1951.0,2024.0,,,1.0
 AN_warang_1951,Warangal,Andhra Pradesh,,,,1951.0,2024.0,,,1.0
-MH_wardha_1951,Wardha,Maharashtra,,,,1951.0,2024.0,,,1.0
+MA_wardha_1951,Wardha,Maharashtra,,,,1951.0,2024.0,,,1.0
 AR_westka_1951,West Kameng,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
-MH_westni_1951,West Nimar,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
+MA_westni_1951,West Nimar,Madhya Pradesh,,,,1951.0,2024.0,,,1.0
 AR_westsi_1951,West Siang,Arunanchal Pradesh,,,,1951.0,2024.0,,,1.0
-TN_nagapp_1951,Nagappattinam,Tamil Nadu,,,,1951.0,2024.0,,,1.0
-PB_karaik_1951,Karaikal,Puducherry,,,,1951.0,2024.0,,,1.0
-PB_puduch_1951,Puducherry,Puducherry,,,,1951.0,2024.0,,,1.0
-PB_yanam_1951,Yanam,Puducherry,,,,1951.0,2024.0,,,1.0
-LD_laksha_1951,Lakshadweep,Lakshadweep,,,,1951.0,2024.0,,,1.0
+TA_nagapp_1951,Nagappattinam,Tamil Nadu,,,,1951.0,2024.0,,,1.0
+PU_karaik_1951,Karaikal,Puducherry,,,,1951.0,2024.0,,,1.0
+PU_puduch_1951,Puducherry,Puducherry,,,,1951.0,2024.0,,,1.0
+PU_yanam_1951,Yanam,Puducherry,,,,1951.0,2024.0,,,1.0
+LA_laksha_1951,Lakshadweep,Lakshadweep,,,,1951.0,2024.0,,,1.0
