@@ -52,8 +52,21 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
         </div>
     );
 
+    const isError =
+        (efficiency === undefined && !loadingEff) ||
+        (riskData === undefined && !loadingRisk) ||
+        (diversification === undefined && !loadingDiv);
+
     // Check if we have minimal data to display anything
     const hasData = efficiency || riskData || diversification || correlation;
+
+    if (isError && !hasData) return (
+        <div className="p-6 bg-red-900/20 border border-red-800/50 rounded-lg text-center min-h-[100px] flex flex-col items-center justify-center">
+            <AlertTriangle className="text-red-400 mb-2" size={20} />
+            <div className="text-red-300 text-xs font-bold">Analysis Unavailable</div>
+            <div className="text-red-400/70 text-[10px] mt-1">Unable to generate insights at this time.</div>
+        </div>
+    );
 
     if (!hasData && !loading) return (
         <div className="p-6 bg-slate-900/30 border border-slate-800 rounded-lg text-center min-h-[100px] flex flex-col items-center justify-center">
