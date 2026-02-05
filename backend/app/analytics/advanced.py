@@ -61,6 +61,38 @@ class HistoricalEfficiencyResult:
     is_above_trend: bool
 
 
+@dataclass
+class ResilienceResult:
+    """Result of resilience analysis."""
+    resilience_score: float  # 0-1 composite score
+    volatility_component: float  # normalized (1-CV)
+    retention_component: float  # P10/Median ratio
+    drought_risk: str  # Low/Med/High based on retention
+    reliability_rating: str  # A-F
+
+
+@dataclass
+class GrowthResult:
+    """Result of growth matrix analysis."""
+    cagr_5y: float
+    mean_yield_5y: float
+    matrix_quadrant: str  # Star, Cash Cow, Emerging, Lagging
+    trend_direction: str
+
+
+@dataclass
+class SimulationResult:
+    """Result of impact simulation model."""
+    baseline_yield: float
+    slope: float  # kg/ha change per mm rainfall
+    intercept: float
+    r_squared: float
+    correlation: float
+    confidence_interval: float  # Margin of error at 95%
+    data_points: List[Dict[str, float]]  # For scatter plot
+    model_equation: str  # String representation
+
+
 class AdvancedAnalyzer:
     """
     Advanced analytics for agricultural data.
