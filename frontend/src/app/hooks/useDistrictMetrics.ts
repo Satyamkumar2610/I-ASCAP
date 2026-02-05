@@ -1,5 +1,7 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '../services/api';
 import bridgeData from '../../data/map_bridge.json';
 
 export interface DistrictMetric {
@@ -12,56 +14,23 @@ export interface DistrictMetric {
 }
 
 export const useDistrictMetrics = (year: number, crop: string, metric: string) => {
-    const [data, setData] = useState<DistrictMetric[]>([]);
-    // Bridge is now static import
+    // React Query handles loading, data, and errors
+    const { data: rawData = [], isLoading: loading } = useQuery({
+        queryKey: ['districtMetrics', year, crop, metric],
+        queryFn: () => api.getDistrictMetrics(year, crop, metric),
+        staleTime: 1000 * 60 * 10, // Cache for 10 minutes
+    });
+
+    // Bridge is static
     const bridge = bridgeData as Record<string, string>;
 
-    const [loading, setLoading] = useState(true);
-
-
-    // 1. Fetch Metrics (On Change)
-    useEffect(() => {
-        let isMounted = true;
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const url = `/api/metrics?year=${year}&crop=${crop}&metric=${metric}`;
-                const res = await fetch(url);
-                const json: DistrictMetric[] | { error: string } = await res.json();
-
-                if (isMounted) {
-                    if (Array.isArray(json)) {
-                        setData(json);
-                    } else {
-                        console.error("API returned error", json);
-                        setData([]);
-                    }
-                }
-            } catch (err) {
-                if (isMounted) {
-                    console.error("Failed to load metrics", err);
-                }
-            } finally {
-                if (isMounted) {
-                    setLoading(false);
-                }
-            }
-        };
-
-        fetchData();
-
-        return () => {
-            isMounted = false;
-        };
-    }, [year, crop, metric]);
-
     // 2. Join (Derived State)
-    const joinedData = React.useMemo(() => {
-        if (!data.length) return {};
+    const joinedData = useMemo(() => {
+        if (!rawData.length) return {};
 
         // Map CDK -> Metric
         const cdkToMetric: Record<string, DistrictMetric> = {};
-        data.forEach(d => cdkToMetric[d.cdk] = d);
+        rawData.forEach((d: DistrictMetric) => cdkToMetric[d.cdk] = d);
 
         // Create Join Map: GeoKey -> Metric
         const join: Record<string, DistrictMetric> = {};
@@ -74,7 +43,7 @@ export const useDistrictMetrics = (year: number, crop: string, metric: string) =
         });
 
         return join;
-    }, [data, bridge]);
+    }, [rawData, bridge]);
 
-    return { joinedData, loading, rawData: data };
+    return { joinedData, loading, rawData };
 };

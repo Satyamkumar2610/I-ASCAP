@@ -1,12 +1,13 @@
 
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ComparisonChart } from './ComparisonChart';
 import { ComparisonTable } from './ComparisonTable';
 import { ComparisonContextBanner } from './ComparisonContextBanner';
 import { AdvancedStatsPanel } from './AdvancedStatsPanel';
 import { AlertCircle, Sprout, Loader2 } from 'lucide-react';
+import { useAnalysis } from '../../hooks/useSplitImpact';
 
 interface ComparisonViewProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,42 +18,16 @@ interface ComparisonViewProps {
 }
 
 export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProps) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [payload, setPayload] = useState<any>(null);
-    const [loading, setLoading] = useState(false);
+    const params = event ? {
+        parent: event.parent_cdk,
+        children: event.children_cdks.join(','),
+        splitYear: event.split_year,
+        crop,
+        metric,
+        mode
+    } : null;
 
-    useEffect(() => {
-        if (!event) return;
-
-        let isMounted = true;
-        setLoading(true);
-
-        const fetchData = async () => {
-            try {
-                const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://i-ascap.onrender.com';
-                const childrenStr = event.children_cdks.join(',');
-                const url = `${BACKEND_URL}/api/v1/analysis/split-impact/analysis?parent=${event.parent_cdk}&children=${childrenStr}&splitYear=${event.split_year}&crop=${crop}&metric=${metric}&mode=${mode}`;
-                const res = await fetch(url);
-                const data = await res.json();
-
-                if (isMounted) {
-                    setPayload(data);
-                }
-            } catch (e) {
-                console.error(e);
-            } finally {
-                if (isMounted) {
-                    setLoading(false);
-                }
-            }
-        };
-
-        fetchData();
-
-        return () => {
-            isMounted = false;
-        };
-    }, [event, crop, metric, mode]);
+    const { data: payload, isLoading: loading } = useAnalysis(params);
 
     if (!event) return null;
 

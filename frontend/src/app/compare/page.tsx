@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { useQueries } from '@tanstack/react-query';
+import { api } from '../services/api';
 import {
     Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
     Legend, Tooltip as RechartsTooltip
@@ -25,52 +26,33 @@ interface RadarDataPoint {
     [key: string]: string | number;
 }
 
-// Helper to fetch data
-async function fetchComparisonData(id: string): Promise<ComparisonData> {
-    const [district, yearStr, crop] = id.split('-');
-    const year = parseInt(yearStr);
-
-    // Fetch all metrics in parallel
-    const [efficRes, riskRes] = await Promise.all([
-        fetch(`/api/analysis/efficiency?cdk=${district}&crop=${crop}&year=${year}`),
-        fetch(`/api/analysis/risk-profile?cdk=${district}&crop=${crop}`)
-    ]);
-
-    return {
-        id,
-        district,
-        year,
-        crop,
-        efficiency: efficRes.ok ? await efficRes.json() : null,
-        risk: riskRes.ok ? await riskRes.json() : null
-    };
-}
-
 function CompareContent() {
     const searchParams = useSearchParams();
     const idsString = searchParams.get('ids');
     const ids = React.useMemo(() => idsString?.split(',') || [], [idsString]);
 
-    const [data, setData] = useState<ComparisonData[]>([]);
-    const [loading, setLoading] = useState(false);
+    // Parallel Data Fetching with React Query
+    const queryResults = useQueries({
+        queries: ids.map(id => {
+            const [district, yearStr, crop] = id.split('-');
+            const year = parseInt(yearStr);
+            return {
+                queryKey: ['comparison', district, year, crop],
+                queryFn: async (): Promise<ComparisonData> => {
+                    // Fetch both metrics in parallel for this district
+                    const [efficiency, risk] = await Promise.all([
+                        api.getEfficiency(district, crop, year),
+                        api.getRiskProfile(district, crop)
+                    ]);
+                    return { id, district, year, crop, efficiency, risk };
+                },
+                staleTime: 1000 * 60 * 30, // 30 mins
+            };
+        })
+    });
 
-    useEffect(() => {
-        if (ids.length === 0) return;
-
-        const load = async () => {
-            setLoading(true);
-            try {
-                const results = await Promise.all(ids.map(fetchComparisonData));
-                setData(results);
-            } catch (e) {
-                console.error(e);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        load();
-    }, [ids]);
+    const loading = queryResults.some(q => q.isLoading);
+    const data = queryResults.map(q => q.data).filter(Boolean) as ComparisonData[]; // Safe casting after filter
 
     if (ids.length === 0) {
         return (

@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '../services/api';
 import { Shield, TrendingUp, AlertTriangle, PieChart, Calculator, Bookmark as BookmarkIcon, Check, ExternalLink } from 'lucide-react';
 import SimulationPanel from './SimulationPanel';
 import ClimateCorrelationCard from './ClimateCorrelationCard';
@@ -19,62 +21,35 @@ interface AnalyticsPanelProps {
 }
 
 export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPanelProps) {
-    const [efficiency, setEfficiency] = useState<EfficiencyData | null>(null);
-    const [riskData, setRiskData] = useState<RiskData | null>(null);
-    const [diversification, setDiversification] = useState<DiversificationData | null>(null);
-    const [correlation, setCorrelation] = useState<CorrelationData | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const { data: efficiency, isLoading: loadingEff } = useQuery({
+        queryKey: ['efficiency', cdk, year, crop],
+        queryFn: () => api.getEfficiency(cdk, crop, year),
+        enabled: !!cdk
+    });
+
+    const { data: riskData, isLoading: loadingRisk } = useQuery({
+        queryKey: ['risk', cdk, crop],
+        queryFn: () => api.getRiskProfile(cdk, crop),
+        enabled: !!cdk
+    });
+
+    const { data: diversification, isLoading: loadingDiv } = useQuery({
+        queryKey: ['diversification', state, year],
+        queryFn: () => api.getDiversification(state, year),
+        enabled: !!state
+    });
+
+    const { data: correlation, isLoading: loadingCorr } = useQuery({
+        queryKey: ['correlation', state, crop, year],
+        queryFn: () => api.getCorrelation(state, crop, year),
+        enabled: !!state
+    });
 
     const { addBookmark, isBookmarked, removeBookmark } = useBookmarks();
     const isSaved = isBookmarked(cdk, year, crop);
 
-    useEffect(() => {
-        if (!cdk || !state) return;
-
-        const fetchData = async () => {
-            // ... existing fetch logic
-
-            setLoading(true);
-            setError(null);
-            try {
-                // Fetch Efficiency
-                const efficRes = await fetch(`/api/analysis/efficiency?cdk=${cdk}&crop=${crop}&year=${year}`);
-                if (efficRes.ok) {
-                    setEfficiency(await efficRes.json());
-                } else {
-                    console.warn(`Efficiency fetch failed: ${efficRes.status}`);
-                    // Don't set null here, keep previous state or separate error
-                    setEfficiency(null);
-                }
-
-                // Fetch Risk & Decision Metrics
-                const riskRes = await fetch(`/api/analysis/risk-profile?cdk=${cdk}&crop=${crop}`);
-                if (riskRes.ok) {
-                    setRiskData(await riskRes.json());
-                } else {
-                    console.warn(`Risk fetch failed: ${riskRes.status}`);
-                    setRiskData(null);
-                }
-
-                // Fetch Diversification
-                const divRes = await fetch(`/api/analysis/diversification?state=${encodeURIComponent(state)}&year=${year}`);
-                if (divRes.ok) setDiversification(await divRes.json());
-
-                // Fetch Climate Correlation
-                const corrRes = await fetch(`/api/climate/correlation?state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`);
-                if (corrRes.ok) setCorrelation(await corrRes.json());
-
-            } catch (err) {
-                console.error("Analytics fetch failed", err);
-                setError("Network error loading analytics.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [cdk, state, year, crop]);
+    const loading = loadingEff || loadingRisk || loadingDiv || loadingCorr;
+    const error = null; // React Query handles this internally or we can use isError props
 
     if (loading) return (
         <div className="p-4 border border-dashed border-slate-800 rounded-lg text-center flex flex-col items-center justify-center min-h-[100px]">
@@ -83,17 +58,10 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
         </div>
     );
 
-    if (error) return (
-        <div className="p-4 bg-red-950/20 border border-red-900/50 rounded-lg text-center min-h-[100px] flex flex-col items-center justify-center">
-            <AlertTriangle className="text-red-500 mb-2" size={16} />
-            <div className="text-red-400 text-xs">{error}</div>
-        </div>
-    );
-
     // Check if we have minimal data to display anything
     const hasData = efficiency || riskData || diversification || correlation;
 
-    if (!hasData) return (
+    if (!hasData && !loading) return (
         <div className="p-6 bg-slate-900/30 border border-slate-800 rounded-lg text-center min-h-[100px] flex flex-col items-center justify-center">
             <div className="text-slate-500 text-xs">No analytics data available for this selection.</div>
         </div>

@@ -37,6 +37,8 @@ export const metadata: Metadata = {
   },
 };
 
+import ReactQueryProvider from "./lib/react-query-provider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -53,7 +55,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950`}
         suppressHydrationWarning
       >
-        {children}
+        <ReactQueryProvider>
+          {children}
+        </ReactQueryProvider>
       </body>
     </html>
   );

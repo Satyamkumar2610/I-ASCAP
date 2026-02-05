@@ -1,5 +1,7 @@
 "use client";
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '../services/api';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { AlertTriangle, TrendingUp, TrendingDown, RefreshCw } from 'lucide-react';
 
@@ -29,44 +31,15 @@ interface SimulationPanelProps {
 
 export default function SimulationPanel({ district, state, crop, year }: SimulationPanelProps) {
     const [deviation, setDeviation] = useState<number>(0); // Percentage -50 to +50
-    const [result, setResult] = useState<SimulationResult | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
 
-    // Initial Fetch
-    useEffect(() => {
-        let isMounted = true;
+    const { data: simulationData, isLoading: loading, error: queryError } = useQuery({
+        queryKey: ['simulation', district, state, crop, year],
+        queryFn: () => api.runSimulation(district, state, crop, year),
+        staleTime: 1000 * 60 * 60 // Cache simulation heavily
+    });
 
-        async function fetchSimulation() {
-            setLoading(true);
-            setError(null);
-            try {
-                // Fetch simulation model
-                const res = await fetch(`/api/v1/simulation?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&crop=${encodeURIComponent(crop)}&year=${year}`);
-
-                if (!res.ok) {
-                    const err = await res.json();
-                    throw new Error(err.detail || 'Failed to load simulation model');
-                }
-
-                const data = await res.json();
-                if (isMounted) {
-                    setResult(data.result);
-                }
-            } catch (err: unknown) {
-                if (isMounted) {
-                    const message = err instanceof Error ? err.message : 'Error loading simulation';
-                    setError(message);
-                    console.error(err);
-                }
-            } finally {
-                if (isMounted) setLoading(false);
-            }
-        }
-
-        fetchSimulation();
-        return () => { isMounted = false; };
-    }, [district, state, crop, year]);
+    const result = simulationData ? simulationData.result : null;
+    const error = queryError ? (queryError as Error).message : null;
 
     // Calculate Projected Yield
     const projection = useMemo(() => {
@@ -80,7 +53,7 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
         // Let's assume the user manipulates "Rainfall from Average".
 
         // Let's calculate mean rain from data points to know what "0%" deviation means.
-        const meanRain = result.data_points.reduce((acc, p) => acc + p.rain, 0) / result.data_points.length;
+        const meanRain = result.data_points.reduce((acc: number, p: SimulationPoint) => acc + p.rain, 0) / result.data_points.length;
 
         const rainChangeMM = meanRain * (deviation / 100);
         const projectedYield = result.baseline_yield + (result.slope * rainChangeMM);

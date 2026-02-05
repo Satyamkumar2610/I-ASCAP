@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '../services/api';
 import { Search, MapPin, Calendar, Activity, Menu, X, ChevronDown } from 'lucide-react';
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import Link from 'next/link';
@@ -81,8 +83,7 @@ const Dashboard: React.FC<DashboardProps> = ({
         value: number;
     }
 
-    const [rainfallData, setRainfallData] = useState<RainfallData | null>(null);
-    const [rainfallLoading, setRainfallLoading] = useState(false);
+
 
     // Load available districts from Import
     const availableDistricts = React.useMemo(() => {
@@ -92,58 +93,29 @@ const Dashboard: React.FC<DashboardProps> = ({
     }, []);
 
     // History State
-    // History State
-    const [history, setHistory] = useState<HistoryData[]>([]);
+    // --- Refactored to React Query ---
 
-    useEffect(() => {
-        let active = true;
-        if (selectedDistrict) {
-            setHistory([]);
-            // Basic fetch - in future pass ID/state if available
-            fetch(`/api/history?district=${encodeURIComponent(selectedDistrict)}&crop=${currentCrop}`)
-                .then(r => r.json())
-                .then(data => {
-                    if (active && Array.isArray(data)) setHistory(data);
-                })
-                .catch(err => console.error("Failed to load history", err));
-        }
-        return () => { active = false; };
-    }, [selectedDistrict, currentCrop]);
+    // 1. History Query
+    const { data: history = [] } = useQuery({
+        queryKey: ['history', selectedDistrict, currentCrop],
+        queryFn: () => api.getHistory(selectedDistrict!, currentCrop),
+        enabled: !!selectedDistrict
+    });
 
-    // Fetch rainfall data when district is selected and rainfall layer is on
-    // Fetch rainfall data when district is selected and rainfall layer is on
-    useEffect(() => {
-        let active = true;
+    // 2. Rainfall Query
+    // Resolve State Name from Bridge logic
+    const stateName = React.useMemo(() => {
+        if (!selectedDistrict) return '';
+        const raw = bridgeData as Record<string, string>;
+        const stateKey = Object.keys(raw).find(k => k.startsWith(selectedDistrict + '|'));
+        return stateKey ? stateKey.split('|')[1] : '';
+    }, [selectedDistrict]);
 
-        const fetchData = async () => {
-            if (selectedDistrict && showRainfallLayer) {
-                setRainfallLoading(true);
-                setRainfallData(null);
-
-                // Try to get state from bridge data
-                const raw = bridgeData as Record<string, string>;
-                const stateKey = Object.keys(raw).find(k => k.startsWith(selectedDistrict + '|'));
-                const stateName = stateKey ? stateKey.split('|')[1] : '';
-
-                try {
-                    const res = await fetch(`/api/rainfall?district=${encodeURIComponent(selectedDistrict)}&state=${encodeURIComponent(stateName)}&year=${currentYear}`);
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (active && !data.error) setRainfallData(data);
-                    }
-                } catch (err) {
-                    console.error('Failed to load rainfall', err);
-                } finally {
-                    if (active) setRainfallLoading(false);
-                }
-            } else {
-                if (active) setRainfallData(null);
-            }
-        };
-
-        fetchData();
-        return () => { active = false; };
-    }, [selectedDistrict, showRainfallLayer, currentYear]);
+    const { data: rainfallData, isLoading: rainfallLoading } = useQuery({
+        queryKey: ['rainfall', selectedDistrict, stateName, currentYear],
+        queryFn: () => api.getRainfall(selectedDistrict!, stateName, currentYear),
+        enabled: !!selectedDistrict && !!stateName && showRainfallLayer
+    });
 
     // Real Search Logic
     useEffect(() => {

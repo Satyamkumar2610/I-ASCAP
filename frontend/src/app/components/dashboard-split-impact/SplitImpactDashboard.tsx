@@ -8,18 +8,20 @@ import { ComparisonView } from './ComparisonView';
 import { ComparisonModeSelector } from './ComparisonModeSelector';
 import { LayoutDashboard, ChevronLeft, Menu, X } from 'lucide-react';
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://i-ascap.onrender.com';
-const API_KEY = process.env.API_KEY || 'dev-secret-key-123';
+import { useStateSummary, useSplitEvents } from '../../hooks/useSplitImpact';
 
 export function SplitImpactDashboard() {
-    const [states, setStates] = useState<string[]>([]);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [allStats, setAllStats] = useState<any>({});
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [splitEvents, setSplitEvents] = useState<any[]>([]);
+    // New React Query Hooks
+    const { data: summaryData } = useStateSummary();
+    const [selectedState, setSelectedState] = useState('');
+    const { data: splitEventsData, isLoading: isLoadingEvents } = useSplitEvents(selectedState);
+
+    // Derived state from query data
+    const states = summaryData?.states || [];
+    const allStats = summaryData?.stats || {};
+    const splitEvents = splitEventsData || [];
 
     // Selectors
-    const [selectedState, setSelectedState] = useState('');
     const [selectedCrop, setSelectedCrop] = useState('wheat');
     const [selectedMetric, setSelectedMetric] = useState('yield');
 
@@ -42,69 +44,14 @@ export function SplitImpactDashboard() {
         return 'rice';
     };
 
-    // Initial Load of States
+    // Initial Load of States - Set Default State
     useEffect(() => {
-        // DIRECT FETCH to bypass local proxy timeout
-        fetch(`${BACKEND_URL}/api/v1/analysis/split-impact/summary`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'X-API-Key': API_KEY
-            }
-        })
-            .then(r => r.json())
-            .then(d => {
-                if (d.states && Array.isArray(d.states)) {
-                    setStates(d.states);
-                    setAllStats(d.stats);
-                    if (d.states.length > 0) {
-                        const firstState = d.states[0];
-                        setSelectedState(firstState);
-                        // Set smart default crop
-                        setSelectedCrop(getDefaultCrop(firstState));
-                    }
-                }
-            })
-            .catch(e => console.error("Summary Fetch Fail", e));
-    }, []);
-
-    // Fetch split events when state changes
-    useEffect(() => {
-        if (!selectedState) return;
-
-        setSplitEvents([]); // Clear previous events
-        const fetchEvents = async () => {
-            try {
-                // Modified to use DIRECT BACKEND URL
-                const response = await fetch(`${BACKEND_URL}/api/v1/analysis/split-impact/districts?state=${encodeURIComponent(selectedState)}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-API-Key': API_KEY
-                    }
-                });
-                const data = await response.json();
-                if (Array.isArray(data)) {
-                    setSplitEvents(data);
-                } else {
-                    console.error("Split events data is not array:", data);
-                    setSplitEvents([]);
-                }
-            } catch (error) {
-                console.error("Failed to fetch split events:", error);
-                setSplitEvents([]);
-            }
-        };
-
-        fetchEvents();
-    }, [selectedState]);
-
-    // Switch to analysis view when event is selected on mobile
-    // Handled in handleEventSelect now to avoid useEffect loop
-
-    // useEffect(() => {
-    //     if (selectedEvent && window.innerWidth < 1024) {
-    //         setMobileView('analysis');
-    //     }
-    // }, [selectedEvent]);
+        if (states.length > 0 && !selectedState) {
+            const firstState = states[0];
+            setSelectedState(firstState);
+            setSelectedCrop(getDefaultCrop(firstState));
+        }
+    }, [states, selectedState]);
 
     const currentStateStats = allStats[selectedState] || null;
 
