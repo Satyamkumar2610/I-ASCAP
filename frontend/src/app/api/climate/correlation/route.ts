@@ -16,7 +16,7 @@ export async function GET(request: Request) {
                 'X-API-Key': process.env.API_KEY || 'dev-secret-key-123'
             },
             next: { revalidate: 3600 }, // Cache for 1 hour
-        });
+        } as RequestInit);
 
         if (!response.ok) {
             const errorText = await response.text();

@@ -24,7 +24,7 @@ export async function GET(
                 'X-API-Key': process.env.API_KEY || 'dev-secret-key-123'
             },
             next: { revalidate: 3600 },
-        });
+        } as RequestInit);
 
         if (!response.ok) {
             console.error(`Backend error: ${response.status} for ${url}`);

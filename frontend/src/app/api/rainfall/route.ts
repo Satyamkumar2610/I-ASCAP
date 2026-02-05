@@ -19,7 +19,7 @@ export async function GET(request: Request) {
                     'X-API-Key': process.env.API_KEY || 'dev-secret-key-123'
                 },
                 next: { revalidate: 3600 },
-            });
+            } as RequestInit);
 
             if (!response.ok) {
                 throw new Error(`Backend returned ${response.status}`);
@@ -40,7 +40,7 @@ export async function GET(request: Request) {
                 'X-API-Key': process.env.API_KEY || 'dev-secret-key-123'
             },
             next: { revalidate: 3600 },
-        });
+        } as RequestInit);
 
         if (!response.ok) {
             throw new Error(`Backend returned ${response.status}`);
