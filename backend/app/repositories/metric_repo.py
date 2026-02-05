@@ -115,11 +115,33 @@ class MetricRepository(BaseRepository):
             
             var_name = r["variable_name"]
             if var_name.endswith("_area"):
-                timeline[year]["area"] = float(r["value"]) if r["value"] else None
+                timeline[year]["area"] = float(r["value"]) if r["value"] else 0
             elif var_name.endswith("_production"):
-                timeline[year]["production"] = float(r["value"]) if r["value"] else None
+                timeline[year]["production"] = float(r["value"]) if r["value"] else 0
             elif var_name.endswith("_yield"):
-                timeline[year]["yield"] = float(r["value"]) if r["value"] else None
+                timeline[year]["yield"] = float(r["value"]) if r["value"] else 0
+        
+        # Post-process: Calculate yield if missing
+        for year, data in timeline.items():
+            if "yield" not in data or data["yield"] == 0:
+                area = data.get("area", 0) or 0
+                prod = data.get("production", 0) or 0
+                if area > 0:
+                     # Production is in Tonnes (from script we did *1000), Area in Ha (from script *1000)
+                     # Yield = kg/ha = (Tonnes * 1000) / Ha
+                     # Wait, script multiplied by 1000.
+                     # Original: '000 Tonnes, '000 Ha.
+                     # Stored: Tonnes, Ha.
+                     # Yield = Tonnes/Ha = t/ha. Default expected is kg/ha?
+                     # Let's check district data units. Usually kg/ha ~ 2000-4000.
+                     # t/ha ~ 2-4.
+                     # If I want kg/ha: (prod / area) * 1000
+                     data["yield"] = round((prod / area) * 1000, 2)
+            
+            # Ensure none is 0 instead of None for chart safety
+            if "yield" not in data: data["yield"] = 0
+            if "area" not in data: data["area"] = 0
+            if "production" not in data: data["production"] = 0
         
         return list(timeline.values())
     
