@@ -116,18 +116,25 @@ async def get_crop_diversification(
     Higher values indicate more diverse cropping patterns.
     """
     # Get crop area data aggregated by crop for the state/year
+    # variable_name format is {crop}_area
     query = """
-        SELECT crop, SUM(area) as total_area
-        FROM agri_metrics
-        WHERE state_name = $1 AND year = $2 AND area IS NOT NULL AND area > 0
-        GROUP BY crop
+        SELECT 
+            replace(m.variable_name, '_area', '') as crop_name,
+            SUM(m.value) as total_area
+        FROM agri_metrics m
+        JOIN districts d ON m.cdk = d.cdk
+        WHERE d.state_name = $1 
+          AND m.year = $2 
+          AND m.variable_name LIKE '%_area'
+          AND m.value IS NOT NULL AND m.value > 0
+        GROUP BY m.variable_name
     """
     rows = await db.fetch(query, state, year)
     
     if not rows:
         return {"error": "No data found for specified state and year"}
     
-    crop_areas = {row["crop"]: float(row["total_area"]) for row in rows}
+    crop_areas = {row["crop_name"]: float(row["total_area"]) for row in rows}
     
     analyzer = get_advanced_analyzer()
     result = analyzer.calculate_diversification(crop_areas)
@@ -151,38 +158,45 @@ async def get_yield_efficiency(
     
     Potential = 95th percentile yield in the state.
     """
+    variable = f"{crop.lower()}_yield"
+
     # Get district info
     district_query = """
-        SELECT state_name, yield FROM agri_metrics
-        WHERE cdk = $1 AND LOWER(crop) = LOWER($2) AND year = $3
+        SELECT d.state_name, m.value as yield_val
+        FROM agri_metrics m
+        JOIN districts d ON m.cdk = d.cdk
+        WHERE m.cdk = $1 AND m.variable_name = $2 AND m.year = $3
     """
-    district_row = await db.fetchrow(district_query, cdk, crop, year)
+    district_row = await db.fetchrow(district_query, cdk, variable, year)
     
     if not district_row:
         return {"error": "No data found for specified district, crop, and year"}
     
     state_name = district_row["state_name"]
-    district_yield = float(district_row["yield"]) if district_row["yield"] else 0
+    district_yield = float(district_row["yield_val"]) if district_row["yield_val"] else 0
     
     # Get all state yields for this crop/year
     state_query = """
-        SELECT yield FROM agri_metrics
-        WHERE state_name = $1 AND LOWER(crop) = LOWER($2) AND year = $3
-        AND yield IS NOT NULL AND yield > 0
+        SELECT m.value as yield_val
+        FROM agri_metrics m
+        JOIN districts d ON m.cdk = d.cdk
+        WHERE d.state_name = $1 AND m.variable_name = $2 AND m.year = $3
+        AND m.value IS NOT NULL AND m.value > 0
     """
-    state_rows = await db.fetch(state_query, state_name, crop, year)
-    state_yields = [float(r["yield"]) for r in state_rows]
+    state_rows = await db.fetch(state_query, state_name, variable, year)
+    state_yields = [float(r["yield_val"]) for r in state_rows]
     
     # Get historical yields for this district (last 10 years)
     history_query = """
-        SELECT yield FROM agri_metrics
-        WHERE cdk = $1 AND LOWER(crop) = LOWER($2) 
+        SELECT year, value as yield_val
+        FROM agri_metrics
+        WHERE cdk = $1 AND variable_name = $2 
         AND year < $3 AND year >= $3 - 10
-        AND yield IS NOT NULL AND yield > 0
+        AND value IS NOT NULL AND value > 0
         ORDER BY year
     """
-    history_rows = await db.fetch(history_query, cdk, crop, year)
-    historical_yields = [float(r["yield"]) for r in history_rows]
+    history_rows = await db.fetch(history_query, cdk, variable, year)
+    historical_yields = [float(r["yield_val"]) for r in history_rows]
 
     analyzer = get_advanced_analyzer()
     relative_result = analyzer.calculate_efficiency(district_yield, state_yields)
@@ -218,18 +232,21 @@ async def get_risk_profile(
         from fastapi import HTTPException
         raise HTTPException(status_code=400, detail=f"Invalid metric. Allowed: {ALLOWED_METRICS}")
     
-    query = f"""
-        SELECT year, {metric} FROM agri_metrics
-        WHERE cdk = $1 AND LOWER(crop) = LOWER($2)
-        AND {metric} IS NOT NULL AND {metric} > 0
+    variable = f"{crop.lower()}_{metric.lower()}"
+    
+    query = """
+        SELECT year, value
+        FROM agri_metrics
+        WHERE cdk = $1 AND variable_name = $2
+        AND value IS NOT NULL AND value > 0
         ORDER BY year
     """
-    rows = await db.fetch(query, cdk, crop)
+    rows = await db.fetch(query, cdk, variable)
     
     if not rows or len(rows) < 3:
         return {"error": "Insufficient historical data (need at least 3 years)"}
     
-    yearly_values = {row["year"]: float(row[metric]) for row in rows}
+    yearly_values = {row["year"]: float(row["value"]) for row in rows}
     
     analyzer = get_advanced_analyzer()
     result = analyzer.calculate_risk_profile(yearly_values)
