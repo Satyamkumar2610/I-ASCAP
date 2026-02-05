@@ -62,3 +62,31 @@ async def get_time_series(
     timeline = await metric_repo.get_time_series_pivoted(target_cdk, crop.lower())
     
     return timeline
+
+
+@router.get("/history/state")
+async def get_state_time_series(
+    state: str = Query(..., description="State name, e.g. 'Andhra Pradesh'"),
+    crop: str = Query("wheat", description="Crop name"),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """
+    Get aggregated time series for a whole state.
+    
+    Uses pre-aggregated Census data if available (inserted as S_STATE_NAME).
+    """
+    metric_repo = MetricRepository(db)
+    
+    # Construct State CDK
+    # Must match ingestion logic: UPPER, space->_, &->AND
+    normalized_state = state.upper().replace(' ', '_').replace('&', 'AND')
+    state_cdk = f"S_{normalized_state}"
+    
+    timeline = await metric_repo.get_time_series_pivoted(state_cdk, crop.lower())
+    
+    if not timeline:
+        # Fallback? Or return empty?
+        # Maybe the state name provided doesn't match keys.
+        return []
+        
+    return timeline
