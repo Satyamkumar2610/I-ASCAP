@@ -15,7 +15,7 @@ export function StateSelector({ selectedState, onStateChange }: StateSelectorPro
     useEffect(() => {
         async function fetchStates() {
             try {
-                const res = await fetch('http://localhost:8000/api/v1/districts/states');
+                const res = await fetch('/api/v1/districts/states');
                 if (res.ok) {
                     const data = await res.json();
                     setStates(data.states || []);

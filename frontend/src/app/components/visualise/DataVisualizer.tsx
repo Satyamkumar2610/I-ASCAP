@@ -35,10 +35,10 @@ export default function DataVisualizer() {
                 let url = '';
                 if (selectedDistrict) {
                     // Fetch district history
-                    url = `http://localhost:8000/api/v1/metrics/history?state=${encodeURIComponent(selectedState || '')}&district=${encodeURIComponent(selectedDistrict || '')}&crop=${selectedCrop}`;
+                    url = `/api/v1/metrics/history?state=${encodeURIComponent(selectedState || '')}&district=${encodeURIComponent(selectedDistrict || '')}&crop=${selectedCrop}`;
                 } else {
                     // Fetch state aggregated history
-                    url = `http://localhost:8000/api/v1/metrics/history/state?state=${encodeURIComponent(selectedState || '')}&crop=${selectedCrop}`;
+                    url = `/api/v1/metrics/history/state?state=${encodeURIComponent(selectedState || '')}&crop=${selectedCrop}`;
                 }
 
                 const res = await fetch(url);
