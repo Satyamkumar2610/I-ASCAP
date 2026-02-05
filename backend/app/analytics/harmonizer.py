@@ -142,7 +142,7 @@ class BoundaryHarmonizer:
     
     def get_parent_series(
         self,
-        parent_data: Dict[int, Dict[str, float]],
+        data_map: Dict[int, Dict[str, Dict[str, float]]],
         parent_cdk: str,
         metric: Literal["area", "production", "yield"],
     ) -> List[HarmonizedPoint]:
@@ -150,7 +150,7 @@ class BoundaryHarmonizer:
         Extract parent series for pre-split years.
         
         Args:
-            parent_data: Dict[year] -> {area, prod, yld}
+            data_map: Dict[year][cdk] -> {area, prod, yld}
             parent_cdk: Parent district CDK
             metric: Which metric to extract
             
@@ -159,8 +159,13 @@ class BoundaryHarmonizer:
         """
         results = []
         
-        for year in sorted(parent_data.keys()):
-            data = parent_data[year]
+        for year in sorted(data_map.keys()):
+            year_data = data_map[year]
+            
+            if parent_cdk not in year_data:
+                continue
+                
+            data = year_data[parent_cdk]
             
             if metric == "area":
                 value = data.get("area", 0)
