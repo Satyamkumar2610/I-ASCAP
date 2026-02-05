@@ -75,9 +75,11 @@ class ResilienceResult:
 class GrowthResult:
     """Result of growth matrix analysis."""
     cagr_5y: float
+    cagr_historical: float
     mean_yield_5y: float
     matrix_quadrant: str  # Star, Cash Cow, Emerging, Lagging
     trend_direction: str
+    formula: str = "((End/Start)^(1/n) - 1) * 100"
 
 
 @dataclass
@@ -429,8 +431,20 @@ class AdvancedAnalyzer:
         else:
              quadrant = "Declining"
              
+        # Calculate Historical CAGR (All available years)
+        hist_years = sorted_years
+        hist_start_val = yearly_values[hist_years[0]]
+        hist_end_val = yearly_values[hist_years[-1]]
+        hist_n = len(hist_years) - 1
+        
+        if hist_start_val > 0 and hist_n > 0:
+             cagr_hist = (hist_end_val / hist_start_val) ** (1/hist_n) - 1
+        else:
+             cagr_hist = 0
+             
         return GrowthResult(
             cagr_5y=round(cagr * 100, 2),
+            cagr_historical=round(cagr_hist * 100, 2),
             mean_yield_5y=round(mean_yield, 2),
             matrix_quadrant=quadrant,
             trend_direction="Positive" if cagr > 0 else "Negative"

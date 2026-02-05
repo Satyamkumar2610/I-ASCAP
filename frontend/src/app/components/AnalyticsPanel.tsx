@@ -235,6 +235,20 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
                                     {riskData.growth_matrix.cagr_5y > 0 ? '+' : ''}{riskData.growth_matrix.cagr_5y}%
                                 </div>
                             </div>
+                            <div className="text-right pl-4 border-l border-slate-800 ml-4 group/cagr relative">
+                                <div className="text-[10px] text-slate-500 cursor-help border-b border-dotted border-slate-700">Hist. CAGR</div>
+                                <div className={`text-xs font-mono ${riskData.growth_matrix.cagr_historical > 0 ? 'text-blue-400' : 'text-slate-400'}`}>
+                                    {riskData.growth_matrix.cagr_historical > 0 ? '+' : ''}{riskData.growth_matrix.cagr_historical}%
+                                </div>
+                                {/* Formula Tooltip */}
+                                <div className="absolute right-0 bottom-full mb-2 w-48 bg-slate-900 border border-slate-700 p-2 rounded text-[10px] text-slate-300 hidden group-hover/cagr:block z-50 shadow-xl pointer-events-none">
+                                    <div className="font-bold text-slate-400 mb-1">CAGR Formula</div>
+                                    <code className="text-[9px] font-mono text-emerald-400 block mb-1">
+                                        {riskData.growth_matrix.formula || "((End/Start)^(1/n) - 1) * 100"}
+                                    </code>
+                                    <div className="text-slate-500 italic">Compound Annual Growth Rate</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 ) : (
