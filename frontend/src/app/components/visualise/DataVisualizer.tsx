@@ -35,10 +35,10 @@ export default function DataVisualizer() {
                 let url = '';
                 if (selectedDistrict) {
                     // Fetch district history
-                    url = `http://localhost:8000/api/v1/metrics/history?state=${encodeURIComponent(selectedState)}&district=${encodeURIComponent(selectedDistrict)}&crop=${selectedCrop}`;
+                    url = `http://localhost:8000/api/v1/metrics/history?state=${encodeURIComponent(selectedState || '')}&district=${encodeURIComponent(selectedDistrict || '')}&crop=${selectedCrop}`;
                 } else {
                     // Fetch state aggregated history
-                    url = `http://localhost:8000/api/v1/metrics/history/state?state=${encodeURIComponent(selectedState)}&crop=${selectedCrop}`;
+                    url = `http://localhost:8000/api/v1/metrics/history/state?state=${encodeURIComponent(selectedState || '')}&crop=${selectedCrop}`;
                 }
 
                 const res = await fetch(url);
@@ -79,8 +79,8 @@ export default function DataVisualizer() {
                                     key={crop}
                                     onClick={() => setSelectedCrop(crop)}
                                     className={`px-3 py-1 text-xs font-medium rounded-md capitalize transition-all ${selectedCrop === crop
-                                            ? 'bg-white text-blue-600 shadow-sm'
-                                            : 'text-gray-500 hover:text-gray-700'
+                                        ? 'bg-white text-blue-600 shadow-sm'
+                                        : 'text-gray-500 hover:text-gray-700'
                                         }`}
                                 >
                                     {crop.replace('_', ' ')}

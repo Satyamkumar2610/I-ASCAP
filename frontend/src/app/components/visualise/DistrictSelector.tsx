@@ -22,7 +22,7 @@ export function DistrictSelector({ selectedState, selectedDistrict, onDistrictCh
         async function fetchDistricts() {
             setLoading(true);
             try {
-                const res = await fetch(`http://localhost:8000/api/v1/districts?state=${encodeURIComponent(selectedState)}`);
+                const res = await fetch(`http://localhost:8000/api/v1/districts?state=${encodeURIComponent(selectedState || '')}`);
                 if (res.ok) {
                     const data = await res.json();
                     // Filter out the "Whole State" entry which has cdk starting with S_
