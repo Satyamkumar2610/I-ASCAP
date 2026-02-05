@@ -29,8 +29,9 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
 
         const fetchData = async () => {
             try {
+                const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://i-ascap.onrender.com';
                 const childrenStr = event.children_cdks.join(',');
-                const url = `/api/v1/analysis/split-impact/analysis?parent=${event.parent_cdk}&children=${childrenStr}&splitYear=${event.split_year}&crop=${crop}&metric=${metric}&mode=${mode}`;
+                const url = `${BACKEND_URL}/api/v1/analysis/split-impact/analysis?parent=${event.parent_cdk}&children=${childrenStr}&splitYear=${event.split_year}&crop=${crop}&metric=${metric}&mode=${mode}`;
                 const res = await fetch(url);
                 const data = await res.json();
 

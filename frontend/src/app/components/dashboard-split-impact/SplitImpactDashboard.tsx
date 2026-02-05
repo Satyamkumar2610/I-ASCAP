@@ -8,6 +8,9 @@ import { ComparisonView } from './ComparisonView';
 import { ComparisonModeSelector } from './ComparisonModeSelector';
 import { LayoutDashboard, ChevronLeft, Menu, X } from 'lucide-react';
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://i-ascap.onrender.com';
+const API_KEY = process.env.API_KEY || 'dev-secret-key-123';
+
 export function SplitImpactDashboard() {
     const [states, setStates] = useState<string[]>([]);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,7 +44,13 @@ export function SplitImpactDashboard() {
 
     // Initial Load of States
     useEffect(() => {
-        fetch('/api/v1/analysis/split-impact/summary')
+        // DIRECT FETCH to bypass local proxy timeout
+        fetch(`${BACKEND_URL}/api/v1/analysis/split-impact/summary`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'X-API-Key': API_KEY
+            }
+        })
             .then(r => r.json())
             .then(d => {
                 if (d.states && Array.isArray(d.states)) {
@@ -65,7 +74,13 @@ export function SplitImpactDashboard() {
         setSplitEvents([]); // Clear previous events
         const fetchEvents = async () => {
             try {
-                const response = await fetch(`/api/v1/analysis/split-impact/districts?state=${encodeURIComponent(selectedState)}`);
+                // Modified to use DIRECT BACKEND URL
+                const response = await fetch(`${BACKEND_URL}/api/v1/analysis/split-impact/districts?state=${encodeURIComponent(selectedState)}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': API_KEY
+                    }
+                });
                 const data = await response.json();
                 if (Array.isArray(data)) {
                     setSplitEvents(data);
