@@ -72,6 +72,7 @@ class AnalysisService:
                 "total_districts": counts.get(state, 0),
                 "boundary_changes": len(state_changes.get(state, set())),
                 "data_coverage": "High",
+                "comparability": "Active" if len(state_changes.get(state, set())) > 0 else "N/A",
             }
         
         return {"states": states, "stats": stats}
