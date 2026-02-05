@@ -12,14 +12,7 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 60,
   },
 
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://i-ascap.onrender.com/api/:path*',
-      },
-    ];
-  },
+
 };
 
 export default nextConfig;

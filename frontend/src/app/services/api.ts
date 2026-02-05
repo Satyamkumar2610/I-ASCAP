@@ -1,6 +1,6 @@
 
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://i-ascap.onrender.com';
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 const API_KEY = process.env.API_KEY || 'dev-secret-key-123';
 
 class ApiError extends Error {

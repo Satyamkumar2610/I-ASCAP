@@ -1,0 +1,53 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+const API_URL = process.env.API_URL || 'https://i-ascap.onrender.com';
+
+async function handler(request: NextRequest, { params }: { params: { path: string[] } }) {
+    // Await params if necessary (Next.js 15+ changes, but safe to treat as likely sync or awaitable for now in 14/15 transition)
+    // In Next.js 13/14 params is an object, in 15 it might be a promise.
+    // We'll treat it safely.
+    const resolvedParams = await params;
+    const path = resolvedParams.path.join('/');
+
+    // Construct target URL
+    // Incoming request: /api/v1/some/endpoint
+    // Route handler matches: /api/[...path]
+    // params.path: ['v1', 'some', 'endpoint']
+    // Target: https://i-ascap.onrender.com/api/v1/some/endpoint
+
+    const targetUrl = `${API_URL}/api/${path}${request.nextUrl.search}`;
+
+    console.log(`[API Proxy] ${request.method} ${targetUrl}`);
+
+    try {
+        const response = await fetch(targetUrl, {
+            method: request.method,
+            headers: {
+                'Content-Type': 'application/json',
+                // Forward auth if present
+                ...(request.headers.get('Authorization') ? { 'Authorization': request.headers.get('Authorization')! } : {}),
+                ...(request.headers.get('X-API-Key') ? { 'X-API-Key': request.headers.get('X-API-Key')! } : {}),
+            },
+            // Forward body if not GET/HEAD
+            body: ['GET', 'HEAD'].includes(request.method) ? undefined : await request.text(),
+        });
+
+        const data = await response.text();
+
+        return new NextResponse(data, {
+            status: response.status,
+            headers: {
+                'Content-Type': response.headers.get('Content-Type') || 'application/json',
+            },
+        });
+    } catch (error) {
+        console.error('[API Proxy Error]', error);
+        return NextResponse.json({ error: 'Proxy failed', details: String(error) }, { status: 502 });
+    }
+}
+
+export const GET = handler;
+export const POST = handler;
+export const PUT = handler;
+export const DELETE = handler;
+export const PATCH = handler;
