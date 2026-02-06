@@ -3,13 +3,14 @@ Health Check API Endpoints.
 Provides liveness, readiness, and data quality metrics.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, Any
 
 from fastapi import APIRouter, Depends
 import asyncpg
 
 from app.database import get_db
+from app.metrics import metrics
 
 router = APIRouter(prefix="/health", tags=["health"])
 
@@ -22,7 +23,7 @@ async def liveness() -> Dict[str, Any]:
     """
     return {
         "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "service": "i-ascap-backend"
     }
 
@@ -44,7 +45,7 @@ async def readiness(db: asyncpg.Connection = Depends(get_db)) -> Dict[str, Any]:
     
     return {
         "status": "ready" if is_ready else "not_ready",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "checks": {
             "database": db_status
         }
@@ -86,7 +87,7 @@ async def data_metrics(db: asyncpg.Connection = Depends(get_db)) -> Dict[str, An
     
     return {
         "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "data_coverage": {
             "districts": districts_count,
             "states": state_count,
@@ -104,3 +105,17 @@ async def data_metrics(db: asyncpg.Connection = Depends(get_db)) -> Dict[str, An
             "integrity_status": "good" if orphan_metrics == 0 else "issues_detected"
         }
     }
+
+
+@router.get("/app-metrics")
+async def app_metrics() -> Dict[str, Any]:
+    """
+    Application performance metrics.
+    
+    Returns latency percentiles, cache stats, database stats, and more.
+    """
+    return {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        **metrics.get_all_metrics()
+    }
+

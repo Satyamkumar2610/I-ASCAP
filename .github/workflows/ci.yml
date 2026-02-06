@@ -11,10 +11,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  lint-backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - name: Install Linting Tools
+      run: pip install ruff mypy
+        
+    - name: Run Ruff Linter
+      working-directory: ./backend
+      run: ruff check app/ --output-format=github
+      
+    - name: Run Type Check (mypy)
+      working-directory: ./backend
+      run: mypy app/ --ignore-missing-imports --no-error-summary || true
+
   test-backend:
     runs-on: ubuntu-22.04
     timeout-minutes: 10
-    
+    needs: lint-backend
 
     services:
       postgres:
@@ -47,12 +70,20 @@ jobs:
         pip install -r requirements.txt
         pip install httpx pytest pytest-asyncio pytest-cov
         
-    - name: Run Tests
+    - name: Run Tests with Coverage
       working-directory: ./backend
       env:
         DATABASE_URL: postgresql://user:password@localhost:5432/i_ascap
       run: |
-        pytest --cov=app --cov-report=term-missing
+        pytest --cov=app --cov-report=term-missing --cov-fail-under=60
+        
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: coverage-report
+        path: backend/htmlcov/
+        retention-days: 7
 
   test-frontend:
     runs-on: ubuntu-latest
@@ -71,10 +102,11 @@ jobs:
       working-directory: ./frontend
       run: npm ci
       
-    # - name: Run Linting
-    #   working-directory: ./frontend
-    #   run: npm run lint
+    - name: Run Linting
+      working-directory: ./frontend
+      run: npm run lint || true
       
     - name: Build Frontend
       working-directory: ./frontend
       run: npm run build
+

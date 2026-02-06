@@ -1,7 +1,7 @@
 """
 Lineage API: Endpoints for lineage graph and split events.
 """
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 
 from fastapi import APIRouter, Depends, Query
 import asyncpg
@@ -51,3 +51,118 @@ async def get_split_events(
     
     service = AnalysisService(db)
     return await service.get_split_events_for_state(state)
+
+
+@router.get("/tracking")
+async def get_data_tracking(
+    cdk: str = Query(..., description="District CDK"),
+    db: asyncpg.Connection = Depends(get_db),
+) -> Dict[str, Any]:
+    """
+    Get data lineage tracking for a district.
+    
+    Returns:
+    - Data sources used
+    - Year coverage
+    - Related lineage events (splits/merges)
+    - Data provenance chain
+    """
+    # Get district info
+    district = await db.fetchrow("""
+        SELECT cdk, district_name, state_name, start_year, end_year
+        FROM districts WHERE cdk = $1
+    """, cdk)
+    
+    if not district:
+        return {"error": f"District not found: {cdk}"}
+    
+    # Get data coverage
+    coverage = await db.fetchrow("""
+        SELECT 
+            COUNT(DISTINCT year) as years_with_data,
+            MIN(year) as first_year,
+            MAX(year) as last_year,
+            COUNT(DISTINCT variable_name) as variables,
+            COUNT(*) as total_records
+        FROM agri_metrics WHERE cdk = $1
+    """, cdk)
+    
+    # Get data sources
+    sources = await db.fetch("""
+        SELECT source, COUNT(*) as record_count, MIN(year) as from_year, MAX(year) as to_year
+        FROM agri_metrics 
+        WHERE cdk = $1
+        GROUP BY source
+    """, cdk)
+    
+    # Get lineage as parent (district split into children)
+    children = await db.fetch("""
+        SELECT le.child_cdk, d.district_name, le.event_year, le.event_type
+        FROM lineage_events le
+        JOIN districts d ON le.child_cdk = d.cdk
+        WHERE le.parent_cdk = $1
+        ORDER BY le.event_year
+    """, cdk)
+    
+    # Get lineage as child (created from parent)
+    parents = await db.fetch("""
+        SELECT le.parent_cdk, d.district_name, le.event_year, le.event_type
+        FROM lineage_events le
+        JOIN districts d ON le.parent_cdk = d.cdk
+        WHERE le.child_cdk = $1
+        ORDER BY le.event_year
+    """, cdk)
+    
+    return {
+        "district": dict(district),
+        "data_coverage": {
+            "years_with_data": coverage["years_with_data"],
+            "first_year": coverage["first_year"],
+            "last_year": coverage["last_year"],
+            "variables": coverage["variables"],
+            "total_records": coverage["total_records"]
+        },
+        "data_sources": [dict(s) for s in sources],
+        "lineage": {
+            "split_into": [dict(c) for c in children],
+            "created_from": [dict(p) for p in parents]
+        }
+    }
+
+
+@router.get("/coverage")
+async def get_state_coverage(
+    state: str = Query(..., description="State name"),
+    db: asyncpg.Connection = Depends(get_db),
+) -> Dict[str, Any]:
+    """
+    Get data coverage summary for all districts in a state.
+    
+    Shows years with data, record counts, and lineage status per district.
+    """
+    coverage = await db.fetch("""
+        SELECT 
+            d.cdk,
+            d.district_name,
+            d.start_year,
+            d.end_year,
+            COUNT(DISTINCT am.year) as years_with_data,
+            COUNT(am.id) as record_count,
+            CASE 
+                WHEN EXISTS (SELECT 1 FROM lineage_events le WHERE le.parent_cdk = d.cdk) THEN 'split_parent'
+                WHEN EXISTS (SELECT 1 FROM lineage_events le WHERE le.child_cdk = d.cdk) THEN 'from_split'
+                ELSE 'original'
+            END as lineage_status
+        FROM districts d
+        LEFT JOIN agri_metrics am ON d.cdk = am.cdk
+        WHERE d.state_name = $1
+        GROUP BY d.cdk, d.district_name, d.start_year, d.end_year
+        ORDER BY d.district_name
+    """, state)
+    
+    return {
+        "state": state,
+        "districts": len(coverage),
+        "coverage": [dict(c) for c in coverage]
+    }
+
