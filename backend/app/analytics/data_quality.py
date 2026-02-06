@@ -4,7 +4,7 @@ Provides automated data quality assessment for districts.
 """
 
 from dataclasses import dataclass, asdict
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List
 from enum import Enum
 
 import asyncpg

@@ -1,7 +1,7 @@
 """
 Base Repository: Abstract patterns for data access.
 """
-from typing import TypeVar, Generic, List, Optional, Any
+from typing import TypeVar, Generic, List, Optional
 import asyncpg
 
 T = TypeVar("T")

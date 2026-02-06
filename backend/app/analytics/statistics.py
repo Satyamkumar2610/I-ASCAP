@@ -3,8 +3,7 @@ Statistical analysis module for I-ASCAP.
 Provides comprehensive statistical functions for agricultural data analysis.
 """
 
-import math
-from typing import List, Dict, Any, Optional, Tuple, Union
+from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass
 from enum import Enum
 

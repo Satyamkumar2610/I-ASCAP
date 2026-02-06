@@ -66,7 +66,7 @@ async def data_metrics(db: asyncpg.Connection = Depends(get_db)) -> Dict[str, An
     # Check for rainfall table
     try:
         rainfall_count = await db.fetchval("SELECT COUNT(*) FROM rainfall_normals")
-    except:
+    except Exception:
         rainfall_count = 0
     
     # Get year coverage

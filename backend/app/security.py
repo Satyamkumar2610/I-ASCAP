@@ -2,9 +2,13 @@
 Security middleware for I-ASCAP API.
 Adds security headers and implements security best practices.
 """
+import requests
 
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
+from starlette.responses import JSONResponse
+
+from app.config import get_settings
 
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
@@ -148,7 +152,7 @@ class OIDCMiddleware(BaseHTTPMiddleware):
                 content={"error": "Missing or invalid Authorization header"}
             )
 
-        token = auth_header.split(" ")[1]
+        _token = auth_header.split(" ")[1]
 
         # 2. Verify Token (Simplified for Prototype - Full verification needs caching)
         # In production, use a library that handles JWKS caching automatically.

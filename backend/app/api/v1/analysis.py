@@ -2,7 +2,6 @@
 Analysis API: Split impact and advanced analytics endpoints.
 """
 import hashlib
-from typing import List
 
 from fastapi import APIRouter, Depends, Query, Request
 import asyncpg
@@ -10,6 +9,7 @@ import asyncpg
 from app.api.deps import get_db
 from app.services.analysis_service import AnalysisService
 from app.schemas.analysis import SplitImpactResponse
+from app.analytics import get_advanced_analyzer
 
 router = APIRouter()
 
@@ -96,11 +96,8 @@ async def analyze_split_impact(
     return result
 
 
-# -----------------------------------------------------------------------------
 # Advanced Analytics Endpoints
 # -----------------------------------------------------------------------------
-
-from app.analytics import get_advanced_analyzer
 
 
 @router.get("/diversification")

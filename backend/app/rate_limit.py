@@ -5,10 +5,9 @@ Uses in-memory token bucket algorithm.
 
 import time
 import asyncio
-from typing import Dict, Tuple, Optional
-from collections import defaultdict
+from typing import Dict, Tuple
 
-from fastapi import Request, HTTPException
+from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
 

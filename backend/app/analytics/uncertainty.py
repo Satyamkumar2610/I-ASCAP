@@ -2,7 +2,7 @@
 Uncertainty Quantification: Bootstrap confidence intervals and error propagation.
 """
 import random
-from typing import List, Tuple, Optional
+from typing import List
 import math
 
 from app.schemas.common import UncertaintyBounds

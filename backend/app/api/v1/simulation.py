@@ -2,14 +2,12 @@
 Simulation API Endpoints.
 Uses Spatial-for-Temporal substitution to estimate rainfall sensitivity.
 """
-from typing import Optional, List, Dict, Any
 from fastapi import APIRouter, Depends, Query, HTTPException
 from pydantic import BaseModel
 import asyncpg
 
 from app.api.deps import get_db
 from app.analytics.advanced import get_advanced_analyzer, SimulationResult
-from app.services.rainfall_service import get_rainfall_by_district
 
 router = APIRouter()
 
@@ -80,9 +78,8 @@ async def get_simulation(
     years = [] # Dummy years (indices really)
     
     idx = 0
-    data_points = []
-    
-    target_district_rain = 0
+    _data_points = []
+    _target_district_rain = 0
     
     for row in yield_rows:
         d_name = row["district_name"]

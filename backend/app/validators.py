@@ -4,7 +4,7 @@ Provides centralized validation functions and constants.
 """
 
 import re
-from typing import List, Optional, Set, Any
+from typing import List, Set, Any
 from .exceptions import ValidationError
 
 

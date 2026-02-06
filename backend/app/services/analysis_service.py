@@ -13,7 +13,7 @@ from app.repositories.lineage_repo import LineageRepository
 from app.analytics.harmonizer import BoundaryHarmonizer
 from app.analytics.impact_analyzer import ImpactAnalyzer
 from app.analytics.uncertainty import calculate_impact_uncertainty
-from app.schemas.common import ProvenanceMetadata, PeriodStats, ImpactStats
+from app.schemas.common import ProvenanceMetadata
 from app.schemas.analysis import (
     SplitImpactResponse, 
     AdvancedStats, 
@@ -23,12 +23,10 @@ from app.schemas.analysis import (
 )
 from app.schemas.lineage import SplitEventSummary
 from app.config import get_settings
+from app.cache import cached, CacheTTL
 
 settings = get_settings()
 
-
-
-from app.cache import cached, CacheTTL
 
 class AnalysisService:
     """

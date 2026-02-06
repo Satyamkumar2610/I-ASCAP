@@ -1,7 +1,7 @@
 """
 Lineage Repository: Data access for lineage events (DB-based).
 """
-from typing import List, Dict, Optional, Set
+from typing import List, Dict
 from app.repositories.base import BaseRepository
 from app.schemas.lineage import LineageEvent, EventType
 

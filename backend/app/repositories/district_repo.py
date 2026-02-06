@@ -3,7 +3,7 @@ District Repository: Data access for district entities.
 """
 from typing import List, Optional, Dict
 
-import asyncpg
+
 
 from app.repositories.base import BaseRepository
 from app.schemas.district import District

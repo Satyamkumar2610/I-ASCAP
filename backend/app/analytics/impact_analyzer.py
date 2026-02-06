@@ -82,7 +82,7 @@ class ImpactAnalyzer:
         impact = self._calculate_impact(pre_stats, post_stats, uncertainty)
         
         # Check for method mixing
-        pre_methods = set(p.method for p in timeline if p.year < split_year)
+        _pre_methods = set(p.method for p in timeline if p.year < split_year)
         post_methods = set(p.method for p in timeline if p.year >= split_year)
         
         if "raw" in post_methods and len(post_methods) > 1:

@@ -6,7 +6,6 @@ Provides functions for analyzing temporal agricultural data.
 from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass, asdict
 
-import numpy as np
 from scipy import stats as scipy_stats
 
 from app.analytics.statistics import StatisticalAnalyzer

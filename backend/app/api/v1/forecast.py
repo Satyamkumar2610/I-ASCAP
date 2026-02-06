@@ -157,5 +157,5 @@ async def _calculate_trend(db: asyncpg.Connection, cdk: str, variable: str) -> f
     try:
         cagr = ((recent / older) ** (1 / years) - 1) * 100
         return round(cagr, 2)
-    except:
+    except Exception:
         return 0.0

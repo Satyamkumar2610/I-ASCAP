@@ -1,7 +1,7 @@
 """
 Districts API: Endpoints for district data access.
 """
-from typing import Optional, List
+from typing import Optional
 
 from fastapi import APIRouter, Depends, Query
 import asyncpg

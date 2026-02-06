@@ -1,9 +1,8 @@
 """
 Metric Repository: Data access for agricultural/domain metrics.
 """
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict
 
-import asyncpg
 
 from app.repositories.base import BaseRepository
 from app.schemas.metric import MetricPoint, AggregatedMetric
@@ -139,9 +138,12 @@ class MetricRepository(BaseRepository):
                      data["yield"] = round((prod / area) * 1000, 2)
             
             # Ensure none is 0 instead of None for chart safety
-            if "yield" not in data: data["yield"] = 0
-            if "area" not in data: data["area"] = 0
-            if "production" not in data: data["production"] = 0
+            if "yield" not in data:
+                data["yield"] = 0
+            if "area" not in data:
+                data["area"] = 0
+            if "production" not in data:
+                data["production"] = 0
         
         return list(timeline.values())
     

@@ -3,7 +3,7 @@ Advanced Analytics Module for I-ASCAP.
 Provides Crop Diversification Index, Yield Efficiency, and Risk Profiling.
 """
 
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, asdict
 from enum import Enum
 
@@ -325,10 +325,14 @@ class AdvancedAnalyzer:
         else:
             consistency_ratio = 0
             
-        if consistency_ratio > 0.8: rating = "A"
-        elif consistency_ratio > 0.6: rating = "B"
-        elif consistency_ratio > 0.4: rating = "C"
-        else: rating = "D"
+        if consistency_ratio > 0.8:
+            rating = "A"
+        elif consistency_ratio > 0.6:
+            rating = "B"
+        elif consistency_ratio > 0.4:
+            rating = "C"
+        else:
+            rating = "D"
         
         # 4. Trend Stability using Mann-Kendall proxy (simple linear slope for now)
         trend = self.stats.linear_trend(values)
@@ -383,9 +387,12 @@ class AdvancedAnalyzer:
         score = (0.6 * cv_norm) + (0.4 * retention)
         
         # Categorization
-        if retention < 0.6: drought_risk = "High"
-        elif retention < 0.8: drought_risk = "Medium"
-        else: drought_risk = "Low"
+        if retention < 0.6:
+            drought_risk = "High"
+        elif retention < 0.8:
+            drought_risk = "Medium"
+        else:
+            drought_risk = "Low"
         
         rating = "A" if score > 0.8 else "B" if score > 0.6 else "C" if score > 0.4 else "D"
         
