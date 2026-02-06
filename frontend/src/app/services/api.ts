@@ -106,7 +106,7 @@ export const api = {
 
     getHistory: (district: string, crop: string) =>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        fetcher<any>(`history?district=${encodeURIComponent(district)}&crop=${crop}`),
+        fetcher<any>(`metrics/history?district=${encodeURIComponent(district)}&crop=${crop}`),
 
     getRainfall: (district: string, state: string, year: number) =>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
