@@ -10,6 +10,8 @@ from starlette.responses import JSONResponse
 
 from app.config import get_settings
 
+settings = get_settings()
+
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     """
@@ -89,16 +91,6 @@ class SecurityConfig:
         "x-api-key",
     ]
 
-
-from starlette.responses import JSONResponse
-from app.config import get_settings
-
-settings = get_settings()
-
-
-from jose import jwt
-import requests
-from app.exceptions import APIError
 
 class OIDCMiddleware(BaseHTTPMiddleware):
     """

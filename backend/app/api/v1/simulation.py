@@ -95,7 +95,7 @@ async def get_simulation(
             idx += 1
             
             if d_name.upper() == district.upper():
-                target_district_rain = r_val
+                _target_district_rain = r_val
 
     if len(rainfall_x) < 5:
         raise HTTPException(status_code=404, detail="Insufficient matching rainfall/yield data")

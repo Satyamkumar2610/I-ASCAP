@@ -24,6 +24,12 @@ from app.logging_config import (
     get_request_id,
     log_api_request,
 )
+from arq import create_pool
+
+from app.worker import WorkerSettings
+from app.rate_limit import RateLimitMiddleware
+from app.security import SecurityHeadersMiddleware, HTTPSRedirectMiddleware, OIDCMiddleware
+from app.api.v1.router import api_router
 
 settings = get_settings()
 
@@ -33,8 +39,6 @@ logger = get_logger("main")
 
 
 
-from arq import create_pool
-from app.worker import WorkerSettings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
@@ -109,12 +113,10 @@ app.add_middleware(
 )
 
 # Rate Limiting Middleware
-from app.rate_limit import RateLimitMiddleware
 app.add_middleware(RateLimitMiddleware)
 
 
 # Security Middleware
-from app.security import SecurityHeadersMiddleware, HTTPSRedirectMiddleware, OIDCMiddleware
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(HTTPSRedirectMiddleware)
 app.add_middleware(OIDCMiddleware)
@@ -136,7 +138,7 @@ async def log_requests(request: Request, call_next):
     # Process request
     try:
         response = await call_next(request)
-    except Exception as exc:
+    except Exception:
         # Log failed requests
         duration_ms = (time.time() - start_time) * 1000
         log_api_request(
@@ -281,8 +283,6 @@ async def get_system_stats():
 # -----------------------------------------------------------------------------
 # Import and Include API Routers
 # -----------------------------------------------------------------------------
-from app.api.v1.router import api_router
-
 app.include_router(api_router, prefix="/api/v1")
 
 

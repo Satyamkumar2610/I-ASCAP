@@ -3,22 +3,8 @@ In-memory caching system for I-ASCAP API.
 Uses TTL-based cache for frequently accessed data.
 """
 
-import time
 import hashlib
 import json
-from typing import Any, Optional, Dict, Callable
-from functools import wraps
-from collections import OrderedDict
-import asyncio
-
-from app.logging_config import get_logger
-
-logger = get_logger("cache")
-
-
-
-import json
-import hashlib
 from typing import Any, Optional, Dict, Callable
 from functools import wraps
 import redis.asyncio as redis
@@ -28,6 +14,7 @@ from app.logging_config import get_logger
 
 logger = get_logger("cache")
 settings = get_settings()
+
 
 class RedisCache:
     """
