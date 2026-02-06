@@ -7,6 +7,14 @@ import { StateSelector } from './StateSelector';
 import { DistrictSelector } from './DistrictSelector';
 import { TimeSeriesChart } from './charts/TimeSeriesChart';
 
+interface MetricData {
+    year: number;
+    area: number;
+    production: number;
+    yield: number;
+    [key: string]: number; // Index signature for chart compatibility
+}
+
 const CROPS = ['wheat', 'rice', 'maize', 'sorghum', 'pearl_millet'];
 
 export default function DataVisualizer() {
@@ -17,7 +25,7 @@ export default function DataVisualizer() {
 
     // UI State
     const [viewType, setViewType] = useState<ChartType>('line');
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<MetricData[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -50,9 +58,9 @@ export default function DataVisualizer() {
                 const jsonData = await res.json();
                 // jsonData is list of {year, area, production, yield}
                 setData(jsonData);
-            } catch (err: any) {
+            } catch (err: unknown) {
                 console.error("Data fetch error:", err);
-                setError(err.message || "An error occurred");
+                setError(err instanceof Error ? err.message : "An error occurred");
                 setData([]);
             } finally {
                 setLoading(false);

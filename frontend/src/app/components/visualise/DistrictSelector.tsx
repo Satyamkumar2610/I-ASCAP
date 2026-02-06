@@ -26,7 +26,7 @@ export function DistrictSelector({ selectedState, selectedDistrict, onDistrictCh
                 if (res.ok) {
                     const data = await res.json();
                     // Filter out the "Whole State" entry which has cdk starting with S_
-                    const items = data.items.filter((d: any) => !d.cdk.startsWith('S_'));
+                    const items = data.items.filter((d: { cdk: string; district_name: string }) => !d.cdk.startsWith('S_'));
                     setDistricts(items);
                 }
             } catch (err) {

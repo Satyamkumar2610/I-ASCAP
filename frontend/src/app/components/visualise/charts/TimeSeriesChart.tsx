@@ -13,8 +13,13 @@ import {
     ResponsiveContainer
 } from 'recharts';
 
+interface ChartDataPoint {
+    year: number;
+    [key: string]: number;
+}
+
 interface TimeSeriesChartProps {
-    data: any[];
+    data: ChartDataPoint[];
     metrics: string[]; // e.g., ['yield', 'production', 'area']
     colors?: string[];
 }
