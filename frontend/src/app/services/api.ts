@@ -95,6 +95,9 @@ export const api = {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         fetcher<any[]>(`metrics?year=${year}&crop=${crop}&metric=${metric}`),
 
+    getHistory: (district: string, crop: string) =>
+        fetcher<any[]>(`metrics/history?district=${encodeURIComponent(district)}&crop=${crop}`),
+
     // --- Advanced Analytics --
 
     getDiversification: (cdk: string, year: number) =>
