@@ -68,41 +68,13 @@ class MetricRepository(BaseRepository):
         year: int, 
         variable: str
     ) -> List[AggregatedMetric]:
-        """Get all district values for a given year and variable.
-        
-        Uses state average as fallback for districts without direct data.
-        """
-        # Query direct district data + state fallback via COALESCE
+        """Get all district values for a given year and variable."""
         query = """
-            WITH district_data AS (
-                SELECT m.cdk, d.state_name, d.district_name, m.value
-                FROM agri_metrics m
-                JOIN districts d ON m.cdk = d.cdk
-                WHERE m.year = $1 AND m.variable_name = $2
-                AND d.district_name != 'State Average'
-            ),
-            state_data AS (
-                SELECT d.state_name, m.value as state_value
-                FROM agri_metrics m
-                JOIN districts d ON m.cdk = d.cdk
-                WHERE m.year = $1 AND m.variable_name = $2
-                AND d.district_name = 'State Average'
-            ),
-            all_districts AS (
-                SELECT cdk, state_name, district_name 
-                FROM districts 
-                WHERE district_name != 'State Average'
-            )
-            SELECT 
-                a.cdk, 
-                a.state_name, 
-                a.district_name,
-                COALESCE(dd.value, sd.state_value) as value,
-                CASE WHEN dd.value IS NOT NULL THEN 'district' ELSE 'state' END as source
-            FROM all_districts a
-            LEFT JOIN district_data dd ON a.cdk = dd.cdk
-            LEFT JOIN state_data sd ON a.state_name = sd.state_name
-            WHERE COALESCE(dd.value, sd.state_value) IS NOT NULL
+            SELECT m.cdk, d.state_name, d.district_name, m.value
+            FROM agri_metrics m
+            JOIN districts d ON m.cdk = d.cdk
+            WHERE m.year = $1 AND m.variable_name = $2
+            AND d.district_name != 'State Average'
         """
         rows = await self.fetch_all(query, year, variable)
         
@@ -112,8 +84,8 @@ class MetricRepository(BaseRepository):
                 state=r["state_name"] or "",
                 district=r["district_name"] or "",
                 value=float(r["value"]) if r["value"] else 0,
-                metric=variable.split("_")[-1],  # Extract metric type
-                method="Raw" if r["source"] == "district" else "State Average",
+                metric=variable.split("_")[-1],
+                method="Raw",
             )
             for r in rows
         ]
