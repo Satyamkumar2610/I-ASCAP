@@ -1,10 +1,10 @@
 
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '';
-const API_KEY = process.env.API_KEY || 'dev-secret-key-123';
+// Direct Render Backend URL - avoids Vercel proxy timeout issues
+// Use env var if set, otherwise default to production Render URL
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://i-ascap.onrender.com';
 
 class ApiError extends Error {
-    constructor(public status: number, public message: string) {
+    constructor(public status: number, message: string) {
         super(message);
         this.name = 'ApiError';
     }
@@ -15,31 +15,40 @@ async function fetcher<T>(endpoint: string, options: RequestInit = {}): Promise<
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
     const url = `${BASE_URL}/api/v1/${cleanEndpoint}`;
 
+    console.log(`[API] Fetching: ${url}`);
+
     const headers = {
         'Content-Type': 'application/json',
-        // Backend requires Authorization header (even if token is dummy for now) 
-        // because API_KEY is likely not configured on Render.
-        'Authorization': 'Bearer dev-token-bypass',
-        'X-API-Key': API_KEY, // Keep for backward compatibility if fixed later
         ...options.headers,
     };
 
-    const response = await fetch(url, {
-        ...options,
-        headers,
-    });
+    try {
+        const response = await fetch(url, {
+            ...options,
+            headers,
+            // Allow backend time to wake from cold start
+            signal: AbortSignal.timeout ? AbortSignal.timeout(60000) : undefined,
+        });
 
-    if (!response.ok) {
-        if (response.status === 404) {
-            throw new ApiError(404, 'Resource not found');
+        if (!response.ok) {
+            const errorText = await response.text().catch(() => 'Unknown error');
+            console.error(`[API] Error ${response.status}: ${errorText}`);
+
+            if (response.status === 404) {
+                throw new ApiError(404, 'Resource not found');
+            }
+            if (response.status >= 500) {
+                throw new ApiError(response.status, `Server error: ${errorText}`);
+            }
+            throw new ApiError(response.status, `API Error: ${response.statusText}`);
         }
-        if (response.status >= 500) {
-            throw new ApiError(response.status, 'Server error - Retrying...');
-        }
-        throw new ApiError(response.status, `API Error: ${response.statusText}`);
+
+        return response.json();
+    } catch (error) {
+        if (error instanceof ApiError) throw error;
+        console.error(`[API] Network error:`, error);
+        throw new ApiError(0, `Network error - backend may be waking up. Please retry.`);
     }
-
-    return response.json();
 }
 
 // --- Typed API Methods ---
