@@ -13,7 +13,7 @@ from fastapi import APIRouter, Depends, Query
 from typing import Optional
 import asyncpg
 
-from app.db import get_db
+from app.api.deps import get_db
 from app.services.advanced_analytics import AdvancedAnalyticsService
 
 router = APIRouter(prefix="/analytics", tags=["Advanced Analytics"])
