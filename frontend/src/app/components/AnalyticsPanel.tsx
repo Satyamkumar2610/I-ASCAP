@@ -35,7 +35,7 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
 
     const { data: correlation, isLoading: loadingCorr } = useQuery({
         queryKey: ['correlation', state, crop, year],
-        queryFn: () => api.getCorrelation(state, crop, year),
+        queryFn: () => api.getCropCorrelations(state, year, [crop]),
         enabled: !!state
     });
 
