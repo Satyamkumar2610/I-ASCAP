@@ -19,7 +19,7 @@ class MetricRepository(BaseRepository):
     ) -> List[MetricPoint]:
         """Get time series for a district and set of variables."""
         query = """
-            SELECT cdk, year, variable_name, value, source
+            SELECT cdk, year, variable_name, value
             FROM agri_metrics
             WHERE cdk = $1 AND variable_name = ANY($2)
             ORDER BY year ASC
@@ -32,7 +32,7 @@ class MetricRepository(BaseRepository):
                 year=r["year"],
                 variable=r["variable_name"],
                 value=float(r["value"]) if r["value"] else 0,
-                source=r["source"],
+                source="Raw",
             )
             for r in rows
         ]
@@ -44,7 +44,7 @@ class MetricRepository(BaseRepository):
     ) -> List[MetricPoint]:
         """Get metrics for multiple districts and variables."""
         query = """
-            SELECT cdk, year, variable_name, value, source
+            SELECT cdk, year, variable_name, value
             FROM agri_metrics
             WHERE cdk = ANY($1) AND variable_name = ANY($2)
             ORDER BY year ASC
@@ -57,7 +57,7 @@ class MetricRepository(BaseRepository):
                 year=r["year"],
                 variable=r["variable_name"],
                 value=float(r["value"]) if r["value"] else 0,
-                source=r["source"],
+                source="Raw",
             )
             for r in rows
         ]
@@ -70,7 +70,7 @@ class MetricRepository(BaseRepository):
     ) -> List[AggregatedMetric]:
         """Get all district values for a given year and variable."""
         query = """
-            SELECT m.cdk, d.state_name, d.district_name, m.value, m.source
+            SELECT m.cdk, d.state_name, d.district_name, m.value
             FROM agri_metrics m
             JOIN districts d ON m.cdk = d.cdk
             WHERE m.year = $1 AND m.variable_name = $2
@@ -84,7 +84,7 @@ class MetricRepository(BaseRepository):
                 district=r["district_name"] or "",
                 value=float(r["value"]) if r["value"] else 0,
                 metric=variable.split("_")[-1],  # Extract metric type
-                method="Backcast" if r["source"] == "V1.5_Harmonized" else "Raw",
+                method="Raw",
             )
             for r in rows
         ]
