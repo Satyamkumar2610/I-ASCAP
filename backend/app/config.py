@@ -47,7 +47,7 @@ class Settings(BaseSettings):
     
 
     # Security (OIDC / OAuth2)
-    auth_enabled: bool = True
+    auth_enabled: bool = False  # Disabled for public access; enable when OIDC configured
     auth0_domain: str = "dev-i-ascap.us.auth0.com" 
     auth0_audience: str = "https://api.i-ascap.org"
     auth0_algorithms: List[str] = ["RS256"]
