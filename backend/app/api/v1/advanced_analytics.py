@@ -10,7 +10,7 @@ Provides data science-driven insights including:
 """
 
 from fastapi import APIRouter, Depends, Query
-from typing import List, Optional
+from typing import Optional
 import asyncpg
 
 from app.db import get_db
