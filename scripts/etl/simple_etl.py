@@ -26,6 +26,7 @@ if not DB_URL:
 MASTER_PATH = os.path.join(BASE_DIR, 'data', 'v1', 'district_master.csv')
 LINEAGE_PATH = os.path.join(BASE_DIR, 'data', 'v1', 'district_lineage_cleaned.csv')
 ICRISAT_PATH = os.path.join(BASE_DIR, 'data', 'raw', 'ICRISAT_correct.csv')
+STATE_XLSX_PATH = os.path.join(BASE_DIR, 'data', 'raw', 'crop-area-and-production (1).xlsx')
 
 
 def simple_normalize(name):
@@ -204,6 +205,91 @@ def load_metrics(engine, districts_df):
     logger.info("Metrics loaded successfully")
 
 
+def load_state_metrics(engine):
+    """Load state-level crop data from xlsx as fallback metrics."""
+    if not os.path.exists(STATE_XLSX_PATH):
+        logger.warning(f"State xlsx not found: {STATE_XLSX_PATH}")
+        return
+    
+    df = pd.read_excel(STATE_XLSX_PATH, sheet_name='st-area-prod-ua', header=4)
+    logger.info(f"Loaded state xlsx: {len(df)} rows")
+    
+    # Clean column names
+    df.columns = [str(c).strip() for c in df.columns]
+    
+    # Rename for clarity
+    df = df.rename(columns={'State': 'state_name', 'YEAR': 'year'})
+    
+    # Filter valid rows
+    df = df[df['state_name'].notna() & df['year'].notna()]
+    df['year'] = df['year'].astype(int)
+    
+    # Create state CDK: STATE_ANDHRA_PRADESH
+    def make_state_cdk(state):
+        normalized = str(state).upper().replace(' ', '_').replace('&', 'AND')
+        return f"STATE_{normalized}"
+    
+    df['cdk'] = df['state_name'].apply(make_state_cdk)
+    
+    # First insert state "districts" into districts table
+    state_districts = df[['cdk', 'state_name']].drop_duplicates()
+    state_districts['district_name'] = 'State Average'
+    state_districts['creation_year'] = 1950
+    
+    state_districts.to_sql('districts', engine, if_exists='append', index=False, method='multi', chunksize=100)
+    logger.info(f"Added {len(state_districts)} state-level entries to districts")
+    
+    # Crop column mapping: xlsx column -> (crop, metric_type)
+    CROP_MAP = {
+        'RICE_TA': ('rice', 'area'),
+        'RICE_TQ': ('rice', 'production'),
+        'WHT_TA': ('wheat', 'area'),
+        'WHT_TQ': ('wheat', 'production'),
+        'SORG_KA': ('sorghum', 'area'),
+        'SORG_KQ': ('sorghum', 'production'),
+        'PMLT_A': ('pearl_millet', 'area'),
+        'PMLT_Q': ('pearl_millet', 'production'),
+        'MAIZ_A': ('maize', 'area'),
+        'MAIZ_Q': ('maize', 'production'),
+        'FMLT_A': ('finger_millet', 'area'),
+        'FMLT_Q': ('finger_millet', 'production'),
+        'BMLT_A': ('barley', 'area'),
+        'BMLT_Q': ('barley', 'production'),
+    }
+    
+    # Melt state data
+    rows = []
+    for _, row in df.iterrows():
+        cdk = row['cdk']
+        year = row['year']
+        
+        for col, (crop, metric) in CROP_MAP.items():
+            if col in df.columns:
+                val = row.get(col)
+                if pd.notna(val) and val != -1 and val > 0:
+                    # Convert '000s to actual: area in ha, production in tonnes
+                    actual_val = float(val) * 1000
+                    variable = f"{crop}_{metric}"
+                    rows.append({'cdk': cdk, 'year': year, 'variable_name': variable, 'value': actual_val})
+        
+        # Calculate yield from area/production
+        for col_a, (crop, _) in [(k, v) for k, v in CROP_MAP.items() if v[1] == 'area']:
+            col_q = col_a[:-1] + 'Q'  # RICE_TA -> RICE_TQ
+            if col_a in df.columns and col_q in df.columns:
+                area = row.get(col_a)
+                prod = row.get(col_q)
+                if pd.notna(area) and pd.notna(prod) and area > 0 and area != -1 and prod != -1:
+                    yield_val = (float(prod) / float(area)) * 1000  # kg/ha
+                    variable = f"{crop}_yield"
+                    rows.append({'cdk': cdk, 'year': year, 'variable_name': variable, 'value': yield_val})
+    
+    state_metrics = pd.DataFrame(rows)
+    state_metrics = state_metrics.drop_duplicates(subset=['cdk', 'year', 'variable_name'])
+    
+    state_metrics.to_sql('agri_metrics', engine, if_exists='append', index=False, method='multi', chunksize=5000)
+    logger.info(f"Loaded {len(state_metrics)} state-level metric rows")
+
+
 def main():
     logger.info("Starting ETL...")
     engine = create_engine(DB_URL)
@@ -217,8 +303,11 @@ def main():
     # Step 3: Load lineage
     load_lineage(engine)
     
-    # Step 4: Load metrics
+    # Step 4: Load district metrics (ICRISAT)
     load_metrics(engine, districts_df)
+    
+    # Step 5: Load state-level metrics (fallback)
+    load_state_metrics(engine)
     
     logger.info("ETL complete!")
 
