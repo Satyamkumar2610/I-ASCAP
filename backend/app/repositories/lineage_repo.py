@@ -13,7 +13,7 @@ class LineageRepository(BaseRepository):
     async def get_all_events(self) -> List[LineageEvent]:
         """Get all lineage events from DB."""
         query = """
-            SELECT parent_cdk, child_cdk, event_year, confidence_score
+            SELECT parent_cdk, child_cdk, event_year, event_type
             FROM lineage_events
         """
         rows = await self.fetch_all(query)
@@ -28,7 +28,7 @@ class LineageRepository(BaseRepository):
                 children_count=1,
                 event_year=r['event_year'],
                 event_type=EventType.SPLIT,
-                confidence=float(r['confidence_score']),
+                confidence=0.9,  # Default confidence
             ))
         return events
     
@@ -40,7 +40,7 @@ class LineageRepository(BaseRepository):
         """Filter events where parent belongs to given state using SQL JOIN."""
         # Optimized: Use SQL JOIN with districts table for O(1) state filtering
         query = """
-            SELECT le.parent_cdk, le.child_cdk, le.event_year, le.confidence_score
+            SELECT le.parent_cdk, le.child_cdk, le.event_year, le.event_type
             FROM lineage_events le
             JOIN districts d ON le.parent_cdk = d.cdk
             WHERE d.state_name = $1
@@ -57,7 +57,7 @@ class LineageRepository(BaseRepository):
                 children_count=1,
                 event_year=r['event_year'],
                 event_type=EventType.SPLIT,
-                confidence=float(r['confidence_score']) if r['confidence_score'] else 0.8,
+                confidence=0.9,  # Default confidence
             ))
         return events
     
