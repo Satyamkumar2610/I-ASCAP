@@ -48,6 +48,7 @@ class DistrictHarmonizer:
         # 1. Build Dictionary from Master
         # (State, NormName) -> CDK
         master_lookup = {}
+        all_master_names = []  # For fuzzy matching
         for _, row in self.master_df.iterrows():
             st = row['state_name']
             nm = simple_normalize(row['district_name'])
@@ -55,6 +56,7 @@ class DistrictHarmonizer:
             master_lookup[(st, nm)] = row['cdk']
             # Also add direct CDK lookup just in case
             master_lookup[row['cdk']] = row['cdk']
+            all_master_names.append(nm)
 
         # 2. Iterate Raw Data Unique Districts
         raw_map = {}
@@ -66,32 +68,46 @@ class DistrictHarmonizer:
             rst = row['state_name']
             rnm = row['dist_name']
             
-            # STATE ALIASES (ICRISAT vs Backbone)
-            # ICRISAT: 'Orissa', 'Chattisgarh'
-            # Backbone: 'Odisha', 'Chhattisgarh'
+            # STATE ALIASES (ICRISAT vs Backbone) - EXPANDED
             st_aliases = {
                 'Orissa': 'Odisha', 
                 'Uttaranchal': 'Uttarakhand',
-                'Pondicherry': 'Puducherry'
+                'Pondicherry': 'Puducherry',
+                'Chattisgarh': 'Chhattisgarh',
+                'Jammu and Kashmir': 'Jammu & Kashmir',
+                'Delhi': 'NCT of Delhi',
+                'Andaman & Nicobar': 'Andaman and Nicobar Islands',
+                'Dadra & Nagar Haveli': 'Dadara & Nagar Havelli',
             }
             cst = st_aliases.get(rst, rst)
             
             # Normalize Name
             cnm = simple_normalize(rnm)
             
-            # Specific Fixes for ICRISAT mess
-            if cnm == '24parg': cnm = 'south2' # 24 Parganas -> South 24 Parganas (Parent)
+            # Specific Fixes for ICRISAT mess - COMPREHENSIVE LIST
+            name_fixes = {
+                '24parg': 'south2',  # 24 Parganas -> South 24 Parganas (Parent)
+                'ysrkad': 'kadapa',  # YSR Kadapa -> Kadapa
+                'spsnel': 'sripot',  # S.P.S. Nellore -> Nellore
+                'khandw': 'eastn',   # Khandwa -> East Nimar
+                'beed': 'bhir',      # Beed -> Bhir
+                'mehsan': 'mahesa',  # Mehsana -> Mahesana
+                'dholpu': 'dhaulp',  # Dholpur -> Dhaulpur
+                'thriss': 'trichu',  # Thrissur -> Trichur
+                'phulba': 'kandha',  # Phulbani(Kandhamal) -> Kandhamal
+                'burdwa': 'barddh',  # Burdwan -> Barddhaman
+                'mungai': 'munger',  # Mungair -> Munger
+                'bhabhu': 'kaimur',  # Bhabhua Kaimur -> Kaimur
+                'dahod': 'dohad',    # Dahod -> Dohad
+                'shrimu': 'mukts',   # Shri Mukatsar Sahib -> Muktsar (6 char)
+                'karoli': 'karaul',  # Karoli -> Karauli
+                'gbnaga': 'gautam',  # G.B.Nagar -> Gautam Buddha Nagar
+                'jagity': 'jagtia',  # Jagityal -> Jagtial
+            }
+            if cnm in name_fixes:
+                cnm = name_fixes[cnm]
             
-            # Lookup
-            # Try exact State + Name match
-            # Problem: Backbone uses 'WB', ICRISAT uses 'West Bengal'.
-            # We need to map Backbone 'WB' to 'West Bengal' or vice versa.
-            # Hack: Iterate master keys to find match? Slow.
-            # Better: Assume logic 'state_map' from ETL is consistent.
-            
-            # Let's search in Master DataFrame for matching name + state
-            # Fuzzy match state?
-            
+            # Lookup - Try exact match first
             candidates = self.master_df[
                 (self.master_df['district_name'].apply(simple_normalize) == cnm)
             ]
@@ -100,11 +116,8 @@ class DistrictHarmonizer:
                 raw_map[(rst, rnm)] = candidates.iloc[0]['cdk']
             elif len(candidates) > 1:
                 # Disambiguate by State
-                # Check if state string is roughly similar
                 match = None
                 for _, cand in candidates.iterrows():
-                    # Check if 'West Bengal' contains 'WB'? No.
-                    # Dictionary map?
                     if cand['state_name'] == cst: # Exact Match
                         match = cand['cdk']
                         break
@@ -118,14 +131,38 @@ class DistrictHarmonizer:
                 else:
                     unmapped.append(f"{rst}-{rnm}")
             else:
-                # No candidates. Try Alias Table?
-                # Maybe 'Ahmednagar' vs 'Ahmadnagar' handled by simple_normalize? Yes.
-                unmapped.append(f"{rst}-{rnm}")
+                # No exact candidates - Try FUZZY MATCHING
+                fuzzy_matches = get_close_matches(cnm, all_master_names, n=1, cutoff=0.7)
+                if fuzzy_matches:
+                    fuzzy_nm = fuzzy_matches[0]
+                    # Find CDK for fuzzy match
+                    fuzzy_cands = self.master_df[
+                        (self.master_df['district_name'].apply(simple_normalize) == fuzzy_nm)
+                    ]
+                    if len(fuzzy_cands) >= 1:
+                        # Try state filtering
+                        state_match = fuzzy_cands[fuzzy_cands['state_name'] == cst]
+                        if len(state_match) >= 1:
+                            raw_map[(rst, rnm)] = state_match.iloc[0]['cdk']
+                            logger.debug(f"Fuzzy matched: {rnm} -> {fuzzy_nm}")
+                        else:
+                            # Accept any fuzzy match
+                            raw_map[(rst, rnm)] = fuzzy_cands.iloc[0]['cdk']
+                            logger.debug(f"Fuzzy matched (no state): {rnm} -> {fuzzy_nm}")
+                    else:
+                        unmapped.append(f"{rst}-{rnm}")
+                else:
+                    unmapped.append(f"{rst}-{rnm}")
 
         self.name_to_cdk = raw_map
         logger.info(f"Mapped {len(raw_map)} districts. Unmapped: {len(unmapped)}")
         if len(unmapped) > 0:
-            logger.warning(f"Unmapped examples: {unmapped[:10]}")
+            logger.warning(f"Unmapped examples: {unmapped[:20]}")
+            # Save unmapped to file for review
+            unmapped_path = os.path.join(OUTPUT_DIR, 'unmapped_districts.txt')
+            with open(unmapped_path, 'w') as f:
+                f.write('\n'.join(unmapped))
+            logger.info(f"Saved unmapped list to {unmapped_path}")
             
     def calculate_weights(self):
         """Calculate redistribution weights for Splits."""
