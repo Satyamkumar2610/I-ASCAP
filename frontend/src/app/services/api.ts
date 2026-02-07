@@ -95,33 +95,34 @@ export const api = {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         fetcher<any[]>(`metrics?year=${year}&crop=${crop}&metric=${metric}`),
 
+    // --- Advanced Analytics --
+
+    getDiversification: (cdk: string, year: number) =>
+        fetcher<any>(`analytics/diversification?cdk=${cdk}&year=${year}`),
+
+    getYieldTrend: (cdk: string, crop: string) =>
+        fetcher<any>(`analytics/yield-trend?cdk=${cdk}&crop=${crop}`),
+
+    getSplitImpact: (parentCdk: string, childCdks: string[], splitYear: number, crop: string) =>
+        fetcher<any>(`analytics/split-impact?parent_cdk=${parentCdk}&child_cdks=${childCdks.join(',')}&split_year=${splitYear}&crop=${crop}`),
+
+    getCropCorrelations: (state: string, year: number, crops?: string[]) =>
+        fetcher<any>(`analytics/crop-correlations?state=${encodeURIComponent(state)}&year=${year}${crops ? `&crops=${crops.join(',')}` : ''}`),
+
+    getDistrictRankings: (state: string, crop: string, year: number) =>
+        fetcher<any>(`analytics/district-rankings?state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`),
+
+    getAnalyticsSummary: (cdk: string, year: number) =>
+        fetcher<any>(`analytics/summary?cdk=${cdk}&year=${year}`),
+
+    // --- Legacy / Other ---
+
     getEfficiency: (cdk: string, crop: string, year: number) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         fetcher<any>(`analysis/efficiency?cdk=${cdk}&crop=${crop}&year=${year}`),
 
     getRiskProfile: (cdk: string, crop: string) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         fetcher<any>(`analysis/risk-profile?cdk=${cdk}&crop=${crop}`),
 
-    // --- Remaining Endpoints ---
-
-    getDiversification: (state: string, year: number) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        fetcher<any>(`analysis/diversification?state=${encodeURIComponent(state)}&year=${year}`),
-
-    getCorrelation: (state: string, crop: string, year: number) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        fetcher<any>(`climate/correlation?state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`),
-
-    getHistory: (district: string, crop: string) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        fetcher<any>(`metrics/history?district=${encodeURIComponent(district)}&crop=${crop}`),
-
     getRainfall: (district: string, state: string, year: number) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        fetcher<any>(`rainfall?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&year=${year}`),
-
-    runSimulation: (district: string, state: string, crop: string, year: number) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        fetcher<any>(`simulation?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&crop=${encodeURIComponent(crop)}&year=${year}`)
+        fetcher<any>(`climate/rainfall?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&year=${year}`),
 };

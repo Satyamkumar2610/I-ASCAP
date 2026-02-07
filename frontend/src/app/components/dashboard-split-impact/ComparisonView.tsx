@@ -6,6 +6,7 @@ import { ComparisonChart } from './ComparisonChart';
 import { ComparisonTable } from './ComparisonTable';
 import { ComparisonContextBanner } from './ComparisonContextBanner';
 import { AdvancedStatsPanel } from './AdvancedStatsPanel';
+import { ImpactScorecard } from './ImpactScorecard';
 import { AlertCircle, Sprout, Loader2 } from 'lucide-react';
 import { useAnalysis } from '../../hooks/useSplitImpact';
 
@@ -58,7 +59,12 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
                     </div>
                 ) : (
                     <div className="flex-1 overflow-y-auto custom-scrollbar">
-                        {/* Advanced Stats */}
+                        {/* Impact Scorecard */}
+                        <div className="px-3 md:px-4 pt-3 md:pt-4">
+                            <ImpactScorecard event={event} crop={crop} />
+                        </div>
+
+                        {/* Advanced Stats */}\n
                         {(payload.advancedStats || payload.advanced_stats) && (
                             <div className="px-3 md:px-4 pt-3 md:pt-4">
                                 <AdvancedStatsPanel stats={payload.advancedStats || payload.advanced_stats} metric={metric} />
