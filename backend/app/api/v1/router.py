@@ -1,7 +1,7 @@
 """API v1 Router - aggregates all endpoint routers."""
 from fastapi import APIRouter
 
-from app.api.v1 import districts, lineage, metrics, analysis, climate, simulation, health, quality, forecast, anomalies
+from app.api.v1 import districts, lineage, metrics, analysis, climate, simulation, health, quality, forecast, anomalies, advanced_analytics
 
 api_router = APIRouter()
 
@@ -16,6 +16,8 @@ api_router.include_router(metrics.router, prefix="/metrics", tags=["Metrics"])
 api_router.include_router(analysis.router, prefix="/analysis", tags=["Analysis"])
 api_router.include_router(climate.router, prefix="/climate", tags=["Climate"])
 api_router.include_router(simulation.router, prefix="/simulation", tags=["Simulation"])
+api_router.include_router(advanced_analytics.router)  # Advanced analytics at /analytics
+
 
 
 
