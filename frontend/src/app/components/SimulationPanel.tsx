@@ -66,7 +66,14 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
         </div>
     );
 
-    if (!result || !projection) return null;
+    // Robust check for result integrity
+    if (!result || typeof result.baseline_yield !== 'number' || !Array.isArray(result.data_points)) return (
+        <div className="p-6 bg-slate-900/30 border border-slate-800 rounded-lg text-center flex flex-col items-center justify-center">
+            <div className="text-slate-500 text-xs">Insufficient data for simulation.</div>
+        </div>
+    );
+
+    if (!projection) return null;
 
     return (
         <div className="space-y-6">

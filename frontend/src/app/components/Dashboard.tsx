@@ -346,7 +346,7 @@ const Dashboard: React.FC<DashboardProps> = ({
                                 </h4>
                                 <div className="h-32 w-full -ml-4">
                                     <ResponsiveContainer width="100%" height="100%">
-                                        <LineChart data={history}>
+                                        <LineChart data={Array.isArray(history) ? history : []}>
                                             <XAxis dataKey="year" stroke="#475569" fontSize={8} tickLine={false} axisLine={false} />
                                             <Tooltip
                                                 contentStyle={{ backgroundColor: '#020617', border: '1px solid #1e293b', borderRadius: '4px', fontSize: '10px' }}

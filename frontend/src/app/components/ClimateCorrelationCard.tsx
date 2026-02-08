@@ -17,9 +17,10 @@ interface ClimateCorrelationCardProps {
 }
 
 export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelationCardProps) {
-    const r = data.correlations.monsoon_rainfall.r;
-    const direction = data.correlations.monsoon_rainfall.direction;
-    const interpretation = data.correlations.monsoon_rainfall.interpretation;
+    const correlations = data?.correlations?.monsoon_rainfall || {};
+    const r = correlations.r || 0;
+    const direction = correlations.direction || 'neutral';
+    const interpretation = correlations.interpretation || 'No Data';
 
     // Determine color based on Correlation Strength
     const getColor = (rVal: number) => {
@@ -94,8 +95,8 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
                             contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '10px' }}
                             itemStyle={{ color: '#e2e8f0' }}
                         />
-                        <Scatter name="Districts" data={data.data_points} fill="#38bdf8">
-                            {data.data_points.map((entry, index) => (
+                        <Scatter name="Districts" data={data?.data_points || []} fill="#38bdf8">
+                            {(data?.data_points || []).map((entry, index) => (
                                 <Cell key={`cell-${index}`} fillOpacity={0.6} />
                             ))}
                         </Scatter>
@@ -107,7 +108,7 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
             <div className="flex items-start gap-1.5 text-[9px] text-slate-500 bg-slate-950/50 p-2 rounded">
                 <Info size={10} className="shrink-0 mt-0.5" />
                 <p>
-                    Statistical correlation based on {data.data_points.length} districts.
+                    Statistical correlation based on {data?.data_points?.length || 0} districts.
                     Compares {data.validity?.baseline_period || 'historic'} Rainfall Normals vs Yield.
                     Results may vary for irrigated regions.
                 </p>

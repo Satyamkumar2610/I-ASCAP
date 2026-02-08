@@ -121,7 +121,7 @@ export const api = {
     // --- Simulation ---
 
     runSimulation: (district: string, state: string, crop: string, year: number) =>
-        fetcher<any>(`simulation/?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`),
+        fetcher<any>(`simulation?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`),
 
     // --- Legacy / Other ---
 

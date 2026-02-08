@@ -314,12 +314,15 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
                 )
             }
             {/* 5. Simulation (New) */}
-            <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
-                <h4 className="text-[10px] text-indigo-400 uppercase font-bold mb-3 flex items-center gap-2">
-                    <Calculator size={12} /> Impact Simulator
-                </h4>
-                <SimulationPanel district={cdk} state={state} crop={crop} year={year} />
-            </div>
+            {/* 5. Simulation (New) */}
+            {cdk && state && (
+                <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
+                    <h4 className="text-[10px] text-indigo-400 uppercase font-bold mb-3 flex items-center gap-2">
+                        <Calculator size={12} /> Impact Simulator
+                    </h4>
+                    <SimulationPanel district={cdk} state={state} crop={crop} year={year} />
+                </div>
+            )}
         </div >
     );
 }

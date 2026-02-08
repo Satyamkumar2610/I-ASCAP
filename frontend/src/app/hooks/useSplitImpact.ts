@@ -68,6 +68,11 @@ export function useSplitImpactAnalysis(
         queryFn: () => api.getSplitImpact(parentCdk, childCdks, splitYear, crop),
         enabled: !!parentCdk && childCdks.length > 0 && !!crop,
         staleTime: 1000 * 60 * 60,
+        select: (data) => {
+            // Validate data structure before passing to component
+            if (!data || !data.impact || !data.before || !data.after) return null;
+            return data;
+        }
     });
 }
 
