@@ -95,58 +95,17 @@ class MetricRepository(BaseRepository):
                     seasonal_variable = f"{variable}_{season}"
                     rows = await self.fetch_all(query, year, seasonal_variable)
         
-        # Calculate State Averages from available data
-        state_values: Dict[str, List[float]] = {}
-        existing_cdks = set()
-        
-        for r in rows:
-            if r["value"] is not None:
-                state = r["state_name"]
-                if state:
-                    if state not in state_values:
-                        state_values[state] = []
-                    state_values[state].append(float(r["value"]))
-            existing_cdks.add(r["cdk"])
-            
-        state_avgs = {
-            s: sum(vals) / len(vals) 
-            for s, vals in state_values.items() 
-            if vals
-        }
-        
-        # Get list of all districts to identify gaps
-        all_districts_query = "SELECT cdk, district_name, state_name FROM districts WHERE district_name != 'State Average'"
-        all_districts = await self.fetch_all(all_districts_query)
-        
-        results = []
-        
-        # Add Existing Data
-        for r in rows:
-            results.append(AggregatedMetric(
+        return [
+            AggregatedMetric(
                 cdk=r["cdk"],
                 state=r["state_name"] or "",
                 district=r["district_name"] or "",
                 value=float(r["value"]) if r["value"] is not None else 0.0,
                 metric=variable.split("_")[-1],
                 method="Raw",
-            ))
-            
-        # Fill Gaps with State Averages
-        for d in all_districts:
-            if d["cdk"] not in existing_cdks:
-                state = d["state_name"]
-                if state and state in state_avgs:
-                    # Append Estimated Data
-                    results.append(AggregatedMetric(
-                        cdk=d["cdk"],
-                        state=state,
-                        district=d["district_name"] or "",
-                        value=round(state_avgs[state], 2),
-                        metric=variable.split("_")[-1],
-                        method="State Average",
-                    ))
-        
-        return results
+            )
+            for r in rows
+        ]
     
     @cached(ttl=CacheTTL.METRICS, prefix="metrics:ts")
     async def get_time_series_pivoted(
