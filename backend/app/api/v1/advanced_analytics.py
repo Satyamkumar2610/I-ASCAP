@@ -38,7 +38,8 @@ async def get_crop_diversification(
     result = await service.get_crop_diversification(cdk, year)
     
     if not result:
-        return {"error": f"No data found for {cdk} in {year}"}
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail=f"No data found for {cdk} in {year}")
     
     return {
         "cdk": result.cdk,
@@ -67,7 +68,8 @@ async def get_yield_trend(
     result = await service.get_yield_trend(cdk, crop, start_year, end_year)
     
     if not result:
-        return {"error": f"Insufficient data for {crop} in {cdk}"}
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail=f"Insufficient data for {crop} in {cdk}")
     
     return {
         "cdk": cdk,

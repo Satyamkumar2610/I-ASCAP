@@ -118,7 +118,7 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
             </div>
 
             {/* 1. Yield Efficiency */}
-            {efficiency ? (
+            {efficiency && efficiency.relative_efficiency && efficiency.historical_efficiency ? (
                 <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
                     <h4 className="text-[10px] text-emerald-400 uppercase font-bold mb-3 flex items-center gap-2">
                         <TrendingUp size={12} /> Efficiency Metrics
@@ -137,7 +137,7 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
                             </div>
                             <div className="text-right">
                                 <div className="text-xs font-mono text-red-400">
-                                    -{efficiency.relative_efficiency.yield_gap_pct.toFixed(1)}%
+                                    {efficiency.relative_efficiency.yield_gap_pct?.toFixed(1) || '0.0'}%
                                 </div>
                                 <div className="text-[10px] text-slate-500">Gap</div>
                             </div>
@@ -145,7 +145,7 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
                         <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden flex">
                             <div
                                 className="h-full bg-emerald-500"
-                                style={{ width: `${Math.min(efficiency.relative_efficiency.efficiency_score * 100, 100)}%` }}
+                                style={{ width: `${Math.min((efficiency.relative_efficiency.efficiency_score || 0) * 100, 100)}%` }}
                             />
                         </div>
 
@@ -169,7 +169,7 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
                             </div>
                             <div className="text-right">
                                 <div className={`text-xs font-mono ${efficiency.historical_efficiency.is_above_trend ? 'text-blue-400' : 'text-amber-400'}`}>
-                                    {efficiency.historical_efficiency.yield_diff > 0 ? '+' : ''}{efficiency.historical_efficiency.yield_diff.toFixed(1)}
+                                    {efficiency.historical_efficiency.yield_diff > 0 ? '+' : ''}{efficiency.historical_efficiency.yield_diff?.toFixed(1) || '0.0'}
                                 </div>
                                 <div className="text-[10px] text-slate-500">Diff</div>
                             </div>
@@ -179,15 +179,15 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
                             <div
                                 className={`h-full ${efficiency.historical_efficiency.is_above_trend ? 'bg-blue-500' : 'bg-amber-500'}`}
                                 style={{
-                                    width: `${Math.min(Math.abs(efficiency.historical_efficiency.efficiency_ratio - 1) * 100, 50)}%`,
-                                    marginLeft: efficiency.historical_efficiency.is_above_trend ? '50%' : `${50 - Math.min(Math.abs(efficiency.historical_efficiency.efficiency_ratio - 1) * 100, 50)}%`
+                                    width: `${Math.min(Math.abs((efficiency.historical_efficiency.efficiency_ratio || 1) - 1) * 100, 50)}%`,
+                                    marginLeft: efficiency.historical_efficiency.is_above_trend ? '50%' : `${50 - Math.min(Math.abs((efficiency.historical_efficiency.efficiency_ratio || 1) - 1) * 100, 50)}%`
                                 }}
                             />
                         </div>
                         {/* Tooltip */}
                         <div className="absolute left-0 bottom-full mb-2 w-48 bg-slate-900 border border-slate-700 p-2 rounded text-[10px] text-slate-300 hidden group-hover/tooltip:block z-50 shadow-xl pointer-events-none">
                             <div className="font-bold text-blue-400 mb-1">Historical Efficiency</div>
-                            vs 10y Mean ({efficiency.historical_efficiency.historical_mean.toFixed(1)}).
+                            vs 10y Mean ({efficiency.historical_efficiency.historical_mean?.toFixed(1) || '?'}).
                         </div>
                     </div>
                 </div>
@@ -199,7 +199,7 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
 
             {/* 2. Decision Intelligence (NEW) */}
             {
-                riskData && riskData.resilience_index ? (
+                riskData && riskData.resilience_index && riskData.growth_matrix ? (
                     <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
                         <h4 className="text-[10px] text-indigo-400 uppercase font-bold mb-3 flex items-center gap-2">
                             <Shield size={12} /> Strategic Analysis
@@ -276,7 +276,7 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
 
                             <div className="flex-1 text-right">
                                 <div className="text-xs text-slate-300">{risk.trend_stability}</div>
-                                <div className="text-[10px] text-slate-500">CV: {risk.volatility_score.toFixed(1)}%</div>
+                                <div className="text-[10px] text-slate-500">CV: {risk.volatility_score?.toFixed(1) || '?'}%</div>
                             </div>
                         </div>
                     </div>
@@ -285,7 +285,7 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
 
             {/* 3. Crop Diversification */}
             {
-                diversification && (
+                diversification && diversification.cdi !== undefined && (
                     <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
                         <h4 className="text-[10px] text-purple-400 uppercase font-bold mb-2 flex items-center gap-2">
                             <PieChart size={12} /> State Diversity
@@ -300,8 +300,8 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
 
                         {/* Dominant Crop */}
                         <div className="text-xs text-slate-500 border-t border-slate-800 pt-2 mt-2">
-                            Dominant: <span className="text-slate-300 capitalize">{diversification.dominant_crop.replace(/_/g, ' ')}</span>
-                            <span className="text-slate-500"> ({(diversification.breakdown[diversification.dominant_crop] * 100).toFixed(1)}%)</span>
+                            Dominant: <span className="text-slate-300 capitalize">{diversification.dominant_crop?.replace(/_/g, ' ') || 'Unknown'}</span>
+                            <span className="text-slate-500"> ({diversification.breakdown && diversification.dominant_crop ? (diversification.breakdown[diversification.dominant_crop] * 100).toFixed(1) : '?'}%)</span>
                         </div>
                     </div>
                 )

@@ -28,6 +28,10 @@ export function ImpactScorecard({ event, crop }: ImpactScorecardProps) {
     if (!data) return null;
 
     const { before, after, impact } = data;
+
+    // Safety check for essential data
+    if (!impact || !before || !after) return null;
+
     const isIdsPositive = impact.assessment === 'positive';
     const isNeutral = impact.assessment === 'neutral';
 
@@ -36,21 +40,21 @@ export function ImpactScorecard({ event, crop }: ImpactScorecardProps) {
             <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 flex items-center justify-between">
                 <span>Split Impact Assessment</span>
                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${isIdsPositive
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                        : isNeutral
-                            ? 'bg-slate-500/10 text-slate-400 border-slate-500/30'
-                            : 'bg-rose-500/10 text-rose-400 border-rose-500/30'
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                    : isNeutral
+                        ? 'bg-slate-500/10 text-slate-400 border-slate-500/30'
+                        : 'bg-rose-500/10 text-rose-400 border-rose-500/30'
                     }`}>
-                    {impact.assessment.toUpperCase()}
+                    {impact.assessment?.toUpperCase() || 'UNKNOWN'}
                 </span>
             </h4>
 
             <div className="grid grid-cols-3 gap-4">
                 {/* Before */}
                 <div className="flex flex-col">
-                    <span className="text-[10px] text-slate-500 mb-1">Pre-Split Avg ({before.years[0]}-{before.years[before.years.length - 1]})</span>
+                    <span className="text-[10px] text-slate-500 mb-1">Pre-Split Avg ({before.years?.[0] || '?'}-{before.years?.[before.years.length - 1] || '?'})</span>
                     <div className="flex items-end gap-1">
-                        <span className="text-lg font-bold text-slate-200">{before.average}</span>
+                        <span className="text-lg font-bold text-slate-200">{before.average?.toFixed(0) || '—'}</span>
                         <span className="text-[10px] text-slate-500 mb-1">kg/ha</span>
                     </div>
                 </div>
@@ -68,7 +72,7 @@ export function ImpactScorecard({ event, crop }: ImpactScorecardProps) {
                 <div className="flex flex-col items-end">
                     <span className="text-[10px] text-slate-500 mb-1">Post-Split Avg (5yr)</span>
                     <div className="flex items-end gap-1">
-                        <span className="text-lg font-bold text-white">{after.combined_average}</span>
+                        <span className="text-lg font-bold text-white">{after.combined_average?.toFixed(0) || '—'}</span>
                         <span className="text-[10px] text-slate-500 mb-1">kg/ha</span>
                     </div>
                 </div>
@@ -78,7 +82,7 @@ export function ImpactScorecard({ event, crop }: ImpactScorecardProps) {
             <div className="mt-3 pt-3 border-t border-slate-800/50">
                 <div className="text-[10px] text-slate-500 mb-2">District Contribution (Post-Split):</div>
                 <div className="flex flex-wrap gap-2">
-                    {Object.entries(after.by_child).map(([cdk, stats]: [string, any]) => (
+                    {after.by_child && Object.entries(after.by_child).map(([cdk, stats]: [string, any]) => (
                         <div key={cdk} className="bg-slate-900 border border-slate-800 rounded px-2 py-1 flex items-center gap-2">
                             <span className="text-[10px] text-slate-300 font-medium">
                                 {event.children_districts.find((name: string) => cdk.toLowerCase().includes(name.toLowerCase().replace(/ /g, '').slice(0, 5))) || cdk}

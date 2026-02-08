@@ -129,7 +129,8 @@ async def get_crop_diversification(
     rows = await db.fetch(query, state, year)
     
     if not rows:
-        return {"error": "No data found for specified state and year"}
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail="No data found for specified state and year")
     
     crop_areas = {row["crop_name"]: float(row["total_area"]) for row in rows}
     
@@ -167,7 +168,8 @@ async def get_yield_efficiency(
     district_row = await db.fetchrow(district_query, cdk, variable, year)
     
     if not district_row:
-        return {"error": "No data found for specified district, crop, and year"}
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail="No data found for specified district, crop, and year")
     
     state_name = district_row["state_name"]
     district_yield = float(district_row["yield_val"]) if district_row["yield_val"] else 0
@@ -241,7 +243,8 @@ async def get_risk_profile(
     rows = await db.fetch(query, cdk, variable)
     
     if not rows or len(rows) < 3:
-        return {"error": "Insufficient historical data (need at least 3 years)"}
+        from fastapi import HTTPException
+        raise HTTPException(status_code=400, detail="Insufficient historical data (need at least 3 years)")
     
     yearly_values = {row["year"]: float(row["value"]) for row in rows}
     
