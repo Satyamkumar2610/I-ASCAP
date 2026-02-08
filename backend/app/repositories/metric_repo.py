@@ -78,6 +78,23 @@ class MetricRepository(BaseRepository):
         """
         rows = await self.fetch_all(query, year, variable)
         
+        # Fallback: If no data found, try seasonal crop
+        if not rows:
+            season_map = {
+                "rice": "kharif", "wheat": "rabi", "maize": "kharif", 
+                "soyabean": "kharif", "groundnut": "kharif", "cotton": "kharif",
+                "pearl_millet": "kharif", "sorghum": "kharif", "chickpea": "rabi"
+            }
+            # Variable format: crop_metric (e.g. rice_yield)
+            base_parts = variable.split("_")
+            if len(base_parts) >= 2:
+                crop_name = base_parts[0]
+                season = season_map.get(crop_name)
+                
+                if season:
+                    seasonal_variable = f"{variable}_{season}"
+                    rows = await self.fetch_all(query, year, seasonal_variable)
+        
         return [
             AggregatedMetric(
                 cdk=r["cdk"],
@@ -105,6 +122,23 @@ class MetricRepository(BaseRepository):
             ORDER BY year ASC
         """
         rows = await self.fetch_all(query, cdk, variables)
+        
+        # Fallback: If no data found, try seasonal crop
+        if not rows:
+            season_map = {
+                "rice": "kharif",
+                "wheat": "rabi",
+                "maize": "kharif",
+                "soyabean": "kharif",
+                "groundnut": "kharif",
+                "cotton": "kharif",
+                "pearl_millet": "kharif",
+                "sorghum": "kharif",
+            }
+            season = season_map.get(crop.lower())
+            if season:
+                variables = [f"{crop}_area_{season}", f"{crop}_production_{season}", f"{crop}_yield_{season}"]
+                rows = await self.fetch_all(query, cdk, variables)
         
         # Pivot data
         timeline: Dict[int, Dict] = {}

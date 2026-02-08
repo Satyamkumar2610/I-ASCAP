@@ -135,12 +135,46 @@ class AnalysisService:
         metric_type = variable.split("_")[-1] if "_" in variable else "yield"
         
         # Build variable list for query
-        base = variable.rsplit("_", 1)[0] if "_" in variable else variable
-        variables = [f"{base}_area", f"{base}_production", f"{base}_yield"]
+        # Handle cases like "rice_yield_kharif" vs "rice_yield"
+        parts = variable.split("_")
+        if len(parts) >= 3 and parts[-1] in ["kharif", "rabi", "zaid"]:
+            # Already has season
+            base = "_".join(parts[:-2])
+            suffix = f"_{parts[-1]}"
+            metric_type = parts[-2]
+        else:
+            base = variable.rsplit("_", 1)[0] if "_" in variable else variable
+            suffix = ""
+            
+        variables = [f"{base}_area{suffix}", f"{base}_production{suffix}", f"{base}_yield{suffix}"]
         
         # Fetch data
         all_cdks = [parent_cdk] + children_cdks
         data_map = await self.metric_repo.build_data_map(all_cdks, variables)
+        
+        # Fallback: If no data found, try seasonal suffix
+        if not data_map and not suffix:
+            season_map = {
+                "rice": "kharif",
+                "wheat": "rabi",
+                "maize": "kharif",
+                "soyabean": "kharif",
+                "groundnut": "kharif",
+                "cotton": "kharif", 
+                "pearl_millet": "kharif",
+                "sorghum": "kharif",
+                "chickpea": "rabi"
+            }
+            # Extract crop name from base (e.g. "rice" from "rice")
+            crop_name = base.split("_")[0]
+            season = season_map.get(crop_name)
+            
+            if season:
+                suffix = f"_{season}"
+                variables = [f"{base}_area{suffix}", f"{base}_production{suffix}", f"{base}_yield{suffix}"]
+                data_map = await self.metric_repo.build_data_map(all_cdks, variables)
+                # Update variable name for metadata
+                variable = f"{variable}{suffix}"
         
         timeline = []
         series_meta = []

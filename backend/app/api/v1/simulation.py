@@ -46,15 +46,36 @@ async def get_simulation(
     analyzer = get_advanced_analyzer()
     
     # 1. Fetch Yields for ALL districts in the state for the given year
+    # 1. Fetch Yields for ALL districts in the state for the given year
+    # We need to construct the variable name. Simulation usually runs on "yield".
+    variable_name = f"{crop.lower()}_yield"
+    
+    # Try total yield first
     yield_query = """
-        SELECT district_name, yield
-        FROM agri_metrics
-        WHERE UPPER(state_name) = UPPER($1) 
-        AND LOWER(crop) = LOWER($2) 
-        AND year = $3
-        AND yield IS NOT NULL AND yield > 0
+        SELECT d.district_name, m.value as yield
+        FROM agri_metrics m
+        JOIN districts d ON m.cdk = d.cdk
+        WHERE UPPER(d.state_name) = UPPER($1) 
+        AND m.variable_name = $2 
+        AND m.year = $3
+        AND m.value IS NOT NULL AND m.value > 0
     """
-    yield_rows = await db.fetch(yield_query, state, crop, year)
+    yield_rows = await db.fetch(yield_query, state, variable_name, year)
+    
+    # Fallback to season-specific yield if total yield is missing
+    if len(yield_rows) < 5:
+        # Define season map
+        season_map = {
+            "rice": "kharif",
+            "wheat": "rabi",
+            "maize": "kharif",
+            "soyabean": "kharif",
+            "groundnut": "kharif"
+        }
+        season = season_map.get(crop.lower())
+        if season:
+            seasonal_variable = f"{crop.lower()}_yield_{season}"
+            yield_rows = await db.fetch(yield_query, state, seasonal_variable, year)
     
     if len(yield_rows) < 5:
         # Fallback: Try average over last 5 years if single year is sparse?

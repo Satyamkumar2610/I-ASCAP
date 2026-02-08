@@ -114,17 +114,15 @@ async def get_crop_diversification(
     """
     # Get crop area data aggregated by crop for the state/year
     # variable_name format is {crop}_area
+    # Diversification: Handle both regular and seasonal area variables
     query = """
-        SELECT 
-            replace(m.variable_name, '_area', '') as crop_name,
-            SUM(m.value) as total_area
+        SELECT variable_name, value
         FROM agri_metrics m
         JOIN districts d ON m.cdk = d.cdk
         WHERE d.state_name = $1 
           AND m.year = $2 
-          AND m.variable_name LIKE '%_area'
+          AND (m.variable_name LIKE '%_area' OR m.variable_name LIKE '%_area_%')
           AND m.value IS NOT NULL AND m.value > 0
-        GROUP BY m.variable_name
     """
     rows = await db.fetch(query, state, year)
     
@@ -132,7 +130,19 @@ async def get_crop_diversification(
         from fastapi import HTTPException
         raise HTTPException(status_code=404, detail="No data found for specified state and year")
     
-    crop_areas = {row["crop_name"]: float(row["total_area"]) for row in rows}
+    crop_areas = {}
+    for row in rows:
+        var = row["variable_name"]
+        val = float(row["value"])
+        
+        # Extract crop name: "rice_area" -> "rice", "rice_area_kharif" -> "rice"
+        if "_area_" in var:
+            crop = var.split("_area_")[0]
+        else:
+            crop = var.replace("_area", "")
+            
+        # Aggregate area if multiple seasons exist for same crop (though usually distinct crops)
+        crop_areas[crop] = crop_areas.get(crop, 0) + val
     
     analyzer = get_advanced_analyzer()
     result = analyzer.calculate_diversification(crop_areas)
@@ -153,10 +163,24 @@ async def get_yield_efficiency(
 ):
     """
     Calculate yield efficiency for a district compared to state potential.
-    
-    Potential = 95th percentile yield in the state.
     """
+    # 1. Try Base Variable
     variable = f"{crop.lower()}_yield"
+    
+    # Check if base variable exists for this district/year
+    check_query = "SELECT 1 FROM agri_metrics WHERE cdk=$1 AND variable_name=$2 AND year=$3"
+    exists = await db.fetchval(check_query, cdk, variable, year)
+    
+    if not exists:
+        # Fallback to seasonal
+        season_map = {
+            "rice": "kharif", "wheat": "rabi", "maize": "kharif", 
+            "soyabean": "kharif", "groundnut": "kharif", "cotton": "kharif",
+            "pearl_millet": "kharif", "sorghum": "kharif", "chickpea": "rabi"
+        }
+        season = season_map.get(crop.lower())
+        if season:
+            variable = f"{crop.lower()}_yield_{season}"
 
     # Get district info
     district_query = """
@@ -208,8 +232,6 @@ async def get_yield_efficiency(
         "state": state_name,
         "relative_efficiency": relative_result.__dict__,
         "historical_efficiency": historical_result.__dict__,
-        # legacy key for backward compatibility if needed, but we want to enforce the new taxonomy
-        # "efficiency_score": relative_result.efficiency_score 
     }
 
 
@@ -222,16 +244,27 @@ async def get_risk_profile(
 ):
     """
     Calculate risk profile based on historical volatility.
-    
-    Returns risk category, volatility score, and reliability rating.
     """
-    # Security: Validate metric against whitelist to prevent SQL Injection
     ALLOWED_METRICS = {"yield", "area", "production"}
     if metric.lower() not in ALLOWED_METRICS:
         from fastapi import HTTPException
         raise HTTPException(status_code=400, detail=f"Invalid metric. Allowed: {ALLOWED_METRICS}")
     
     variable = f"{crop.lower()}_{metric.lower()}"
+    
+    # Check if base variable exists (check last available year)
+    check_query = "SELECT 1 FROM agri_metrics WHERE cdk=$1 AND variable_name=$2 LIMIT 1"
+    exists = await db.fetchval(check_query, cdk, variable)
+    
+    if not exists:
+        season_map = {
+            "rice": "kharif", "wheat": "rabi", "maize": "kharif", 
+            "soyabean": "kharif", "groundnut": "kharif", "cotton": "kharif",
+            "pearl_millet": "kharif", "sorghum": "kharif", "chickpea": "rabi"
+        }
+        season = season_map.get(crop.lower())
+        if season:
+            variable = f"{variable}_{season}"
     
     query = """
         SELECT year, value
