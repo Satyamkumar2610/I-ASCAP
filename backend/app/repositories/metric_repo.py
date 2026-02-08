@@ -111,6 +111,10 @@ class MetricRepository(BaseRepository):
                          rows.append(sr)
                          existing_cdks.add(sr["cdk"])
         
+        # Resolve geo_keys using MappingService
+        from app.services.mapping_service import get_mapping_service
+        mapping_service = get_mapping_service()
+        
         return [
             AggregatedMetric(
                 cdk=r["cdk"],
@@ -119,6 +123,9 @@ class MetricRepository(BaseRepository):
                 value=float(r["value"]) if r["value"] is not None else 0.0,
                 metric=variable.split("_")[-1],
                 method="Raw",
+                geo_key=mapping_service.resolve_geo_key(
+                    r["cdk"], r["district_name"], r["state_name"]
+                ),
             )
             for r in rows
         ]

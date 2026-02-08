@@ -1,0 +1,398 @@
+"""
+Mapping Service: Provides robust district-to-GeoJSON mapping with fallback strategies.
+
+Handles:
+- Name normalization for district/state matching
+- Reverse lookup (CDK -> GeoJSON key)
+- Fuzzy matching when exact lookup fails
+- Split district scenarios
+"""
+import json
+import re
+from pathlib import Path
+from typing import Dict, Optional, List
+from functools import lru_cache
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+class MappingService:
+    """
+    Service for resolving district mappings between database CDKs and GeoJSON keys.
+    
+    The bridge maps GeoJSON keys (DISTRICT|STATE) to CDK codes.
+    This service provides reverse lookup and fallback matching.
+    """
+    
+    # Common name variations for normalization
+    NAME_ALIASES: Dict[str, str] = {
+        # District name variations
+        "alleppey": "alappuzha",
+        "trivandrum": "thiruvananthapuram",
+        "calicut": "kozhikode",
+        "cochin": "kochi",
+        "trichur": "thrissur",
+        "cannanore": "kannur",
+        "quilon": "kollam",
+        "palghat": "palakkad",
+        "bombay": "mumbai",
+        "madras": "chennai",
+        "calcutta": "kolkata",
+        "bangalore": "bengaluru",
+        "mysore": "mysuru",
+        "shimoga": "shivamogga",
+        "bellary": "ballari",
+        "tumkur": "tumakuru",
+        "baroda": "vadodara",
+        "poona": "pune",
+        "pondicherry": "puducherry",
+        "ooty": "nilgiris",
+        "vizag": "visakhapatnam",
+        # State name variations
+        "orissa": "odisha",
+        "uttaranchal": "uttarakhand",
+    }
+    
+    # State code to full name mapping
+    STATE_CODES: Dict[str, str] = {
+        "AN": "Andhra Pradesh",
+        "AP": "Andhra Pradesh",
+        "AR": "Arunachal Pradesh",
+        "AS": "Assam",
+        "BR": "Bihar",
+        "CG": "Chhattisgarh",
+        "CH": "Chandigarh",
+        "GA": "Goa",
+        "GJ": "Gujarat",
+        "GU": "Gujarat",
+        "HP": "Himachal Pradesh",
+        "HI": "Himachal Pradesh",
+        "HR": "Haryana",
+        "JH": "Jharkhand",
+        "JK": "Jammu & Kashmir",
+        "KA": "Karnataka",
+        "KE": "Kerala",
+        "KL": "Kerala",
+        "LA": "Lakshadweep",
+        "MA": "Maharashtra",
+        "MH": "Maharashtra",
+        "ML": "Meghalaya",
+        "MN": "Manipur",
+        "MP": "Madhya Pradesh",
+        "MZ": "Mizoram",
+        "MI": "Mizoram",
+        "NC": "NCT of Delhi",
+        "NL": "Nagaland",
+        "OD": "Odisha",
+        "OR": "Odisha",
+        "PB": "Punjab",
+        "PU": "Punjab",
+        "RA": "Rajasthan",
+        "RJ": "Rajasthan",
+        "SK": "Sikkim",
+        "TA": "Tamil Nadu",
+        "TN": "Tamil Nadu",
+        "TR": "Tripura",
+        "UK": "Uttarakhand",
+        "UP": "Uttar Pradesh",
+        "UT": "Uttar Pradesh",
+        "WB": "West Bengal",
+        "WE": "West Bengal",
+        "BI": "Bihar",
+        "DA": "Dadra & Nagar Haveli",
+    }
+    
+    def __init__(self, bridge_path: Optional[str] = None):
+        """
+        Initialize with bridge file path.
+        
+        Args:
+            bridge_path: Path to map_bridge.json. If None, uses default location.
+        """
+        self._bridge_path = bridge_path
+        self._bridge: Optional[Dict[str, str]] = None
+        self._reverse_bridge: Optional[Dict[str, str]] = None
+        self._geo_keys_normalized: Optional[Dict[str, str]] = None
+    
+    def _load_bridge(self) -> Dict[str, str]:
+        """Load bridge file lazily."""
+        if self._bridge is not None:
+            return self._bridge
+        
+        if self._bridge_path:
+            path = Path(self._bridge_path)
+        else:
+            # Default path relative to project structure
+            # Try frontend public data first
+            possible_paths = [
+                Path(__file__).parent.parent.parent.parent.parent / "frontend" / "public" / "data" / "map_bridge.json",
+                Path("/Users/satyamkumar/Desktop/DistrictEvolution/frontend/public/data/map_bridge.json"),
+            ]
+            path = None
+            for p in possible_paths:
+                if p.exists():
+                    path = p
+                    break
+            
+            if path is None:
+                logger.warning("Could not find map_bridge.json, using empty bridge")
+                self._bridge = {}
+                return self._bridge
+        
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                self._bridge = json.load(f)
+            logger.info(f"Loaded bridge with {len(self._bridge)} entries")
+        except Exception as e:
+            logger.error(f"Failed to load bridge: {e}")
+            self._bridge = {}
+        
+        return self._bridge
+    
+    @lru_cache(maxsize=1)
+    def _build_reverse_bridge(self) -> Dict[str, str]:
+        """Build CDK -> GeoKey lookup from bridge."""
+        bridge = self._load_bridge()
+        reverse = {}
+        
+        for geo_key, cdk in bridge.items():
+            # A CDK may map to multiple geo_keys (rare), keep first
+            if cdk not in reverse:
+                reverse[cdk] = geo_key
+        
+        return reverse
+    
+    @lru_cache(maxsize=1) 
+    def _build_normalized_geo_keys(self) -> Dict[str, str]:
+        """Build normalized name -> original geo_key lookup."""
+        bridge = self._load_bridge()
+        normalized = {}
+        
+        for geo_key in bridge.keys():
+            norm_key = self._normalize_geo_key(geo_key)
+            if norm_key not in normalized:
+                normalized[norm_key] = geo_key
+        
+        return normalized
+    
+    def normalize_name(self, name: str) -> str:
+        """
+        Normalize a district or state name for matching.
+        
+        - Lowercase
+        - Remove special characters except spaces
+        - Replace common aliases
+        - Trim whitespace
+        """
+        if not name:
+            return ""
+        
+        # Lowercase and strip
+        normalized = name.lower().strip()
+        
+        # Replace common aliases
+        for alias, standard in self.NAME_ALIASES.items():
+            if normalized == alias:
+                normalized = standard
+                break
+        
+        # Remove special chars except spaces and alphanumeric
+        normalized = re.sub(r'[^a-z0-9\s]', '', normalized)
+        
+        # Collapse multiple spaces
+        normalized = re.sub(r'\s+', ' ', normalized).strip()
+        
+        return normalized
+    
+    def _normalize_geo_key(self, geo_key: str) -> str:
+        """Normalize a DISTRICT|STATE geo key."""
+        if '|' not in geo_key:
+            return self.normalize_name(geo_key)
+        
+        parts = geo_key.split('|', 1)
+        district = self.normalize_name(parts[0])
+        state = self.normalize_name(parts[1]) if len(parts) > 1 else ""
+        
+        return f"{district}|{state}"
+    
+    def get_state_from_cdk(self, cdk: str) -> Optional[str]:
+        """Extract state name from CDK code prefix."""
+        if not cdk or '_' not in cdk:
+            return None
+        
+        state_code = cdk.split('_')[0]
+        return self.STATE_CODES.get(state_code)
+    
+    def resolve_geo_key(
+        self, 
+        cdk: str, 
+        district: Optional[str] = None, 
+        state: Optional[str] = None
+    ) -> Optional[str]:
+        """
+        Resolve the GeoJSON key for a CDK with multiple fallback strategies.
+        
+        Priority:
+        1. Exact reverse bridge lookup (CDK -> GeoKey)
+        2. Direct name construction (district|state)
+        3. Normalized name matching
+        4. Fuzzy matching (expensive, only if others fail)
+        
+        Args:
+            cdk: The canonical district key from database
+            district: Optional district name for fallback
+            state: Optional state name for fallback
+            
+        Returns:
+            GeoJSON key (DISTRICT|STATE) or None if no match found
+        """
+        bridge = self._load_bridge()
+        
+        # Strategy 1: Reverse bridge lookup
+        reverse = self._build_reverse_bridge()
+        if cdk in reverse:
+            return reverse[cdk]
+        
+        # Strategy 2: Direct name construction
+        if district and state:
+            direct_key = f"{district}|{state}"
+            if direct_key in bridge:
+                return direct_key
+        
+        # Strategy 3: Normalized name matching
+        if district and state:
+            norm_key = f"{self.normalize_name(district)}|{self.normalize_name(state)}"
+            normalized_lookup = self._build_normalized_geo_keys()
+            if norm_key in normalized_lookup:
+                return normalized_lookup[norm_key]
+        
+        # Strategy 4: State inference from CDK + district name
+        if district and not state:
+            inferred_state = self.get_state_from_cdk(cdk)
+            if inferred_state:
+                direct_key = f"{district}|{inferred_state}"
+                if direct_key in bridge:
+                    return direct_key
+                
+                # Try normalized
+                norm_key = f"{self.normalize_name(district)}|{self.normalize_name(inferred_state)}"
+                normalized_lookup = self._build_normalized_geo_keys()
+                if norm_key in normalized_lookup:
+                    return normalized_lookup[norm_key]
+        
+        # Strategy 5: Fuzzy matching (expensive)
+        if district:
+            fuzzy_result = self.fuzzy_match_geo_key(district, state)
+            if fuzzy_result:
+                return fuzzy_result
+        
+        # No match found
+        logger.debug(f"No geo_key mapping found for CDK={cdk}, district={district}, state={state}")
+        return None
+    
+    def fuzzy_match_geo_key(
+        self, 
+        district: str, 
+        state: Optional[str] = None,
+        threshold: float = 0.8
+    ) -> Optional[str]:
+        """
+        Fuzzy match a district name against known GeoJSON keys.
+        
+        Uses simple ratio matching. For production, consider using
+        rapidfuzz or fuzzywuzzy for better performance.
+        
+        Args:
+            district: District name to match
+            state: Optional state to narrow search
+            threshold: Minimum similarity ratio (0-1)
+            
+        Returns:
+            Best matching GeoJSON key or None
+        """
+        bridge = self._load_bridge()
+        if not bridge or not district:
+            return None
+        
+        norm_district = self.normalize_name(district)
+        norm_state = self.normalize_name(state) if state else None
+        
+        best_match = None
+        best_score = 0.0
+        
+        for geo_key in bridge.keys():
+            parts = geo_key.split('|', 1)
+            key_district = parts[0]
+            key_state = parts[1] if len(parts) > 1 else None
+            
+            norm_key_district = self.normalize_name(key_district)
+            
+            # If state provided, require it to match (loosely)
+            if norm_state and key_state:
+                norm_key_state = self.normalize_name(key_state)
+                if norm_state not in norm_key_state and norm_key_state not in norm_state:
+                    continue
+            
+            # Simple character-based similarity
+            score = self._similarity_ratio(norm_district, norm_key_district)
+            
+            if score > best_score and score >= threshold:
+                best_score = score
+                best_match = geo_key
+        
+        if best_match:
+            logger.debug(f"Fuzzy matched '{district}' -> '{best_match}' (score={best_score:.2f})")
+        
+        return best_match
+    
+    def _similarity_ratio(self, a: str, b: str) -> float:
+        """
+        Simple similarity ratio using longest common subsequence.
+        Returns value between 0 and 1.
+        """
+        if not a or not b:
+            return 0.0
+        
+        if a == b:
+            return 1.0
+        
+        # Simple approach: ratio of common characters
+        len_a, len_b = len(a), len(b)
+        
+        # Check if one is substring of other
+        if a in b:
+            return len_a / len_b
+        if b in a:
+            return len_b / len_a
+        
+        # Check prefix match
+        common_prefix = 0
+        for i in range(min(len_a, len_b)):
+            if a[i] == b[i]:
+                common_prefix += 1
+            else:
+                break
+        
+        # Combined score
+        return (2 * common_prefix) / (len_a + len_b)
+    
+    def get_all_unmapped_cdks(self, cdks: List[str]) -> List[str]:
+        """
+        Get list of CDKs that don't have geo_key mappings.
+        Useful for diagnostics.
+        """
+        reverse = self._build_reverse_bridge()
+        return [cdk for cdk in cdks if cdk not in reverse]
+
+
+# Singleton instance for reuse
+_mapping_service: Optional[MappingService] = None
+
+
+def get_mapping_service() -> MappingService:
+    """Get singleton mapping service instance."""
+    global _mapping_service
+    if _mapping_service is None:
+        _mapping_service = MappingService()
+    return _mapping_service

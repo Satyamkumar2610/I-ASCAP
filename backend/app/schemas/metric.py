@@ -48,3 +48,4 @@ class AggregatedMetric(BaseModel):
     value: float
     metric: str
     method: Optional[str] = Field(None, description="Backcast or Raw")
+    geo_key: Optional[str] = Field(None, description="Pre-computed GeoJSON key (DISTRICT|STATE) for map visualization")
