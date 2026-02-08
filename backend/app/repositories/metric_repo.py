@@ -95,6 +95,22 @@ class MetricRepository(BaseRepository):
                     seasonal_variable = f"{variable}_{season}"
                     rows = await self.fetch_all(query, year, seasonal_variable)
         
+        if crop_name == "rice":
+             # Additive Fallback: Fetch other seasons and merge
+             # Prioritize: Base > Winter > Autumn > Summer
+             existing_cdks = set(r["cdk"] for r in rows)
+             
+             additional_seasons = ["winter", "autumn", "summer"]
+             for s in additional_seasons:
+                 s_var = f"{variable}_{s}"
+                 s_rows = await self.fetch_all(query, year, s_var)
+                 
+                 for sr in s_rows:
+                     if sr["cdk"] not in existing_cdks:
+                         # Add missing district from seasonal data
+                         rows.append(sr)
+                         existing_cdks.add(sr["cdk"])
+        
         return [
             AggregatedMetric(
                 cdk=r["cdk"],
@@ -139,6 +155,15 @@ class MetricRepository(BaseRepository):
             if season:
                 variables = [f"{crop}_area_{season}", f"{crop}_production_{season}", f"{crop}_yield_{season}"]
                 rows = await self.fetch_all(query, cdk, variables)
+            
+            # Extended Fallback for Rice Time Series
+            if not rows and crop.lower() == "rice":
+                for s in ["winter", "autumn", "summer"]:
+                    if not rows:
+                         s_vars = [f"{crop}_area_{s}", f"{crop}_production_{s}", f"{crop}_yield_{s}"]
+                         rows = await self.fetch_all(query, cdk, s_vars)
+                    else:
+                        break
         
         # Pivot data
         timeline: Dict[int, Dict] = {}
