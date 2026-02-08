@@ -1,47 +1,38 @@
+import asyncio
+import os
 import json
-import difflib
+import asyncpg
+from dotenv import load_dotenv
+
+load_dotenv()
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 def normalize(s):
+    if not s: return ""
     return s.lower().replace(" ", "").replace("&", "and").replace("district", "")
 
-def run_mapping():
-    # Load available data
-    with open("available_cdks.json", "r") as f:
-        available_cdks = json.load(f)
-        
-    print(f"Loaded {len(available_cdks)} available CDKs from Database.")
-    
-    # Load GeoJSON
+async def run_mapping():
+    # 1. Fetch Available CDKs from DB
+    print("Fetching available CDKs from Database...")
+    conn = await asyncpg.connect(DATABASE_URL)
+    try:
+        rows = await conn.fetch("SELECT DISTINCT cdk FROM agri_metrics")
+        available_cdks = sorted([r['cdk'] for r in rows])
+        print(f"Loaded {len(available_cdks)} available CDKs from Database.")
+    finally:
+        await conn.close()
+
+    # 2. Load GeoJSON
     with open("frontend/public/data/districts.json", "r") as f:
         geojson = json.load(f)
         
     features = geojson['features']
     print(f"Loaded {len(features)} features from GeoJSON.")
     
-    # Build Lookup Maps for Available Data
-    # 1. Exact CDK
-    cdk_lookup = {cdk: cdk for cdk in available_cdks}
-    
-    # 2. Normalized Name + State (e.g. "kanpur|uttarpradesh" -> [UT_kanpur_1951])
-    name_state_lookup = {}
-    for cdk in available_cdks:
-        # CDK Format: PREFIX_NAME_YEAR (e.g. RA_jaipur_1951)
-        parts = cdk.split('_')
-        if len(parts) >= 2:
-            prefix = parts[0]
-            name = parts[1]
-            # We don't have full state name in CDK, only prefix.
-            # But we can try to guess or just map name->cdk list
-            if name not in name_state_lookup:
-                name_state_lookup[name] = []
-            name_state_lookup[name].append(cdk)
-            
-    # Start Matching
     bridge = {}
     unmapped_features = []
     
     # Manual Overrides for fuzzy/renamed districts
-    # Format: "GeoJSON Name": "CDK Search Term" (or part of it)
     manual_overrides = {
         "Ahmadnagar": "ahmedn",
         "Barddhaman": "barddh",
@@ -96,21 +87,42 @@ def run_mapping():
         "Uttar Dinajpur": "uttard",
         "Pashchim Champaran": "westch",
         "Kaimur (bhabua)": "bhabua",
-        "Lakhimpur": "lakhim", # Assam vs Kheri?
-        "Leh (ladakh)": "lehlad" 
+        "Lakhimpur": "lakhim",
+        "Leh (ladakh)": "lehlad",
+        "Latur": "latur" # ensure Latur specific matches MA_latur explicitly if needed?
+    }
+
+    # State Prefix Map (Updated for accuracy)
+    state_prefixes = {
+        'Rajasthan': 'RA', 'Punjab': 'PU', 'Uttar Pradesh': 'UT', 'Gujarat': 'GU',
+        'Haryana': 'HA', 'Himachal Pradesh': 'HI', 'West Bengal': 'WE', 
+        'Madhya Pradesh': 'MA', 'Maharashtra': 'MA', 'Andhra Pradesh': 'AP', # MA for MH now
+        'Karnataka': 'KA', 'Tamil Nadu': 'TA', 'Kerala': 'KL', 'Bihar': 'BI',
+        'Odisha': 'OD', 'Assam': 'AS', 'Chhattisgarh': 'CH', 'Jharkhand': 'JH',
+        'Uttarakhand': 'UT', 'Telangana': 'TE', 'Tripura': 'TR', 'Meghalaya': 'ML',
+        'Manipur': 'MN', 'Nagaland': 'NL', 'Arunachal Pradesh': 'AR', 'Mizoram': 'MI',
+        'Sikkim': 'SK', 'Goa': 'GA'
     }
 
     for feature in features:
         props = feature['properties']
+        # Prioritize 'dtname', then 'district', then 'DISTRICT'
+        # Prioritize 'stname', then 'state', then 'STATE', then 'ST_NM'
         dist_name = props.get('dtname') or props.get('district') or props.get('DISTRICT')
-        state_name = props.get('stname') or props.get('state') or props.get('STATE')
+        state_name = props.get('stname') or props.get('state') or props.get('STATE') or props.get('ST_NM')
         
         if not dist_name:
-            print(f"Skipping feature with no name: {props}")
             continue
             
-        # Key used in frontend
-        geo_key = f"{dist_name}|{state_name}"
+        # Key used in frontend - IMPORTANT: Ensure this matches MapInterface logic!
+        # MapInterface uses '|' separator.
+        # If state_name is None, use "None" string? Or empty?
+        # MapInterface logic: coalesce(STATE, ST_NM).
+        # We need to make sure we use the same fallback.
+        # Check GeoJSON props usage.
+        
+        safe_state = state_name if state_name else "None"
+        geo_key = f"{dist_name}|{safe_state}"
         
         match = None
         
@@ -118,9 +130,11 @@ def run_mapping():
         if dist_name in manual_overrides:
             override_term = manual_overrides[dist_name]
             # Search available CDKs for this term
+            # Iterate all CDKs to find best match
             for cdk in available_cdks:
                 if override_term in cdk.lower():
-                    # Optional: Check state match if needed, but override usually implies specific
+                    # For manual overrides, we might need to filter by state if ambiguous
+                    # But usually override term is specific enough
                     match = cdk
                     break
         
@@ -128,75 +142,57 @@ def run_mapping():
             bridge[geo_key] = match
             continue
 
-        # Strategy 1: Fuzzy Name Match in Data
-        # We need to recognize that "Jaipur" in GeoJSON matches "RA_jaipur_1951" in DB.
-        # We need a state map to filter by prefix?
-        # State Prefixes (from our fix)
-        state_prefixes = {
-            'Rajasthan': 'RA', 'Punjab': 'PU', 'Uttar Pradesh': 'UT', 'Gujarat': 'GU',
-            'Haryana': 'HA', 'Himachal Pradesh': 'HI', 'West Bengal': 'WE', 
-            'Madhya Pradesh': 'MA', 'Maharashtra': 'MH', 'Andhra Pradesh': 'AP',
-            'Karnataka': 'KA', 'Tamil Nadu': 'TA', 'Kerala': 'KL', 'Bihar': 'BI',
-            'Odisha': 'OD', 'Assam': 'AS', 'Chhattisgarh': 'CH', 'Jharkhand': 'JH',
-            'Uttarakhand': 'UT', 'Telangana': 'TE', 'Tripura': 'TR', 'Meghalaya': 'ML',
-            'Manipur': 'MN', 'Nagaland': 'NL', 'Arunachal Pradesh': 'AR', 'Mizoram': 'MI',
-            'Sikkim': 'SK', 'Goa': 'GA'
-        }
-        
         target_prefix = state_prefixes.get(state_name)
         
         candidates = []
-        
-        # normalized dist name
         norm_dist = normalize(dist_name)
         
-        # Search all CDKs
+        # Pass 1: Strict Prefix Match
         for cdk in available_cdks:
             parts = cdk.split('_')
             cdk_prefix = parts[0]
             cdk_name = parts[1]
             
-            # Check Prefix (if we know it)
             if target_prefix and cdk_prefix != target_prefix:
-                # Special case: Shared prefixes or split states might differentiate?
-                # But generally if we know it's Rajasthan, it MUST be RA_.
                 continue
                 
-            # Check Name similarity
-            # 1. Exact prefix match + fuzzy name
-            if normalize(cdk_name) == norm_dist:
+            norm_cdk = normalize(cdk_name)
+            
+            if norm_cdk == norm_dist:
                 match = cdk
                 break
+            
+            if norm_dist.startswith(norm_cdk) or norm_cdk.startswith(norm_dist):
+                candidates.append(cdk)
+        
+        # Pass 2: Loose Match (Ignore Prefix if Pass 1 failed)
+        if not match and not candidates:
+            for cdk in available_cdks:
+                parts = cdk.split('_')
+                cdk_name = parts[1]
+                norm_cdk = normalize(cdk_name)
                 
-            # 2. Starts with check (e.g. "Dantewada" vs "Dante")
-            if norm_dist.startswith(normalize(cdk_name)) or normalize(cdk_name).startswith(norm_dist):
-                 candidates.append(cdk)
-                 
+                if norm_cdk == norm_dist:
+                    match = cdk
+                    break # Found exact name match in another state (likely split state)
+                    
+                if norm_dist.startswith(norm_cdk) or norm_cdk.startswith(norm_dist):
+                    candidates.append(cdk)
+
         if not match and candidates:
-            # Pick best candidate?
-            # For now pick first, or prioritize shortest?
+            # Pick first
             match = candidates[0]
             
         if match:
             bridge[geo_key] = match
         else:
             unmapped_features.append(geo_key)
-
+            
     print(f"Mapped {len(bridge)} features.")
     print(f"Unmapped: {len(unmapped_features)}")
     
-    # Save the NEW bridge
     with open("frontend/src/data/map_bridge_FIXED.json", "w") as f:
         json.dump(bridge, f, indent=4)
-        
-    # Validation Report
-    with open("mapping_report.txt", "w") as f:
-        f.write(f"Total GeoJSON Features: {len(features)}\n")
-        f.write(f"Mapped: {len(bridge)}\n")
-        f.write(f"Unmapped: {len(unmapped_features)}\n")
-        f.write("\n--- Unmapped Features ---\n")
-        for u in unmapped_features:
-            f.write(f"{u}\n")
 
 if __name__ == "__main__":
-    run_mapping()
+    asyncio.run(run_mapping())
