@@ -9,8 +9,8 @@ Provides advanced analytics for split impact analysis:
 - Counterfactual Projection
 """
 
-from typing import List, Dict, Optional, Tuple
-from dataclasses import dataclass, asdict
+from typing import List, Dict, Optional
+from dataclasses import dataclass
 import math
 
 from app.analytics.statistics import get_analyzer
@@ -158,7 +158,6 @@ class SplitImpactInsightsAnalyzer:
             )
         
         yields = list(children_yields.values())
-        cdks = list(children_yields.keys())
         
         # Calculate CV
         cv = self.stats.coefficient_of_variation(yields)
