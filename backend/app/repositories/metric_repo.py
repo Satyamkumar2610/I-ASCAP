@@ -237,11 +237,11 @@ class MetricRepository(BaseRepository):
             if cdk not in data_map[year]:
                 data_map[year][cdk] = {"area": 0, "prod": 0, "yld": 0}
             
-            if m.variable.endswith("_area"):
+            if "_area" in m.variable:
                 data_map[year][cdk]["area"] = m.value
-            elif m.variable.endswith("_production"):
+            elif "_production" in m.variable:
                 data_map[year][cdk]["prod"] = m.value
-            elif m.variable.endswith("_yield"):
+            elif "_yield" in m.variable:
                 data_map[year][cdk]["yld"] = m.value
         
         return data_map

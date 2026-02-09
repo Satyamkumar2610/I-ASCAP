@@ -152,8 +152,9 @@ class AnalysisService:
         all_cdks = [parent_cdk] + children_cdks
         data_map = await self.metric_repo.build_data_map(all_cdks, variables)
         
-        # Fallback: If no data found, try seasonal suffix
-        if not data_map and not suffix:
+        # Also fetch seasonal data and merge it (crops often have both base and seasonal variables)
+        # This handles cases where parent has base variables (rice_yield) but children have seasonal (rice_yield_kharif)
+        if not suffix:
             season_map = {
                 "rice": "kharif",
                 "wheat": "rabi",
@@ -170,11 +171,26 @@ class AnalysisService:
             season = season_map.get(crop_name)
             
             if season:
-                suffix = f"_{season}"
-                variables = [f"{base}_area{suffix}", f"{base}_production{suffix}", f"{base}_yield{suffix}"]
-                data_map = await self.metric_repo.build_data_map(all_cdks, variables)
-                # Update variable name for metadata
-                variable = f"{variable}{suffix}"
+                seasonal_suffix = f"_{season}"
+                seasonal_variables = [f"{base}_area{seasonal_suffix}", f"{base}_production{seasonal_suffix}", f"{base}_yield{seasonal_suffix}"]
+                seasonal_data_map = await self.metric_repo.build_data_map(all_cdks, seasonal_variables)
+                
+                # Merge seasonal data into main data_map (seasonal data takes precedence for same year/cdk)
+                for year, cdk_data in seasonal_data_map.items():
+                    if year not in data_map:
+                        data_map[year] = {}
+                    for cdk, values in cdk_data.items():
+                        if cdk not in data_map[year]:
+                            data_map[year][cdk] = values
+                        else:
+                            # Merge values: prefer seasonal if available
+                            for key in ["area", "prod", "yld"]:
+                                if values.get(key, 0) > 0:
+                                    data_map[year][cdk][key] = values[key]
+                
+                # If we got more data from seasonal, update variable name for metadata
+                if seasonal_data_map:
+                    variable = f"{variable}{seasonal_suffix}"
         
         timeline = []
         series_meta = []
