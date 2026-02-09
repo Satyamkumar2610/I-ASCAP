@@ -34,6 +34,74 @@ class AdvancedStats(BaseModel):
     pre: PeriodStats = Field(..., description="Pre-split period statistics")
     post: PeriodStats = Field(..., description="Post-split period statistics")
     impact: ImpactStats = Field(..., description="Comparative impact metrics")
+    insights: Optional["SplitInsightsInfo"] = Field(None, description="Advanced split insights")
+
+
+# ============================================================================
+# NEW: Split Impact Insights Schemas
+# ============================================================================
+
+class FragmentationInfo(BaseModel):
+    """Fragmentation analysis result."""
+    index: float = Field(..., description="1/child_count - lower means more fragmented")
+    child_count: int
+    interpretation: str
+
+
+class DivergenceInfo(BaseModel):
+    """Child divergence analysis result."""
+    score: float = Field(..., description="CV across children's yields")
+    interpretation: str
+    best_performer: Optional[str] = None
+    best_yield: float = 0
+    worst_performer: Optional[str] = None
+    worst_yield: float = 0
+    spread: float = 0
+
+
+class ConvergenceInfo(BaseModel):
+    """Convergence trend analysis result."""
+    trend: str = Field(..., description="converging, diverging, stable, or insufficient_data")
+    rate: float = Field(..., description="Rate of convergence/divergence")
+    interpretation: str
+
+
+class EffectSizeInfo(BaseModel):
+    """Effect size (Cohen's d) result."""
+    cohens_d: float
+    interpretation: str = Field(..., description="small, medium, large, very_large")
+    confidence: float = Field(..., description="0-1 confidence level")
+
+
+class CounterfactualInfo(BaseModel):
+    """Counterfactual projection result."""
+    projected_yield: float = Field(..., description="What yield would have been without split")
+    method: str
+    actual_yield: float
+    attribution_pct: float = Field(..., description="% of change attributable to split")
+    interpretation: str
+
+
+class ChildPerformanceInfo(BaseModel):
+    """Performance metrics for a child district."""
+    cdk: str
+    name: Optional[str] = None
+    mean_yield: float
+    cv: float
+    cagr: float
+    observations: int
+    rank: int
+
+
+class SplitInsightsInfo(BaseModel):
+    """Complete split impact insights."""
+    fragmentation: FragmentationInfo
+    divergence: DivergenceInfo
+    convergence: ConvergenceInfo
+    effect_size: EffectSizeInfo
+    counterfactual: CounterfactualInfo
+    children_performance: List[ChildPerformanceInfo] = Field(default_factory=list)
+    warnings: List[str] = Field(default_factory=list)
 
 
 class AnalysisMeta(BaseModel):

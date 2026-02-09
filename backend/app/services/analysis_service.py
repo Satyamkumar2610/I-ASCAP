@@ -13,6 +13,7 @@ from app.repositories.lineage_repo import LineageRepository
 from app.analytics.harmonizer import BoundaryHarmonizer
 from app.analytics.impact_analyzer import ImpactAnalyzer
 from app.analytics.uncertainty import calculate_impact_uncertainty
+from app.analytics.split_impact_insights import get_insights_analyzer
 from app.schemas.common import ProvenanceMetadata
 from app.schemas.analysis import (
     SplitImpactResponse, 
@@ -20,6 +21,13 @@ from app.schemas.analysis import (
     SeriesMeta, 
     AnalysisMeta,
     AnalysisMode,
+    SplitInsightsInfo,
+    FragmentationInfo,
+    DivergenceInfo,
+    ConvergenceInfo,
+    EffectSizeInfo,
+    CounterfactualInfo,
+    ChildPerformanceInfo,
 )
 from app.schemas.lineage import SplitEventSummary
 from app.config import get_settings
@@ -41,6 +49,7 @@ class AnalysisService:
         self.lineage_repo = LineageRepository(conn)
         self.harmonizer = BoundaryHarmonizer()
         self.impact_analyzer = ImpactAnalyzer()
+        self.insights_analyzer = get_insights_analyzer()
     
     @cached(ttl=CacheTTL.SUMMARY, prefix="state_summary")
     async def get_state_summary(self) -> Dict[str, Any]:
@@ -250,10 +259,102 @@ class AnalysisService:
                     uncertainty = calculate_impact_uncertainty(pre_values, post_values)
                     result.impact.uncertainty = uncertainty
                     
+                    # ============================================================
+                    # NEW: Compute Split Impact Insights
+                    # ============================================================
+                    
+                    # Get pre/post years for counterfactual projection
+                    pre_years = [p["year"] for p in timeline if p["year"] < split_year]
+                    
+                    # Compute children's mean yields for divergence analysis
+                    children_mean_yields = {}
+                    yearly_children_yields = {}  # For convergence trend
+                    
+                    for year, year_data in data_map.items():
+                        if year >= split_year:
+                            if year not in yearly_children_yields:
+                                yearly_children_yields[year] = {}
+                            for cdk in children_cdks:
+                                if cdk in year_data and year_data[cdk].get("yld", 0) > 0:
+                                    yld = year_data[cdk]["yld"]
+                                    yearly_children_yields[year][cdk] = yld
+                                    if cdk not in children_mean_yields:
+                                        children_mean_yields[cdk] = []
+                                    children_mean_yields[cdk].append(yld)
+                    
+                    # Calculate mean yields per child
+                    children_means = {
+                        cdk: sum(vals) / len(vals) if vals else 0 
+                        for cdk, vals in children_mean_yields.items()
+                    }
+                    
+                    # Compute insights
+                    fragmentation = self.insights_analyzer.calculate_fragmentation(len(children_cdks))
+                    divergence = self.insights_analyzer.calculate_divergence(children_means)
+                    convergence = self.insights_analyzer.calculate_convergence_trend(yearly_children_yields, split_year)
+                    effect_size = self.insights_analyzer.calculate_effect_size(pre_values, post_values)
+                    counterfactual = self.insights_analyzer.calculate_counterfactual(
+                        pre_values, pre_years, result.post_stats.mean, split_year + 5
+                    )
+                    
+                    # Analyze child performance
+                    children_performance = self.insights_analyzer.analyze_child_performance(
+                        data_map, children_cdks, None, split_year
+                    )
+                    
+                    # Build insights schema objects
+                    insights = SplitInsightsInfo(
+                        fragmentation=FragmentationInfo(
+                            index=fragmentation.index,
+                            child_count=fragmentation.child_count,
+                            interpretation=fragmentation.interpretation
+                        ),
+                        divergence=DivergenceInfo(
+                            score=divergence.score,
+                            interpretation=divergence.interpretation,
+                            best_performer=divergence.best_performer,
+                            best_yield=divergence.best_yield,
+                            worst_performer=divergence.worst_performer,
+                            worst_yield=divergence.worst_yield,
+                            spread=divergence.spread
+                        ),
+                        convergence=ConvergenceInfo(
+                            trend=convergence.trend,
+                            rate=convergence.rate,
+                            interpretation=convergence.interpretation
+                        ),
+                        effect_size=EffectSizeInfo(
+                            cohens_d=effect_size.cohens_d,
+                            interpretation=effect_size.interpretation,
+                            confidence=effect_size.confidence
+                        ),
+                        counterfactual=CounterfactualInfo(
+                            projected_yield=counterfactual.projected_yield,
+                            method=counterfactual.method,
+                            actual_yield=counterfactual.actual_yield,
+                            attribution_pct=counterfactual.attribution_pct,
+                            interpretation=counterfactual.interpretation
+                        ),
+                        children_performance=[
+                            ChildPerformanceInfo(
+                                cdk=cp.cdk,
+                                name=cp.name,
+                                mean_yield=cp.mean_yield,
+                                cv=cp.cv,
+                                cagr=cp.cagr,
+                                observations=cp.observations,
+                                rank=cp.rank
+                            )
+                            for cp in children_performance
+                        ],
+                        warnings=[]
+                    )
+                    
                     advanced_stats = AdvancedStats(
                         pre=result.pre_stats,
                         post=result.post_stats,
                         impact=result.impact,
+                        insights=insights,
                     )
                     
                     warnings.extend(result.warnings)
