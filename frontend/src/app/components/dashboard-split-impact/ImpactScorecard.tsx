@@ -85,7 +85,7 @@ export function ImpactScorecard({ event, crop }: ImpactScorecardProps) {
                     {after.by_child && Object.entries(after.by_child).map(([cdk, stats]: [string, any]) => (
                         <div key={cdk} className="bg-slate-900 border border-slate-800 rounded px-2 py-1 flex items-center gap-2">
                             <span className="text-[10px] text-slate-300 font-medium">
-                                {event.children_districts.find((name: string) => cdk.toLowerCase().includes(name.toLowerCase().replace(/ /g, '').slice(0, 5))) || cdk}
+                                {(event.children_names || []).find((name: string) => cdk.toLowerCase().includes(name.toLowerCase().replace(/ /g, '').slice(0, 5))) || cdk}
                             </span>
                             <span className="text-[10px] text-slate-500">{Math.round(stats.avg)} kg/ha</span>
                         </div>
