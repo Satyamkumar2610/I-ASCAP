@@ -58,9 +58,11 @@ def load_excel():
         return None
 
 def normalize_name(name):
-    """Normalize for fuzzy matching: lowercase, remove space/punctuation"""
+    """Normalize for fuzzy matching: lowercase, remove space/punctuation, remove 'district'"""
     if not isinstance(name, str): return ""
-    return name.lower().replace(" ", "").replace("-", "").replace(".", "")
+    # Remove 'district' suffix if present
+    name = name.lower().replace(" district", "").replace("district", "")
+    return name.replace(" ", "").replace("-", "").replace(".", "")
 
 def get_cdk_map(engine):
     """Get map of dataset name -> cdk from districts table"""
@@ -70,7 +72,6 @@ def get_cdk_map(engine):
     
     # Create lookup dictionaries
     # (state, district_name) -> cdk
-    # district_name -> cdk (fallback if state mismatch, though unexpected)
     lookup = {}
     
     for row in districts:
@@ -79,8 +80,6 @@ def get_cdk_map(engine):
         norm_s = normalize_name(s_name)
         
         lookup[(norm_s, norm_d)] = cdk
-        
-        # Also store list of valid district names for fuzzy matching
     
     return lookup, districts
 
@@ -96,12 +95,21 @@ def find_cdk(name, state, lookup, all_districts_data):
     # 2. Fuzzy match within state
     # Get all district names for this state
     state_districts = [d for cdk, d, s in all_districts_data if normalize_name(s) == norm_state]
+    
+    # If no districts found for state, try soft matching state name too
     if not state_districts:
-        # Try state aliases if needed (e.g. Orissa -> Odisha)
-        # For now, simple return
+        all_states = set(s for c, d, s in all_districts_data)
+        state_matches = get_close_matches(state, all_states, n=1, cutoff=0.8)
+        if state_matches:
+            matched_state = state_matches[0]
+            norm_state = normalize_name(matched_state)
+            state_districts = [d for cdk, d, s in all_districts_data if normalize_name(s) == norm_state]
+
+    if not state_districts:
         return None
         
-    matches = get_close_matches(name, state_districts, n=1, cutoff=0.8)
+    # Relaxed fuzzy match (cutoff 0.6)
+    matches = get_close_matches(name, state_districts, n=1, cutoff=0.6)
     if matches:
         match_name = matches[0]
         return lookup.get((norm_state, normalize_name(match_name)))

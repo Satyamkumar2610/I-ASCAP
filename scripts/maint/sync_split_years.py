@@ -19,23 +19,48 @@ async def sync_years():
         
         # 1. Update existing events with precise years
         print("Updating existing lineage events with precise years from district_splits...")
-        query = """
-            WITH updates AS (
-                SELECT ds.parent_cdk, ds.child_cdk, ds.split_year
-                FROM district_splits ds
-                WHERE ds.parent_cdk IS NOT NULL 
-                  AND ds.child_cdk IS NOT NULL
-            )
-            UPDATE lineage_events le
-            SET event_year = u.split_year
-            FROM updates u
-            WHERE le.parent_cdk = u.parent_cdk 
-              AND le.child_cdk = u.child_cdk
-              AND le.event_year != u.split_year
-            RETURNING le.parent_cdk, le.child_cdk, le.event_year;
-        """
-        updated = await conn.fetch(query)
-        print(f"Updated {len(updated)} events with precise years.")
+        
+        # Fetch updates needed
+        updates_needed = await conn.fetch("""
+            SELECT le.parent_cdk, le.child_cdk, le.event_year as old_year, ds.split_year as new_year
+            FROM district_splits ds
+            JOIN lineage_events le ON ds.parent_cdk = le.parent_cdk AND ds.child_cdk = le.child_cdk
+            WHERE ds.parent_cdk IS NOT NULL 
+              AND ds.child_cdk IS NOT NULL
+              AND le.event_year != ds.split_year
+        """)
+        
+        print(f"Found {len(updates_needed)} events needing year correction.")
+        
+        updated_count = 0
+        deleted_count = 0
+        
+        for row in updates_needed:
+            p, c, old_y, new_y = row['parent_cdk'], row['child_cdk'], row['old_year'], row['new_year']
+            
+            # Check if target already exists
+            exists = await conn.fetchval("""
+                SELECT 1 FROM lineage_events 
+                WHERE parent_cdk = $1 AND child_cdk = $2 AND event_year = $3
+            """, p, c, new_y)
+            
+            if exists:
+                # Target exists, so the old one is likely a duplicate/approximate. Delete it.
+                await conn.execute("""
+                    DELETE FROM lineage_events 
+                    WHERE parent_cdk = $1 AND child_cdk = $2 AND event_year = $3
+                """, p, c, old_y)
+                deleted_count += 1
+            else:
+                # Safe to update
+                await conn.execute("""
+                    UPDATE lineage_events 
+                    SET event_year = $1
+                    WHERE parent_cdk = $2 AND child_cdk = $3 AND event_year = $4
+                """, new_y, p, c, old_y)
+                updated_count += 1
+                
+        print(f"Updated {updated_count} events. Deleted {deleted_count} redundant approximate events.")
         
         # 2. Identify missing events (present in splits but not in lineage)
         print("\nChecking for missing events...")

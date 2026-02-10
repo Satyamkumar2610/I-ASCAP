@@ -76,34 +76,36 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
     if (!projection) return null;
 
     return (
-        <div className="space-y-6">
-            {/* Header / Disclaimer */}
-            <div className="bg-indigo-900/20 border border-indigo-800 p-4 rounded-lg">
-                <div className="flex items-start gap-3">
-                    <div className="p-2 bg-indigo-500/10 rounded-lg">
-                        <RefreshCw size={20} className="text-indigo-400" />
-                    </div>
-                    <div>
-                        <h3 className="text-sm font-bold text-indigo-100">Rainfall Impact Simulator</h3>
-                        <p className="text-xs text-indigo-300 mt-1 max-w-md leading-relaxed">
-                            This model estimates yield sensitivity using a <strong>spatial regression</strong> across {state}.
-                            It assumes that if {district} received rainfall patterns similar to other districts, its yield would follow the state-wide trend.
-                        </p>
-                    </div>
+        <div className="space-y-4">
+            {/* Compact Header */}
+            <div className="bg-indigo-900/20 border border-indigo-800/50 p-3 rounded-lg flex items-center gap-3">
+                <div className="p-1.5 bg-indigo-500/10 rounded-md">
+                    <RefreshCw size={16} className="text-indigo-400" />
+                </div>
+                <div>
+                    <h3 className="text-sm font-bold text-indigo-100 leading-none">Rainfall Impact Simulator</h3>
+                    <p className="text-[10px] text-indigo-300 mt-1">
+                        Estimate yield sensitivity based on {state} spatial trends.
+                    </p>
                 </div>
             </div>
 
             {/* Main Interactive Area */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 {/* 1. Controls & Result */}
-                <div className="space-y-6 p-4 bg-slate-900/50 rounded-lg border border-slate-800">
-                    <div>
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 block">
-                            Rainfall Deviation
-                        </label>
-                        <div className="flex items-center gap-4">
-                            <span className="text-xs text-red-400 font-mono">-50%</span>
+                <div className="p-3 bg-slate-900/50 rounded-lg border border-slate-800 flex flex-col justify-center">
+                    <div className="mb-4">
+                        <div className="flex justify-between items-center mb-1">
+                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                Rainfall Deviation
+                            </label>
+                            <span className="font-mono text-sm font-bold text-indigo-400">
+                                {deviation > 0 ? '+' : ''}{deviation}%
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="text-[10px] text-red-400">-50%</span>
                             <input
                                 type="range"
                                 min="-50"
@@ -111,77 +113,70 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
                                 step="5"
                                 value={deviation}
                                 onChange={(e) => setDeviation(parseInt(e.target.value))}
-                                className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                                className="flex-1 h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
                             />
-                            <span className="text-xs text-blue-400 font-mono">+50%</span>
-                        </div>
-                        <div className="text-center mt-2 font-mono text-xl font-bold text-indigo-400">
-                            {deviation > 0 ? '+' : ''}{deviation}%
+                            <span className="text-[10px] text-blue-400">+50%</span>
                         </div>
                     </div>
 
-                    <div className="pt-6 border-t border-slate-800">
-                        <div className="flex justify-between items-end mb-2">
-                            <span className="text-sm text-slate-400">Projected Yield</span>
-                            <span className={`text-2xl font-bold font-mono ${projection.yield >= result.baseline_yield ? 'text-emerald-400' : 'text-orange-400'}`}>
+                    <div className="pt-3 border-t border-slate-800/50">
+                        <div className="flex justify-between items-baseline mb-1">
+                            <span className="text-xs text-slate-400">Projected Yield</span>
+                            <span className={`text-lg font-bold font-mono ${projection.yield >= result.baseline_yield ? 'text-emerald-400' : 'text-orange-400'}`}>
                                 {projection.yield.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                                <span className="text-sm text-slate-600 ml-1">kg/ha</span>
+                                <span className="text-[10px] text-slate-600 ml-1">kg/ha</span>
                             </span>
                         </div>
 
-                        <div className="flex justify-between items-center text-xs">
-                            <span className="text-slate-500">Baseline (State Mean Rain)</span>
-                            <span className="text-slate-300">{result.baseline_yield.toLocaleString(undefined, { maximumFractionDigits: 0 })} kg/ha</span>
-                        </div>
+                        <div className="flex items-center gap-2 text-[10px]">
+                            <span className="text-slate-500">Baseline: {result.baseline_yield.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
 
-                        <div className="flex items-center gap-2 mt-4 text-xs font-mono bg-black/40 p-2 rounded border border-white/5">
-                            {projection.change_pct > 0 ? <TrendingUp size={14} className="text-emerald-500" /> : <TrendingDown size={14} className="text-orange-500" />}
-                            <span className={projection.change_pct > 0 ? "text-emerald-400" : "text-orange-400"}>
-                                {projection.change_pct > 0 ? '+' : ''}{projection.change_pct.toFixed(1)}%
-                            </span>
-                            <span className="text-slate-500 ml-auto">Sensitivity: {result.slope.toFixed(2)} kg/mm</span>
+                            <div className="flex items-center gap-1 ml-auto font-mono bg-black/40 px-1.5 py-0.5 rounded border border-white/5">
+                                {projection.change_pct > 0 ? <TrendingUp size={10} className="text-emerald-500" /> : <TrendingDown size={10} className="text-orange-500" />}
+                                <span className={projection.change_pct > 0 ? "text-emerald-400" : "text-orange-400"}>
+                                    {projection.change_pct > 0 ? '+' : ''}{projection.change_pct.toFixed(1)}%
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 {/* 2. Visualization */}
-                <div className="h-64 relative">
-                    <h4 className="absolute top-0 left-0 text-[10px] text-slate-500 font-bold uppercase z-10">State-wide Correlation</h4>
+                <div className="h-40 relative border border-slate-800/50 rounded-lg bg-slate-900/20">
+                    <div className="absolute top-1 left-2 text-[9px] text-slate-500 font-bold uppercase z-10 pointer-events-none"> Correlation Match</div>
                     <ResponsiveContainer width="100%" height="100%">
-                        <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
+                        <ScatterChart margin={{ top: 10, right: 10, bottom: 5, left: -20 }}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                             <XAxis
                                 type="number"
                                 dataKey="rain"
-                                name="Rainfall"
                                 unit="mm"
                                 stroke="#475569"
-                                fontSize={10}
+                                fontSize={9}
                                 tickLine={false}
                                 domain={['auto', 'auto']}
+                                tickCount={5}
                             />
                             <YAxis
                                 type="number"
                                 dataKey="yield"
-                                name="Yield"
                                 unit="kg"
                                 stroke="#475569"
-                                fontSize={10}
+                                fontSize={9}
                                 tickLine={false}
                                 domain={['auto', 'auto']}
+                                width={40}
                             />
                             <Tooltip
                                 cursor={{ strokeDasharray: '3 3' }}
-                                contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', fontSize: '12px' }}
+                                contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', fontSize: '10px', padding: '4px' }}
                             />
-                            <Scatter name="Districts" data={result.data_points} fill="#6366f1" opacity={0.5} />
-
-                            {/* Visualizing the "Projected" Point */}
-                            <ReferenceLine x={projection.rain_mm} stroke="#f43f5e" strokeDasharray="3 3" label={{ value: 'SIM', fill: '#f43f5e', fontSize: 10 }} />
+                            <Scatter name="Districts" data={result.data_points} fill="#6366f1" opacity={0.5} r={2} />
+                            <ReferenceLine x={projection.rain_mm} stroke="#f43f5e" strokeDasharray="3 3" />
                         </ScatterChart>
                     </ResponsiveContainer>
-                    <div className="absolute bottom-2 right-2 text-[10px] text-slate-600 font-mono">
-                        R² = {result.r_squared.toFixed(2)}
+                    <div className="absolute bottom-1 right-2 text-[9px] text-slate-600 font-mono">
+                        R²={result.r_squared.toFixed(2)}
                     </div>
                 </div>
             </div>
