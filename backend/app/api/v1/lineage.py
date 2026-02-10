@@ -14,6 +14,24 @@ from app.schemas.lineage import LineageGraph, SplitEventSummary
 router = APIRouter()
 
 
+@router.get("/history")
+async def get_district_history(
+    state: Optional[str] = Query(None, description="Filter by state name"),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """
+    Get comprehensive district split history from detailed records (1951-2024).
+    """
+    query = """
+        SELECT state_name, split_year, parent_district, child_district, parent_cdk, child_cdk, source
+        FROM district_splits
+        WHERE ($1::text IS NULL OR state_name = $1)
+        ORDER BY state_name, split_year
+    """
+    rows = await db.fetch(query, state)
+    return [dict(r) for r in rows]
+
+
 @router.get("/events")
 async def get_lineage_events(
     state: Optional[str] = Query(None, description="Filter by state"),

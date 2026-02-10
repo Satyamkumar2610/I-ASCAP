@@ -40,3 +40,6 @@ data/quarantine/
 
 # Legacy Code
 legacy/
+
+# District Splits Data (Excel)
+data/District Splits*
