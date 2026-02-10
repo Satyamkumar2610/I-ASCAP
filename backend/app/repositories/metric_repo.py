@@ -78,6 +78,10 @@ class MetricRepository(BaseRepository):
         """
         rows = await self.fetch_all(query, year, variable)
         
+        # Extract crop name for fallback logic
+        base_parts = variable.split("_")
+        crop_name = base_parts[0] if len(base_parts) >= 2 else ""
+        
         # Fallback: If no data found, try seasonal crop
         if not rows:
             season_map = {
@@ -85,31 +89,25 @@ class MetricRepository(BaseRepository):
                 "soyabean": "kharif", "groundnut": "kharif", "cotton": "kharif",
                 "pearl_millet": "kharif", "sorghum": "kharif", "chickpea": "rabi"
             }
-            # Variable format: crop_metric (e.g. rice_yield)
-            base_parts = variable.split("_")
-            if len(base_parts) >= 2:
-                crop_name = base_parts[0]
-                season = season_map.get(crop_name)
-                
-                if season:
-                    seasonal_variable = f"{variable}_{season}"
-                    rows = await self.fetch_all(query, year, seasonal_variable)
+            season = season_map.get(crop_name)
+            
+            if season:
+                seasonal_variable = f"{variable}_{season}"
+                rows = await self.fetch_all(query, year, seasonal_variable)
         
-        if crop_name == "rice":
-             # Additive Fallback: Fetch other seasons and merge
-             # Prioritize: Base > Winter > Autumn > Summer
-             existing_cdks = set(r["cdk"] for r in rows)
-             
-             additional_seasons = ["winter", "autumn", "summer"]
-             for s in additional_seasons:
-                 s_var = f"{variable}_{s}"
-                 s_rows = await self.fetch_all(query, year, s_var)
-                 
-                 for sr in s_rows:
-                     if sr["cdk"] not in existing_cdks:
-                         # Add missing district from seasonal data
-                         rows.append(sr)
-                         existing_cdks.add(sr["cdk"])
+        # Rice additive fallback: Merge other seasons for districts missing from primary
+        if crop_name == "rice" and rows:
+            existing_cdks = set(r["cdk"] for r in rows)
+            
+            additional_seasons = ["winter", "autumn", "summer"]
+            for s in additional_seasons:
+                s_var = f"{variable}_{s}"
+                s_rows = await self.fetch_all(query, year, s_var)
+                
+                for sr in s_rows:
+                    if sr["cdk"] not in existing_cdks:
+                        rows.append(sr)
+                        existing_cdks.add(sr["cdk"])
         
         # Resolve geo_keys using MappingService
         from app.services.mapping_service import get_mapping_service
