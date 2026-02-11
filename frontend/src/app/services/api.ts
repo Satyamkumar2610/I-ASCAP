@@ -75,6 +75,59 @@ export interface AnalysisResult {
     [key: string]: any;
 }
 
+// --- Additional Interfaces ---
+
+export interface DistrictMetric {
+    cdk: string;
+    state: string;
+    district: string;
+    value: number;
+    metric: string;
+    method: string;
+    geo_key?: string;
+}
+
+// Local definitions for DiversificationData and CropCorrelationData removed in favor of imports from ../../types/analysis
+
+export interface DistrictRanking {
+    rank: number;
+    district: string;
+    value: number;
+}
+
+export interface RainfallData {
+    annual: number;
+    seasonal: {
+        monsoon_jjas: number;
+        pre_monsoon_mam: number;
+        post_monsoon_ond: number;
+        winter_jf: number;
+    };
+}
+
+import { EfficiencyData, RiskData, DiversificationData, CorrelationData, YieldTrendData, SplitImpactData } from '../../types/analysis';
+
+export interface HistoryItem {
+    year: number;
+    [key: string]: number;
+}
+
+export interface AnalyticsSummary {
+    summary: string;
+    stats: Record<string, number>;
+}
+
+export interface SimulationResult {
+    result: {
+        baseline_yield: number;
+        slope: number;
+        data_points: { year: number; rain: number; yield: number }[];
+        r_squared: number;
+    };
+}
+
+// EfficiencyData and RiskProfileData removed in favor of imported types
+
 export const api = {
     getSummary: () => fetcher<StateSummary>('analysis/split-impact/summary'),
 
@@ -92,45 +145,44 @@ export const api = {
     // --- New Methods for Core Platform ---
 
     getDistrictMetrics: (year: number, crop: string, metric: string) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        fetcher<any[]>(`metrics?year=${year}&crop=${crop}&metric=${metric}`),
+        fetcher<DistrictMetric[]>(`metrics?year=${year}&crop=${crop}&metric=${metric}`),
 
     getHistory: (district: string, crop: string) =>
-        fetcher<any[]>(`metrics/history?district=${encodeURIComponent(district)}&crop=${crop}`),
+        fetcher<HistoryItem[]>(`metrics/history?district=${encodeURIComponent(district)}&crop=${crop}`),
 
     // --- Advanced Analytics --
 
     getDiversification: (cdk: string, year: number) =>
-        fetcher<any>(`analytics/diversification?cdk=${cdk}&year=${year}`),
+        fetcher<DiversificationData>(`analytics/diversification?cdk=${cdk}&year=${year}`),
 
     getYieldTrend: (cdk: string, crop: string) =>
-        fetcher<any>(`analytics/yield-trend?cdk=${cdk}&crop=${crop}`),
+        fetcher<YieldTrendData>(`analytics/yield-trend?cdk=${cdk}&crop=${crop}`),
 
     getSplitImpact: (parentCdk: string, childCdks: string[], splitYear: number, crop: string) =>
-        fetcher<any>(`analytics/split-impact?parent_cdk=${parentCdk}&child_cdks=${childCdks.join(',')}&split_year=${splitYear}&crop=${crop}`),
+        fetcher<SplitImpactData>(`analytics/split-impact?parent_cdk=${parentCdk}&child_cdks=${childCdks.join(',')}&split_year=${splitYear}&crop=${crop}`),
 
     getCropCorrelations: (state: string, year: number, crops?: string[]) =>
-        fetcher<any>(`analytics/crop-correlations?state=${encodeURIComponent(state)}&year=${year}${crops ? `&crops=${crops.join(',')}` : ''}`),
+        fetcher<CorrelationData>(`analytics/crop-correlations?state=${encodeURIComponent(state)}&year=${year}${crops ? `&crops=${crops.join(',')}` : ''}`),
 
     getDistrictRankings: (state: string, crop: string, year: number) =>
-        fetcher<any>(`analytics/district-rankings?state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`),
+        fetcher<DistrictRanking[]>(`analytics/district-rankings?state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`),
 
     getAnalyticsSummary: (cdk: string, year: number) =>
-        fetcher<any>(`analytics/summary?cdk=${cdk}&year=${year}`),
+        fetcher<AnalyticsSummary>(`analytics/summary?cdk=${cdk}&year=${year}`),
 
     // --- Simulation ---
 
     runSimulation: (district: string, state: string, crop: string, year: number) =>
-        fetcher<any>(`simulation?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`),
+        fetcher<SimulationResult>(`simulation?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`),
 
     // --- Legacy / Other ---
 
     getEfficiency: (cdk: string, crop: string, year: number) =>
-        fetcher<any>(`analysis/efficiency?cdk=${cdk}&crop=${crop}&year=${year}`),
+        fetcher<EfficiencyData>(`analysis/efficiency?cdk=${cdk}&crop=${crop}&year=${year}`),
 
     getRiskProfile: (cdk: string, crop: string) =>
-        fetcher<any>(`analysis/risk-profile?cdk=${cdk}&crop=${crop}`),
+        fetcher<RiskData>(`analysis/risk-profile?cdk=${cdk}&crop=${crop}`),
 
     getRainfall: (district: string, state: string, year: number) =>
-        fetcher<any>(`climate/rainfall?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&year=${year}`),
+        fetcher<RainfallData>(`climate/rainfall?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&year=${year}`),
 };

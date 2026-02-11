@@ -1,10 +1,10 @@
 import React from 'react';
 import { ArrowUpRight, ArrowDownRight, Minus, Loader2 } from 'lucide-react';
 import { useSplitImpactAnalysis } from '../../hooks/useSplitImpact';
+import { SplitDistrict } from '../../services/api';
 
 interface ImpactScorecardProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    event: any;
+    event: SplitDistrict;
     crop: string;
 }
 
@@ -82,10 +82,10 @@ export function ImpactScorecard({ event, crop }: ImpactScorecardProps) {
             <div className="mt-3 pt-3 border-t border-slate-800/50">
                 <div className="text-[10px] text-slate-500 mb-2">District Contribution (Post-Split):</div>
                 <div className="flex flex-wrap gap-2">
-                    {after.by_child && Object.entries(after.by_child).map(([cdk, stats]: [string, any]) => (
+                    {after.by_child && Object.entries(after.by_child).map(([cdk, stats]: [string, { avg: number }]) => (
                         <div key={cdk} className="bg-slate-900 border border-slate-800 rounded px-2 py-1 flex items-center gap-2">
                             <span className="text-[10px] text-slate-300 font-medium">
-                                {(event.children_names || []).find((name: string) => cdk.toLowerCase().includes(name.toLowerCase().replace(/ /g, '').slice(0, 5))) || cdk}
+                                {(event.children_districts || []).find((name: string) => cdk.toLowerCase().includes(name.toLowerCase().replace(/ /g, '').slice(0, 5))) || cdk}
                             </span>
                             <span className="text-[10px] text-slate-500">{Math.round(stats.avg)} kg/ha</span>
                         </div>

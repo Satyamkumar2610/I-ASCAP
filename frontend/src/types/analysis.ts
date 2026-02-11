@@ -39,6 +39,8 @@ export interface GrowthMatrix {
     mean_yield_5y: number;
     matrix_quadrant: string;
     trend_direction: string;
+    cagr_historical?: number;
+    formula?: string;
 }
 
 export interface RiskData {
@@ -84,4 +86,17 @@ export interface CorrelationData {
 export interface AnalysisExportData {
     efficiency: EfficiencyData | null;
     risk: RiskData | null;
+}
+
+export interface YieldTrendData {
+    trend: number;
+    intercept: number;
+    p_value: number;
+    r_squared: number;
+}
+
+export interface SplitImpactData {
+    before: { average: number; years: number[] };
+    after: { combined_average: number; by_child: Record<string, { avg: number }> };
+    impact: { percent_change: number; assessment: 'positive' | 'negative' | 'neutral' };
 }

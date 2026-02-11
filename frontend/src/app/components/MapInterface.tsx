@@ -15,27 +15,8 @@ interface MapInterfaceProps {
     showRainfallLayer?: boolean;
 }
 
-// Color Scale Helper (Agricultural Metric - Green Gradient)
-const getAgriColor = (value: number, min: number, max: number) => {
-    if (value <= 0) return '#1f2937'; // Gray for 0
-    const ratio = (value - min) / (max - min || 1);
-    if (ratio < 0.2) return '#d1fae5'; // emerald-100
-    if (ratio < 0.4) return '#6ee7b7'; // emerald-300
-    if (ratio < 0.6) return '#10b981'; // emerald-500
-    if (ratio < 0.8) return '#059669'; // emerald-600
-    return '#047857'; // emerald-700
-};
-
-// Color Scale Helper (Rainfall - Blue Gradient)
-const getRainfallColor = (value: number, min: number, max: number) => {
-    if (value <= 0) return '#1f2937'; // Gray for 0
-    const ratio = (value - min) / (max - min || 1);
-    if (ratio < 0.2) return '#dbeafe'; // blue-100
-    if (ratio < 0.4) return '#93c5fd'; // blue-300
-    if (ratio < 0.6) return '#60a5fa'; // blue-400
-    if (ratio < 0.8) return '#2563eb'; // blue-600
-    return '#1e40af'; // blue-800
-};
+import { getAgriColor, getRainfallColor } from '../utils/colors';
+import { MapLegend } from './MapLegend';
 
 
 
@@ -51,19 +32,23 @@ export default function MapInterface({ year, crop = 'wheat', metric = 'yield', s
     const { joinedData, loading } = useDistrictMetrics(year, crop, metric);
 
     // Compute Style Layer
-    const layerStyle = useMemo(() => {
+    const { layerStyle, min, max } = useMemo(() => {
         if (loading || Object.keys(joinedData).length === 0) {
             return {
-                id: 'district-data',
-                type: 'fill',
-                paint: { 'fill-color': '#374151', 'fill-opacity': 0.6 }
+                layerStyle: {
+                    id: 'district-data',
+                    type: 'fill',
+                    paint: { 'fill-color': '#374151', 'fill-opacity': 0.6 }
+                },
+                min: 0,
+                max: 0
             };
         }
 
         // Calculate Min/Max for scaling
         const values = Object.values(joinedData).map(d => d.value).filter(v => v > 0);
-        const min = Math.min(...values);
-        const max = Math.max(...values);
+        const minVal = Math.min(...values);
+        const maxVal = Math.max(...values);
 
         // Construct Match Expression
         // Use coalesce to handle variant property names in GeoJSON
@@ -79,19 +64,23 @@ export default function MapInterface({ year, crop = 'wheat', metric = 'yield', s
 
         Object.entries(joinedData).forEach(([geoKey, d]) => {
             matchExpr.push(geoKey);
-            matchExpr.push(colorFn(d.value, min, max));
+            matchExpr.push(colorFn(d.value, minVal, maxVal));
         });
 
         matchExpr.push('#374151'); // Default color (gray-700)
 
         return {
-            id: 'district-data',
-            type: 'fill',
-            paint: {
-                'fill-color': matchExpr,
-                'fill-opacity': 0.7,
-                'fill-outline-color': '#000000'
-            }
+            layerStyle: {
+                id: 'district-data',
+                type: 'fill',
+                paint: {
+                    'fill-color': matchExpr,
+                    'fill-opacity': 0.7,
+                    'fill-outline-color': '#000000'
+                }
+            },
+            min: minVal,
+            max: maxVal
         };
 
     }, [joinedData, loading, showRainfallLayer]);
@@ -137,7 +126,7 @@ export default function MapInterface({ year, crop = 'wheat', metric = 'yield', s
     }, [onDistrictSelect]);
 
     return (
-        <div className="w-full h-full relative">
+        <div className="w-full h-full relative group">
             <Map
                 ref={mapRef}
                 {...viewState}
@@ -193,10 +182,21 @@ export default function MapInterface({ year, crop = 'wheat', metric = 'yield', s
                 )}
             </Map>
 
+            {/* Legend */}
+            {!loading && min > 0 && (
+                <MapLegend
+                    min={min}
+                    max={max}
+                    label={showRainfallLayer ? "Rainfall (mm)" : `${crop} ${metric}`}
+                    type={showRainfallLayer ? 'rainfall' : 'agri'}
+                />
+            )}
+
             {/* Loading Indicator */}
             {loading && (
-                <div className="absolute top-4 right-16 bg-black/80 text-white px-3 py-1 rounded-full text-xs backdrop-blur">
-                    Loading Data...
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-900/80 text-white px-6 py-3 rounded-full text-sm backdrop-blur border border-slate-700 shadow-2xl flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                    <span>Processing Historical Geometries...</span>
                 </div>
             )}
         </div>
