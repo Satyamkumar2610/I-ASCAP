@@ -24,22 +24,6 @@ from app.logging_config import (
     get_request_id,
     log_api_request,
 )
-from arq import create_pool
-
-from app.worker import WorkerSettings
-from app.rate_limit import RateLimitMiddleware
-from app.security import SecurityHeadersMiddleware, HTTPSRedirectMiddleware, OIDCMiddleware
-from app.api.v1.router import api_router
-
-settings = get_settings()
-
-# Initialize logging
-setup_logging(log_level=settings.log_level if hasattr(settings, 'log_level') else "INFO")
-logger = get_logger("main")
-
-
-
-
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifecycle: startup and shutdown."""
@@ -50,10 +34,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         await init_db_pool()
         logger.info("Database connection pool initialized")
         
-        # Initialize ARQ (Job Queue) Pool
-        app.state.arq_pool = await create_pool(WorkerSettings.redis_settings)
-        logger.info("ARQ Worker pool initialized")
-        
     except Exception as e:
         logger.error(f"Failed to initialize resources: {str(e)}")
         # We might want to raise in production, but for now log and allow partial startup
@@ -63,10 +43,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     
     # Shutdown
     logger.info("Shutting down I-ASCAP API")
-    
-    if hasattr(app.state, "arq_pool"):
-        await app.state.arq_pool.close()
-        logger.info("ARQ Worker pool closed")
         
     await close_db_pool()
     logger.info("Database connection pool closed")

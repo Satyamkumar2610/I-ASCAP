@@ -1,86 +1,81 @@
 """
 In-memory caching system for I-ASCAP API.
 Uses TTL-based cache for frequently accessed data.
+Now properly async to match the interface of the previous Redis cache.
 """
 
 import hashlib
 import json
+import time
 from typing import Any, Optional, Dict, Callable
 from functools import wraps
-import redis.asyncio as redis
 
-from app.config import get_settings
 from app.logging_config import get_logger
 
 logger = get_logger("cache")
-settings = get_settings()
 
-
-class RedisCache:
+class InMemoryCache:
     """
-    Redis-based caching system using redis-py (asyncio).
+    Simple in-memory cache replacing Redis.
+    Check for expiration on retrieval.
     """
     
     def __init__(self):
-        self._redis = redis.from_url(
-            settings.redis_url, 
-            encoding="utf-8", 
-            decode_responses=True
-        )
+        self._store: Dict[str, Dict[str, Any]] = {}
         self._default_ttl = 3600
     
     def _generate_key(self, prefix: str, *args, **kwargs) -> str:
         """Generate a cache key from function arguments."""
-        key_data = f"{prefix}:{json.dumps(args, sort_keys=True, default=str)}:{json.dumps(kwargs, sort_keys=True, default=str)}"
+        try:
+            key_data = f"{prefix}:{json.dumps(args, sort_keys=True, default=str)}:{json.dumps(kwargs, sort_keys=True, default=str)}"
+        except Exception:
+            # Fallback for non-serializable args
+            key_data = f"{prefix}:{str(args)}:{str(kwargs)}"
+            
         return hashlib.md5(key_data.encode()).hexdigest()
     
     async def get(self, key: str) -> Optional[Any]:
         """Get a value from cache."""
-        try:
-            val = await self._redis.get(key)
-            return json.loads(val) if val else None
-        except Exception as e:
-            logger.warning(f"Redis get failed: {e}")
+        if key not in self._store:
             return None
+            
+        item = self._store[key]
+        if item["expires_at"] < time.time():
+            del self._store[key]
+            return None
+            
+        return item["value"]
     
     async def set(self, key: str, value: Any, ttl: Optional[int] = None) -> None:
         """Set a value in cache."""
-        try:
-            await self._redis.set(
-                key, 
-                json.dumps(value, default=str), 
-                ex=ttl or self._default_ttl
-            )
-        except Exception as e:
-             logger.warning(f"Redis set failed: {e}")
+        expires_at = time.time() + (ttl or self._default_ttl)
+        self._store[key] = {
+            "value": value,
+            "expires_at": expires_at
+        }
     
     async def delete(self, key: str) -> bool:
         """Delete a key."""
-        try:
-            return await self._redis.delete(key) > 0
-        except Exception as e:
-            logger.warning(f"Redis delete failed: {e}")
-            return False
+        if key in self._store:
+            del self._store[key]
+            return True
+        return False
 
     async def clear(self) -> None:
         """Clear the database (use with caution)."""
-        await self._redis.flushdb()
+        self._store.clear()
     
     async def stats(self) -> Dict[str, Any]:
-        """Get Redis info."""
-        try:
-            info = await self._redis.info()
-            return {
-                "redis_version": info.get("redis_version"),
-                "used_memory_human": info.get("used_memory_human"),
-                "connected_clients": info.get("connected_clients"),
-            }
-        except Exception:
-            return {"status": "error"}
+        """Get Cache stats."""
+        return {
+            "type": "in-memory",
+            "keys": len(self._store),
+            "status": "ok"
+        }
 
-_cache = RedisCache()
+_cache = InMemoryCache()
 
-def get_cache() -> RedisCache:
+def get_cache() -> InMemoryCache:
     return _cache
 
 
@@ -103,15 +98,23 @@ def cached(ttl: int = 3600, prefix: str = ""):
             cache_key = cache._generate_key(key_prefix, *args, **kwargs)
             
             # Try to get from cache
-            cached_value = await cache.get(cache_key)
-            if cached_value is not None:
-                logger.debug(f"Cache hit for {key_prefix}")
-                return cached_value
+            try:
+                cached_value = await cache.get(cache_key)
+                if cached_value is not None:
+                    logger.debug(f"Cache hit for {key_prefix}")
+                    return cached_value
+            except Exception as e:
+                logger.warning(f"Cache get failed: {e}")
             
-            # Execute function and cache result
+            # Execute function
             result = await func(*args, **kwargs)
-            await cache.set(cache_key, result, ttl)
-            logger.debug(f"Cached result for {key_prefix}")
+            
+            # Cache result
+            try:
+                await cache.set(cache_key, result, ttl)
+                logger.debug(f"Cached result for {key_prefix}")
+            except Exception as e:
+                logger.warning(f"Cache set failed: {e}")
             
             return result
         return wrapper

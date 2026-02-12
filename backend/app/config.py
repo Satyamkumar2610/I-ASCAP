@@ -31,7 +31,6 @@ class Settings(BaseSettings):
     db_command_timeout: int = 60
 
     db_query_timeout: int = 30
-    redis_url: str = "redis://redis:6379/0"
     
     # Logging
     log_level: str = "INFO"
