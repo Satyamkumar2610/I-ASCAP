@@ -24,6 +24,18 @@ from app.logging_config import (
     get_request_id,
     log_api_request,
 )
+
+from app.rate_limit import RateLimitMiddleware
+from app.security import SecurityHeadersMiddleware, HTTPSRedirectMiddleware, OIDCMiddleware
+from app.api.v1.router import api_router
+
+settings = get_settings()
+
+# Initialize logging
+setup_logging(log_level=settings.log_level if hasattr(settings, 'log_level') else "INFO")
+logger = get_logger("main")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifecycle: startup and shutdown."""
