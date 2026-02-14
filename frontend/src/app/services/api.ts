@@ -1,7 +1,7 @@
 
 // Direct Render Backend URL - avoids Vercel proxy timeout issues
 // Use env var if set, otherwise default to production Render URL
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://i-ascap.onrender.com';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'https://i-ascap.onrender.com';
 
 class ApiError extends Error {
     constructor(public status: number, message: string) {
