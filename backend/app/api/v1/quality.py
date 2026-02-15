@@ -23,7 +23,7 @@ async def get_district_quality(
     Returns completeness, consistency, timeliness, and accuracy scores.
     """
     # Verify district exists
-    exists = await db.fetchval("SELECT 1 FROM districts WHERE cdk = $1", cdk)
+    exists = await db.fetchval("SELECT 1 FROM districts WHERE lgd_code::text = $1", cdk)
     if not exists:
         raise HTTPException(status_code=404, detail=f"District not found: {cdk}")
     

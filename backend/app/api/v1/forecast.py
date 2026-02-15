@@ -25,7 +25,7 @@ async def get_yield_forecast(
     Uses linear trend extrapolation with confidence intervals.
     """
     # Verify district exists
-    exists = await db.fetchval("SELECT 1 FROM districts WHERE cdk = $1", cdk)
+    exists = await db.fetchval("SELECT 1 FROM districts WHERE lgd_code::text = $1", cdk)
     if not exists:
         raise HTTPException(status_code=404, detail=f"District not found: {cdk}")
     
@@ -34,7 +34,7 @@ async def get_yield_forecast(
     rows = await db.fetch("""
         SELECT year, value
         FROM agri_metrics
-        WHERE cdk = $1 AND variable_name = $2 AND value > 0
+        WHERE district_lgd::text = $1 AND variable_name = $2 AND value > 0
         ORDER BY year
     """, cdk, yield_var)
     
@@ -66,7 +66,7 @@ async def get_crop_recommendations(
     """
     # Get district info
     district = await db.fetchrow("""
-        SELECT cdk, state_name, district_name FROM districts WHERE cdk = $1
+        SELECT lgd_code::text as cdk, state_name, district_name FROM districts WHERE lgd_code::text = $1
     """, cdk)
     
     if not district:
@@ -89,9 +89,9 @@ async def get_crop_recommendations(
                 MAX(CASE WHEN variable_name = $2 THEN value END) as yield,
                 MAX(CASE WHEN variable_name = $3 THEN value END) as area
             FROM agri_metrics
-            WHERE cdk = $1 AND year = (
+            WHERE district_lgd::text = $1 AND year = (
                 SELECT MAX(year) FROM agri_metrics 
-                WHERE cdk = $1 AND variable_name = $2 AND value > 0
+                WHERE district_lgd::text = $1 AND variable_name = $2 AND value > 0
             )
         """, cdk, f"{crop}_yield", f"{crop}_area")
         
@@ -113,7 +113,7 @@ async def get_crop_recommendations(
         avg = await db.fetchval("""
             SELECT AVG(value)
             FROM agri_metrics m
-            JOIN districts d ON m.cdk = d.cdk
+            JOIN districts d ON m.district_lgd = d.lgd_code
             WHERE d.state_name = $1 
             AND m.variable_name = $2 
             AND m.value > 0
@@ -138,7 +138,7 @@ async def _calculate_trend(db: asyncpg.Connection, cdk: str, variable: str) -> f
     rows = await db.fetch("""
         SELECT year, value
         FROM agri_metrics
-        WHERE cdk = $1 AND variable_name = $2 AND value > 0
+        WHERE district_lgd::text = $1 AND variable_name = $2 AND value > 0
         ORDER BY year DESC
         LIMIT 6
     """, cdk, variable)

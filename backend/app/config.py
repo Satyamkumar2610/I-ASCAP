@@ -58,6 +58,8 @@ class Settings(BaseSettings):
     cors_origins: List[str] = [
         "https://i-ascap.onrender.com",
         "https://i-ascap.vercel.app",
+        "http://localhost:3000",
+        "http://localhost:8000",
     ]
 
     @property

@@ -7,6 +7,8 @@ Provides data science-driven insights including:
 - Split Impact Comparison
 - Crop Correlations
 - District Rankings
+
+Updated to use lgd_code/district_lgd schema.
 """
 
 from fastapi import APIRouter, Depends, Query
@@ -21,7 +23,7 @@ router = APIRouter(prefix="/analytics", tags=["Advanced Analytics"])
 
 @router.get("/diversification")
 async def get_crop_diversification(
-    cdk: str = Query(..., description="Canonical District Key"),
+    cdk: str = Query(..., description="District LGD code (as text)"),
     year: int = Query(2020, description="Year to analyze"),
     db: asyncpg.Connection = Depends(get_db)
 ):
@@ -55,7 +57,7 @@ async def get_crop_diversification(
 
 @router.get("/yield-trend")
 async def get_yield_trend(
-    cdk: str = Query(..., description="Canonical District Key"),
+    cdk: str = Query(..., description="District LGD code (as text)"),
     crop: str = Query("rice", description="Crop name"),
     start_year: int = Query(1990, description="Start year"),
     end_year: int = Query(2020, description="End year"),
@@ -163,7 +165,7 @@ async def get_district_rankings(
 
 @router.get("/yoy-growth")
 async def get_yoy_growth(
-    cdk: str = Query(..., description="Canonical District Key"),
+    cdk: str = Query(..., description="District LGD code (as text)"),
     crop: str = Query("rice", description="Crop name"),
     start_year: int = Query(2010, description="Start year"),
     end_year: int = Query(2020, description="End year"),
@@ -195,7 +197,7 @@ async def get_yoy_growth(
 
 @router.get("/seasonal-comparison")
 async def get_seasonal_comparison(
-    cdk: str = Query(..., description="Canonical District Key"),
+    cdk: str = Query(..., description="District LGD code (as text)"),
     crop: str = Query("rice", description="Crop name"),
     year: int = Query(2015, description="Year"),
     db: asyncpg.Connection = Depends(get_db)
@@ -212,7 +214,7 @@ async def get_seasonal_comparison(
 
 @router.get("/summary")
 async def get_analytics_summary(
-    cdk: str = Query(..., description="Canonical District Key"),
+    cdk: str = Query(..., description="District LGD code (as text)"),
     year: int = Query(2020, description="Year"),
     db: asyncpg.Connection = Depends(get_db)
 ):

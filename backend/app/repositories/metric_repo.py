@@ -1,5 +1,6 @@
 """
 Metric Repository: Data access for agricultural/domain metrics.
+Uses district_lgd (int FK) joined to districts.lgd_code (int PK).
 """
 from typing import List, Dict
 
@@ -19,9 +20,9 @@ class MetricRepository(BaseRepository):
     ) -> List[MetricPoint]:
         """Get time series for a district and set of variables."""
         query = """
-            SELECT cdk, year, variable_name, value
+            SELECT district_lgd::text as cdk, year, variable_name, value
             FROM agri_metrics
-            WHERE cdk = $1 AND variable_name = ANY($2)
+            WHERE district_lgd::text = $1 AND variable_name = ANY($2)
             ORDER BY year ASC
         """
         rows = await self.fetch_all(query, cdk, variables)
@@ -32,7 +33,7 @@ class MetricRepository(BaseRepository):
                 year=r["year"],
                 variable=r["variable_name"],
                 value=float(r["value"]) if r["value"] else 0,
-                source="Raw",
+                source="ICRISAT",
             )
             for r in rows
         ]
@@ -43,13 +44,24 @@ class MetricRepository(BaseRepository):
         variables: List[str]
     ) -> List[MetricPoint]:
         """Get metrics for multiple districts and variables."""
+        # Convert text CDKs to int array for efficient query
+        int_cdks = []
+        for c in cdks:
+            try:
+                int_cdks.append(int(c))
+            except (ValueError, TypeError):
+                continue
+        
+        if not int_cdks:
+            return []
+        
         query = """
-            SELECT cdk, year, variable_name, value
+            SELECT district_lgd::text as cdk, year, variable_name, value
             FROM agri_metrics
-            WHERE cdk = ANY($1) AND variable_name = ANY($2)
+            WHERE district_lgd = ANY($1::int[]) AND variable_name = ANY($2)
             ORDER BY year ASC
         """
-        rows = await self.fetch_all(query, cdks, variables)
+        rows = await self.fetch_all(query, int_cdks, variables)
         
         return [
             MetricPoint(
@@ -57,7 +69,7 @@ class MetricRepository(BaseRepository):
                 year=r["year"],
                 variable=r["variable_name"],
                 value=float(r["value"]) if r["value"] else 0,
-                source="Raw",
+                source="ICRISAT",
             )
             for r in rows
         ]
@@ -70,9 +82,9 @@ class MetricRepository(BaseRepository):
     ) -> List[AggregatedMetric]:
         """Get all district values for a given year and variable."""
         query = """
-            SELECT m.cdk, d.state_name, d.district_name, m.value
+            SELECT m.district_lgd::text as cdk, d.state_name, d.district_name, m.value
             FROM agri_metrics m
-            JOIN districts d ON m.cdk = d.cdk
+            JOIN districts d ON m.district_lgd = d.lgd_code
             WHERE m.year = $1 AND m.variable_name = $2
             AND d.district_name != 'State Average'
         """
@@ -139,7 +151,7 @@ class MetricRepository(BaseRepository):
         query = """
             SELECT year, variable_name, value
             FROM agri_metrics
-            WHERE cdk = $1 AND variable_name = ANY($2)
+            WHERE district_lgd::text = $1 AND variable_name = ANY($2)
             ORDER BY year ASC
         """
         rows = await self.fetch_all(query, cdk, variables)
@@ -178,11 +190,11 @@ class MetricRepository(BaseRepository):
                 timeline[year] = {"year": year}
             
             var_name = r["variable_name"]
-            if var_name.endswith("_area"):
+            if var_name.endswith("_area") or "_area_" in var_name:
                 timeline[year]["area"] = float(r["value"]) if r["value"] else 0
-            elif var_name.endswith("_production"):
+            elif var_name.endswith("_production") or "_production_" in var_name:
                 timeline[year]["production"] = float(r["value"]) if r["value"] else 0
-            elif var_name.endswith("_yield"):
+            elif var_name.endswith("_yield") or "_yield_" in var_name:
                 timeline[year]["yield"] = float(r["value"]) if r["value"] else 0
         
         # Post-process: Calculate yield if missing
@@ -191,15 +203,6 @@ class MetricRepository(BaseRepository):
                 area = data.get("area", 0) or 0
                 prod = data.get("production", 0) or 0
                 if area > 0:
-                     # Production is in Tonnes (from script we did *1000), Area in Ha (from script *1000)
-                     # Yield = kg/ha = (Tonnes * 1000) / Ha
-                     # Wait, script multiplied by 1000.
-                     # Original: '000 Tonnes, '000 Ha.
-                     # Stored: Tonnes, Ha.
-                     # Yield = Tonnes/Ha = t/ha. Default expected is kg/ha?
-                     # Let's check district data units. Usually kg/ha ~ 2000-4000.
-                     # t/ha ~ 2-4.
-                     # If I want kg/ha: (prod / area) * 1000
                      data["yield"] = round((prod / area) * 1000, 2)
             
             # Ensure none is 0 instead of None for chart safety

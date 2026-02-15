@@ -111,14 +111,27 @@ async def get_rainfall_yield_correlation(
     """
     analyzer = get_analyzer()
     
-    # Get yield data for state
+    # Get yield data for state using the correct schema
+    variable = f"{crop.lower()}_yield"
     yield_query = """
-        SELECT district_name, yield
-        FROM agri_metrics
-        WHERE state_name = $1 AND LOWER(crop) = LOWER($2) AND year = $3
-        AND yield IS NOT NULL AND yield > 0
+        SELECT d.district_name, m.value as yield_val
+        FROM agri_metrics m
+        JOIN districts d ON m.district_lgd = d.lgd_code
+        WHERE d.state_name = $1 AND m.variable_name = $2 AND m.year = $3
+        AND m.value IS NOT NULL AND m.value > 0
     """
-    yield_rows = await db.fetch(yield_query, state, crop, year)
+    yield_rows = await db.fetch(yield_query, state, variable, year)
+    
+    # Fallback to seasonal
+    if not yield_rows or len(yield_rows) < 5:
+        season_map = {
+            "rice": "kharif", "wheat": "rabi", "maize": "kharif",
+            "soyabean": "kharif", "groundnut": "kharif", "cotton": "kharif",
+        }
+        season = season_map.get(crop.lower())
+        if season:
+            variable = f"{crop.lower()}_yield_{season}"
+            yield_rows = await db.fetch(yield_query, state, variable, year)
     
     if not yield_rows or len(yield_rows) < 5:
         return {"error": "Insufficient yield data (need at least 5 districts)"}
@@ -132,7 +145,7 @@ async def get_rainfall_yield_correlation(
         if rainfall:
             matched_data.append({
                 "district": district_name,
-                "yield": float(row["yield"]),
+                "yield": float(row["yield_val"]),
                 "annual_rainfall": rainfall.annual,
                 "monsoon_rainfall": rainfall.monsoon_jjas,
             })

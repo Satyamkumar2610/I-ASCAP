@@ -1,5 +1,6 @@
 """
 Lineage Repository: Data access for lineage events (DB-based).
+Note: lineage_events uses CDK text keys which cannot join to districts.lgd_code.
 """
 from typing import List, Dict
 from app.repositories.base import BaseRepository
@@ -35,30 +36,22 @@ class LineageRepository(BaseRepository):
     async def get_events_by_state(
         self, 
         state: str, 
-        cdk_to_state: Dict[str, str]  # kept for backward compat, not used
+        cdk_to_state: Dict[str, str]
     ) -> List[LineageEvent]:
-        """Filter events where parent belongs to given state using SQL JOIN."""
-        # Optimized: Use SQL JOIN with districts table for O(1) state filtering
-        query = """
-            SELECT le.parent_cdk, le.child_cdk, le.event_year, le.event_type
-            FROM lineage_events le
-            JOIN districts d ON le.parent_cdk = d.cdk
-            WHERE d.state_name = $1
-        """
-        rows = await self.fetch_all(query, state)
+        """Filter events where parent belongs to given state using Python filtering.
         
+        Cannot use SQL JOIN because lineage_events.parent_cdk (text like AR_balipa_1951)
+        has no relationship to districts.lgd_code (int). We filter in Python instead.
+        """
+        all_events = await self.get_all_events()
+        
+        # Filter by state using the cdk_to_state mapping
         events = []
-        for r in rows:
-            events.append(LineageEvent(
-                id=f"{r['parent_cdk']}_{r['event_year']}",
-                parent_cdk=r['parent_cdk'],
-                children_cdks=[r['child_cdk']],
-                children_names=[],
-                children_count=1,
-                event_year=r['event_year'],
-                event_type=EventType.SPLIT,
-                confidence=0.9,  # Default confidence
-            ))
+        for e in all_events:
+            parent_state = cdk_to_state.get(e.parent_cdk)
+            if parent_state == state:
+                events.append(e)
+        
         return events
     
     def group_by_parent_year(

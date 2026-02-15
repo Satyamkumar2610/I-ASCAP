@@ -8,6 +8,8 @@ Provides data science-driven insights:
 - Split Impact Comparison
 - Crop Correlation Matrix
 - District Performance Rankings
+
+Updated to use lgd_code/district_lgd schema.
 """
 
 import asyncpg
@@ -67,7 +69,7 @@ class AdvancedAnalyticsService:
                 SPLIT_PART(variable_name, '_', 1) as crop,
                 value as area
             FROM agri_metrics
-            WHERE cdk = $1 
+            WHERE district_lgd::text = $1 
               AND year = $2 
               AND variable_name LIKE '%_area%'
               AND variable_name NOT LIKE '%_kharif%'
@@ -121,7 +123,7 @@ class AdvancedAnalyticsService:
         rows = await self.db.fetch("""
             SELECT year, value
             FROM agri_metrics
-            WHERE cdk = $1 
+            WHERE district_lgd::text = $1 
               AND variable_name = $2
               AND year BETWEEN $3 AND $4
               AND value > 0
@@ -193,7 +195,7 @@ class AdvancedAnalyticsService:
         before_data = await self.db.fetch("""
             SELECT year, value
             FROM agri_metrics
-            WHERE cdk = $1 
+            WHERE district_lgd::text = $1 
               AND variable_name = $2
               AND year BETWEEN $3 AND $4
               AND value > 0
@@ -209,7 +211,7 @@ class AdvancedAnalyticsService:
             after_data = await self.db.fetch("""
                 SELECT year, value
                 FROM agri_metrics
-                WHERE cdk = $1 
+                WHERE district_lgd::text = $1 
                   AND variable_name = $2
                   AND year BETWEEN $3 AND $4
                   AND value > 0
@@ -272,9 +274,9 @@ class AdvancedAnalyticsService:
         crop_data = {}
         for crop in crops:
             rows = await self.db.fetch("""
-                SELECT m.cdk, m.value
+                SELECT m.district_lgd::text as cdk, m.value
                 FROM agri_metrics m
-                JOIN districts d ON m.cdk = d.cdk
+                JOIN districts d ON m.district_lgd = d.lgd_code
                 WHERE d.state_name = $1
                   AND m.year = $2
                   AND m.variable_name = $3
@@ -337,12 +339,11 @@ class AdvancedAnalyticsService:
         """
         rows = await self.db.fetch("""
             SELECT 
-                m.cdk,
+                m.district_lgd::text as cdk,
                 d.district_name,
-                m.value,
-                m.source
+                m.value
             FROM agri_metrics m
-            JOIN districts d ON m.cdk = d.cdk
+            JOIN districts d ON m.district_lgd = d.lgd_code
             WHERE d.state_name = $1
               AND m.variable_name = $2
               AND m.year = $3
@@ -357,7 +358,6 @@ class AdvancedAnalyticsService:
                 'cdk': r['cdk'],
                 'district': r['district_name'],
                 'value': round(r['value'], 2),
-                'source': r['source']
             })
         
         return rankings
@@ -379,7 +379,7 @@ class AdvancedAnalyticsService:
         rows = await self.db.fetch("""
             SELECT year, value
             FROM agri_metrics
-            WHERE cdk = $1 
+            WHERE district_lgd::text = $1 
               AND variable_name = $2
               AND year BETWEEN $3 AND $4
               AND value > 0
@@ -419,13 +419,13 @@ class AdvancedAnalyticsService:
         """
         kharif = await self.db.fetchrow("""
             SELECT value FROM agri_metrics
-            WHERE cdk = $1 AND year = $2 
+            WHERE district_lgd::text = $1 AND year = $2 
               AND variable_name LIKE $3
         """, cdk, year, f"{crop}_yield_kharif")
         
         rabi = await self.db.fetchrow("""
             SELECT value FROM agri_metrics
-            WHERE cdk = $1 AND year = $2 
+            WHERE district_lgd::text = $1 AND year = $2 
               AND variable_name LIKE $3
         """, cdk, year, f"{crop}_yield_rabi")
         

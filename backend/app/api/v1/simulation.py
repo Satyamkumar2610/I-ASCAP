@@ -54,7 +54,7 @@ async def get_simulation(
     yield_query = """
         SELECT d.district_name, m.value as yield
         FROM agri_metrics m
-        JOIN districts d ON m.cdk = d.cdk
+        JOIN districts d ON m.district_lgd = d.lgd_code
         WHERE UPPER(d.state_name) = UPPER($1) 
         AND m.variable_name = $2 
         AND m.year = $3

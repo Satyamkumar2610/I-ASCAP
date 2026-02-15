@@ -33,7 +33,7 @@ async def scan_district_anomalies(
     Also generates a risk alert with severity assessment.
     """
     # Verify district exists
-    exists = await db.fetchval("SELECT 1 FROM districts WHERE cdk = $1", cdk)
+    exists = await db.fetchval("SELECT 1 FROM districts WHERE lgd_code::text = $1", cdk)
     if not exists:
         raise HTTPException(status_code=404, detail=f"District not found: {cdk}")
     
@@ -85,7 +85,7 @@ async def get_high_risk_districts(
     for state_row in states:
         # Get first 3 districts per state for sampling
         districts = await db.fetch("""
-            SELECT cdk FROM districts 
+            SELECT lgd_code::text as cdk FROM districts 
             WHERE state_name = $1
             LIMIT 3
         """, state_row['state_name'])

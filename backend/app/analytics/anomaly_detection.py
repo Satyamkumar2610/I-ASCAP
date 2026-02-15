@@ -151,7 +151,7 @@ class AnomalyDetector:
         
         # Get district's state
         state = await self.db.fetchval("""
-            SELECT state_name FROM districts WHERE cdk = $1
+            SELECT state_name FROM districts WHERE lgd_code::text = $1
         """, cdk)
         
         if not state:
@@ -164,7 +164,7 @@ class AnomalyDetector:
                 AVG(am.value) as mean_val,
                 STDDEV(am.value) as std_val
             FROM agri_metrics am
-            JOIN districts d ON am.cdk = d.cdk
+            JOIN districts d ON am.district_lgd = d.lgd_code
             WHERE d.state_name = $1 
             AND am.variable_name LIKE '%_yield'
             AND am.value > 0
@@ -179,7 +179,7 @@ class AnomalyDetector:
         district_yields = await self.db.fetch("""
             SELECT year, variable_name, value
             FROM agri_metrics
-            WHERE cdk = $1 AND variable_name LIKE '%_yield' AND value > 0
+            WHERE district_lgd::text = $1 AND variable_name LIKE '%_yield' AND value > 0
         """, cdk)
         
         for row in district_yields:
@@ -216,7 +216,7 @@ class AnomalyDetector:
         yields = await self.db.fetch("""
             SELECT year, variable_name, value
             FROM agri_metrics
-            WHERE cdk = $1 AND variable_name LIKE '%_yield' AND value > 0
+            WHERE district_lgd::text = $1 AND variable_name LIKE '%_yield' AND value > 0
             ORDER BY variable_name, year
         """, cdk)
         
@@ -269,7 +269,7 @@ class AnomalyDetector:
         # Get years with data
         result = await self.db.fetch("""
             SELECT DISTINCT year FROM agri_metrics
-            WHERE cdk = $1
+            WHERE district_lgd::text = $1
             ORDER BY year
         """, cdk)
         
@@ -326,7 +326,7 @@ class AnomalyDetector:
         metrics = await self.db.fetch("""
             SELECT year, variable_name, value
             FROM agri_metrics
-            WHERE cdk = $1 AND value > 0
+            WHERE district_lgd::text = $1 AND value > 0
             ORDER BY year
         """, cdk)
         
@@ -386,7 +386,7 @@ class AnomalyDetector:
         negatives = await self.db.fetch("""
             SELECT year, variable_name, value
             FROM agri_metrics
-            WHERE cdk = $1 AND value < 0
+            WHERE district_lgd::text = $1 AND value < 0
         """, cdk)
         
         for row in negatives:
@@ -414,7 +414,7 @@ class AnomalyDetector:
         
         # Get district name
         district_info = await self.db.fetchrow("""
-            SELECT district_name FROM districts WHERE cdk = $1
+            SELECT district_name FROM districts WHERE lgd_code::text = $1
         """, cdk)
         
         district_name = district_info['district_name'] if district_info else cdk
@@ -487,7 +487,7 @@ async def scan_state_anomalies(
     """Scan all districts in a state for anomalies."""
     # Get districts in state
     districts = await db.fetch("""
-        SELECT cdk, district_name FROM districts 
+        SELECT lgd_code::text as cdk, district_name FROM districts 
         WHERE state_name = $1
         LIMIT $2
     """, state, limit)

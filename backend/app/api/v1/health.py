@@ -80,9 +80,9 @@ async def data_metrics(db: asyncpg.Connection = Depends(get_db)) -> Dict[str, An
     
     # Data quality: check for missing CDKs in metrics
     orphan_metrics = await db.fetchval("""
-        SELECT COUNT(DISTINCT cdk) 
+        SELECT COUNT(DISTINCT district_lgd) 
         FROM agri_metrics m 
-        WHERE NOT EXISTS (SELECT 1 FROM districts d WHERE d.cdk = m.cdk)
+        WHERE NOT EXISTS (SELECT 1 FROM districts d WHERE d.lgd_code = m.district_lgd)
     """)
     
     return {

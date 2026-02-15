@@ -1,5 +1,6 @@
 """
 Analysis API: Split impact and advanced analytics endpoints.
+Updated to use lgd_code/district_lgd schema.
 """
 import hashlib
 
@@ -58,16 +59,6 @@ async def analyze_split_impact(
 ):
     """
     Perform split impact analysis.
-    
-    **Modes:**
-    - `before_after`: Longitudinal reconstruction comparing pre/post split
-    - `entity_comparison`: Side-by-side comparison of parent and children
-    
-    **Response includes:**
-    - Timeline data for visualization
-    - Series metadata for charting
-    - Advanced statistics (CAGR, CV, impact) with uncertainty bounds
-    - Provenance metadata for reproducibility
     """
     children_list = [c.strip() for c in children.split(",") if c.strip()]
     variable = f"{crop.lower()}_{metric.lower()}"
@@ -113,12 +104,10 @@ async def get_crop_diversification(
     Higher values indicate more diverse cropping patterns.
     """
     # Get crop area data aggregated by crop for the state/year
-    # variable_name format is {crop}_area
-    # Diversification: Handle both regular and seasonal area variables
     query = """
         SELECT variable_name, value
         FROM agri_metrics m
-        JOIN districts d ON m.cdk = d.cdk
+        JOIN districts d ON m.district_lgd = d.lgd_code
         WHERE d.state_name = $1 
           AND m.year = $2 
           AND (m.variable_name LIKE '%_area' OR m.variable_name LIKE '%_area_%')
@@ -141,7 +130,6 @@ async def get_crop_diversification(
         else:
             crop = var.replace("_area", "")
             
-        # Aggregate area if multiple seasons exist for same crop (though usually distinct crops)
         crop_areas[crop] = crop_areas.get(crop, 0) + val
     
     analyzer = get_advanced_analyzer()
@@ -156,7 +144,7 @@ async def get_crop_diversification(
 
 @router.get("/efficiency")
 async def get_yield_efficiency(
-    cdk: str = Query(..., description="District CDK"),
+    cdk: str = Query(..., description="District LGD code (as text)"),
     crop: str = Query(..., description="Crop name"),
     year: int = Query(..., description="Year to analyze"),
     db: asyncpg.Connection = Depends(get_db),
@@ -168,7 +156,7 @@ async def get_yield_efficiency(
     variable = f"{crop.lower()}_yield"
     
     # Check if base variable exists for this district/year
-    check_query = "SELECT 1 FROM agri_metrics WHERE cdk=$1 AND variable_name=$2 AND year=$3"
+    check_query = "SELECT 1 FROM agri_metrics WHERE district_lgd::text=$1 AND variable_name=$2 AND year=$3"
     exists = await db.fetchval(check_query, cdk, variable, year)
     
     if not exists:
@@ -186,8 +174,8 @@ async def get_yield_efficiency(
     district_query = """
         SELECT d.state_name, m.value as yield_val
         FROM agri_metrics m
-        JOIN districts d ON m.cdk = d.cdk
-        WHERE m.cdk = $1 AND m.variable_name = $2 AND m.year = $3
+        JOIN districts d ON m.district_lgd = d.lgd_code
+        WHERE m.district_lgd::text = $1 AND m.variable_name = $2 AND m.year = $3
     """
     district_row = await db.fetchrow(district_query, cdk, variable, year)
     
@@ -202,7 +190,7 @@ async def get_yield_efficiency(
     state_query = """
         SELECT m.value as yield_val
         FROM agri_metrics m
-        JOIN districts d ON m.cdk = d.cdk
+        JOIN districts d ON m.district_lgd = d.lgd_code
         WHERE d.state_name = $1 AND m.variable_name = $2 AND m.year = $3
         AND m.value IS NOT NULL AND m.value > 0
     """
@@ -213,7 +201,7 @@ async def get_yield_efficiency(
     history_query = """
         SELECT year, value as yield_val
         FROM agri_metrics
-        WHERE cdk = $1 AND variable_name = $2 
+        WHERE district_lgd::text = $1 AND variable_name = $2 
         AND year < $3 AND year >= $3 - 10
         AND value IS NOT NULL AND value > 0
         ORDER BY year
@@ -237,7 +225,7 @@ async def get_yield_efficiency(
 
 @router.get("/risk-profile")
 async def get_risk_profile(
-    cdk: str = Query(..., description="District CDK"),
+    cdk: str = Query(..., description="District LGD code (as text)"),
     crop: str = Query(..., description="Crop name"),
     metric: str = Query("yield", description="Metric: yield, area, production"),
     db: asyncpg.Connection = Depends(get_db),
@@ -252,8 +240,8 @@ async def get_risk_profile(
     
     variable = f"{crop.lower()}_{metric.lower()}"
     
-    # Check if base variable exists (check last available year)
-    check_query = "SELECT 1 FROM agri_metrics WHERE cdk=$1 AND variable_name=$2 LIMIT 1"
+    # Check if base variable exists
+    check_query = "SELECT 1 FROM agri_metrics WHERE district_lgd::text=$1 AND variable_name=$2 LIMIT 1"
     exists = await db.fetchval(check_query, cdk, variable)
     
     if not exists:
@@ -269,7 +257,7 @@ async def get_risk_profile(
     query = """
         SELECT year, value
         FROM agri_metrics
-        WHERE cdk = $1 AND variable_name = $2
+        WHERE district_lgd::text = $1 AND variable_name = $2
         AND value IS NOT NULL AND value > 0
         ORDER BY year
     """
