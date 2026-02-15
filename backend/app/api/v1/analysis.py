@@ -27,9 +27,51 @@ async def get_summary(db: asyncpg.Connection = Depends(get_db)):
     Get summary statistics for all states.
     
     Returns list of states with district counts and boundary change counts.
+    Uses district_splits table for split event counts.
     """
-    service = AnalysisService(db)
-    return await service.get_state_summary()
+    # Get all states and district counts
+    states = await db.fetch("""
+        SELECT state_name, COUNT(*) as total_districts
+        FROM districts
+        GROUP BY state_name
+        ORDER BY state_name
+    """)
+    
+    # Count distinct split events (parent+year combos) per state from district_splits
+    split_counts = await db.fetch("""
+        SELECT state_name, COUNT(DISTINCT parent_district || '_' || split_year::text) as boundary_changes
+        FROM district_splits
+        GROUP BY state_name
+    """)
+    
+    split_map = {r["state_name"].upper(): r["boundary_changes"] for r in split_counts}
+    
+    state_list = []
+    stats = {}
+    for row in states:
+        state = row["state_name"]
+        # Match state names case-insensitively
+        changes = split_map.get(state.upper(), 0)
+        # Also try title case match
+        if changes == 0:
+            for ds_state, cnt in split_map.items():
+                if ds_state.upper() == state.upper() or ds_state.title() == state.title():
+                    changes = cnt
+                    break
+        
+        state_list.append(state)
+        stats[state] = {
+            "state": state,
+            "total": row["total_districts"],
+            "total_districts": row["total_districts"],
+            "changed": changes,
+            "boundary_changes": changes,
+            "coverage": 100,
+            "data_coverage": "High",
+            "comparability": "Active" if changes > 0 else "N/A",
+        }
+    
+    return {"states": state_list, "stats": stats}
 
 
 @router.get("/split-impact/districts")
@@ -40,10 +82,171 @@ async def get_districts_for_state(
     """
     Get split events for a specific state.
     
-    Returns parent-children groupings with metadata.
+    Queries district_splits table and resolves district names to LGD codes.
+    Uses multi-strategy name matching with corrections for historical/variant names.
     """
-    service = AnalysisService(db)
-    return await service.get_split_events_for_state(state)
+    # --- Name correction maps ---
+    NAME_CORRECTIONS = {
+        # Spelling variants
+        "anantapuramu": "anantapur", "srikakulum": "srikakulam",
+        "visakhapatnam": "visakhapatanam", "kokrajihar": "kokrajhar",
+        "nalbali": "nalbari", "sibsagar": "sivasagar",
+        "purnea": "purnia", "monghyr": "munger",
+        "chittaurgarh": "chittorgarh", "darjiling": "darjeeling",
+        "giridh": "giridih", "hazaribag": "hazaribagh",
+        "sahibganj": "sahebganj", "baramula": "baramulla",
+        "dakshina kannad": "dakshina kannada",
+        "jayashankar bhupalpally": "jayashankar bhupalapally",
+        "tiruchchirappalli": "tiruchirappalli",
+        "tiruchirapalli": "tiruchirappalli",
+        "kancheepuram": "kanchipuram",
+        "dakshin bastar dantewada": "dantewada",
+        "raj nandgaon": "rajnandgaon",
+        "purba champaran": "purbi champaran",
+        "pashchim champaran": "west champaran",
+        # Renamed districts
+        "gurgaon": "gurugram", "bangalore": "bengaluru urban",
+        "bangalore rural": "bengaluru rural", "bijapur": "vijayapura",
+        "gulbarga": "kalaburagi", "mysore": "mysuru",
+        "belgaum": "belagavi", "bellary": "ballari",
+        "hoshangabad": "narmadapuram", "allahabad": "prayagraj",
+        "faizabad": "ayodhya", "cannanore": "kannur",
+        "quilon": "kollam", "trichur": "thrissur",
+        "palghat": "palakkad",
+        # Historical/composite names (map to first split child if existing)
+        "champaran": "purbi champaran", "shahabad": "rohtas",
+        "greater bombay": "mumbai", "west nimar": "khargone",
+        "nimar": "khargone", "simla": "shimla",
+    }
+    
+    STATE_ALIASES = {
+        "andhra pradesh-telangana": ["TELANGANA", "ANDHRA PRADESH"],
+        "daman and diu": ["THE DADRA AND NAGAR HAVELI AND DAMAN AND DIU"],
+    }
+    
+    TELANGANA_DISTRICTS = {
+        "adilabad", "karimnagar", "warangal", "khammam", "nalgonda",
+        "medak", "nizamabad", "rangareddy", "rangareddi", "mahabubnagar",
+        "hyderabad",
+    }
+    
+    # --- Build LGD lookup from districts table ---
+    all_districts = await db.fetch(
+        "SELECT lgd_code, UPPER(district_name) as dn, UPPER(state_name) as sn FROM districts"
+    )
+    lgd_lookup = {}
+    for d in all_districts:
+        lgd_lookup[(d["dn"].lower(), d["sn"].lower())] = d["lgd_code"]
+    
+    def _resolve_lgd(district_name: str, state_name: str):
+        """Multi-strategy LGD resolution."""
+        dn = district_name.lower().strip()
+        sn = state_name.lower().strip()
+        
+        # 1. Direct match
+        lgd = lgd_lookup.get((dn, sn))
+        if lgd:
+            return lgd
+        
+        # 2. Name correction
+        corrected = NAME_CORRECTIONS.get(dn, dn)
+        lgd = lgd_lookup.get((corrected, sn))
+        if lgd:
+            return lgd
+        
+        # 3. State alias (e.g. "Andhra Pradesh-Telangana" → try both)
+        for alias_key, alias_states in STATE_ALIASES.items():
+            if alias_key in sn:
+                for alt_state in alias_states:
+                    lgd = lgd_lookup.get((dn, alt_state.lower()))
+                    if lgd:
+                        return lgd
+                    lgd = lgd_lookup.get((corrected, alt_state.lower()))
+                    if lgd:
+                        return lgd
+        
+        # 4. Telangana check (AP split entries)
+        if dn in TELANGANA_DISTRICTS and "andhra" in sn:
+            lgd = lgd_lookup.get((dn, "telangana"))
+            if not lgd:
+                lgd = lgd_lookup.get((corrected, "telangana"))
+            if lgd:
+                return lgd
+        
+        # 5. Prefix match (first 5 chars)
+        if len(dn) >= 5:
+            for (d, s), code in lgd_lookup.items():
+                if s == sn and d[:5] == dn[:5]:
+                    return code
+        
+        return None
+    
+    # --- Query split events ---
+    rows = await db.fetch("""
+        SELECT 
+            ds.parent_district,
+            ds.child_district,
+            ds.split_year,
+            ds.state_name,
+            p.lgd_code as parent_lgd,
+            c.lgd_code as child_lgd
+        FROM district_splits ds
+        LEFT JOIN districts p ON UPPER(p.district_name) = UPPER(ds.parent_district)
+            AND UPPER(p.state_name) = UPPER(ds.state_name)
+        LEFT JOIN districts c ON UPPER(c.district_name) = UPPER(ds.child_district)
+            AND UPPER(c.state_name) = UPPER(ds.state_name)
+        WHERE UPPER(ds.state_name) = UPPER($1)
+        ORDER BY ds.split_year, ds.parent_district
+    """, state)
+    
+    if not rows:
+        return []
+    
+    # Group by (parent_district, split_year) to build split events
+    from collections import defaultdict
+    groups: dict = defaultdict(lambda: {
+        "parent_district": "", "parent_cdk": None, "split_year": 0,
+        "state": "", "children_districts": [], "children_cdks": []
+    })
+    
+    for row in rows:
+        key = (row["parent_district"], row["split_year"])
+        g = groups[key]
+        g["parent_district"] = row["parent_district"]
+        # Use SQL JOIN result, fall back to Python-side name correction
+        parent_lgd = row["parent_lgd"]
+        if not parent_lgd:
+            parent_lgd = _resolve_lgd(row["parent_district"], row["state_name"])
+        g["parent_cdk"] = str(parent_lgd) if parent_lgd else None
+        g["split_year"] = row["split_year"]
+        g["state"] = row["state_name"]
+        
+        child_name = row["child_district"]
+        child_lgd = row["child_lgd"]
+        if not child_lgd:
+            child_lgd = _resolve_lgd(child_name, row["state_name"])
+        child_cdk = str(child_lgd) if child_lgd else None
+        
+        if child_name not in g["children_districts"]:
+            g["children_districts"].append(child_name)
+            g["children_cdks"].append(child_cdk)
+    
+    # Build response matching frontend SplitDistrict interface
+    results = []
+    for (parent, year), g in sorted(groups.items(), key=lambda x: -x[0][1]):
+        results.append({
+            "id": f"{parent}_{year}",
+            "parent_district": g["parent_district"],
+            "parent_name": g["parent_district"],
+            "parent_cdk": g["parent_cdk"],
+            "split_year": g["split_year"],
+            "children_districts": g["children_districts"],
+            "children_names": g["children_districts"],
+            "children_cdks": g["children_cdks"],
+            "state": g["state"],
+        })
+    
+    return results
 
 
 @router.get("/split-impact/analysis", response_model=SplitImpactResponse)
