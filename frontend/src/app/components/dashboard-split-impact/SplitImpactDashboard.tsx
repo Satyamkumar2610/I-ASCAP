@@ -14,7 +14,7 @@ export function SplitImpactDashboard() {
     // New React Query Hooks
     const { data: summaryData } = useStateSummary();
     const [selectedState, setSelectedState] = useState('');
-    const { data: splitEventsData } = useSplitEvents(selectedState);
+    const { data: splitEventsData, isLoading: splitEventsLoading } = useSplitEvents(selectedState);
 
     // Derived state from query data
     const states = summaryData?.states || [];
@@ -184,6 +184,7 @@ export function SplitImpactDashboard() {
                             splits={splitEvents}
                             onSelect={handleEventSelect}
                             selectedEventId={selectedEvent?.id}
+                            isLoading={splitEventsLoading}
                         />
                     </div>
                 </div>

@@ -44,20 +44,15 @@ async def get_summary(db: asyncpg.Connection = Depends(get_db)):
         GROUP BY state_name
     """)
     
-    split_map = {r["state_name"].upper(): r["boundary_changes"] for r in split_counts}
+    split_map = {r["state_name"].strip().upper(): r["boundary_changes"] for r in split_counts}
     
     state_list = []
     stats = {}
     for row in states:
         state = row["state_name"]
-        # Match state names case-insensitively
-        changes = split_map.get(state.upper(), 0)
-        # Also try title case match
-        if changes == 0:
-            for ds_state, cnt in split_map.items():
-                if ds_state.upper() == state.upper() or ds_state.title() == state.title():
-                    changes = cnt
-                    break
+        # Normalize for matching
+        lookup_key = state.strip().upper()
+        changes = split_map.get(lookup_key, 0)
         
         state_list.append(state)
         stats[state] = {
@@ -117,6 +112,8 @@ async def get_districts_for_state(
         "champaran": "purbi champaran", "shahabad": "rohtas",
         "greater bombay": "mumbai", "west nimar": "khargone",
         "nimar": "khargone", "simla": "shimla",
+        "lahaul and spiti": "lahul and spiti",
+        "alleppey": "alappuzha",
     }
     
     STATE_ALIASES = {
@@ -234,6 +231,7 @@ async def get_districts_for_state(
     # Build response matching frontend SplitDistrict interface
     results = []
     for (parent, year), g in sorted(groups.items(), key=lambda x: -x[0][1]):
+        children_cdks = g["children_cdks"]
         results.append({
             "id": f"{parent}_{year}",
             "parent_district": g["parent_district"],
@@ -242,8 +240,10 @@ async def get_districts_for_state(
             "split_year": g["split_year"],
             "children_districts": g["children_districts"],
             "children_names": g["children_districts"],
-            "children_cdks": g["children_cdks"],
+            "children_cdks": children_cdks,
             "state": g["state"],
+            "resolved_count": sum(1 for c in children_cdks if c is not None),
+            "total_count": len(children_cdks),
         })
     
     return results

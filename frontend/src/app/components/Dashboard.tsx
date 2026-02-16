@@ -78,22 +78,25 @@ const Dashboard: React.FC<DashboardProps> = ({
     // History State
     // --- Refactored to React Query ---
 
-    // 1. History Query
-    const { data: history = [] } = useQuery({
-        queryKey: ['history', selectedDistrict, currentCrop],
-        queryFn: () => api.getHistory(selectedDistrict!, currentCrop),
-        enabled: !!selectedDistrict
-    });
-
-    // 2. Rainfall Query
-    // Resolve State Name from Bridge logic
+    // 1. Resolve State Name first (needed for both History and Rainfall)
     const stateName = React.useMemo(() => {
         if (!selectedDistrict) return '';
         const raw = bridgeData as Record<string, string>;
+        // Try exact match first
+        const exactKey = Object.keys(raw).find(k => k === `${selectedDistrict}|${selectedDistrict}`); // Unlikely format
+        // Try finding key starting with district
         const stateKey = Object.keys(raw).find(k => k.startsWith(selectedDistrict + '|'));
         return stateKey ? stateKey.split('|')[1] : '';
     }, [selectedDistrict]);
 
+    // 2. History Query
+    const { data: history = [] } = useQuery({
+        queryKey: ['history', selectedDistrict, stateName, currentCrop],
+        queryFn: () => api.getHistory(selectedDistrict!, currentCrop, stateName),
+        enabled: !!selectedDistrict
+    });
+
+    // 3. Rainfall Query
     const { data: rainfallData, isLoading: rainfallLoading } = useQuery({
         queryKey: ['rainfall', selectedDistrict, stateName, currentYear],
         queryFn: () => api.getRainfall(selectedDistrict!, stateName, currentYear),

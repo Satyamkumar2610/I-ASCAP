@@ -257,7 +257,7 @@ async def get_system_stats():
     
     return {
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "cache": cache.stats(),
+        "cache": await cache.stats(),
         "rate_limiter": rate_limiter.stats(),
         "database": {
             "pool_size": pool.get_size() if pool else 0,

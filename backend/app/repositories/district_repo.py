@@ -53,7 +53,7 @@ class DistrictRepository(BaseRepository):
             query = """
                 SELECT lgd_code::text as cdk, district_name as name, state_name as state
                 FROM districts
-                WHERE district_name ILIKE $1 AND state_name = $2
+                WHERE district_name ILIKE $1 AND state_name ILIKE $2
                 ORDER BY district_name
                 LIMIT 50
             """

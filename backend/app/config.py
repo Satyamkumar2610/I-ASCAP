@@ -39,6 +39,10 @@ class Settings(BaseSettings):
     rate_limit_per_minute: int = 100
     rate_limit_burst: int = 30
     
+    # Cache / Redis
+    redis_url: str = "redis://localhost:6379/0"
+    cache_backend: str = "auto"  # "redis", "memory", or "auto" (try Redis, fallback to memory)
+    
     @property
     def requires_ssl(self) -> bool:
         """Check if database URL requires SSL."""

@@ -54,6 +54,6 @@ async def get_district(
     
     if not district:
         from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail="District not found")
+        raise HTTPException(status_code=404, detail=f"District not found (CDK: {cdk})")
     
     return district

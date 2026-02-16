@@ -391,6 +391,11 @@ class AnalysisService:
                 if len(row) > 1:
                     timeline.append(row)
         
+        # Fetch district metadata for labels
+        cdk_map = await self.district_repo.get_cdk_to_meta_map()
+        
+        parent_name = cdk_map.get(str(parent_cdk), {}).get("name", f"Parent ({parent_cdk})")
+        
         # Build response
         meta = AnalysisMeta(
             split_year=split_year,
@@ -409,6 +414,17 @@ class AnalysisService:
             harmonization_method="area_weighted" if mode == "before_after" else None,
             warnings=warnings,
         )
+        
+        # update series labels with names
+        for series in series_meta:
+            if series.id == "value":
+                # Keep "Boundary Adjusted District" for the reconstructed line
+                continue
+            elif series.id == "parent":
+                series.label = f"{parent_name} ({parent_cdk})"
+            elif series.id in children_cdks:
+                child_name = cdk_map.get(str(series.id), {}).get("name", f"Child ({series.id})")
+                series.label = f"{child_name} ({series.id})"
         
         return SplitImpactResponse(
             data=timeline,

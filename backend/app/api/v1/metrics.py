@@ -51,13 +51,23 @@ async def get_time_series(
     
     # Resolve CDK from name if needed
     if not target_cdk and district:
-        results = await district_repo.search(district, state)
+        # Tring resolving name first
+        from app.core.name_matching import resolve_district_name
+        resolved_name = resolve_district_name(district)
+        
+        # 1. Try search with resolved name
+        results = await district_repo.search(resolved_name, state)
         if results:
             target_cdk = results[0].cdk
+        
+        # 2. If valid state provided, try to find by exact match in that state (fallback)
+        if not target_cdk and state:
+             # Try simple normalization locally if repository search failed (repo uses ILIKE, so fuzzy logic already there)
+             pass
     
     if not target_cdk:
         from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail="District not found")
+        raise HTTPException(status_code=404, detail=f"District not found: {district}")
     
     timeline = await metric_repo.get_time_series_pivoted(target_cdk, crop.lower())
     

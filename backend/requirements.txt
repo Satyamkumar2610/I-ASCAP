@@ -22,4 +22,8 @@ gunicorn>=21.2.0
 
 python-jose[cryptography]>=3.3.0
 
+# ML / Forecasting
+statsmodels>=0.14.0
 
+# Persistent Caching
+redis[hiredis]>=5.0.0

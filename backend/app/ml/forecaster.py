@@ -1,11 +1,15 @@
 """
 Yield Forecasting Module.
-Provides simple time-series based yield predictions.
+Provides SARIMA-based time-series yield predictions with linear fallback.
 """
 
 from dataclasses import dataclass, asdict
 from typing import List, Dict, Any, Optional
 import math
+import logging
+import warnings
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -37,16 +41,32 @@ class ForecastResult:
 
 class YieldForecaster:
     """
-    Simple yield forecasting using linear trend extrapolation.
+    Yield forecasting using SARIMA with automatic fallback to linear regression.
     
-    For production use, consider:
-    - ARIMA/SARIMA for seasonal patterns
-    - Prophet for handling trends and holidays
-    - XGBoost with climate features
+    Strategy:
+    - If >= 10 data points: attempt SARIMA(1,1,1) fitting
+    - If SARIMA fails or < 10 points: degrade to linear regression
+    - Always returns confidence intervals
     """
     
+    SARIMA_MIN_POINTS = 10
+    LINEAR_MIN_POINTS = 5
+    
     def __init__(self):
-        self.min_data_points = 5
+        self._sarima_available = self._check_sarima()
+    
+    @staticmethod
+    def _check_sarima() -> bool:
+        """Check if statsmodels is available."""
+        try:
+            import statsmodels.tsa.statespace.sarimax  # noqa: F401
+            return True
+        except ImportError:
+            logger.warning(
+                "statsmodels not installed — SARIMA forecasting disabled. "
+                "Install with: pip install statsmodels>=0.14.0"
+            )
+            return False
     
     def forecast(
         self,
@@ -59,26 +79,138 @@ class YieldForecaster:
         """
         Generate yield forecasts based on historical data.
         
-        Args:
-            cdk: District CDK
-            crop: Crop name
-            historical_yields: Dict of year -> yield (kg/ha)
-            horizon_years: Number of years to forecast
-            confidence_level: Confidence interval level
-            
-        Returns:
-            ForecastResult with predictions and confidence intervals
+        Uses SARIMA when sufficient data is available,
+        falls back to linear regression otherwise.
         """
         # Filter valid data
         valid_data = {y: v for y, v in historical_yields.items() if v and v > 0}
         
-        if len(valid_data) < self.min_data_points:
+        if len(valid_data) < self.LINEAR_MIN_POINTS:
             return None
         
         years = sorted(valid_data.keys())
         yields = [valid_data[y] for y in years]
+        n = len(years)
         
-        # Fit linear trend
+        # Try SARIMA first
+        if self._sarima_available and n >= self.SARIMA_MIN_POINTS:
+            result = self._forecast_sarima(
+                cdk, crop, years, yields, horizon_years, confidence_level
+            )
+            if result is not None:
+                return result
+            logger.info(f"SARIMA failed for {cdk}/{crop}, falling back to linear")
+        
+        # Fallback to linear
+        return self._forecast_linear(
+            cdk, crop, years, yields, horizon_years, confidence_level
+        )
+    
+    # ------------------------------------------------------------------ #
+    # SARIMA Forecasting
+    # ------------------------------------------------------------------ #
+    def _forecast_sarima(
+        self,
+        cdk: str,
+        crop: str,
+        years: List[int],
+        yields: List[float],
+        horizon_years: int,
+        confidence_level: float,
+    ) -> Optional[ForecastResult]:
+        """Fit SARIMA(1,1,1) and generate forecasts."""
+        try:
+            from statsmodels.tsa.statespace.sarimax import SARIMAX
+            import numpy as np
+            
+            endog = np.array(yields, dtype=float)
+            n = len(endog)
+            
+            # Suppress convergence warnings for cleaner output
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                
+                # SARIMA(1,1,1) — handles single-differencing trend + MA smoothing
+                # No seasonal component since agricultural yields are annual
+                model = SARIMAX(
+                    endog,
+                    order=(1, 1, 1),
+                    enforce_stationarity=False,
+                    enforce_invertibility=False,
+                )
+                fit = model.fit(disp=False, maxiter=200)
+            
+            # Generate forecasts with confidence intervals
+            forecast_obj = fit.get_forecast(steps=horizon_years)
+            predicted = forecast_obj.predicted_mean
+            conf_int = forecast_obj.conf_int(alpha=1 - confidence_level)
+            
+            last_year = max(years)
+            forecasts = []
+            
+            for i in range(horizon_years):
+                forecast_year = last_year + i + 1
+                pred = float(predicted.iloc[i]) if hasattr(predicted, 'iloc') else float(predicted[i])
+                lower = float(conf_int.iloc[i, 0]) if hasattr(conf_int, 'iloc') else float(conf_int[i, 0])
+                upper = float(conf_int.iloc[i, 1]) if hasattr(conf_int, 'iloc') else float(conf_int[i, 1])
+                
+                # Ensure non-negative yields
+                pred = max(0, pred)
+                lower = max(0, lower)
+                upper = max(0, upper)
+                
+                # Confidence decreases with horizon
+                conf = max(0.5, confidence_level - 0.03 * (i + 1))
+                
+                forecasts.append(ForecastPoint(
+                    year=forecast_year,
+                    predicted_yield=round(pred, 2),
+                    lower_bound=round(lower, 2),
+                    upper_bound=round(upper, 2),
+                    confidence=round(conf, 2),
+                ))
+            
+            # Model stats
+            aic = float(fit.aic) if hasattr(fit, 'aic') else 0.0
+            bic = float(fit.bic) if hasattr(fit, 'bic') else 0.0
+            
+            # Trend direction from first forecast vs last historical value
+            last_yield = yields[-1]
+            first_pred = forecasts[0].predicted_yield
+            pct_change = ((first_pred - last_yield) / last_yield * 100) if last_yield > 0 else 0
+            trend = self._classify_trend(pct_change)
+            
+            return ForecastResult(
+                cdk=cdk,
+                crop=crop,
+                historical_years=n,
+                method="sarima",
+                trend_direction=trend,
+                forecasts=forecasts,
+                model_stats={
+                    "aic": round(aic, 2),
+                    "bic": round(bic, 2),
+                    "data_points": n,
+                    "order": "(1,1,1)",
+                },
+            )
+        except Exception as e:
+            logger.warning(f"SARIMA fitting error: {e}")
+            return None
+    
+    # ------------------------------------------------------------------ #
+    # Linear Fallback
+    # ------------------------------------------------------------------ #
+    def _forecast_linear(
+        self,
+        cdk: str,
+        crop: str,
+        years: List[int],
+        yields: List[float],
+        horizon_years: int,
+        confidence_level: float,
+    ) -> Optional[ForecastResult]:
+        """Linear trend extrapolation (original method)."""
         n = len(years)
         x_mean = sum(years) / n
         y_mean = sum(yields) / n
@@ -113,8 +245,6 @@ class YieldForecaster:
         # Generate forecasts
         last_year = max(years)
         forecasts = []
-        
-        # Z-score for confidence level (approximation for 95% = 1.96)
         z = 1.96 if confidence_level >= 0.95 else 1.645
         
         for i in range(1, horizon_years + 1):
@@ -122,14 +252,17 @@ class YieldForecaster:
             predicted = slope * forecast_year + intercept
             
             # Wider interval further into future
-            interval_width = z * se * math.sqrt(1 + 1/n + (forecast_year - x_mean)**2 / denominator) if denominator > 0 else z * se * (1 + 0.1 * i)
+            if denominator > 0:
+                interval_width = z * se * math.sqrt(
+                    1 + 1/n + (forecast_year - x_mean)**2 / denominator
+                )
+            else:
+                interval_width = z * se * (1 + 0.1 * i)
             
-            # Ensure non-negative yields
             predicted = max(0, predicted)
             lower = max(0, predicted - interval_width)
             upper = predicted + interval_width
             
-            # Confidence decreases with horizon
             conf = max(0.5, confidence_level - 0.05 * i)
             
             forecasts.append(ForecastPoint(
@@ -137,24 +270,17 @@ class YieldForecaster:
                 predicted_yield=round(predicted, 2),
                 lower_bound=round(lower, 2),
                 upper_bound=round(upper, 2),
-                confidence=round(conf, 2)
+                confidence=round(conf, 2),
             ))
         
-        # Determine trend direction
-        if slope > 10:
-            trend = "strong_increase"
-        elif slope > 0:
-            trend = "mild_increase"
-        elif slope > -10:
-            trend = "mild_decrease"
-        else:
-            trend = "strong_decrease"
+        pct_change = (slope / y_mean * 100) if y_mean > 0 else 0
+        trend = self._classify_trend(pct_change)
         
         return ForecastResult(
             cdk=cdk,
             crop=crop,
             historical_years=n,
-            method="linear_regression",
+            method="linear_fallback",
             trend_direction=trend,
             forecasts=forecasts,
             model_stats={
@@ -162,9 +288,21 @@ class YieldForecaster:
                 "intercept": round(intercept, 2),
                 "r_squared": round(r_squared, 4),
                 "std_error": round(se, 2),
-                "data_points": n
-            }
+                "data_points": n,
+            },
         )
+    
+    @staticmethod
+    def _classify_trend(pct_change: float) -> str:
+        """Classify trend direction from percentage change."""
+        if pct_change > 5:
+            return "strong_increase"
+        elif pct_change > 0:
+            return "mild_increase"
+        elif pct_change > -5:
+            return "mild_decrease"
+        else:
+            return "strong_decrease"
 
 
 class CropRecommender:

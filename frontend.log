@@ -1,0 +1,15 @@
+cd frontend && npm run dev
+
+> frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.5 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.7.16.211:3000
+
+✓ Starting...
+✓ Ready in 690ms
+ GET / 200 in 618ms (compile: 429ms, render: 189ms)
+ GET / 200 in 60ms (compile: 1523µs, render: 58ms)
+ GET /?district=Kabeerdham 200 in 49ms (compile: 24ms, render: 25ms)
+make: *** [dev-frontend] Hangup: 1

@@ -22,7 +22,9 @@ async def get_yield_forecast(
     """
     Get yield forecast for a specific district and crop.
     
-    Uses linear trend extrapolation with confidence intervals.
+    Uses SARIMA(1,1,1) when sufficient data (>=10 years) is available,
+    with automatic fallback to linear trend extrapolation.
+    Returns predictions with confidence intervals.
     """
     # Verify district exists
     exists = await db.fetchval("SELECT 1 FROM districts WHERE lgd_code::text = $1", cdk)

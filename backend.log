@@ -1,0 +1,10 @@
+cd backend && uvicorn app.main:app --reload --port 8000
+INFO:     Will watch for changes in these directories: ['/Users/satyamkumar/Desktop/DistrictEvolution/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [51183] using WatchFiles
+INFO:     Started server process [51185]
+INFO:     Waiting for application startup.
+{"timestamp": "2026-02-16T08:43:50.657294Z", "level": "INFO", "logger": "app.main", "message": "Starting I-ASCAP API"}
+{"timestamp": "2026-02-16T08:43:52.700834Z", "level": "INFO", "logger": "app.main", "message": "Database connection pool initialized"}
+INFO:     Application startup complete.
+make: *** [dev] Hangup: 1

@@ -1,0 +1,49 @@
+Connecting to database...
+--- Data Integrity Audit ---
+
+1. Fetching District Master Data...
+Total Master Districts: 763
+Lookup Keys: 763
+
+
+2. Auditing Split Events (district_splits table)...
+Total Split Events: 923
+Unmapped Parents: 134
+Top 5 Unmapped Parents: ['Balipara Frontier Tract (Arunachal Pradesh)', 'Balipara Frontier Tract (Arunachal Pradesh)', 'Mahasu (Himachal Pradesh)', 'Mahasu (Himachal Pradesh)', 'Malabar (Kerala)']
+Unmapped Children: 153
+Top 5 Unmapped Children: ['Subansiri Frontier Division (Arunachal Pradesh)', 'Kameng Frontier Division (Arunachal Pradesh)', 'Lahaul and Spiti (Himachal Pradesh)', 'Mahasu (Himachal Pradesh)', 'Alleppey (Kerala)']
+
+
+3. Auditing Agricultural Metrics (agri_metrics table)...
+Total Metric Records: 687556
+Districts with metrics but missing from Master Table: 0
+
+Checking Data Coverage by Year (Wheat Yield)...
+Year 1990: 269 districts reported wheat yield
+Year 1991: 272 districts reported wheat yield
+Year 1992: 277 districts reported wheat yield
+Year 1993: 278 districts reported wheat yield
+Year 1994: 277 districts reported wheat yield
+Year 1995: 282 districts reported wheat yield
+Year 1996: 285 districts reported wheat yield
+Year 1997: 300 districts reported wheat yield
+Year 1998: 307 districts reported wheat yield
+Year 1999: 303 districts reported wheat yield
+Year 2000: 324 districts reported wheat yield
+Year 2001: 327 districts reported wheat yield
+Year 2002: 324 districts reported wheat yield
+Year 2003: 330 districts reported wheat yield
+Year 2004: 333 districts reported wheat yield
+Year 2005: 332 districts reported wheat yield
+Year 2006: 335 districts reported wheat yield
+Year 2007: 337 districts reported wheat yield
+Year 2008: 348 districts reported wheat yield
+Year 2009: 344 districts reported wheat yield
+Year 2010: 343 districts reported wheat yield
+Year 2011: 347 districts reported wheat yield
+Year 2012: 347 districts reported wheat yield
+Year 2013: 349 districts reported wheat yield
+Year 2014: 353 districts reported wheat yield
+Year 2015: 352 districts reported wheat yield
+Year 2016: 360 districts reported wheat yield
+Year 2017: 347 districts reported wheat yield
