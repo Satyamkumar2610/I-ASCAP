@@ -270,9 +270,12 @@ async def analyze_split_impact(
     # Check Cache
     from app.cache import get_cache, CacheTTL
     cache = get_cache()
-    cached_result = await cache.get(query_hash)
-    if cached_result:
-        return cached_result
+    try:
+        cached_result = await cache.get(query_hash)
+        if cached_result:
+            return cached_result
+    except Exception:
+        pass  # Cache miss or unavailable — proceed to compute
 
     service = AnalysisService(db)
     result = await service.analyze_split_impact(
@@ -286,7 +289,10 @@ async def analyze_split_impact(
     )
     
     # Set Cache
-    await cache.set(query_hash, result, CacheTTL.ANALYSIS)
+    try:
+        await cache.set(query_hash, result, CacheTTL.ANALYSIS)
+    except Exception:
+        pass  # Cache write failed — non-fatal
     return result
 
 
