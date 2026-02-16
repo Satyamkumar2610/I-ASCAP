@@ -69,7 +69,7 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
 
             {/* Scatter Plot */}
             <div className="h-40 w-full bg-slate-950/30 rounded border border-slate-800/50 p-2 mb-2">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minHeight={120}>
                     <ScatterChart margin={{ top: 5, right: 5, bottom: 5, left: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                         <XAxis

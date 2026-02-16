@@ -144,7 +144,7 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
                 {/* 2. Visualization */}
                 <div className="h-40 relative border border-slate-800/50 rounded-lg bg-slate-900/20">
                     <div className="absolute top-1 left-2 text-[9px] text-slate-500 font-bold uppercase z-10 pointer-events-none"> Correlation Match</div>
-                    <ResponsiveContainer width="100%" height="100%">
+                    <ResponsiveContainer width="100%" height="100%" minHeight={120}>
                         <ScatterChart margin={{ top: 10, right: 10, bottom: 5, left: -20 }}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                             <XAxis

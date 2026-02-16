@@ -345,7 +345,7 @@ const Dashboard: React.FC<DashboardProps> = ({
                                     <Activity size={10} /> Historical Trend
                                 </h4>
                                 <div className="h-32 w-full -ml-4">
-                                    <ResponsiveContainer width="100%" height="100%">
+                                    <ResponsiveContainer width="100%" height="100%" minHeight={80}>
                                         <LineChart data={Array.isArray(history) ? history : []}>
                                             <XAxis dataKey="year" stroke="#475569" fontSize={8} tickLine={false} axisLine={false} />
                                             <Tooltip

@@ -30,7 +30,6 @@ export const metadata: Metadata = {
     description: "Scientific analysis of agricultural performance across district boundary changes in India",
     type: "website",
   },
-  manifest: "/manifest.json",
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",

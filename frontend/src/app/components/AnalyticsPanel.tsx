@@ -28,9 +28,9 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
     });
 
     const { data: diversification, isLoading: loadingDiv } = useQuery({
-        queryKey: ['diversification', state, year],
-        queryFn: () => api.getDiversification(state, year),
-        enabled: !!state
+        queryKey: ['diversification', cdk, year],
+        queryFn: () => api.getDiversification(cdk, year),
+        enabled: !!cdk
     });
 
     const { data: correlation, isLoading: loadingCorr } = useQuery({

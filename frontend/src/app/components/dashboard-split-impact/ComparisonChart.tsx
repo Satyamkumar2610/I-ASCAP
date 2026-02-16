@@ -33,7 +33,7 @@ export function ComparisonChart({ data, series, splitYear, metric = 'yield' }: C
             role="img"
             aria-label={`Line chart showing ${metric} trends relative to split year ${splitYear}`}
         >
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minHeight={200}>
                 <LineChart data={data} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                     <XAxis

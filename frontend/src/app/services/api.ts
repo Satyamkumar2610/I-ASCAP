@@ -10,6 +10,35 @@ class ApiError extends Error {
     }
 }
 
+async function fetchOnce<T>(url: string, options: RequestInit = {}): Promise<T> {
+    const headers = {
+        'Content-Type': 'application/json',
+        ...options.headers,
+    };
+
+    const response = await fetch(url, {
+        ...options,
+        headers,
+        // Allow backend time to wake from cold start
+        signal: AbortSignal.timeout ? AbortSignal.timeout(60000) : undefined,
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text().catch(() => 'Unknown error');
+        console.error(`[API] Error ${response.status}: ${errorText}`);
+
+        if (response.status === 404) {
+            throw new ApiError(404, 'Resource not found');
+        }
+        if (response.status >= 500) {
+            throw new ApiError(response.status, `Server error: ${errorText}`);
+        }
+        throw new ApiError(response.status, `API Error: ${response.statusText}`);
+    }
+
+    return response.json();
+}
+
 async function fetcher<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     // Remove leading slash if present
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
@@ -17,37 +46,20 @@ async function fetcher<T>(endpoint: string, options: RequestInit = {}): Promise<
 
     console.log(`[API] Fetching: ${url}`);
 
-    const headers = {
-        'Content-Type': 'application/json',
-        ...options.headers,
-    };
-
     try {
-        const response = await fetch(url, {
-            ...options,
-            headers,
-            // Allow backend time to wake from cold start
-            signal: AbortSignal.timeout ? AbortSignal.timeout(60000) : undefined,
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text().catch(() => 'Unknown error');
-            console.error(`[API] Error ${response.status}: ${errorText}`);
-
-            if (response.status === 404) {
-                throw new ApiError(404, 'Resource not found');
-            }
-            if (response.status >= 500) {
-                throw new ApiError(response.status, `Server error: ${errorText}`);
-            }
-            throw new ApiError(response.status, `API Error: ${response.statusText}`);
-        }
-
-        return response.json();
+        return await fetchOnce<T>(url, options);
     } catch (error) {
         if (error instanceof ApiError) throw error;
-        console.error(`[API] Network error:`, error);
-        throw new ApiError(0, `Network error - backend may be waking up. Please retry.`);
+        // Retry once after 2s for timeout / network errors (Render cold start)
+        console.warn(`[API] Retrying after network error:`, error);
+        await new Promise(r => setTimeout(r, 2000));
+        try {
+            return await fetchOnce<T>(url, options);
+        } catch (retryError) {
+            if (retryError instanceof ApiError) throw retryError;
+            console.error(`[API] Retry failed:`, retryError);
+            throw new ApiError(0, `Network error - backend may be waking up. Please retry.`);
+        }
     }
 }
 
@@ -153,7 +165,7 @@ export const api = {
     // --- Advanced Analytics --
 
     getDiversification: (cdk: string, year: number) =>
-        fetcher<DiversificationData>(`analytics/diversification?cdk=${cdk}&year=${year}`),
+        fetcher<DiversificationData>(`analytics/diversification?cdk=${encodeURIComponent(cdk)}&year=${year}`),
 
     getYieldTrend: (cdk: string, crop: string) =>
         fetcher<YieldTrendData>(`analytics/yield-trend?cdk=${cdk}&crop=${crop}`),
