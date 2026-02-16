@@ -2,7 +2,7 @@
 """
 Name matching utilities for district resolution.
 """
-from typing import Optional, Tuple, Dict
+from typing import Optional
 
 # Normalized corrections map
 NAME_CORRECTIONS = {
