@@ -14,7 +14,7 @@ from typing import Dict, Optional, List
 from functools import lru_cache
 import logging
 
-from app.services.name_resolver import _ALIASES as SHARED_ALIASES, resolve_alias
+from app.services.name_resolver import _ALIASES as SHARED_ALIASES
 
 logger = logging.getLogger(__name__)
 
