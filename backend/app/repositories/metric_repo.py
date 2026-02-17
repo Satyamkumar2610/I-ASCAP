@@ -80,7 +80,11 @@ class MetricRepository(BaseRepository):
         year: int, 
         variable: str
     ) -> List[AggregatedMetric]:
-        """Get all district values for a given year and variable."""
+        """Get all district values for a given year and variable.
+        
+        Includes split-lineage fallback: if a child district has data but
+        no GeoJSON polygon, its value is mapped to the parent's polygon.
+        """
         query = """
             SELECT m.district_lgd::text as cdk, d.state_name, d.district_name, m.value
             FROM agri_metrics m
@@ -125,20 +129,57 @@ class MetricRepository(BaseRepository):
         from app.services.mapping_service import get_mapping_service
         mapping_service = get_mapping_service()
         
-        return [
-            AggregatedMetric(
+        # Build results with geo_key resolution
+        results = []
+        unmapped = []  # Track items needing split-lineage fallback
+        
+        for r in rows:
+            geo_key = mapping_service.resolve_geo_key(
+                r["cdk"], r["district_name"], r["state_name"]
+            )
+            metric = AggregatedMetric(
                 cdk=r["cdk"],
                 state=r["state_name"] or "",
                 district=r["district_name"] or "",
                 value=float(r["value"]) if r["value"] is not None else 0.0,
                 metric=variable.split("_")[-1],
                 method="Raw",
-                geo_key=mapping_service.resolve_geo_key(
-                    r["cdk"], r["district_name"], r["state_name"]
-                ),
+                geo_key=geo_key,
             )
-            for r in rows
-        ]
+            if geo_key:
+                results.append(metric)
+            else:
+                unmapped.append(metric)
+        
+        # Split-lineage fallback: map child data to parent's polygon
+        if unmapped:
+            child_lgds = [int(m.cdk) for m in unmapped if m.cdk.isdigit()]
+            if child_lgds:
+                lineage_query = """
+                    SELECT ds.child_lgd, ds.parent_lgd, pd.district_name, pd.state_name
+                    FROM district_splits ds
+                    JOIN districts pd ON pd.lgd_code = ds.parent_lgd
+                    WHERE ds.child_lgd = ANY($1::int[])
+                """
+                lineage_rows = await self.fetch_all(lineage_query, child_lgds)
+                parent_map = {
+                    r["child_lgd"]: (r["parent_lgd"], r["district_name"], r["state_name"])
+                    for r in lineage_rows
+                }
+                
+                for m in unmapped:
+                    child_lgd = int(m.cdk) if m.cdk.isdigit() else None
+                    if child_lgd and child_lgd in parent_map:
+                        p_lgd, p_dist, p_state = parent_map[child_lgd]
+                        geo_key = mapping_service.resolve_geo_key(
+                            str(p_lgd), p_dist, p_state
+                        )
+                        if geo_key:
+                            m.geo_key = geo_key
+                            m.method = "SplitInherited"
+                    results.append(m)
+        
+        return results
     
     @cached(ttl=CacheTTL.METRICS, prefix="metrics:ts")
     async def get_time_series_pivoted(

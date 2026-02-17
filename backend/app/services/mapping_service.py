@@ -2,10 +2,10 @@
 Mapping Service: Provides robust district-to-GeoJSON mapping with fallback strategies.
 
 Handles:
-- Name normalization for district/state matching
+- Name normalization for district/state matching (via shared name_resolver)
 - Reverse lookup (CDK -> GeoJSON key)
 - Fuzzy matching when exact lookup fails
-- Split district scenarios
+- Split district scenarios: child data mapped to parent polygon
 """
 import json
 import re
@@ -13,6 +13,8 @@ from pathlib import Path
 from typing import Dict, Optional, List
 from functools import lru_cache
 import logging
+
+from app.services.name_resolver import _ALIASES as SHARED_ALIASES, resolve_alias
 
 logger = logging.getLogger(__name__)
 
@@ -23,27 +25,19 @@ class MappingService:
     
     The bridge maps GeoJSON keys (DISTRICT|STATE) to CDK codes.
     This service provides reverse lookup and fallback matching.
+    Uses the shared name_resolver for canonical alias resolution.
     """
     
-    # Common name variations for normalization
+    # Use aliases from the single shared source of truth, plus a few
+    # GeoJSON-specific aliases that don't apply to LGD resolution.
     NAME_ALIASES: Dict[str, str] = {
-        # District name variations
-        "alleppey": "alappuzha",
+        **SHARED_ALIASES,
+        # GeoJSON-specific aliases not in the shared resolver
         "trivandrum": "thiruvananthapuram",
         "calicut": "kozhikode",
         "cochin": "kochi",
-        "trichur": "thrissur",
-        "cannanore": "kannur",
-        "quilon": "kollam",
-        "palghat": "palakkad",
-        "bombay": "mumbai",
         "madras": "chennai",
         "calcutta": "kolkata",
-        "bangalore": "bengaluru",
-        "mysore": "mysuru",
-        "shimoga": "shivamogga",
-        "bellary": "ballari",
-        "tumkur": "tumakuru",
         "baroda": "vadodara",
         "poona": "pune",
         "pondicherry": "puducherry",
