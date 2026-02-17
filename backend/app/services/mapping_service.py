@@ -28,25 +28,8 @@ class MappingService:
     Uses the shared name_resolver for canonical alias resolution.
     """
     
-    # Use aliases from the single shared source of truth, plus a few
-    # GeoJSON-specific aliases that don't apply to LGD resolution.
-    NAME_ALIASES: Dict[str, str] = {
-        **SHARED_ALIASES,
-        # GeoJSON-specific aliases not in the shared resolver
-        "trivandrum": "thiruvananthapuram",
-        "calicut": "kozhikode",
-        "cochin": "kochi",
-        "madras": "chennai",
-        "calcutta": "kolkata",
-        "baroda": "vadodara",
-        "poona": "pune",
-        "pondicherry": "puducherry",
-        "ooty": "nilgiris",
-        "vizag": "visakhapatnam",
-        # State name variations
-        "orissa": "odisha",
-        "uttaranchal": "uttarakhand",
-    }
+    # Use aliases from the single shared source of truth
+    NAME_ALIASES: Dict[str, str] = SHARED_ALIASES
     
     # State code to full name mapping
     STATE_CODES: Dict[str, str] = {

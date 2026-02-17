@@ -80,6 +80,20 @@ _ALIASES: Dict[str, str] = {
     "raj nandgaon": "rajnandgaon",
     "dakshina kannad": "dakshina kannada",
     "darjiling": "darjeeling",
+    # Common Historical / City Aliases (moved from MappingService)
+    "bombay": "mumbai",
+    "madras": "chennai",
+    "calcutta": "kolkata",
+    "trivandrum": "thiruvananthapuram",
+    "calicut": "kozhikode",
+    "cochin": "kochi",
+    "baroda": "vadodara",
+    "poona": "pune",
+    "pondicherry": "puducherry",
+    "ooty": "nilgiris",
+    "vizag": "visakhapatnam",
+    "orissa": "odisha",
+    "uttaranchal": "uttarakhand",
 }
 
 # States that changed names or were reorganised
