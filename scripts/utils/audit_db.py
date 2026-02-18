@@ -7,14 +7,12 @@ from collections import defaultdict
 import json
 
 # Add backend to path to import config if needed, or just read env directly
-sys.path.append(os.path.join(os.path.dirname(__file__), 'backend'))
+# Add backend to path to import components
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../backend')))
 
-# Database URL from .env (hardcoded for script execution based on previous context, 
-# but ideally should read from env. User's env has it.)
-# DATABASE_URL = "postgresql://neondb_owner:npg_7AtbCMWo3ksv@ep-purple-butterfly-a18tkuor.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
-# Actually, I should try to read it from os.environ or the .env file to be safe.
+# Load .env from project root
 from dotenv import load_dotenv
-load_dotenv(os.path.join(os.path.dirname(__file__), 'backend/.env'))
+load_dotenv(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.env')))
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 

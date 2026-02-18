@@ -5,7 +5,9 @@ import sys
 import os
 
 # Set paths
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Set paths
+# Now in scripts/utils/, so need to go up 3 levels to root: scripts/utils/ -> scripts/ -> root
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MASTER_PATH = os.path.join(BASE_DIR, 'data', 'v1', 'district_master.csv')
 LINEAGE_PATH = os.path.join(BASE_DIR, 'data', 'v1', 'district_lineage.csv')
 

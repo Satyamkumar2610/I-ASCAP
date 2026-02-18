@@ -5,8 +5,8 @@ import sys
 import asyncpg
 from dotenv import load_dotenv
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'backend'))
-load_dotenv(os.path.join(os.path.dirname(__file__), 'backend/.env'))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../backend')))
+load_dotenv(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.env')))
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 

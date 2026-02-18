@@ -14,8 +14,9 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Constants
-CSV_PATH = Path("/Users/satyamkumar/Desktop/DistrictEvolution/data/raw/ICRISAT-District Level Data.csv")
-UNMAPPED_REPORT_PATH = Path("/Users/satyamkumar/Desktop/DistrictEvolution/data/quarantine/icrisat_unmapped.csv")
+# Assuming script is run from project root
+CSV_PATH = Path("data/raw/ICRISAT-District Level Data.csv")
+UNMAPPED_REPORT_PATH = Path("data/quarantine/icrisat_unmapped.csv")
 
 # Crop name mapping (CSV header substring -> standard variable name)
 CROP_MAP = {
