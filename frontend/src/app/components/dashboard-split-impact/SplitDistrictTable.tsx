@@ -46,8 +46,8 @@ export default function SplitDistrictTable({ splits, onSelect, selectedEventId, 
                     <button
                         onClick={() => setActiveDecade(null)}
                         className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-colors ${!activeDecade
-                            ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
-                            : 'bg-slate-900/50 text-slate-500 border border-slate-800 hover:border-slate-600'
+                            ? 'glass-active text-indigo-300 border border-indigo-500/40'
+                            : 'glass-panel text-slate-500 hover:border-slate-600'
                             }`}
                     >
                         All ({splits.length})
@@ -60,8 +60,8 @@ export default function SplitDistrictTable({ splits, onSelect, selectedEventId, 
                                 key={d}
                                 onClick={() => setActiveDecade(activeDecade === d ? null : d)}
                                 className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-colors ${activeDecade === d
-                                    ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
-                                    : 'bg-slate-900/50 text-slate-500 border border-slate-800 hover:border-slate-600'
+                                    ? 'glass-active text-indigo-300 border border-indigo-500/40'
+                                    : 'glass-panel text-slate-500 hover:border-slate-600'
                                     }`}
                             >
                                 {d} ({count})
@@ -82,8 +82,8 @@ export default function SplitDistrictTable({ splits, onSelect, selectedEventId, 
                         key={item.id}
                         onClick={() => onSelect && onSelect(item)}
                         className={`p-3 rounded-lg border cursor-pointer transition-colors ${selectedEventId === item.id
-                            ? 'bg-indigo-500/20 border-indigo-500/50'
-                            : 'bg-slate-900/50 border-slate-800 hover:border-slate-700'
+                            ? 'glass-active border-indigo-500/50'
+                            : 'glass-panel hover:border-slate-700'
                             }`}
                     >
                         <div className="flex items-center justify-between mb-2">

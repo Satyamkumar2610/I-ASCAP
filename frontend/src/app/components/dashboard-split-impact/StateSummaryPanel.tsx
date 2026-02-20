@@ -63,7 +63,7 @@ export function StateSummaryPanel({ stateName, stats }: StateSummaryPanelProps) 
                 return (
                     <div
                         key={idx}
-                        className={`bg-slate-900/50 border border-slate-800 p-3 md:p-4 rounded-lg md:rounded-xl ${card.faded ? 'opacity-50 grayscale' : ''}`}
+                        className={`glass-card p-3 md:p-4 rounded-lg md:rounded-xl transition-all hover:shadow-lg ${colors.bg.replace('/10', '/5')} ${card.faded ? 'opacity-50 grayscale' : ''}`}
                     >
                         <div className="flex items-center gap-2 md:gap-3 mb-1">
                             <div className={`p-1.5 md:p-2 ${colors.bg} rounded-md md:rounded-lg`}>

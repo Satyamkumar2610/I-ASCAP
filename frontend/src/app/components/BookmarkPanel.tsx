@@ -60,8 +60,8 @@ export default function BookmarkPanel({ onSelect, className = "" }: BookmarkPane
                         <div
                             key={b.id}
                             className={`group border rounded-lg p-3 transition-colors relative ${isSelected
-                                ? 'bg-indigo-900/20 border-indigo-500/50'
-                                : 'bg-slate-900/50 border-slate-800 hover:border-emerald-500/50'
+                                ? 'glass-active border-indigo-500/50'
+                                : 'glass-panel hover:border-emerald-500/50'
                                 }`}
                         >
                             <div

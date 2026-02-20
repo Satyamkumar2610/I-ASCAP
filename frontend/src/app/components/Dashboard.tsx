@@ -289,7 +289,7 @@ const Dashboard: React.FC<DashboardProps> = ({
 
                     {/* 2. Selected District Info & Analytics */}
                     {selectedDistrict ? (
-                        <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 bg-emerald-950/20 border border-emerald-900/50 rounded-lg p-4">
+                        <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 glass-card p-4">
                             <div className="flex justify-between items-start mb-2">
                                 <h2 className="text-lg font-bold text-white leading-none">{selectedDistrict}</h2>
                                 <button
@@ -309,7 +309,7 @@ const Dashboard: React.FC<DashboardProps> = ({
 
                             {/* Rainfall Data Panel */}
                             {showRainfallLayer && (
-                                <div className="bg-blue-950/30 border border-blue-900/50 rounded-lg p-3 mb-4">
+                                <div className="glass-panel border-blue-900/40 rounded-lg p-3 mb-4">
                                     <h4 className="text-[10px] text-blue-400 uppercase tracking-widest font-bold mb-2 flex items-center gap-2">
                                         <Calendar size={10} /> Rainfall (IMD 1951-2000)
                                     </h4>

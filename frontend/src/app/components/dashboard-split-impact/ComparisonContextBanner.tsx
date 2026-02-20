@@ -9,7 +9,7 @@ export function ComparisonContextBanner({ event, mode }: { event: any; mode: str
     if (!event) return null;
 
     return (
-        <div className="mb-3 md:mb-4 bg-slate-900/50 border-l-4 border-l-emerald-500 border-y border-r border-slate-800 p-3 md:p-4 rounded-r-lg shadow-sm">
+        <div className="mb-3 md:mb-4 glass-panel border-l-4 border-l-emerald-500 p-3 md:p-4 rounded-r-lg shadow-sm">
             <h4 className="text-[10px] md:text-xs font-bold text-emerald-500 uppercase tracking-widest mb-2 flex items-center gap-1.5 md:gap-2">
                 <Info size={12} className="md:w-[14px] md:h-[14px]" />
                 Analysis Context
