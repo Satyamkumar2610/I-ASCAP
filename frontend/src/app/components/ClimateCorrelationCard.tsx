@@ -36,11 +36,11 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
     };
 
     return (
-        <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
+        <div className="glass-card rounded-xl p-4 transition-all duration-300 hover:shadow-sky-900/10">
             {/* Header */}
-            <div className="flex items-center justify-between mb-3">
-                <h4 className="text-[10px] text-sky-400 uppercase font-bold flex items-center gap-2">
-                    <CloudRain size={12} /> Climate Impact (Monsoon)
+            <div className="flex items-center justify-between mb-4">
+                <h4 className="text-[10px] text-sky-400 uppercase font-bold flex items-center gap-2 tracking-wider">
+                    <CloudRain size={14} /> Climate Impact (Monsoon)
                 </h4>
                 {Math.abs(r) > 0.3 && (
                     <span className={`text-[10px] px-1.5 py-0.5 rounded border ${getBgColor(r)} ${getColor(r)} font-bold uppercase`}>
@@ -68,10 +68,10 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
             </div>
 
             {/* Scatter Plot */}
-            <div className="h-40 w-full bg-slate-950/30 rounded border border-slate-800/50 p-2 mb-2">
+            <div className="h-48 w-full glass-panel rounded-xl p-3 mb-3">
                 <ResponsiveContainer width="100%" height="100%" minHeight={120}>
-                    <ScatterChart margin={{ top: 5, right: 5, bottom: 5, left: 0 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                    <ScatterChart margin={{ top: 10, right: 10, bottom: 5, left: -10 }}>
+                        <CartesianGrid strokeDasharray="4 4" stroke="#334155" opacity={0.4} />
                         <XAxis
                             type="number"
                             dataKey="monsoon_rainfall"
@@ -80,6 +80,7 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
                             stroke="#64748b"
                             fontSize={9}
                             tickFormatter={(v) => `${v}`}
+                            tickLine={false}
                         />
                         <YAxis
                             type="number"
@@ -88,12 +89,23 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
                             unit="kg/ha"
                             stroke="#64748b"
                             fontSize={9}
-                            width={30}
+                            width={40}
+                            tickLine={false}
+                            tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v}
                         />
                         <RechartsTooltip
-                            cursor={{ strokeDasharray: '3 3' }}
-                            contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '10px' }}
-                            itemStyle={{ color: '#e2e8f0' }}
+                            cursor={{ strokeDasharray: '4 4', stroke: '#475569' }}
+                            contentStyle={{
+                                backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                                backdropFilter: 'blur(8px)',
+                                borderColor: 'rgba(51, 65, 85, 0.6)',
+                                borderRadius: '8px',
+                                boxShadow: '0 10px 15px -3px rgba(0,0,0,0.3)',
+                                fontSize: '11px',
+                                padding: '8px',
+                                color: '#e2e8f0'
+                            }}
+                            itemStyle={{ color: '#38bdf8', fontWeight: 'bold' }}
                         />
                         <Scatter name="Districts" data={data?.data_points || []} fill="#38bdf8">
                             {(data?.data_points || []).map((entry, index) => (
@@ -105,8 +117,8 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
             </div>
 
             {/* Methodology Footnote */}
-            <div className="flex items-start gap-1.5 text-[9px] text-slate-500 bg-slate-950/50 p-2 rounded">
-                <Info size={10} className="shrink-0 mt-0.5" />
+            <div className="flex items-start gap-1.5 text-[9px] text-slate-400 bg-slate-950/40 p-2.5 rounded-lg border border-slate-800/50 shadow-inner">
+                <Info size={12} className="shrink-0 mt-0.5 text-slate-500" />
                 <p>
                     Statistical correlation based on {data?.data_points?.length || 0} districts.
                     Compares {data.validity?.baseline_period || 'historic'} Rainfall Normals vs Yield.

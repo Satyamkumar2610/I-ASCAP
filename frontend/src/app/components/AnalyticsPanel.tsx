@@ -80,8 +80,8 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
         <div className="space-y-4 mt-4 animate-in fade-in duration-500 pb-10">
 
             {/* Header / Actions */}
-            <div className="flex justify-between items-center bg-slate-900/50 p-2 rounded -mt-2 mb-2">
-                <span className="text-[10px] text-slate-500 font-mono">ID: {cdk}</span>
+            <div className="flex justify-between items-center glass-card border-none p-2.5 rounded-xl -mt-2 mb-3">
+                <span className="text-[10px] text-slate-400 font-mono tracking-wider ml-1">ID: {cdk}</span>
 
                 <div className="flex gap-2">
                     <button
@@ -119,9 +119,9 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
 
             {/* 1. Yield Efficiency */}
             {efficiency && efficiency.relative_efficiency && efficiency.historical_efficiency ? (
-                <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
-                    <h4 className="text-[10px] text-emerald-400 uppercase font-bold mb-3 flex items-center gap-2">
-                        <TrendingUp size={12} /> Efficiency Metrics
+                <div className="glass-card rounded-xl p-4 transition-all duration-300 hover:shadow-emerald-900/10">
+                    <h4 className="text-[10px] text-emerald-400 uppercase font-bold mb-4 flex items-center gap-2 tracking-wider">
+                        <TrendingUp size={14} /> Efficiency Metrics
                     </h4>
 
                     {/* A. Relative Efficiency */}
@@ -192,17 +192,17 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
                     </div>
                 </div>
             ) : (
-                <div className="bg-slate-900/30 border border-slate-800 rounded-lg p-3">
-                    <div className="text-xs text-slate-500 text-center">Efficiency data unavailable</div>
+                <div className="glass-panel rounded-xl p-4">
+                    <div className="text-xs text-slate-500 text-center font-medium">Efficiency data unavailable</div>
                 </div>
             )}
 
             {/* 2. Decision Intelligence (NEW) */}
             {
                 riskData && riskData.resilience_index && riskData.growth_matrix ? (
-                    <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
-                        <h4 className="text-[10px] text-indigo-400 uppercase font-bold mb-3 flex items-center gap-2">
-                            <Shield size={12} /> Strategic Analysis
+                    <div className="glass-card rounded-xl p-4 transition-all duration-300 hover:shadow-indigo-900/10">
+                        <h4 className="text-[10px] text-indigo-400 uppercase font-bold mb-4 flex items-center gap-2 tracking-wider">
+                            <Shield size={14} /> Strategic Analysis
                         </h4>
 
                         {/* Resilience Score */}
@@ -252,8 +252,8 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
                         </div>
                     </div>
                 ) : (
-                    <div className="bg-slate-900/30 border border-slate-800 rounded-lg p-3">
-                        <div className="text-xs text-slate-500 text-center">Strategic Analysis unavailable</div>
+                    <div className="glass-panel rounded-xl p-4">
+                        <div className="text-xs text-slate-500 text-center font-medium">Strategic Analysis unavailable</div>
                     </div>
                 )
             }
@@ -261,9 +261,9 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
             {/* 3. Risk Profile (Detailed) */}
             {
                 risk && (
-                    <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
-                        <h4 className="text-[10px] text-slate-400 uppercase font-bold mb-2 flex items-center gap-2">
-                            <AlertTriangle size={12} /> Risk Details
+                    <div className="glass-card rounded-xl p-4 transition-all duration-300 hover:shadow-red-900/10">
+                        <h4 className="text-[10px] text-slate-400 uppercase font-bold mb-3 flex items-center gap-2 tracking-wider">
+                            <AlertTriangle size={14} /> Risk Details
                         </h4>
 
                         <div className="flex items-center gap-3">
@@ -286,9 +286,9 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
             {/* 3. Crop Diversification */}
             {
                 diversification && diversification.cdi !== undefined && (
-                    <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
-                        <h4 className="text-[10px] text-purple-400 uppercase font-bold mb-2 flex items-center gap-2">
-                            <PieChart size={12} /> State Diversity
+                    <div className="glass-card rounded-xl p-4 transition-all duration-300 hover:shadow-purple-900/10">
+                        <h4 className="text-[10px] text-purple-400 uppercase font-bold mb-3 flex items-center gap-2 tracking-wider">
+                            <PieChart size={14} /> State Diversity
                         </h4>
 
                         <div className="flex justify-between items-center mb-2">
@@ -314,11 +314,10 @@ export default function AnalyticsPanel({ cdk, state, year, crop }: AnalyticsPane
                 )
             }
             {/* 5. Simulation (New) */}
-            {/* 5. Simulation (New) */}
             {cdk && state && (
-                <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-800">
-                    <h4 className="text-[10px] text-indigo-400 uppercase font-bold mb-3 flex items-center gap-2">
-                        <Calculator size={12} /> Impact Simulator
+                <div className="glass-card rounded-xl p-4 mt-2 transition-all duration-300 hover:shadow-blue-900/10">
+                    <h4 className="text-[10px] text-indigo-400 uppercase font-bold mb-4 flex items-center gap-2 tracking-wider">
+                        <Calculator size={14} /> Impact Simulator
                     </h4>
                     <SimulationPanel district={cdk} state={state} crop={crop} year={year} />
                 </div>
