@@ -17,6 +17,8 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 import math
 
+from app.cache import cached, CacheTTL
+
 
 @dataclass
 class YieldTrend:
@@ -53,6 +55,7 @@ class AdvancedAnalyticsService:
     # CROP DIVERSIFICATION INDEX
     # ============================================================
     
+    @cached(ttl=CacheTTL.ANALYSIS, prefix="cdi")
     async def get_crop_diversification(
         self, 
         cdk: str, 
@@ -110,6 +113,7 @@ class AdvancedAnalyticsService:
     # YIELD TREND ANALYSIS
     # ============================================================
     
+    @cached(ttl=CacheTTL.ANALYSIS, prefix="yield_trend")
     async def get_yield_trend(
         self, 
         cdk: str, 
@@ -179,6 +183,7 @@ class AdvancedAnalyticsService:
     # SPLIT IMPACT ANALYSIS (Before/After Comparison)
     # ============================================================
     
+    @cached(ttl=CacheTTL.SPLIT_EVENTS, prefix="split_impact")
     async def get_split_impact(
         self, 
         parent_cdk: str,
@@ -257,6 +262,7 @@ class AdvancedAnalyticsService:
     # CROP CORRELATION MATRIX
     # ============================================================
     
+    @cached(ttl=CacheTTL.ANALYSIS, prefix="crop_corr")
     async def get_crop_correlations(
         self, 
         state: str,
@@ -327,6 +333,7 @@ class AdvancedAnalyticsService:
     # DISTRICT PERFORMANCE RANKINGS
     # ============================================================
     
+    @cached(ttl=CacheTTL.ANALYSIS, prefix="dist_rank")
     async def get_district_rankings(
         self, 
         state: str,
@@ -366,6 +373,7 @@ class AdvancedAnalyticsService:
     # YEAR-OVER-YEAR GROWTH ANALYSIS
     # ============================================================
     
+    @cached(ttl=CacheTTL.ANALYSIS, prefix="yoy_growth")
     async def get_yoy_growth(
         self, 
         cdk: str,
@@ -407,6 +415,7 @@ class AdvancedAnalyticsService:
     # SEASONAL COMPARISON (Kharif vs Rabi)
     # ============================================================
     
+    @cached(ttl=CacheTTL.ANALYSIS, prefix="season_comp")
     async def get_seasonal_comparison(
         self, 
         cdk: str,
@@ -440,3 +449,143 @@ class AdvancedAnalyticsService:
             'rabi_yield': round(rabi_val, 2) if rabi_val else None,
             'dominant_season': 'kharif' if (kharif_val or 0) > (rabi_val or 0) else 'rabi'
         }
+
+    # ============================================================
+    # YIELD FORECASTING
+    # ============================================================
+    
+    @cached(ttl=CacheTTL.ANALYSIS, prefix="yield_forecast")
+    async def get_yield_forecast(
+        self,
+        cdk: str,
+        crop: str,
+        forecast_years: int = 5
+    ) -> Dict[str, Any]:
+        """
+        Produce a yield forecast using a linear regression / simple moving average fallback.
+        Ideal implementation would swap this with SARIMA from statsmodels.
+        """
+        # Fetch the last 20 years of data
+        rows = await self.db.fetch("""
+            SELECT year, value FROM agri_metrics
+            WHERE district_lgd::text = $1 
+              AND variable_name = $2
+              AND year >= 2000
+              AND value > 0
+            ORDER BY year
+        """, cdk, f"{crop}_yield")
+        
+        if len(rows) < 5:
+            return {"error": "Insufficient data to forecast. Need at least 5 years."}
+            
+        years = [r['year'] for r in rows]
+        yields = [r['value'] for r in rows]
+        
+        # Simple Linear Regression: y = mx + c
+        n = len(years)
+        sum_x = sum(years)
+        sum_y = sum(yields)
+        sum_xy = sum(x*y for x, y in zip(years, yields))
+        sum_xx = sum(x*x for x in years)
+        
+        denominator = n * sum_xx - sum_x * sum_x
+        if denominator == 0:
+            m = 0
+            c = sum_y / n
+        else:
+            m = (n * sum_xy - sum_x * sum_y) / denominator
+            c = (sum_y - m * sum_x) / n
+        
+        last_year = years[-1]
+        
+        forecast = []
+        for i in range(1, forecast_years + 1):
+            f_year = last_year + i
+            f_yield = m * f_year + c
+            # Prevent negative forecasts
+            f_yield = max(0, float(f_yield))
+            forecast.append({
+                "year": f_year,
+                "projected_yield": round(f_yield, 2),
+                "confidence_interval_lower": round(f_yield * 0.9, 2), # Simplified 10% interval
+                "confidence_interval_upper": round(f_yield * 1.1, 2)
+            })
+            
+        return {
+            "cdk": cdk,
+            "crop": crop,
+            "historical_trend": "increasing" if m > 0.0 else "decreasing",
+            "slope": round(m, 4),
+            "forecast": forecast
+        }
+
+    # ============================================================
+    # CLIMATE RESILIENCE / VOLATILITY INDEX
+    # ============================================================
+    
+    @cached(ttl=CacheTTL.ANALYSIS, prefix="resilience_idx")
+    async def get_resilience_index(
+        self,
+        state: str,
+        crop: str,
+        year_range: List[int] = [1990, 2020]
+    ) -> List[Dict[str, Any]]:
+        """
+        Rank districts in a state by lowest yield volatility (highest climate resilience).
+        """
+        # Get yields over the time period
+        rows = await self.db.fetch("""
+            SELECT 
+                d.district_name,
+                m.district_lgd::text as cdk,
+                m.year,
+                m.value
+            FROM agri_metrics m
+            JOIN districts d ON m.district_lgd = d.lgd_code
+            WHERE d.state_name = $1
+              AND m.variable_name = $2
+              AND m.value > 0
+              AND m.year BETWEEN $3 AND $4
+            ORDER BY m.district_lgd, m.year
+        """, state, f"{crop}_yield", year_range[0], year_range[1])
+        
+        # Group by district
+        district_data = {}
+        for r in rows:
+            cdk = r['cdk']
+            if cdk not in district_data:
+                district_data[cdk] = {"name": r['district_name'], "yields": []}
+            district_data[cdk]["yields"].append(r['value'])
+            
+        results = []
+        for cdk, data in district_data.items():
+            yields = data["yields"]
+            if len(yields) < 10:
+                continue # Need a solid decade of data for volatility
+                
+            # Calculate volatility (Coef of variation = StdDev / Mean)
+            mean_y = sum(yields) / len(yields)
+            variance = sum((y - mean_y)**2 for y in yields) / len(yields)
+            std_dev = math.sqrt(variance)
+            cv = std_dev / mean_y if mean_y > 0 else float('inf')
+            
+            # Resilience Score (0-100), 100 being lowest volatility (e.g. CV ~0)
+            resilience = max(0, min(100, 100 - (cv * 100 * 2)))
+            
+            results.append({
+                "cdk": cdk,
+                "district_name": data["name"],
+                "data_points": len(yields),
+                "avg_yield": round(mean_y, 2),
+                "volatility_cv": round(cv, 4),
+                "resilience_score": round(resilience, 1)
+            })
+            
+        # Sort by most resilient (highest score)
+        results.sort(key=lambda x: x["resilience_score"], reverse=True)
+        
+        # Add ranks
+        for i, r in enumerate(results, 1):
+            r["rank"] = i
+            
+        return results

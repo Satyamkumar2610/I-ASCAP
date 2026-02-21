@@ -248,3 +248,47 @@ async def get_analytics_summary(
         },
         "data_source": "Hybrid (ICRISAT 1966-1997 + DES 1998-2021)"
     }
+
+
+@router.get("/yield-forecast")
+async def get_yield_forecast(
+    cdk: str = Query(..., description="District LGD code (as text)"),
+    crop: str = Query("rice", description="Crop name"),
+    forecast_years: int = Query(5, description="Years to forecast"),
+    db: asyncpg.Connection = Depends(get_db)
+):
+    """
+    Project future yields based on historical trends.
+    """
+    service = AdvancedAnalyticsService(db)
+    result = await service.get_yield_forecast(cdk, crop, forecast_years)
+    
+    if "error" in result:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=400, detail=result["error"])
+        
+    return result
+
+
+@router.get("/resilience-index")
+async def get_resilience_index(
+    state: str = Query(..., description="State name"),
+    crop: str = Query("rice", description="Crop name"),
+    db: asyncpg.Connection = Depends(get_db)
+):
+    """
+    Rank districts in a state by lowest yield volatility (highest climate resilience).
+    """
+    service = AdvancedAnalyticsService(db)
+    result = await service.get_resilience_index(state, crop)
+    
+    if not result:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail=f"Insufficient data for resilience analysis in {state}")
+        
+    return {
+        "state": state,
+        "crop": crop,
+        "total_districts": len(result),
+        "rankings": result
+    }
