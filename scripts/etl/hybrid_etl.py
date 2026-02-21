@@ -44,29 +44,10 @@ async def fetch_lgd_lookup(conn) -> dict:
     return lookup
 
 
-def load_icrisat_1966_1997(lgd_lookup: dict) -> pd.DataFrame:
-    """Load ICRISAT data for years 1966-1997 only."""
-    print("Loading ICRISAT data (1966-1997)...")
+def process_icrisat(lgd_lookup: dict):
+    """Generator yielding ICRISAT data records (1966-1997)."""
+    print("Streaming ICRISAT data (1966-1997)...")
     
-    # ICRISAT CSV has unnamed first column, year in column[1]
-    df = pd.read_csv(ICRISAT_FILE)
-    
-    # Get column structure from existing ETL
-    # Columns: [unnamed, year, state_code, state_name, district_name, ...]
-    # Crop columns start at index 5
-    
-    # Rename first columns
-    cols = list(df.columns)
-    df.columns = ['idx', 'year', 'state_code', 'state_name', 'district_name'] + cols[5:]
-    
-    # Filter to 1966-1997
-    df = df[(df['year'] >= 1966) & (df['year'] <= 1997)]
-    print(f"  ICRISAT rows for 1966-1997: {len(df):,}")
-    
-    # Get crop columns (area, production, yield for each crop)
-    crop_cols = cols[5:]
-    
-    # Define crop mappings (column groups of 3: area, production, yield)
     crops = [
         'rice', 'wheat', 'kharif_sorghum', 'rabi_sorghum', 'sorghum',
         'pearl_millet', 'maize', 'finger_millet', 'barley', 'chickpea',
@@ -76,192 +57,141 @@ def load_icrisat_1966_1997(lgd_lookup: dict) -> pd.DataFrame:
         'fruits_area', 'vegetables_area', 'fruits_and_vegetables_area', 'fodder_area'
     ]
     
-    # Melt into long format
-    records = []
-    unmapped = 0
-    for _, row in df.iterrows():
-        year = int(row['year'])
-        state = row['state_name']
-        district = row['district_name']
+    for df in pd.read_csv(ICRISAT_FILE, chunksize=20000):
+        cols = list(df.columns)
+        df.columns = ['idx', 'year', 'state_code', 'state_name', 'district_name'] + cols[5:]
+        df = df[(df['year'] >= 1966) & (df['year'] <= 1997)]
         
-        lgd_code = resolve_lgd(district, state, lgd_lookup)
-        if not lgd_code:
-            unmapped += 1
-            continue
-        
-        col_idx = 5  # Start of crop data
-        for crop in crops[:22]:  # Main crops with area/production/yield
-            try:
-                area = float(row.iloc[col_idx]) if pd.notna(row.iloc[col_idx]) and row.iloc[col_idx] != -1 else None
-                prod = float(row.iloc[col_idx + 1]) if pd.notna(row.iloc[col_idx + 1]) and row.iloc[col_idx + 1] != -1 else None
-                yld = float(row.iloc[col_idx + 2]) if pd.notna(row.iloc[col_idx + 2]) and row.iloc[col_idx + 2] != -1 else None
-                
-                if area is not None:
-                    records.append({'district_lgd': lgd_code, 'year': year, 'variable_name': f'{crop}_area', 'value': area, 'source': 'ICRISAT'})
-                if prod is not None:
-                    records.append({'district_lgd': lgd_code, 'year': year, 'variable_name': f'{crop}_production', 'value': prod, 'source': 'ICRISAT'})
-                if yld is not None:
-                    records.append({'district_lgd': lgd_code, 'year': year, 'variable_name': f'{crop}_yield', 'value': yld, 'source': 'ICRISAT'})
-                
-                col_idx += 3
-            except (IndexError, ValueError):
-                col_idx += 3
+        for _, row in df.iterrows():
+            year = int(row['year'])
+            state = row['state_name']
+            district = row['district_name']
+            
+            lgd_code = resolve_lgd(district, state, lgd_lookup)
+            if not lgd_code:
                 continue
-    
-    print(f"  Generated {len(records):,} ICRISAT metric records. Skipped {unmapped} rows due to missing LGD code.")
-    return pd.DataFrame(records)
+            
+            col_idx = 5
+            for crop in crops[:22]:
+                try:
+                    area = float(row.iloc[col_idx]) if pd.notna(row.iloc[col_idx]) and row.iloc[col_idx] != -1 else None
+                    prod = float(row.iloc[col_idx + 1]) if pd.notna(row.iloc[col_idx + 1]) and row.iloc[col_idx + 1] != -1 else None
+                    yld = float(row.iloc[col_idx + 2]) if pd.notna(row.iloc[col_idx + 2]) and row.iloc[col_idx + 2] != -1 else None
+                    
+                    if area is not None:
+                        yield (lgd_code, year, f'{crop}_area', area, 'ICRISAT')
+                    if prod is not None:
+                        yield (lgd_code, year, f'{crop}_production', prod, 'ICRISAT')
+                    if yld is not None:
+                        yield (lgd_code, year, f'{crop}_yield', yld, 'ICRISAT')
+                    
+                    col_idx += 3
+                except (IndexError, ValueError):
+                    col_idx += 3
+                    continue
 
 
-def load_des_1998_2021(lgd_lookup: dict) -> pd.DataFrame:
-    """Load DES data for years 1998-2021."""
-    print("Loading DES data (1998-2021)...")
+def process_des(lgd_lookup: dict):
+    """Generator yielding DES data records (1998-2021)."""
+    print("Streaming DES data (1998-2021)...")
     
-    df = pd.read_csv(DES_FILE)
-    print(f"  Total DES rows: {len(df):,}")
-    
-    # Convert year format "1998-99" to integer 1998
-    df['year_int'] = df['year'].str[:4].astype(int)
-    
-    # Normalize crop names to match ICRISAT format
     crop_mapping = {
-        'Rice': 'rice',
-        'Wheat': 'wheat',
-        'Jowar': 'sorghum',
-        'Bajra': 'pearl_millet',
-        'Maize': 'maize',
-        'Ragi': 'finger_millet',
-        'Barley': 'barley',
-        'Gram': 'chickpea',
-        'Arhar/Tur': 'pigeonpea',
-        'Groundnut': 'groundnut',
-        'Sesamum': 'sesamum',
-        'Rapeseed & Mustard': 'rapeseed_and_mustard',
-        'Safflower': 'safflower',
-        'Castor Seed': 'castor',
-        'Linseed': 'linseed',
-        'Sunflower': 'sunflower',
-        'Soyabean': 'soyabean',
-        'Cotton(Lint)': 'cotton',
-        'Sugarcane': 'sugarcane',
-        'Potato': 'potatoes',
-        'Onion': 'onion',
-        'Moong(Green Gram)': 'moong',
-        'Urad': 'urad',
-        'Masoor': 'masoor',
-        'Other Kharif Pulses': 'other_kharif_pulses',
-        'Other Rabi Pulses': 'other_rabi_pulses',
-        'Niger Seed': 'niger_seed',
-        'Tobacco': 'tobacco',
-        'Dry Chillies': 'chillies',
-        'Turmeric': 'turmeric',
-        'Ginger': 'ginger',
-        'Garlic': 'garlic',
-        'Tapioca': 'tapioca',
-        'Coriander': 'coriander',
-        'Banana': 'banana',
-        'Black Pepper': 'black_pepper',
-        'Cardamom': 'cardamom',
-        'Coconut': 'coconut',
-        'Arecanut': 'arecanut',
-        'Cashewnut': 'cashewnut',
-        'Mesta': 'mesta',
-        'Jute': 'jute',
-        'Sweet Potato': 'sweet_potato',
-        'Horse-Gram': 'horse_gram',
-        'Small Millets': 'small_millets',
-        'other oilseeds': 'other_oilseeds',
-        'Peas & Beans': 'peas_beans',
-        'Khesari': 'khesari',
-        'Moth': 'moth',
-        'Kulthi': 'kulthi',
-        'Lentil': 'lentil',
-        'Total Pulses': 'total_pulses',
+        'Rice': 'rice', 'Wheat': 'wheat', 'Jowar': 'sorghum', 'Bajra': 'pearl_millet',
+        'Maize': 'maize', 'Ragi': 'finger_millet', 'Barley': 'barley', 'Gram': 'chickpea',
+        'Arhar/Tur': 'pigeonpea', 'Groundnut': 'groundnut', 'Sesamum': 'sesamum',
+        'Rapeseed & Mustard': 'rapeseed_and_mustard', 'Safflower': 'safflower',
+        'Castor Seed': 'castor', 'Linseed': 'linseed', 'Sunflower': 'sunflower',
+        'Soyabean': 'soyabean', 'Cotton(Lint)': 'cotton', 'Sugarcane': 'sugarcane',
+        'Potato': 'potatoes', 'Onion': 'onion', 'Moong(Green Gram)': 'moong',
+        'Urad': 'urad', 'Masoor': 'masoor', 'Other Kharif Pulses': 'other_kharif_pulses',
+        'Other Rabi Pulses': 'other_rabi_pulses', 'Niger Seed': 'niger_seed',
+        'Tobacco': 'tobacco', 'Dry Chillies': 'chillies', 'Turmeric': 'turmeric',
+        'Ginger': 'ginger', 'Garlic': 'garlic', 'Tapioca': 'tapioca',
+        'Coriander': 'coriander', 'Banana': 'banana', 'Black Pepper': 'black_pepper',
+        'Cardamom': 'cardamom', 'Coconut': 'coconut', 'Arecanut': 'arecanut',
+        'Cashewnut': 'cashewnut', 'Mesta': 'mesta', 'Jute': 'jute',
+        'Sweet Potato': 'sweet_potato', 'Horse-Gram': 'horse_gram',
+        'Small Millets': 'small_millets', 'other oilseeds': 'other_oilseeds',
+        'Peas & Beans': 'peas_beans', 'Khesari': 'khesari', 'Moth': 'moth',
+        'Kulthi': 'kulthi', 'Lentil': 'lentil', 'Total Pulses': 'total_pulses',
         'Total Foodgrains': 'total_foodgrains',
     }
     
-    # Apply mapping (case-insensitive)
-    df['crop_normalized'] = df['crop_name'].str.strip().map(
-        lambda x: crop_mapping.get(x, x.lower().replace(' ', '_').replace('(', '').replace(')', ''))
-    )
-    
-    records = []
-    unmapped = 0
-    for _, row in df.iterrows():
-        year = row['year_int']
-        state = row['state_name']
-        district = row['district_name']
-        crop = row['crop_normalized']
-        season = row['season'].strip().lower()
+    for df in pd.read_csv(DES_FILE, chunksize=20000):
+        df['year_int'] = df['year'].str[:4].astype(int)
+        df['crop_normalized'] = df['crop_name'].str.strip().map(
+            lambda x: crop_mapping.get(x, x.lower().replace(' ', '_').replace('(', '').replace(')', ''))
+        )
         
-        lgd_code = resolve_lgd(district, state, lgd_lookup)
-        if not lgd_code:
-            unmapped += 1
-            continue
-        
-        # Add season suffix for non-annual data
-        season_suffix = '' if season == 'whole year' else f'_{season}'
-        
-        # Area
-        if pd.notna(row['area']) and row['area'] > 0:
-            records.append({
-                'district_lgd': lgd_code, 
-                'year': year, 
-                'variable_name': f'{crop}_area{season_suffix}', 
-                'value': float(row['area']), 
-                'source': 'DES'
-            })
-        
-        # Production
-        if pd.notna(row['production']) and row['production'] > 0:
-            records.append({
-                'district_lgd': lgd_code, 
-                'year': year, 
-                'variable_name': f'{crop}_production{season_suffix}', 
-                'value': float(row['production']), 
-                'source': 'DES'
-            })
-        
-        # Yield (convert to kg/ha for consistency with ICRISAT)
-        if pd.notna(row['yield']) and row['yield'] > 0:
-            yield_kg_ha = float(row['yield']) * 1000  # tonnes/ha to kg/ha
-            records.append({
-                'district_lgd': lgd_code, 
-                'year': year, 
-                'variable_name': f'{crop}_yield{season_suffix}', 
-                'value': yield_kg_ha, 
-                'source': 'DES'
-            })
-    
-    print(f"  Generated {len(records):,} DES metric records. Skipped {unmapped} rows due to missing LGD code.")
-    return pd.DataFrame(records)
+        for _, row in df.iterrows():
+            year = row['year_int']
+            state = row['state_name']
+            district = row['district_name']
+            crop = row['crop_normalized']
+            season = row['season'].strip().lower()
+            
+            lgd_code = resolve_lgd(district, state, lgd_lookup)
+            if not lgd_code:
+                continue
+            
+            season_suffix = '' if season == 'whole year' else f'_{season}'
+            
+            if pd.notna(row['area']) and row['area'] > 0:
+                yield (lgd_code, year, f'{crop}_area{season_suffix}', float(row['area']), 'DES')
+            
+            if pd.notna(row['production']) and row['production'] > 0:
+                yield (lgd_code, year, f'{crop}_production{season_suffix}', float(row['production']), 'DES')
+            
+            if pd.notna(row['yield']) and row['yield'] > 0:
+                yield_kg_ha = float(row['yield']) * 1000
+                yield (lgd_code, year, f'{crop}_yield{season_suffix}', yield_kg_ha, 'DES')
 
 
-async def load_to_database(conn: asyncpg.Connection, df: pd.DataFrame):
-    """Load combined data to database."""
-    print(f"\nPreparing {len(df):,} records for database insertion...")
+async def load_to_database(conn: asyncpg.Connection, lgd_lookup: dict):
+    """Load streaming data to database via a temporary table."""
+    print(f"\nPreparing to stream records for database insertion...")
     
-    # Add source column if not exists
+    await conn.execute("ALTER TABLE agri_metrics ADD COLUMN IF NOT EXISTS source VARCHAR(20) DEFAULT 'ICRISAT'")
+    
+    print("Setting up temporary table...")
     await conn.execute("""
-        ALTER TABLE agri_metrics ADD COLUMN IF NOT EXISTS source VARCHAR(20) DEFAULT 'ICRISAT'
+        CREATE TEMP TABLE agri_metrics_temp (
+            district_lgd integer,
+            year integer,
+            variable_name text,
+            value real,
+            source text
+        ) ON COMMIT DROP;
     """)
     
-    # Clear existing data
-    print("Clearing existing agri_metrics data...")
-    await conn.execute("DELETE FROM agri_metrics")
+    def record_generator():
+        yield from process_icrisat(lgd_lookup)
+        yield from process_des(lgd_lookup)
     
-    # Drop duplicates to ensure unique combinations before COPY constraint application
-    print("Dropping duplicates...")
-    df.drop_duplicates(subset=['district_lgd', 'year', 'variable_name'], keep='last', inplace=True)
+    print(f"Executing COPY to temporary table...")
     
-    # Prepare records for COPY
-    records = list(df[['district_lgd', 'year', 'variable_name', 'value', 'source']].itertuples(index=False, name=None))
-    
-    print(f"Executing COPY for {len(records):,} records...")
+    # Needs to be a list/iterable of tuples. It will lazily evaluate the generator
     await conn.copy_records_to_table(
-        'agri_metrics',
-        records=records,
+        'agri_metrics_temp',
+        records=record_generator(),
         columns=['district_lgd', 'year', 'variable_name', 'value', 'source']
     )
+    
+    print("Upserting from temporary table to agri_metrics...")
+    # Insert from temp table, resolving duplicates by keeping the last value inserted 
+    # (achieved by grouping or ON CONFLICT, but ON CONFLICT works well if we distinct the temp table first)
+    await conn.execute("""
+        INSERT INTO agri_metrics (district_lgd, year, variable_name, value, source)
+        SELECT district_lgd, year, variable_name, value, source
+        FROM (
+            SELECT *, ROW_NUMBER() OVER (PARTITION BY district_lgd, year, variable_name ORDER BY source DESC) as rn
+            FROM agri_metrics_temp
+        ) deduped
+        WHERE rn = 1
+        ON CONFLICT (district_lgd, year, variable_name) DO UPDATE SET
+            value = EXCLUDED.value,
+            source = EXCLUDED.source;
+    """)
     
     # Verify
     count = await conn.fetchval("SELECT COUNT(*) FROM agri_metrics")
@@ -275,6 +205,25 @@ async def load_to_database(conn: asyncpg.Connection, df: pd.DataFrame):
     print(f"   DES (1998-2021): {des_count:,}")
 
 
+async def flush_cache():
+    """Flush the Redis cache so API serves fresh data."""
+    try:
+        import redis.asyncio as aioredis
+        redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+        client = aioredis.from_url(redis_url, decode_responses=True)
+        cursor = 0
+        deleted = 0
+        while True:
+            cursor, keys = await client.scan(cursor, match="iascap:*", count=100)
+            if keys:
+                await client.delete(*keys)
+                deleted += len(keys)
+            if cursor == 0:
+                break
+        print(f"✅ Cleared {deleted} keys from Redis Cache.")
+    except Exception as e:
+        print(f"⚠️ Could not flush Redis cache: {e}")
+
 async def main():
     print("=" * 60)
     print("HYBRID ETL: ICRISAT (1966-1997) + DES (1998-2021)")
@@ -287,32 +236,23 @@ async def main():
         lgd_lookup = await fetch_lgd_lookup(conn)
         print(f"Loaded {len(lgd_lookup)} districts for name resolution")
         
-        # Load both datasets
-        icrisat_df = load_icrisat_1966_1997(lgd_lookup)
-        des_df = load_des_1998_2021(lgd_lookup)
+        # Load to database directly from streamed generators
+        await load_to_database(conn, lgd_lookup)
         
-        # Combine
-        combined = pd.concat([icrisat_df, des_df], ignore_index=True)
-        print(f"\nCombined dataset: {len(combined):,} records")
-        if not combined.empty:
-            print(f"  Year range: {combined['year'].min()} - {combined['year'].max()}")
-            print(f"  Variables: {combined['variable_name'].nunique()}")
-            
-            # Load to database
-            await load_to_database(conn, combined)
-            
-            # Verify
-            count = await conn.fetchval("SELECT COUNT(*) FROM agri_metrics")
-            icrisat_count = await conn.fetchval("SELECT COUNT(*) FROM agri_metrics WHERE source = 'ICRISAT'")
-            des_count = await conn.fetchval("SELECT COUNT(*) FROM agri_metrics WHERE source = 'DES'")
-            
-            print(f"\n✅ Total records in database: {count:,}")
-            print(f"   ICRISAT (1966-1997): {icrisat_count:,}")
-            print(f"   DES (1998-2021): {des_count:,}")
-        else:
-            print("No new data to ingest")
+        # Verify
+        count = await conn.fetchval("SELECT COUNT(*) FROM agri_metrics")
+        icrisat_count = await conn.fetchval("SELECT COUNT(*) FROM agri_metrics WHERE source = 'ICRISAT'")
+        des_count = await conn.fetchval("SELECT COUNT(*) FROM agri_metrics WHERE source = 'DES'")
+        
+        print(f"\n✅ Total records in database: {count:,}")
+        print(f"   ICRISAT (1966-1997): {icrisat_count:,}")
+        print(f"   DES (1998-2021): {des_count:,}")
+        
     finally:
         await conn.close()
+    
+    # Flush Cache
+    await flush_cache()
     
     print("\n" + "=" * 60)
     print("✅ HYBRID ETL COMPLETE!")

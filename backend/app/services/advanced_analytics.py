@@ -462,10 +462,10 @@ class AdvancedAnalyticsService:
         forecast_years: int = 5
     ) -> Dict[str, Any]:
         """
-        Produce a yield forecast using a linear regression / simple moving average fallback.
-        Ideal implementation would swap this with SARIMA from statsmodels.
+        Produce a yield forecast using SARIMA (statsmodels),
+        with a fallback to simple linear regression.
         """
-        # Fetch the last 20 years of data
+        # Fetch the last 20+ years of data
         rows = await self.db.fetch("""
             SELECT year, value FROM agri_metrics
             WHERE district_lgd::text = $1 
@@ -481,7 +481,54 @@ class AdvancedAnalyticsService:
         years = [r['year'] for r in rows]
         yields = [r['value'] for r in rows]
         
-        # Simple Linear Regression: y = mx + c
+        last_year = years[-1]
+        forecast = []
+        slope = 0.0
+        
+        # 1. Try SARIMA (Requires statsmodels)
+        try:
+            import warnings
+            from statsmodels.tsa.statespace.sarimax import SARIMAX
+            from statsmodels.tools.sm_exceptions import ConvergenceWarning
+            
+            with warnings.catch_warnings():
+                warnings.simplefilter('ignore', ConvergenceWarning)
+                warnings.simplefilter('ignore', UserWarning)
+                # SARIMAX(1, 1, 1) is a good default for simple trended time series
+                model = SARIMAX(yields, order=(1, 1, 1), enforce_stationarity=False, enforce_invertibility=False)
+                results = model.fit(disp=False)
+                
+                forecast_result = results.get_forecast(steps=forecast_years)
+                pred_mean = forecast_result.predicted_mean
+                # 80% confidence interval
+                pred_ci = forecast_result.conf_int(alpha=0.20)
+                
+                # Convert to normal python lists depending on statsmodels output format
+                if hasattr(pred_mean, "tolist"):
+                    pred_mean = pred_mean.tolist()
+                
+                if hasattr(pred_ci, "tolist"):
+                    pred_ci = [row for row in pred_ci.tolist()]
+                elif hasattr(pred_ci, "values"):
+                    pred_ci = pred_ci.values.tolist()
+                
+                for i in range(forecast_years):
+                    f_year = last_year + i + 1
+                    f_yield = max(0, float(pred_mean[i]))
+                    lower = max(0, float(pred_ci[i][0]))
+                    upper = max(0, float(pred_ci[i][1]))
+                    
+                    forecast.append({
+                        "year": f_year,
+                        "projected_yield": round(f_yield, 2),
+                        "confidence_interval_lower": round(lower, 2),
+                        "confidence_interval_upper": round(upper, 2)
+                    })
+        except Exception as e:
+            import logging
+            logging.getLogger("analytics").warning(f"SARIMA failed for {cdk} {crop}, falling back to linear: {e}")
+        
+        # 2. Calculate Linear Trend (used for historical_trend and as fallback)
         n = len(years)
         sum_x = sum(years)
         sum_y = sum(yields)
@@ -495,27 +542,26 @@ class AdvancedAnalyticsService:
         else:
             m = (n * sum_xy - sum_x * sum_y) / denominator
             c = (sum_y - m * sum_x) / n
+        slope = m
         
-        last_year = years[-1]
-        
-        forecast = []
-        for i in range(1, forecast_years + 1):
-            f_year = last_year + i
-            f_yield = m * f_year + c
-            # Prevent negative forecasts
-            f_yield = max(0, float(f_yield))
-            forecast.append({
-                "year": f_year,
-                "projected_yield": round(f_yield, 2),
-                "confidence_interval_lower": round(f_yield * 0.9, 2), # Simplified 10% interval
-                "confidence_interval_upper": round(f_yield * 1.1, 2)
-            })
+        # 3. Fallback: If SARIMA failed, use Linear Regression
+        if not forecast:
+            for i in range(1, forecast_years + 1):
+                f_year = last_year + i
+                f_yield = m * f_year + c
+                f_yield = max(0, float(f_yield))
+                forecast.append({
+                    "year": f_year,
+                    "projected_yield": round(f_yield, 2),
+                    "confidence_interval_lower": round(f_yield * 0.9, 2),
+                    "confidence_interval_upper": round(f_yield * 1.1, 2)
+                })
             
         return {
             "cdk": cdk,
             "crop": crop,
-            "historical_trend": "increasing" if m > 0.0 else "decreasing",
-            "slope": round(m, 4),
+            "historical_trend": "increasing" if slope > 0.0 else "decreasing",
+            "slope": round(slope, 4),
             "forecast": forecast
         }
 
@@ -531,9 +577,9 @@ class AdvancedAnalyticsService:
         year_range: List[int] = [1990, 2020]
     ) -> List[Dict[str, Any]]:
         """
-        Rank districts in a state by lowest yield volatility (highest climate resilience).
+        Rank districts by true climate resilience, measured by the magnitude
+        of yield drop and speed of recovery during known systemic drought/shock years.
         """
-        # Get yields over the time period
         rows = await self.db.fetch("""
             SELECT 
                 d.district_name,
@@ -549,35 +595,75 @@ class AdvancedAnalyticsService:
             ORDER BY m.district_lgd, m.year
         """, state, f"{crop}_yield", year_range[0], year_range[1])
         
-        # Group by district
+        # Group by district into {year: value} dicts
         district_data = {}
         for r in rows:
             cdk = r['cdk']
             if cdk not in district_data:
-                district_data[cdk] = {"name": r['district_name'], "yields": []}
-            district_data[cdk]["yields"].append(r['value'])
+                district_data[cdk] = {"name": r['district_name'], "years": {}}
+            district_data[cdk]["years"][r['year']] = r['value']
             
+        # Major pan-India drought/shock years in this timeframe
+        shock_years = [2002, 2004, 2009, 2014, 2015]
+        
         results = []
         for cdk, data in district_data.items():
-            yields = data["yields"]
-            if len(yields) < 10:
-                continue # Need a solid decade of data for volatility
+            year_dict = data["years"]
+            if len(year_dict) < 10:
+                continue # Need a solid dataset
                 
-            # Calculate volatility (Coef of variation = StdDev / Mean)
-            mean_y = sum(yields) / len(yields)
-            variance = sum((y - mean_y)**2 for y in yields) / len(yields)
-            std_dev = math.sqrt(variance)
-            cv = std_dev / mean_y if mean_y > 0 else float('inf')
+            mean_y = sum(year_dict.values()) / len(year_dict)
             
-            # Resilience Score (0-100), 100 being lowest volatility (e.g. CV ~0)
-            resilience = max(0, min(100, 100 - (cv * 100 * 2)))
+            shock_drops = []
+            recovery_times = []
             
+            for shock_yr in shock_years:
+                if shock_yr in year_dict:
+                    # Pre-shock average (up to 3 years prior)
+                    pre_vals = [year_dict[y] for y in [shock_yr-3, shock_yr-2, shock_yr-1] if y in year_dict]
+                    if not pre_vals:
+                        continue
+                        
+                    pre_avg = sum(pre_vals) / len(pre_vals)
+                    shock_val = year_dict[shock_yr]
+                    
+                    # Identify if a localized or systemic shock actually hit this district (Drop > 10%)
+                    if shock_val < pre_avg * 0.9:
+                        drop_pct = (pre_avg - shock_val) / pre_avg
+                        shock_drops.append(drop_pct)
+                        
+                        # Calculate recovery time (years to reach 95% of pre-shock average, cap at 5)
+                        recovery_time = 5 
+                        for i in range(1, 6):
+                            check_yr = shock_yr + i
+                            if check_yr in year_dict and year_dict[check_yr] >= pre_avg * 0.95:
+                                recovery_time = i
+                                break
+                        recovery_times.append(recovery_time)
+            
+            # Formulate the Resilience Score (0-100)
+            if not shock_drops:
+                # Survived systemic shocks with <10% drops = Extremely Resilient
+                avg_drop = 0.0
+                avg_recovery = 0.0
+                resilience = 100.0
+            else:
+                avg_drop = sum(shock_drops) / len(shock_drops)
+                avg_recovery = sum(recovery_times) / len(recovery_times)
+                
+                # Penalty math:
+                # - 50% average drop removes 50 points
+                # - 5 year average recovery removes 50 points (12.5 per year past 1)
+                resilience = 100 - (avg_drop * 100) - ((avg_recovery - 1) * 12.5)
+                resilience = max(0.0, min(100.0, resilience))
+                
             results.append({
                 "cdk": cdk,
                 "district_name": data["name"],
-                "data_points": len(yields),
+                "data_points": len(year_dict),
                 "avg_yield": round(mean_y, 2),
-                "volatility_cv": round(cv, 4),
+                "avg_shock_drop_pct": round(avg_drop * 100, 1),
+                "avg_recovery_years": round(avg_recovery, 1),
                 "resilience_score": round(resilience, 1)
             })
             
