@@ -52,7 +52,15 @@ export function ComparisonChart({ data, series, splitYear, metric = 'yield' }: C
                         tickFormatter={(val) => val >= 1000 ? `${(val / 1000).toFixed(1)}k` : val}
                         tick={{ fill: '#94a3b8' }}
                         tickLine={false}
-                    />
+                    >
+                        <Label
+                            value={metric === 'yield' ? 'kg/ha' : metric === 'production' ? 'tons' : 'ha'}
+                            angle={-90}
+                            position="insideLeft"
+                            style={{ textAnchor: 'middle', fill: '#94a3b8' }}
+                            fontSize={10}
+                        />
+                    </YAxis>
                     <Tooltip
                         contentStyle={{
                             backgroundColor: 'rgba(15, 23, 42, 0.85)',
@@ -67,7 +75,7 @@ export function ComparisonChart({ data, series, splitYear, metric = 'yield' }: C
                         labelStyle={{ color: '#cbd5e1', fontWeight: 'bold', marginBottom: '4px' }}
                         cursor={{ stroke: '#475569', strokeWidth: 1, strokeDasharray: '4 4' }}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        formatter={(value: any) => [getUnitCallback(Number(value || 0)), '']}
+                        formatter={(value: any, name: any) => [getUnitCallback(Number(value || 0)), name]}
                     />
                     <Legend
                         wrapperStyle={{ fontSize: '11px', paddingTop: '10px', color: '#cbd5e1' }}

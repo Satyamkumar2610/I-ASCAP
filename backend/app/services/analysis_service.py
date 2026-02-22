@@ -378,15 +378,13 @@ class AnalysisService:
                     if val:
                         row["parent"] = round(val, 2)
                 
-                # Children values - ONLY show for years >= split_year
-                # Children did not exist before the split, any pre-split data is invalid backcast
-                if year >= split_year:
-                    for cdk in children_cdks:
-                        if cdk in year_data:
-                            d = year_data[cdk]
-                            val = d.get("yld") if metric_type == "yield" else d.get(metric_type[:4], 0)
-                            if val:
-                                row[cdk] = round(val, 2)
+                # Children values
+                for cdk in children_cdks:
+                    if cdk in year_data:
+                        d = year_data[cdk]
+                        val = d.get("yld") if metric_type == "yield" else d.get(metric_type[:4], 0)
+                        if val:
+                            row[cdk] = round(val, 2)
                 
                 if len(row) > 1:
                     timeline.append(row)
