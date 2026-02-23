@@ -1,123 +1,82 @@
 # I-ASCAP Project Evaluation & Strategic Roadmap
 
-**Date:** February 16, 2026
-**Version:** 1.0
-
-## 1. Executive Summary
-
-I-ASCAP is a high-quality, research-grade platform that successfully solves the Modifiable Areal Unit Problem (MAUP) for Indian agriculture. Parameters such as 928+ districts and 60+ years of data coverage are impressive. The system is architecturally sound, using a decoupled FastAPI/Next.js stack.
-
-**Core Strengths:**
-*   **Scientific Rigor:** The topological lineage tracking and harmonization backcasting are significant differentiators.
-*   **Performance:** Proper use of `asyncpg` connection pooling, Pydantic validation, and frontend caching.
-*   **Visuals:** Mapbox integration and Recharts implementations are clean and responsive.
-
-**Critical Weaknesses:**
-*   **ML Simplicity:** The current forecasting module is a placeholder linear regression, insufficient for complex agricultural trends (seasonality/climate).
-*   **Data Pipeline Fragmentation:** ETL scripts are scattered across `scripts/`, `etl/`, and root, making reproducibility difficult.
-*   **Test Coverage:** Testing is unit-heavy; lack of end-to-end (E2E) testing leaves the complex map-dashboard interactions vulnerable to regressions.
+Based on a thorough analysis of the repository (Next.js Frontend, FastAPI Backend, Postgres/PostGIS Database, and Python ETL pipelines), here is the comprehensive evaluation of what is missing, what should be added/improved, what should be removed, and a concrete roadmap for the future.
 
 ---
 
-## 2. Critical System Evaluation
+## 1. What is Missing (Gaps to Fill)
 
-### 2.1 Backend & Analytics (`/backend`)
-*   **Architecture:** Clean modular design (`routers`, `services`, `repositories`). Good separation of concerns.
-*   **Forecasting:** Uses simple linear extrapolation (`y = mx + c`).
-    *   *Critique:* Ignores rainfall, soil moisture, and seasonal cycles. Fails to capture non-linear disruptions (e.g., droughts).
-*   **Security:** Auth is implemented but disabled (`auth_enabled: bool = False`). Rate limiting is present but basic.
+### A. Testing Infrastructure
+*   **End-to-End (E2E) Testing:** The frontend lacks E2E testing. Complex interactions involving the Mapbox GL JS map, chart updates, and URL state sync are entirely untested automatically.
+    *   *Need:* Add **Playwright** or **Cypress** for frontend UI/Map interaction testing.
+*   **ETL Data Validation:** The data pipelines lack robust pre-ingestion validation. Bad data can fail mid-ingestion if not manually caught.
+    *   *Need:* Implement **Great Expectations** or **Pydantic** for rigid dataframe contract testing before database insertion.
 
-### 2.2 Frontend & UX (`/frontend`)
-*   **Components:** Good component reusability. `Dashboard.tsx` is becoming a "God Component" (400+ lines) handling layout, state, and logic.
-*   **State Management:** URL-based state (`?year=2001&dist=...`) is excellent for shareability.
-*   **Mobile:** Sidebar and interactions are mobile-optimized, but complex charts (Comparison/Radar) may interpret poorly on small screens.
+### B. Advanced Analytics Models
+*   **Climate/Weather Integration:** The current forecasting models (Linear Regression/Basic SARIMA) operate purely on historical yield/area data, ignoring the most critical agricultural variables: rainfall, temperature anomalies, and soil moisture.
+    *   *Need:* Ingest historical climate datasets and transition to multi-variate forecasting models (Prophet with external regressors or XGBoost).
 
-### 2.3 Data Pipeline
-*   **State:** The most fragile part of the system. Scripts like `fix_map_bridge.py`, `check_lineage.py`, `etl_v1.py` suggest a reactive approach to data quality rather than a robust pipeline.
-*   **Automation:** Process relies on manual script execution. No Airflow/Dagster orchestration.
+### C. System Orchestration
+*   **Data Pipeline Orchestration:** The `scripts/` folder contains dozens of scattered Python scripts for various ingestion and maintenance tasks. There is no central DAG (Directed Acyclic Graph) to schedule or orchestrate these.
+    *   *Need:* Implement a centralized orchestrator like **Dagster**, **Prefect**, or **Apache Airflow**, or at a minimum, a cohesive `Makefile`/CLI tool to run pipelines predictably.
 
----
-
-## 3. Strategic Roadmap
-
-### Phase 1: Robustness & Technical Debt (Months 1-2)
-*Goal: Solidify the foundation to ensure 99.9% reliability and reproducibility.*
-
-#### 1.1 Unify the Data Pipeline (Critical)
-*   **Why:** Currently, data ingestion involves running 5-6 disparate scripts.
-*   **How:**
-    *   Create a central `Makefile` or `manage.py` CLI workflow (e.g., `python manage.py etl run --stage all`).
-    *   Move all root-level scripts (`fix_*.py`, `check_*.py`) into `backend/app/scripts/` with proper module imports.
-    *   Implement **Great Expectations** for data validation steps (schema checks before ingestion).
-
-#### 1.2 End-to-End (E2E) Testing
-*   **Why:** Complex interactions (Map click -> Dashboard update -> Chart render) are hard to unit test.
-*   **How:**
-    *   Install **Playwright** for Frontend.
-    *   Write tests for critical flows: "User selects district -> Metric updates", "User toggles year -> Map layer repaints".
-
-#### 1.3 Backend Refactoring
-*   **Why:** `yield_forecaster` is too basic.
-*   **How:**
-    *   Implement **Prophet** (Facebook) or **SARIMA** for seasonality-aware forecasting.
-    *   Add persistent caching (Redis) instead of just in-memory LRU for production scale.
+### D. User Experience Features
+*   **Export and Reporting:** Researchers need offline deliverables. The platform currently lacks a way to export customized briefs.
+    *   *Need:* A PDF Dossier generator (using Puppeteer or WeasyPrint) that snapshots the charts, lineage map, and statistics for a specific district.
+*   **Saved Workspaces:** State is only preserved via URL.
+    *   *Need:* Implement a lightweight User Authentication system (Auth0 is scaffolded but unused) and a `user_bookmarks` table to let researchers save specialized comparisons.
 
 ---
 
-### Phase 2: Advanced Analytics & AI (Months 3-5)
-*Goal: Move from "Descriptive" to "Prescriptive" analytics.*
+## 2. What Should Be Improved (Refactoring & Enhancements)
 
-#### 2.1 "Climate-Smart" Forecasting
-*   **Why:** Agriculture depends on weather. Current forecast ignores it.
-*   **How:**
-    *   Integrate historical rainfall data as regressors in the ML model.
-    *   **Feature:** "What-if" Simulator. Allow users to adjust rainfall/temp sliders to see predicted yield impact (e.g., "If monsoon is -20%, wheat yield drops by X%").
+### A. Frontend Component Architecture
+*   **"God Components":** Certain components (especially related to the main Dashboard layout) handle too much state, data fetching, and rendering simultaneously.
+    *   *Action:* Refactor large frontend components into leaner presentational components, moving state management exclusively into custom React hooks (e.g., expanding the pattern used in `useBookmarks.ts`).
+*   **Mobile Responsiveness of Complex Charts:** While the sidebar collapses well, complex radar and comparison charts can become cramped on smaller screens.
+    *   *Action:* Implement responsive breakpoints for Recharts that swap out legends or simplify axes on mobile widths.
 
-#### 2.2 AutomatedPDF Reports
-*   **Why:** Researchers/Policymakers need offline reports.
-*   **How:**
-    *   Use `WeasyPrint` or `Puppeteer` to generate 5-page PDF dossiers for a district.
-    *   Include: Lineage tree, 10-year trend, Risk profile, and Forecast.
+### B. Backend Performance & Caching
+*   **Persistent Caching:** The backend currently relies on in-memory LRU caching (`cache.py`). This forces a cold start on every deployment and doesn't share cache across worker processes.
+    *   *Action:* Fully integrate and enforce **Redis** as the absolute caching layer for complex spatial calculations and API responses.
 
-#### 2.3 User Accounts & Saved Context
-*   **Why:** Users lose work when closing the browser.
-*   **How:**
-    *   Enable the existing Auth0 integration.
-    *   Add PostgreSQL `user_bookmarks` table.
-    *   Allow saving "Comparisons" (e.g., "My Wheat Belt Study").
+### C. Database Schemas
+*   **Standardization:** While recently improved, ensuring `district_lgd` (integer) is universally used instead of the legacy `cdk` (string) across all remaining auxiliary tables and scripts will prevent future join mismatches.
 
 ---
 
-### Phase 3: Platform Expansion (Months 6+)
-*Goal: Ecosystem integration and real-time capabilities.*
+## 3. What Should Be Removed (Cleanup)
 
-#### 3.1 Satellite Data Connectors
-*   **Why:** Ground truth data is lagged (1-2 years). Satellite data is near real-time.
-*   **How:**
-    *   Integrate **Google Earth Engine (GEE)** API.
-    *   Overlay NDVI (Vegetation Index) rasters on the Mapbox layer for the current month.
-
-#### 3.2 Public API & SDK
-*   **Why:** Allow other researchers to build on I-ASCAP.
-*   **How:**
-    *   Publish a Python SDK (`pip install iascap`).
-    *   Monetize high-volume API access for commercial agri-tech firms.
-
-#### 3.3 Knowledge Graph
-*   **Why:** Discover hidden relationships (e.g., "Districts that grow Cotton also tend to have high suicide rates").
-*   **How:**
-    *   Use a Graph Database (Neo4j) to model relationships between Crops, Soil Types, and Socio-economic indicators.
+### A. Legacy and Disconnected Scripts
+*   **Root-Level Clutter:** The repository roots and `scripts/` directory contain numerous ad-hoc, prefixed scripts (`fix_*.py`, `check_*.py`, `patch_*.py`, `etl_v1.py`).
+    *   *Action:* Migrate all valuable utilities into a structured `scripts/utils/` module and **delete** all ad-hoc, obsolete, or duplicated scripts.
+*   **Dead Code:** Remove disabled authentication boilerplate from the frontend if Phase 3 (Saved Workspaces) is not planned for the immediate future, removing unnecessary bundle bloat.
 
 ---
 
-## 4. Implementation Priority Matrix
+## 4. Strategic Development Roadmap
 
-| Feature | Effort | Impact | Priority |
-| :--- | :---: | :---: | :---: |
-| **Pipeline Unification** | Medium | High | **P0** |
-| **E2E Testing** | Low | High | **P0** |
-| **Climate-Smart Forecast**| High | High | **P1** |
-| **PDF Reports** | Medium | Medium | **P1** |
-| **User Auth** | Low | Low | **P2** |
-| **Satellite Data** | High | High | **P3** |
+This roadmap is prioritized by balancing Engineering Effort against User Impact.
 
+### Phase 1: Stabilization & Tech Debt (Months 1-2)
+*Focus: Ensuring 99.9% reliability, correct data loading, and developer velocity.*
+1. **Pipeline Consolidation:** Unify the scattered `scripts/` into a single, cohesive CLI orchestrator. Build out a proper DAG for data loading.
+2. **Repository Cleanup:** Delete obsolete `etl_v1.py`, `patch_*.py`, and `fix_*.py` files to reduce cognitive load.
+3. **E2E Testing:** Setup Playwright testing for the core map-to-dashboard interaction loop.
+4. **Redis Integration:** Replace in-memory caching with persistent Redis caching to survive backend restarts.
+
+### Phase 2: Analytics & Reporting Expansion (Months 3-4)
+*Focus: Giving researchers better tools, deeper insights, and physical deliverables.*
+1. **Multi-Variate Forecasting:** Integrate rainfall/temperature datasets into the prediction algorithms. Move from simple Linear Regression to external-regressor-aware models (XGBoost/Prophet).
+2. **Automated PDF Dossiers:** Build a headless browser backend route that generates and emails a 5-page PDF report for a selected district, including statistical tables and visual maps.
+3. **Frontend Component Refactoring:** Break down large React components to improve render performance and maintainability.
+
+### Phase 3: Ecosystem & Real-Time (Months 5-6)
+*Focus: Moving from historical analysis to real-time actionability.*
+1. **Satellite Connectors (GEE):** Integrate the Google Earth Engine API to overlay near real-time vegetation indices (NDVI) directly onto the historical Mapbox layers.
+2. **User Accounts & Bookmarks:** Enable Auth0. Allow users to save their District Comparisons and Custom Workspaces to the Postgres database.
+3. **Public API SDK:** Release a Python SDK (`pip install iascap`) allowing other data scientists to scrape the harmonized MAUP-corrected database systematically.
+
+---
+**Summary Statement:**
+The I-ASCAP platform is fundamentally sound with excellent architectural decisions around the decoupled Next.js/FastAPI components and topological data solving. The immediate priority is not building new features, but rather solidifying the underlying ETL pipeline and test coverage to ensure this complex data engine remains reliable as it scales.
