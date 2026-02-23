@@ -26,7 +26,7 @@ DATA_DIR = PROJECT_ROOT / "data" / "raw"
 sys.path.append(str(PROJECT_ROOT / "backend"))
 from app.services.name_resolver import resolve_lgd
 
-ICRISAT_FILE = DATA_DIR / "ICRISAT_correct.csv"
+ICRISAT_FILE = PROJECT_ROOT / "data" / "raw" / "ICRISAT-District Level Data.csv"
 DES_FILE = DATA_DIR / "Sheet 1-crop-wise-area-production-yield (1).csv"
 
 # Load environment
@@ -58,8 +58,8 @@ def process_icrisat(lgd_lookup: dict):
     ]
     
     for df in pd.read_csv(ICRISAT_FILE, chunksize=20000):
-        cols = list(df.columns)
-        df.columns = ['idx', 'year', 'state_code', 'state_name', 'district_name'] + cols[5:]
+        # Rename vital columns instead of dropping everything by index
+        df = df.rename(columns={'Year': 'year', 'State Name': 'state_name', 'Dist Name': 'district_name'})
         df = df[(df['year'] >= 1966) & (df['year'] <= 1997)]
         
         for _, row in df.iterrows():
@@ -71,23 +71,28 @@ def process_icrisat(lgd_lookup: dict):
             if not lgd_code:
                 continue
             
-            col_idx = 5
             for crop in crops[:22]:
+                crop_upper = crop.upper().replace('_', ' ')
                 try:
-                    area = float(row.iloc[col_idx]) if pd.notna(row.iloc[col_idx]) and row.iloc[col_idx] != -1 else None
-                    prod = float(row.iloc[col_idx + 1]) if pd.notna(row.iloc[col_idx + 1]) and row.iloc[col_idx + 1] != -1 else None
-                    yld = float(row.iloc[col_idx + 2]) if pd.notna(row.iloc[col_idx + 2]) and row.iloc[col_idx + 2] != -1 else None
+                    area_col = f"{crop_upper} AREA (1000 ha)"
+                    prod_col = f"{crop_upper} PRODUCTION (1000 tons)"
+                    yld_col = f"{crop_upper} YIELD (Kg per ha)"
                     
-                    if area is not None:
-                        yield (lgd_code, year, f'{crop}_area', area, 'ICRISAT')
-                    if prod is not None:
-                        yield (lgd_code, year, f'{crop}_production', prod, 'ICRISAT')
-                    if yld is not None:
-                        yield (lgd_code, year, f'{crop}_yield', yld, 'ICRISAT')
+                    if area_col in df.columns:
+                        val = row[area_col]
+                        if pd.notna(val) and float(val) >= 0:
+                            yield (lgd_code, year, f'{crop}_area', float(val), 'ICRISAT')
                     
-                    col_idx += 3
-                except (IndexError, ValueError):
-                    col_idx += 3
+                    if prod_col in df.columns:
+                        val = row[prod_col]
+                        if pd.notna(val) and float(val) >= 0:
+                            yield (lgd_code, year, f'{crop}_production', float(val), 'ICRISAT')
+                            
+                    if yld_col in df.columns:
+                        val = row[yld_col]
+                        if pd.notna(val) and float(val) >= 0:
+                            yield (lgd_code, year, f'{crop}_yield', float(val), 'ICRISAT')
+                except (ValueError, TypeError, KeyError):
                     continue
 
 
@@ -136,13 +141,13 @@ def process_des(lgd_lookup: dict):
             
             season_suffix = '' if season == 'whole year' else f'_{season}'
             
-            if pd.notna(row['area']) and row['area'] > 0:
+            if pd.notna(row['area']) and float(row['area']) >= 0:
                 yield (lgd_code, year, f'{crop}_area{season_suffix}', float(row['area']), 'DES')
             
-            if pd.notna(row['production']) and row['production'] > 0:
+            if pd.notna(row['production']) and float(row['production']) >= 0:
                 yield (lgd_code, year, f'{crop}_production{season_suffix}', float(row['production']), 'DES')
             
-            if pd.notna(row['yield']) and row['yield'] > 0:
+            if pd.notna(row['yield']) and float(row['yield']) >= 0:
                 yield_kg_ha = float(row['yield']) * 1000
                 yield (lgd_code, year, f'{crop}_yield{season_suffix}', yield_kg_ha, 'DES')
 

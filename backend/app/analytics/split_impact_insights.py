@@ -212,7 +212,7 @@ class SplitImpactInsightsAnalyzer:
         for year, children_data in sorted(yearly_children_data.items()):
             if year < split_year:
                 continue
-            values = [v for v in children_data.values() if v > 0]
+            values = [v for v in children_data.values() if v >= 0]
             if len(values) >= 2:
                 yearly_cvs[year] = self.stats.coefficient_of_variation(values)
         
@@ -284,9 +284,9 @@ class SplitImpactInsightsAnalyzer:
         
         # Pooled standard deviation
         pooled_var = ((n_pre - 1) * var_pre + (n_post - 1) * var_post) / (n_pre + n_post - 2)
-        pooled_std = math.sqrt(pooled_var) if pooled_var > 0 else 1
+        pooled_std = math.sqrt(pooled_var) if pooled_var > 1e-4 else 1e-2
         
-        cohens_d = (mean_post - mean_pre) / pooled_std if pooled_std > 0 else 0
+        cohens_d = (mean_post - mean_pre) / pooled_std
         
         # Interpretation
         abs_d = abs(cohens_d)
@@ -350,16 +350,19 @@ class SplitImpactInsightsAnalyzer:
         # What % of the actual change is explained by factors other than trend?
         pre_mean = self.stats.mean(pre_values)
         
-        if pre_mean > 0:
+        if pre_mean > 1e-2:
             trend_expected_change = projected - pre_mean
             actual_change = post_mean - pre_mean
             
             if abs(trend_expected_change) > 0:
                 # Attribution = what % change is NOT explained by trend
                 unexplained_change = actual_change - trend_expected_change
-                attribution_pct = (unexplained_change / pre_mean) * 100 if pre_mean > 0 else 0
+                attribution_pct = (unexplained_change / pre_mean) * 100
             else:
-                attribution_pct = (actual_change / pre_mean) * 100 if pre_mean > 0 else 0
+                attribution_pct = (actual_change / pre_mean) * 100
+            
+            # Cap attribution at +/- 999.9% to avoid UI breakage on extreme outliers
+            attribution_pct = max(-999.9, min(999.9, attribution_pct))
         else:
             attribution_pct = 0
         

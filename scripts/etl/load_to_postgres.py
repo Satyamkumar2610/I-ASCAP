@@ -37,7 +37,7 @@ def setup_schema(engine):
 
         conn.execute(text("""
             CREATE TABLE IF NOT EXISTS districts (
-                cdk TEXT PRIMARY KEY,
+                lgd_code INTEGER PRIMARY KEY,
                 state_name TEXT,
                 district_name TEXT,
                 start_year INTEGER,
@@ -48,36 +48,36 @@ def setup_schema(engine):
         conn.execute(text("""
             CREATE TABLE IF NOT EXISTS agri_metrics (
                 id SERIAL PRIMARY KEY,
-                cdk TEXT,
+                district_lgd INTEGER,
                 year INTEGER,
                 variable_name TEXT,
                 value REAL,
                 source TEXT DEFAULT 'ICRISAT',
-                FOREIGN KEY (cdk) REFERENCES districts(cdk)
+                FOREIGN KEY (district_lgd) REFERENCES districts(lgd_code)
             );
         """))
 
         conn.execute(text("""
             CREATE TABLE IF NOT EXISTS lineage_events (
-                parent_cdk TEXT,
-                child_cdk TEXT,
+                parent_lgd INTEGER,
+                child_lgd INTEGER,
                 event_year INTEGER,
                 event_type TEXT,
                 confidence_score REAL,
                 weight_type TEXT,
-                PRIMARY KEY (parent_cdk, child_cdk, event_year),
-                FOREIGN KEY (parent_cdk) REFERENCES districts(cdk),
-                FOREIGN KEY (child_cdk) REFERENCES districts(cdk)
+                PRIMARY KEY (parent_lgd, child_lgd, event_year),
+                FOREIGN KEY (parent_lgd) REFERENCES districts(lgd_code),
+                FOREIGN KEY (child_lgd) REFERENCES districts(lgd_code)
             );
         """))
         
         # Create indexes for common query patterns
-        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_agri_metrics_cdk ON agri_metrics(cdk);"))
+        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_agri_metrics_district_lgd ON agri_metrics(district_lgd);"))
         conn.execute(text("CREATE INDEX IF NOT EXISTS idx_agri_metrics_year ON agri_metrics(year);"))
         conn.execute(text("CREATE INDEX IF NOT EXISTS idx_agri_metrics_variable ON agri_metrics(variable_name);"))
-        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_agri_metrics_cdk_var ON agri_metrics(cdk, variable_name);"))
-        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_lineage_parent ON lineage_events(parent_cdk);"))
-        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_lineage_child ON lineage_events(child_cdk);"))
+        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_agri_metrics_lgd_var ON agri_metrics(district_lgd, variable_name);"))
+        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_lineage_parent ON lineage_events(parent_lgd);"))
+        conn.execute(text("CREATE INDEX IF NOT EXISTS idx_lineage_child ON lineage_events(child_lgd);"))
         conn.execute(text("CREATE INDEX IF NOT EXISTS idx_districts_state ON districts(state_name);"))
         
         conn.commit()
@@ -98,10 +98,15 @@ def load_data():
         if os.path.exists(MASTER_PATH):
             logger.info("Loading District Master...")
             master = pd.read_csv(MASTER_PATH)
-            dists = master[['cdk', 'state_name', 'district_name', 'start_year', 'end_year']].copy()
-            dists = dists.drop_duplicates(subset=['cdk'])
+            # Make sure it aligns with 'lgd_code' expectation. If master has 'cdk', map it to 'lgd_code'
+            if 'lgd_code' not in master.columns and 'cdk' in master.columns:
+                master = master.rename(columns={'cdk': 'lgd_code'})
             
-            dists.to_sql('districts', DB_URL, if_exists='append', index=False, method='multi', chunksize=1000)
+            dists = master[['lgd_code', 'state_name', 'district_name', 'start_year', 'end_year']].copy()
+            dists = dists.drop_duplicates(subset=['lgd_code'])
+            
+            with engine.begin() as conn:
+                dists.to_sql('districts', conn, if_exists='append', index=False, method='multi', chunksize=1000)
             logger.info(f"Loaded {len(dists)} districts.")
     except Exception as e:
         logger.error(f"Failed loading districts: {e}")
@@ -113,8 +118,11 @@ def load_data():
         if os.path.exists(LINEAGE_PATH):
             logger.info(f"Loading Lineage Events from {LINEAGE_PATH}...")
             lineage = pd.read_csv(LINEAGE_PATH)
+            if 'parent_cdk' in lineage.columns:
+                lineage = lineage.rename(columns={'parent_cdk': 'parent_lgd', 'child_cdk': 'child_lgd'})
 
-            lineage.to_sql('lineage_events', DB_URL, if_exists='append', index=False, method='multi', chunksize=500)
+            with engine.begin() as conn:
+                lineage.to_sql('lineage_events', conn, if_exists='append', index=False, method='multi', chunksize=500)
             logger.info(f"Loaded {len(lineage)} lineage events.")
         else:
             logger.warning(f"Cleaned lineage file missing.")
@@ -128,15 +136,19 @@ def load_data():
         logger.info(f"Loading Harmonized Panel from {PANEL_PATH}...")
         panel = pd.read_csv(PANEL_PATH)
         
-        value_vars = [c for c in panel.columns if c not in ['cdk', 'year', 'state_name', 'district_name', 'dist_name', 'harmonization_method']]
-        long_df = panel.melt(id_vars=['cdk', 'year'], value_vars=value_vars, var_name='variable_name', value_name='value')
+        if 'cdk' in panel.columns:
+            panel = panel.rename(columns={'cdk': 'district_lgd'})
+        
+        value_vars = [c for c in panel.columns if c not in ['district_lgd', 'year', 'state_name', 'district_name', 'dist_name', 'harmonization_method']]
+        long_df = panel.melt(id_vars=['district_lgd', 'year'], value_vars=value_vars, var_name='variable_name', value_name='value')
         long_df['value'] = long_df['value'].replace(-1, np.nan)
         long_df = long_df.dropna(subset=['value'])
         
         logger.info(f"Transformed to {len(long_df)} rows.")
         long_df['source'] = 'V1.5_Harmonized'
         
-        long_df.to_sql('agri_metrics', DB_URL, if_exists='append', index=False, method='multi', chunksize=5000)
+        with engine.begin() as conn:
+            long_df.to_sql('agri_metrics', conn, if_exists='append', index=False, method='multi', chunksize=5000)
         logger.info("Metrics Loaded.")
     except Exception as e:
         logger.error(f"Failed loading metrics: {e}")
