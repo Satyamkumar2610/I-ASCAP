@@ -43,6 +43,7 @@ class CropDiversification:
     num_crops: int
     dominant_crop: str
     dominant_share: float
+    breakdown: Dict[str, float]  # crop_name -> share (0-1)
 
 
 class AdvancedAnalyticsService:
@@ -99,6 +100,9 @@ class AdvancedAnalyticsService:
         
         dominant_crop, dominant_share = shares[0]
         
+        # Build breakdown dict (crop -> share as decimal 0-1)
+        breakdown = {crop: round(share, 4) for crop, share in shares}
+        
         return CropDiversification(
             cdk=cdk,
             year=year,
@@ -106,7 +110,8 @@ class AdvancedAnalyticsService:
             simpson_index=round(simpson, 4),
             num_crops=len(rows),
             dominant_crop=dominant_crop,
-            dominant_share=round(dominant_share * 100, 1)
+            dominant_share=round(dominant_share * 100, 1),
+            breakdown=breakdown
         )
     
     # ============================================================

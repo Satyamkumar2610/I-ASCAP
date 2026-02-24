@@ -14,7 +14,7 @@ const PIE_COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#06b
 export default function CropPortfolioPage() {
     const [selectedState, setSelectedState] = useState<string>('');
     const [selectedCdk, setSelectedCdk] = useState<string>('');
-    const [year, setYear] = useState(2015);
+    const [year, setYear] = useState(2014);
 
     const { data: states } = useQuery({
         queryKey: ['states-list'],

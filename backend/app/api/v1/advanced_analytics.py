@@ -46,12 +46,16 @@ async def get_crop_diversification(
     return {
         "cdk": result.cdk,
         "year": result.year,
+        "cdi": result.simpson_index,
         "herfindahl_index": result.herfindahl_index,
         "simpson_diversity_index": result.simpson_index,
         "interpretation": "diverse" if result.simpson_index > 0.7 else "moderately diverse" if result.simpson_index > 0.4 else "concentrated",
+        "crop_count": result.num_crops,
         "num_crops": result.num_crops,
         "dominant_crop": result.dominant_crop,
-        "dominant_share_percent": result.dominant_share
+        "dominant_share": result.dominant_share / 100,
+        "dominant_share_percent": result.dominant_share,
+        "breakdown": result.breakdown
     }
 
 
@@ -153,14 +157,7 @@ async def get_district_rankings(
     service = AdvancedAnalyticsService(db)
     rankings = await service.get_district_rankings(state, crop, year, metric)
     
-    return {
-        "state": state,
-        "crop": crop,
-        "year": year,
-        "metric": metric,
-        "total_districts": len(rankings),
-        "rankings": rankings
-    }
+    return rankings
 
 
 @router.get("/yoy-growth")

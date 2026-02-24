@@ -25,9 +25,9 @@ async def get_district_history(
     Get comprehensive district split history from detailed records (1951-2024).
     """
     query = """
-        SELECT state_name, split_year, parent_district, child_district, parent_lgd as parent_cdk, child_lgd as child_cdk, source
+        SELECT state_name, split_year, parent_district, child_district, parent_lgd::text as parent_cdk, child_lgd::text as child_cdk, source
         FROM district_splits
-        WHERE ($1::text IS NULL OR state_name = $1)
+        WHERE ($1::text IS NULL OR UPPER(state_name) = UPPER($1))
         ORDER BY state_name, split_year
     """
     rows = await db.fetch(query, state)
