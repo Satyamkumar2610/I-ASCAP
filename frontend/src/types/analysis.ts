@@ -53,6 +53,8 @@ export interface DiversificationData {
     cdi: number;
     interpretation: string;
     dominant_crop: string;
+    dominant_share: number;
+    crop_count: number;
     breakdown: Record<string, number>;
 }
 

@@ -197,4 +197,103 @@ export const api = {
 
     getRainfall: (district: string, state: string, year: number) =>
         fetcher<RainfallData>(`climate/rainfall?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&year=${year}`),
+
+    // --- State-Level ---
+
+    getStatesList: () =>
+        fetcher<{ state: string; district_count: number }[]>('states/list'),
+
+    getStateOverview: (state: string, crop: string = 'wheat', year?: number) =>
+        fetcher<StateOverview>(`states/${encodeURIComponent(state)}/overview?crop=${crop}${year ? `&year=${year}` : ''}`),
+
+    // --- Search ---
+
+    searchDistricts: (query: string, type: string = 'all') =>
+        fetcher<SearchResult>(`search?q=${encodeURIComponent(query)}&type=${type}`),
+
+    // --- Anomaly Detection ---
+
+    getDistrictAnomalies: (cdk: string) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fetcher<any>(`anomalies/district/${cdk}`),
+
+    getStateAnomalies: (state: string, limit: number = 20) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fetcher<any>(`anomalies/state/${encodeURIComponent(state)}?limit=${limit}`),
+
+    getHighRiskDistricts: (limit: number = 10) =>
+        fetcher<HighRiskResult>(`anomalies/high-risk?limit=${limit}`),
+
+    // --- Lineage ---
+
+    getLineageHistory: (state?: string) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fetcher<any[]>(`lineage/history${state ? `?state=${encodeURIComponent(state)}` : ''}`),
+
+    getDataTracking: (cdk: string) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fetcher<any>(`lineage/tracking?cdk=${cdk}`),
+
+    getStateCoverage: (state: string) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fetcher<any>(`lineage/coverage?state=${encodeURIComponent(state)}`),
+
+    // --- Forecast ---
+
+    getYieldForecast: (cdk: string, crop: string, horizon: number = 3) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fetcher<any>(`forecast/${cdk}/${crop}?horizon=${horizon}`),
+
+    getCropRecommendations: (cdk: string, topN: number = 5) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fetcher<any>(`forecast/${cdk}/recommend?top_n=${topN}`),
+
+    // --- Reports ---
+
+    getDistrictReport: (cdk: string, crop: string = 'wheat', format: string = 'json') =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fetcher<any>(`reports/district-profile?cdk=${cdk}&crop=${crop}&format=${format}`),
 };
+
+// --- Additional Interfaces for New Pages ---
+
+export interface StateOverview {
+    state: string;
+    year: number;
+    crop: string;
+    total_districts: number;
+    districts_with_data: number;
+    year_range: { min: number | null; max: number | null };
+    avg_yield: number;
+    total_area: number;
+    total_production: number;
+    top_performers: { district_name: string; cdk: string; yield_value: number }[];
+    bottom_performers: { district_name: string; cdk: string; yield_value: number }[];
+    available_crops: string[];
+}
+
+export interface SearchResult {
+    query: string;
+    total: number;
+    results: {
+        cdk?: string;
+        name: string;
+        state: string;
+        result_type: 'district' | 'state';
+        start_year?: number;
+        end_year?: number;
+        district_count?: number;
+    }[];
+}
+
+export interface HighRiskResult {
+    high_risk_districts: {
+        cdk: string;
+        state: string;
+        district_name: string;
+        risk_score: number;
+        risk_level: string;
+        factors: string[];
+    }[];
+    total_scanned: number;
+}

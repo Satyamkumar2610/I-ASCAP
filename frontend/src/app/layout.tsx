@@ -37,6 +37,7 @@ export const metadata: Metadata = {
 };
 
 import ReactQueryProvider from "./lib/react-query-provider";
+import Navbar from "./components/Navbar";
 
 export default function RootLayout({
   children,
@@ -55,6 +56,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ReactQueryProvider>
+          <Navbar />
           {children}
         </ReactQueryProvider>
       </body>
