@@ -23,6 +23,9 @@ const CROPS = [
 export default function StatePage() {
     const [selectedState, setSelectedState] = useState<string>('');
     const [selectedCrop, setSelectedCrop] = useState('wheat');
+    const [selectedYear, setSelectedYear] = useState<number | undefined>(undefined);
+
+    const years = Array.from({ length: 2017 - 1966 + 1 }, (_, i) => 2017 - i);
 
     const { data: states } = useQuery({
         queryKey: ['states-list'],
@@ -30,8 +33,8 @@ export default function StatePage() {
     });
 
     const { data: overview, isLoading } = useQuery({
-        queryKey: ['state-overview', selectedState, selectedCrop],
-        queryFn: () => api.getStateOverview(selectedState, selectedCrop),
+        queryKey: ['state-overview', selectedState, selectedCrop, selectedYear],
+        queryFn: () => api.getStateOverview(selectedState, selectedCrop, selectedYear),
         enabled: !!selectedState,
     });
 
@@ -64,6 +67,16 @@ export default function StatePage() {
                 >
                     {CROPS.map((c) => (
                         <option key={c.value} value={c.value}>{c.label}</option>
+                    ))}
+                </select>
+                <select
+                    value={selectedYear ?? ''}
+                    onChange={(e) => setSelectedYear(e.target.value ? Number(e.target.value) : undefined)}
+                    className="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm focus:border-emerald-500 transition"
+                >
+                    <option value="">Latest Year</option>
+                    {years.map((y) => (
+                        <option key={y} value={y}>{y}</option>
                     ))}
                 </select>
             </div>
