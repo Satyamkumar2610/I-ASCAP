@@ -195,6 +195,10 @@ export const api = {
     getRiskProfile: (cdk: string, crop: string) =>
         fetcher<RiskData>(`analysis/risk-profile?cdk=${cdk}&crop=${crop}`),
 
+    getYoyGrowth: (cdk: string, crop: string, startYear: number = 1990, endYear: number = 2020) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fetcher<any>(`analytics/yoy-growth?cdk=${cdk}&crop=${crop}&start_year=${startYear}&end_year=${endYear}`),
+
     getRainfall: (district: string, state: string, year: number) =>
         fetcher<RainfallData>(`climate/rainfall?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&year=${year}`),
 
