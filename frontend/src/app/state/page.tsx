@@ -129,17 +129,20 @@ export default function StatePage() {
                             <div className="h-[250px]">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={overview.top_performers} layout="vertical">
-                                        <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} />
-                                        <YAxis dataKey="district_name" type="category" width={120} tick={{ fill: '#cbd5e1', fontSize: 11 }} />
+                                        <defs>
+                                            <linearGradient id="topGradient" x1="0" y1="0" x2="1" y2="0">
+                                                <stop offset="0%" stopColor="#10b981" stopOpacity={0.8} />
+                                                <stop offset="100%" stopColor="#34d399" stopOpacity={1} />
+                                            </linearGradient>
+                                        </defs>
+                                        <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
+                                        <YAxis dataKey="district_name" type="category" width={120} tick={{ fill: '#cbd5e1', fontSize: 11, fontWeight: 500 }} axisLine={false} tickLine={false} />
                                         <Tooltip
-                                            contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc', fontSize: 12 }}
-                                            formatter={(val: number | undefined) => [`${val ?? 0} kg/ha`, 'Yield']}
+                                            cursor={{ fill: 'rgba(30, 41, 59, 0.4)' }}
+                                            contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(8px)', borderColor: 'rgba(148, 163, 184, 0.2)', color: '#f8fafc', fontSize: 12, borderRadius: '8px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)' }}
+                                            formatter={(val: number | undefined) => [`${val?.toLocaleString() ?? 0} kg/ha`, 'Yield']}
                                         />
-                                        <Bar dataKey="yield_value" radius={[0, 4, 4, 0]}>
-                                            {overview.top_performers.map((_, i) => (
-                                                <Cell key={i} fill={`hsl(${160 - i * 8}, 70%, ${55 - i * 5}%)`} />
-                                            ))}
-                                        </Bar>
+                                        <Bar dataKey="yield_value" radius={[0, 4, 4, 0]} barSize={20} fill="url(#topGradient)" animationDuration={1000} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
@@ -148,23 +151,26 @@ export default function StatePage() {
                         {/* Bottom 5 */}
                         <div className="glass-card rounded-xl p-5">
                             <div className="flex items-center gap-2 mb-4">
-                                <TrendingDown size={16} className="text-red-400" />
+                                <TrendingDown size={16} className="text-rose-400" />
                                 <h3 className="section-header mb-0">Bottom Performers</h3>
                             </div>
                             <div className="h-[250px]">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={overview.bottom_performers} layout="vertical">
-                                        <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} />
-                                        <YAxis dataKey="district_name" type="category" width={120} tick={{ fill: '#cbd5e1', fontSize: 11 }} />
+                                        <defs>
+                                            <linearGradient id="bottomGradient" x1="0" y1="0" x2="1" y2="0">
+                                                <stop offset="0%" stopColor="#e11d48" stopOpacity={0.8} />
+                                                <stop offset="100%" stopColor="#fb7185" stopOpacity={1} />
+                                            </linearGradient>
+                                        </defs>
+                                        <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
+                                        <YAxis dataKey="district_name" type="category" width={120} tick={{ fill: '#cbd5e1', fontSize: 11, fontWeight: 500 }} axisLine={false} tickLine={false} />
                                         <Tooltip
-                                            contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc', fontSize: 12 }}
-                                            formatter={(val: number | undefined) => [`${val ?? 0} kg/ha`, 'Yield']}
+                                            cursor={{ fill: 'rgba(30, 41, 59, 0.4)' }}
+                                            contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(8px)', borderColor: 'rgba(148, 163, 184, 0.2)', color: '#f8fafc', fontSize: 12, borderRadius: '8px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)' }}
+                                            formatter={(val: number | undefined) => [`${val?.toLocaleString() ?? 0} kg/ha`, 'Yield']}
                                         />
-                                        <Bar dataKey="yield_value" radius={[0, 4, 4, 0]}>
-                                            {overview.bottom_performers.map((_, i) => (
-                                                <Cell key={i} fill={`hsl(${0 + i * 5}, 70%, ${50 + i * 3}%)`} />
-                                            ))}
-                                        </Bar>
+                                        <Bar dataKey="yield_value" radius={[0, 4, 4, 0]} barSize={20} fill="url(#bottomGradient)" animationDuration={1000} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
@@ -179,9 +185,9 @@ export default function StatePage() {
                                 <button
                                     key={crop}
                                     onClick={() => setSelectedCrop(crop)}
-                                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${crop === selectedCrop
-                                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                                        : 'bg-slate-800/50 text-slate-400 border border-slate-700 hover:text-slate-200 hover:border-slate-600'
+                                    className={`px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition ${crop === selectedCrop
+                                        ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-400 border border-emerald-500/40 shadow-[0_0_15px_-3px_rgba(16,185,129,0.3)]'
+                                        : 'bg-slate-800/40 text-slate-400 border border-slate-700/60 hover:text-slate-200 hover:border-slate-500 hover:bg-slate-800/80'
                                         }`}
                                 >
                                     {crop.replace(/_/g, ' ')}

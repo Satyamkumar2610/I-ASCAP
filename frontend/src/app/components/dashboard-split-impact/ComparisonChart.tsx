@@ -35,7 +35,7 @@ export function ComparisonChart({ data, series, splitYear, metric = 'yield' }: C
         >
             <ResponsiveContainer width="100%" height="100%" minHeight={200}>
                 <LineChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="4 4" stroke="#334155" opacity={0.4} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" opacity={0.8} />
                     <XAxis
                         dataKey="year"
                         stroke="#64748b"
@@ -44,6 +44,7 @@ export function ComparisonChart({ data, series, splitYear, metric = 'yield' }: C
                         interval="preserveStartEnd"
                         tick={{ fill: '#94a3b8' }}
                         tickLine={false}
+                        axisLine={false}
                     />
                     <YAxis
                         stroke="#64748b"
@@ -52,6 +53,7 @@ export function ComparisonChart({ data, series, splitYear, metric = 'yield' }: C
                         tickFormatter={(val) => val >= 1000 ? `${(val / 1000).toFixed(1)}k` : val}
                         tick={{ fill: '#94a3b8' }}
                         tickLine={false}
+                        axisLine={false}
                     >
                         <Label
                             value={metric === 'yield' ? 'kg/ha' : metric === 'production' ? 'tons' : 'ha'}
@@ -63,17 +65,18 @@ export function ComparisonChart({ data, series, splitYear, metric = 'yield' }: C
                     </YAxis>
                     <Tooltip
                         contentStyle={{
-                            backgroundColor: 'rgba(15, 23, 42, 0.85)',
-                            backdropFilter: 'blur(8px)',
-                            border: '1px solid rgba(51, 65, 85, 0.6)',
+                            backgroundColor: 'rgba(15, 23, 42, 0.4)',
+                            backdropFilter: 'blur(16px)',
+                            WebkitBackdropFilter: 'blur(16px)',
+                            border: '1px solid rgba(148, 163, 184, 0.1)',
                             color: '#f8fafc',
                             fontSize: '11px',
                             padding: '10px 14px',
                             borderRadius: '8px',
-                            boxShadow: '0 10px 15px -3px rgba(0,0,0,0.3)'
+                            boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.5)'
                         }}
                         labelStyle={{ color: '#cbd5e1', fontWeight: 'bold', marginBottom: '4px' }}
-                        cursor={{ stroke: '#475569', strokeWidth: 1, strokeDasharray: '4 4' }}
+                        cursor={{ stroke: 'rgba(51, 65, 85, 0.5)', strokeWidth: 1, strokeDasharray: '3 3' }}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         formatter={(value: any, name: any) => [getUnitCallback(Number(value || 0)), name]}
                     />
