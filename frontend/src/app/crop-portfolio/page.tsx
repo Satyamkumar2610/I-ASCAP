@@ -13,6 +13,7 @@ const PIE_COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#06b
 
 export default function CropPortfolioPage() {
     const [selectedState, setSelectedState] = useState<string>('');
+    const [selectedCdk, setSelectedCdk] = useState<string>('');
     const [year, setYear] = useState(2015);
 
     const { data: states } = useQuery({
@@ -20,10 +21,18 @@ export default function CropPortfolioPage() {
         queryFn: () => api.getStatesList(),
     });
 
-    const { data: diversification, isLoading } = useQuery({
-        queryKey: ['diversification', selectedState, year],
-        queryFn: () => api.getDiversification(selectedState, year),
+    const { data: districtsSearch } = useQuery({
+        queryKey: ['state-districts', selectedState],
+        queryFn: () => api.searchDistricts(selectedState, 'district'),
         enabled: !!selectedState,
+    });
+
+    const districts = districtsSearch?.results?.filter(d => d.state === selectedState) || [];
+
+    const { data: diversification, isLoading } = useQuery({
+        queryKey: ['diversification', selectedCdk, year],
+        queryFn: () => api.getDiversification(selectedCdk, year),
+        enabled: !!selectedCdk,
     });
 
     const { data: rankings } = useQuery({
@@ -58,12 +67,23 @@ export default function CropPortfolioPage() {
             <div className="flex flex-wrap gap-3 mb-8">
                 <select
                     value={selectedState}
-                    onChange={(e) => setSelectedState(e.target.value)}
-                    className="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm focus:border-amber-500 transition min-w-[200px]"
+                    onChange={(e) => { setSelectedState(e.target.value); setSelectedCdk(''); }}
+                    className="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm focus:border-amber-500 transition min-w-[150px]"
                 >
                     <option value="">Select a state...</option>
                     {states?.map((s) => (
                         <option key={s.state} value={s.state}>{s.state}</option>
+                    ))}
+                </select>
+                <select
+                    value={selectedCdk}
+                    onChange={(e) => setSelectedCdk(e.target.value)}
+                    disabled={!selectedState}
+                    className="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm focus:border-amber-500 transition min-w-[200px] disabled:opacity-50"
+                >
+                    <option value="">Select a district...</option>
+                    {districts.map((d) => (
+                        <option key={d.cdk} value={d.cdk}>{d.name}</option>
                     ))}
                 </select>
                 <input
@@ -76,14 +96,14 @@ export default function CropPortfolioPage() {
                 />
             </div>
 
-            {!selectedState && (
+            {!selectedCdk && (
                 <div className="text-center py-20">
                     <PieChartIcon className="mx-auto text-slate-600 mb-4" size={48} />
-                    <p className="text-slate-500">Select a state to analyze its crop portfolio</p>
+                    <p className="text-slate-500">Select a district to analyze its crop portfolio</p>
                 </div>
             )}
 
-            {isLoading && selectedState && (
+            {isLoading && selectedCdk && (
                 <div className="flex items-center justify-center py-20">
                     <div className="w-8 h-8 border-2 border-amber-500/30 border-t-amber-500 rounded-full animate-spin" />
                 </div>

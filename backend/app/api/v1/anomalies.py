@@ -73,39 +73,36 @@ async def get_high_risk_districts(
     
     Scans a sample of districts and returns those with highest risk.
     """
-    # Sample districts from each state
-    states = await db.fetch("""
-        SELECT DISTINCT state_name FROM districts
-        ORDER BY state_name
-    """)
+    # Sample random districts to avoid Vercel 10s timeout from N+1 queries
+    # Scan twice the requested limit to find enough anomalies
+    scan_limit = min(limit * 3, 30)
+    districts = await db.fetch("""
+        SELECT lgd_code::text as cdk, state_name, district_name 
+        FROM districts 
+        WHERE end_year IS NULL
+        ORDER BY RANDOM() 
+        LIMIT $1
+    """, scan_limit)
     
     all_high_risk = []
     detector = AnomalyDetector(db)
     
-    for state_row in states:
-        # Get first 3 districts per state for sampling
-        districts = await db.fetch("""
-            SELECT lgd_code::text as cdk FROM districts 
-            WHERE state_name = $1
-            LIMIT 3
-        """, state_row['state_name'])
-        
-        for dist in districts:
-            report = await detector.scan_district(dist['cdk'])
-            if report.risk_alert and report.risk_alert.risk_score >= 30:
-                all_high_risk.append({
-                    "cdk": dist['cdk'],
-                    "state": state_row['state_name'],
-                    "district_name": report.risk_alert.district_name,
-                    "risk_score": report.risk_alert.risk_score,
-                    "risk_level": report.risk_alert.risk_level.value,
-                    "factors": report.risk_alert.factors
-                })
+    for dist in districts:
+        report = await detector.scan_district(dist['cdk'])
+        if report.risk_alert and report.risk_alert.risk_score >= 30:
+            all_high_risk.append({
+                "cdk": dist['cdk'],
+                "state": dist['state_name'],
+                "district_name": report.risk_alert.district_name,
+                "risk_score": report.risk_alert.risk_score,
+                "risk_level": report.risk_alert.risk_level.value,
+                "factors": report.risk_alert.factors
+            })
     
     # Sort by risk score and return top N
     all_high_risk.sort(key=lambda x: -x['risk_score'])
     
     return {
         "high_risk_districts": all_high_risk[:limit],
-        "total_scanned": len(states) * 3
+        "total_scanned": scan_limit
     }
