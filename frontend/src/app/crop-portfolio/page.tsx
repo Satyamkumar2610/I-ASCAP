@@ -21,13 +21,13 @@ export default function CropPortfolioPage() {
         queryFn: () => api.getStatesList(),
     });
 
-    const { data: districtsSearch } = useQuery({
+    const { data: districtsData } = useQuery({
         queryKey: ['state-districts', selectedState],
-        queryFn: () => api.searchDistricts(selectedState, 'district'),
+        queryFn: () => api.getDistrictsByState(selectedState),
         enabled: !!selectedState,
     });
 
-    const districts = districtsSearch?.results?.filter(d => d.state === selectedState) || [];
+    const districts = districtsData?.items || [];
 
     const { data: diversification, isLoading } = useQuery({
         queryKey: ['diversification', selectedCdk, year],

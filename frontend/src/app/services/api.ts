@@ -208,6 +208,9 @@ export const api = {
 
     // --- Search ---
 
+    getDistrictsByState: (state: string) =>
+        fetcher<{ total: number; items: { cdk: string; name: string; state: string }[] }>(`districts?state=${encodeURIComponent(state)}`),
+
     searchDistricts: (query: string, type: string = 'all') =>
         fetcher<SearchResult>(`search?q=${encodeURIComponent(query)}&type=${type}`),
 
