@@ -2,7 +2,6 @@
 Tests for MappingService: District-to-GeoJSON mapping with fallback strategies.
 """
 import pytest
-from unittest.mock import patch, MagicMock
 from app.services.mapping_service import MappingService, get_mapping_service
 
 

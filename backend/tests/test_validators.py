@@ -17,8 +17,6 @@ from app.validators import (
     validate_positive_number,
     YEAR_MIN,
     YEAR_MAX,
-    VALID_CROPS,
-    VALID_METRICS,
 )
 from app.exceptions import ValidationError
 

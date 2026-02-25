@@ -1,7 +1,6 @@
 """
 Tests for the exceptions module.
 """
-import pytest
 from app.exceptions import (
     APIError,
     ValidationError,

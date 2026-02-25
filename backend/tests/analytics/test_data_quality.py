@@ -2,7 +2,7 @@
 Unit tests for the data quality module.
 """
 import pytest
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock
 
 from app.analytics.data_quality import (
     DataQualityScorer,

@@ -2,7 +2,7 @@
 District Schemas: Temporal entities with validity periods.
 """
 from typing import List, Optional, Any
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class District(BaseModel):
@@ -17,8 +17,7 @@ class District(BaseModel):
     valid_to: Optional[int] = Field(None, description="Year boundary ceased (null = current)")
     geometry: Optional[Any] = Field(None, description="GeoJSON geometry (when requested)")
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class DistrictList(BaseModel):

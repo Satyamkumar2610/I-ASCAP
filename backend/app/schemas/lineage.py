@@ -3,7 +3,7 @@ Lineage Schemas: Graph edges representing administrative changes.
 """
 from enum import Enum
 from typing import List, Dict, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class EventType(str, Enum):
@@ -34,8 +34,7 @@ class LineageEvent(BaseModel):
     legal_reference: Optional[str] = Field(None, description="Gazette notification reference")
     confidence: float = Field(default=1.0, ge=0, le=1, description="Data quality score")
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class LineageGraph(BaseModel):

@@ -12,8 +12,7 @@ from unittest.mock import MagicMock, patch
 
 
 
-from app.config import get_settings
-from app.database import init_db_pool, close_db_pool, get_pool
+from app.database import init_db_pool, close_db_pool
 
 @pytest.fixture(scope="session")
 def event_loop():

@@ -3,7 +3,7 @@ Tests for the caching system (InMemoryCache + Redis fallback logic).
 """
 import pytest
 import time
-from unittest.mock import patch, AsyncMock, MagicMock
+from unittest.mock import patch
 
 from app.cache import (
     InMemoryCache,

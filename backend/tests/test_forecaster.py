@@ -2,7 +2,7 @@
 Tests for the YieldForecaster and CropRecommender.
 """
 import pytest
-from app.ml.forecaster import YieldForecaster, CropRecommender, ForecastResult, ForecastPoint
+from app.ml.forecaster import YieldForecaster, CropRecommender, ForecastResult
 
 
 # ---------------------------------------------------------------------------
