@@ -138,6 +138,46 @@ export interface SimulationResult {
     };
 }
 
+// V2 Prediction Types
+export interface PredictionFactor {
+    name: string;
+    key: string;
+    importance: number;
+    coefficient: number;
+    contribution: number;
+    direction: string;
+    description: string;
+}
+
+export interface PredictionV2Data {
+    predicted_yield: number;
+    baseline_yield: number;
+    confidence_lower: number;
+    confidence_upper: number;
+    slope_rain: number;
+    mean_rain: number;
+    r_squared: number;
+    adjusted_r_squared: number;
+    rmse: number;
+    sample_size: number;
+    feature_count: number;
+    method: string;
+    factors: PredictionFactor[];
+    model_equation: string;
+    methodology: string;
+    data_quality_notes: string[];
+    data_points: { rain: number; yield: number; district: string }[];
+    regression_line: { x: number; y: number }[];
+}
+
+export interface PredictionV2Result {
+    district: string;
+    state: string;
+    crop: string;
+    year: number;
+    prediction: PredictionV2Data;
+}
+
 // EfficiencyData and RiskProfileData removed in favor of imported types
 
 export const api = {
@@ -186,6 +226,9 @@ export const api = {
 
     runSimulation: (district: string, state: string, crop: string, year: number) =>
         fetcher<SimulationResult>(`simulation?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`),
+
+    runPredictionV2: (district: string, state: string, crop: string, year: number) =>
+        fetcher<PredictionV2Result>(`simulation/v2?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`),
 
     // --- Legacy / Other ---
 

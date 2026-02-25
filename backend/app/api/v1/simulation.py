@@ -143,3 +143,159 @@ async def get_simulation(
     # Cache Result
     await cache.set(cache_key, result, CacheTTL.ANALYSIS)
     return result
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# V2 — Multi-Factor Prediction Endpoint
+# ──────────────────────────────────────────────────────────────────────────────
+
+from app.ml.prediction_engine import PredictionEngine
+
+@router.get("/v2")
+async def get_prediction_v2(
+    district: str = Query(..., description="District Name"),
+    crop: str = Query(..., description="Crop Name"),
+    year: int = Query(..., description="Reference Year"),
+    state: str = Query(..., description="State Name"),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """
+    V2 Prediction: Multi-factor Ridge regression with full explainability.
+
+    Gathers rainfall (with seasonal breakdown), historical yield trend,
+    yield volatility, and crop area for every district in the state,
+    then runs the PredictionEngine.
+    """
+    from app.cache import get_cache, CacheTTL
+
+    cache_key = f"pred_v2:{state}:{district}:{crop}:{year}"
+    cache = get_cache()
+    cached = await cache.get(cache_key)
+    if cached:
+        return cached
+
+    # 1. Resolve variable name (with season fallback)
+    variable_name = f"{crop.lower()}_yield"
+    yield_query = """
+        SELECT d.district_name, m.value as yield
+        FROM agri_metrics m
+        JOIN districts d ON m.district_lgd = d.lgd_code
+        WHERE UPPER(d.state_name) = UPPER($1)
+        AND m.variable_name = $2
+        AND m.year = $3
+        AND m.value IS NOT NULL AND m.value > 0
+    """
+    yield_rows = await db.fetch(yield_query, state, variable_name, year)
+
+    if len(yield_rows) < 5:
+        season_map = {"rice": "kharif", "wheat": "rabi", "maize": "kharif",
+                      "soyabean": "kharif", "groundnut": "kharif"}
+        season = season_map.get(crop.lower())
+        if season:
+            yield_rows = await db.fetch(
+                yield_query, state, f"{crop.lower()}_yield_{season}", year
+            )
+
+    if len(yield_rows) < 5:
+        raise HTTPException(status_code=404, detail="Insufficient yield data for prediction")
+
+    # 2. Rainfall normals (with seasonal breakdown)
+    rain_query = """
+        SELECT district, annual, jjas
+        FROM rainfall_normals
+        WHERE UPPER(state_ut) = UPPER($1)
+    """
+    rain_rows = await db.fetch(rain_query, state)
+    rain_map = {}
+    for r in rain_rows:
+        rain_map[r["district"].upper()] = {
+            "annual": float(r["annual"] or 0),
+            "monsoon_jjas": float(r["jjas"] or 0),
+        }
+
+    # 3. Historical yield data for each district (for trend & CV)
+    hist_query = """
+        SELECT d.district_name, m.year, m.value
+        FROM agri_metrics m
+        JOIN districts d ON m.district_lgd = d.lgd_code
+        WHERE UPPER(d.state_name) = UPPER($1)
+        AND m.variable_name = $2
+        AND m.value IS NOT NULL AND m.value > 0
+        ORDER BY d.district_name, m.year
+    """
+    hist_rows = await db.fetch(hist_query, state, variable_name)
+    hist_map: dict = {}  # district_name -> [(year, value)]
+    for r in hist_rows:
+        dn = r["district_name"]
+        hist_map.setdefault(dn, []).append((r["year"], float(r["value"])))
+
+    # 4. Crop area
+    area_var = f"{crop.lower()}_area"
+    area_query = """
+        SELECT d.district_name, m.value as area
+        FROM agri_metrics m
+        JOIN districts d ON m.district_lgd = d.lgd_code
+        WHERE UPPER(d.state_name) = UPPER($1)
+        AND m.variable_name = $2
+        AND m.year = $3
+        AND m.value IS NOT NULL AND m.value > 0
+    """
+    area_rows = await db.fetch(area_query, state, area_var, year)
+    area_map = {r["district_name"].upper(): float(r["area"]) for r in area_rows}
+
+    # 5. Assemble district_data for PredictionEngine
+    district_data = []
+    for row in yield_rows:
+        d_name = row["district_name"]
+        d_yield = float(row["yield"])
+
+        rain_info = rain_map.get(d_name.upper())
+        if not rain_info or rain_info["annual"] <= 0:
+            continue
+
+        # Calculate trend & CV from historical yields
+        hist = hist_map.get(d_name, [])
+        yield_trend = 0.0
+        yield_cv = 0.0
+        if len(hist) >= 5:
+            years_arr = [h[0] for h in hist]
+            vals_arr = [h[1] for h in hist]
+            import numpy as np
+            from scipy import stats as sp_stats
+            slope, _, _, _, _ = sp_stats.linregress(years_arr, vals_arr)
+            yield_trend = float(slope)
+            mean_v = np.mean(vals_arr)
+            std_v = np.std(vals_arr, ddof=1)
+            yield_cv = float((std_v / mean_v) * 100) if mean_v > 0 else 0.0
+
+        entry = {
+            "district": d_name,
+            "yield_value": d_yield,
+            "rainfall": rain_info["annual"],
+            "monsoon_jjas": rain_info["monsoon_jjas"],
+            "yield_trend": yield_trend,
+            "yield_cv": yield_cv,
+            "crop_area": area_map.get(d_name.upper(), 0),
+        }
+        district_data.append(entry)
+
+    if len(district_data) < 5:
+        raise HTTPException(status_code=404, detail="Insufficient matched data for prediction")
+
+    # 6. Run PredictionEngine
+    engine = PredictionEngine()
+    result = engine.predict(district_data, district)
+
+    if result is None:
+        raise HTTPException(status_code=400, detail="Prediction engine returned no result")
+
+    response = {
+        "district": district,
+        "state": state,
+        "crop": crop,
+        "year": year,
+        "prediction": result.to_dict(),
+    }
+
+    await cache.set(cache_key, response, CacheTTL.ANALYSIS)
+    return response
