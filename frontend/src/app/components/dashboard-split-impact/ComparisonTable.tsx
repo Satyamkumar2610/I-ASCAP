@@ -48,52 +48,52 @@ export function ComparisonTable({ data, splitYear, series }: ComparisonTableProp
     });
 
     return (
-        <div className="mt-6 bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden">
-            <div className="px-4 py-2 bg-slate-900/80 border-b border-slate-800 text-xs font-bold text-slate-400 uppercase tracking-wider flex justify-between">
+        <div className="mt-6 bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
+            <div className="px-4 py-2 bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase tracking-wider flex justify-between">
                 <span>Statistical Comparison (±5 Year Window)</span>
                 <span className="text-[10px] normal-case text-slate-500 hidden sm:inline">CV = Volatility (Lower is more stable)</span>
             </div>
             <table className="w-full text-xs text-left">
                 <thead>
-                    <tr className="border-b border-slate-800/50 text-slate-500">
-                        <th className="px-4 py-2">Entity</th>
-                        <th className="px-4 py-2 text-right">Avg (Pre-{splitYear})</th>
-                        <th className="px-4 py-2 text-right">Avg (Post-{splitYear})</th>
-                        <th className="px-4 py-2 text-right">% Change</th>
-                        <th className="px-4 py-2 text-right">Volatility (CV)</th>
-                        <th className="px-4 py-2 text-center">Confidence</th>
+                    <tr className="border-b border-slate-200 text-slate-500 bg-white">
+                        <th className="px-4 py-2 font-semibold">Entity</th>
+                        <th className="px-4 py-2 text-right font-semibold">Avg (Pre-{splitYear})</th>
+                        <th className="px-4 py-2 text-right font-semibold">Avg (Post-{splitYear})</th>
+                        <th className="px-4 py-2 text-right font-semibold">% Change</th>
+                        <th className="px-4 py-2 text-right font-semibold">Volatility (CV)</th>
+                        <th className="px-4 py-2 text-center font-semibold">Confidence</th>
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/50">
+                <tbody className="divide-y divide-slate-100 bg-white">
                     {rows.map((r: any, idx: number) => (
-                        <tr key={idx} className="hover:bg-slate-800/30">
-                            <td className="px-4 py-3 font-medium text-slate-300">{r.entity}</td>
-                            <td className="px-4 py-3 text-right text-slate-400">
+                        <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                            <td className="px-4 py-3 font-semibold text-slate-800">{r.entity}</td>
+                            <td className="px-4 py-3 text-right text-slate-600 font-medium">
                                 {r.pre !== null ? r.pre.toLocaleString(undefined, { maximumFractionDigits: 1 }) : '—'}
                             </td>
-                            <td className="px-4 py-3 text-right text-slate-400">
+                            <td className="px-4 py-3 text-right text-slate-600 font-medium">
                                 {r.post !== null ? r.post.toLocaleString(undefined, { maximumFractionDigits: 1 }) : '—'}
                             </td>
                             <td className="px-4 py-3 text-right">
                                 {r.change !== null ? (
-                                    <span className={`${r.change > 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono font-bold`}>
+                                    <span className={`${r.change > 0 ? 'text-emerald-600' : 'text-rose-600'} font-mono font-bold`}>
                                         {r.change > 0 ? '+' : ''}{r.change.toFixed(1)}%
                                     </span>
                                 ) : '—'}
                             </td>
-                            <td className="px-4 py-3 text-right font-mono text-slate-400">
+                            <td className="px-4 py-3 text-right font-mono text-slate-600">
                                 {r.cvPre !== null && r.cvPost !== null ? (
                                     <div className="flex flex-col items-end leading-none gap-0.5">
-                                        <span className="text-[10px]">Pre: {r.cvPre.toFixed(1)}%</span>
-                                        <span className={`${r.cvPost < r.cvPre ? 'text-emerald-500' : 'text-amber-500'}`}>Post: {r.cvPost.toFixed(1)}%</span>
+                                        <span className="text-[10px] font-medium text-slate-500">Pre: {r.cvPre.toFixed(1)}%</span>
+                                        <span className={`font-semibold ${r.cvPost < r.cvPre ? 'text-emerald-600' : 'text-amber-600'}`}>Post: {r.cvPost.toFixed(1)}%</span>
                                     </div>
                                 ) : '—'}
                             </td>
                             <td className="px-4 py-3 text-center">
                                 {r.yearsPre >= 3 && r.yearsPost >= 3 ? (
-                                    <span className="bg-emerald-500/10 text-emerald-500 px-1.5 py-0.5 rounded text-[10px]">High</span>
+                                    <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded text-[10px] font-bold">High</span>
                                 ) : (
-                                    <span className="bg-amber-500/10 text-amber-500 px-1.5 py-0.5 rounded text-[10px]">Low Data</span>
+                                    <span className="bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded text-[10px] font-bold">Low Data</span>
                                 )}
                             </td>
                         </tr>

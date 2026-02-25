@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { CloudRain, Info } from 'lucide-react';
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Cell } from 'recharts';
+import ReactECharts from 'echarts-for-react';
 
 interface ClimateCorrelationCardProps {
     data: {
@@ -68,52 +68,46 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
             </div>
 
             {/* Scatter Plot */}
-            <div className="h-48 w-full glass-panel rounded-xl p-3 mb-3">
-                <ResponsiveContainer width="100%" height="100%" minHeight={120}>
-                    <ScatterChart margin={{ top: 10, right: 10, bottom: 5, left: -10 }}>
-                        <CartesianGrid strokeDasharray="4 4" stroke="#334155" opacity={0.4} />
-                        <XAxis
-                            type="number"
-                            dataKey="monsoon_rainfall"
-                            name="Rainfall"
-                            unit="mm"
-                            stroke="#64748b"
-                            fontSize={9}
-                            tickFormatter={(v) => `${v}`}
-                            tickLine={false}
-                        />
-                        <YAxis
-                            type="number"
-                            dataKey="yield"
-                            name="Yield"
-                            unit="kg/ha"
-                            stroke="#64748b"
-                            fontSize={9}
-                            width={40}
-                            tickLine={false}
-                            tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v}
-                        />
-                        <RechartsTooltip
-                            cursor={{ strokeDasharray: '4 4', stroke: '#475569' }}
-                            contentStyle={{
-                                backgroundColor: 'rgba(15, 23, 42, 0.85)',
-                                backdropFilter: 'blur(8px)',
-                                borderColor: 'rgba(51, 65, 85, 0.6)',
-                                borderRadius: '8px',
-                                boxShadow: '0 10px 15px -3px rgba(0,0,0,0.3)',
-                                fontSize: '11px',
-                                padding: '8px',
-                                color: '#e2e8f0'
-                            }}
-                            itemStyle={{ color: '#38bdf8', fontWeight: 'bold' }}
-                        />
-                        <Scatter name="Districts" data={data?.data_points || []} fill="#38bdf8">
-                            {(data?.data_points || []).map((entry, index) => (
-                                <Cell key={`cell-${index}`} fillOpacity={0.6} />
-                            ))}
-                        </Scatter>
-                    </ScatterChart>
-                </ResponsiveContainer>
+            <div className="h-48 w-full bg-white border border-slate-200 shadow-sm rounded-xl p-3 mb-3">
+                <ReactECharts
+                    option={{
+                        grid: { top: 10, right: 10, bottom: 20, left: 40 },
+                        tooltip: {
+                            trigger: 'item',
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            borderColor: '#e2e8f0',
+                            textStyle: { color: '#0f172a', fontSize: 11 },
+                            padding: [8, 12],
+                            formatter: function (params: any) {
+                                return `<b>Yield:</b> ${params.value[1]} kg/ha<br/><b>Rainfall:</b> ${params.value[0]} mm`;
+                            }
+                        },
+                        xAxis: {
+                            type: 'value',
+                            name: 'Rainfall (mm)',
+                            nameLocation: 'middle',
+                            nameGap: 25,
+                            axisLabel: { color: '#64748b', fontSize: 9 },
+                            splitLine: { lineStyle: { color: '#e2e8f0', type: 'dashed' } },
+                            axisLine: { show: false }
+                        },
+                        yAxis: {
+                            type: 'value',
+                            name: 'Yield (kg)',
+                            nameLocation: 'end',
+                            axisLabel: { color: '#64748b', fontSize: 9, formatter: (val: number) => val >= 1000 ? `${(val / 1000).toFixed(1)}k` : val },
+                            splitLine: { lineStyle: { color: '#e2e8f0', type: 'dashed' } },
+                            axisLine: { show: false }
+                        },
+                        series: [{
+                            type: 'scatter',
+                            symbolSize: 6,
+                            itemStyle: { color: '#38bdf8', opacity: 0.6 },
+                            data: (data?.data_points || []).map(p => [p.monsoon_rainfall, p.yield])
+                        }]
+                    }}
+                    style={{ height: '100%', width: '100%' }}
+                />
             </div>
 
             {/* Methodology Footnote */}

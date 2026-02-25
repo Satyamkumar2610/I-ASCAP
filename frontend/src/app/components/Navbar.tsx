@@ -26,15 +26,15 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className="sticky top-0 z-50 glass-panel border-b border-slate-700/50">
+            <nav className="sticky top-0 z-50 bg-white border-b border-slate-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     <div className="flex items-center justify-between h-14">
                         {/* Logo */}
                         <Link href="/" className="flex items-center gap-2 group">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-sm group-hover:scale-105 transition-transform">
+                            <div className="w-8 h-8 rounded-lg bg-indigo-700 flex items-center justify-center text-white font-bold text-sm group-hover:scale-105 transition-transform">
                                 IA
                             </div>
-                            <span className="font-bold text-white text-sm hidden sm:block">I-ASCAP</span>
+                            <span className="font-bold text-indigo-900 text-sm hidden sm:block tracking-wide">I-ASCAP</span>
                         </Link>
 
                         {/* Desktop Nav */}
@@ -46,9 +46,9 @@ export default function Navbar() {
                                     <Link
                                         key={route.href}
                                         href={route.href}
-                                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${isActive
-                                                ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                                                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${isActive
+                                            ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
+                                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                                             }`}
                                     >
                                         <Icon size={14} />
@@ -62,13 +62,13 @@ export default function Navbar() {
                         <div className="flex items-center gap-2">
                             <Link
                                 href="/state"
-                                className="p-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition"
+                                className="p-2 text-slate-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition"
                             >
                                 <Search size={16} />
                             </Link>
                             <button
                                 onClick={() => setMobileOpen(!mobileOpen)}
-                                className="md:hidden p-2 text-slate-400 hover:text-slate-200 rounded-lg transition"
+                                className="md:hidden p-2 text-slate-500 hover:text-indigo-700 rounded-lg transition"
                             >
                                 {mobileOpen ? <X size={18} /> : <Menu size={18} />}
                             </button>
@@ -78,7 +78,7 @@ export default function Navbar() {
 
                 {/* Mobile Menu */}
                 {mobileOpen && (
-                    <div className="md:hidden border-t border-slate-700/50 py-2 px-4 animate-in">
+                    <div className="md:hidden bg-white border-t border-slate-200 py-2 px-4 animate-in">
                         {NAV_ROUTES.filter(r => r.href !== '/').map((route) => {
                             const isActive = pathname === route.href;
                             const Icon = route.icon;
@@ -87,9 +87,9 @@ export default function Navbar() {
                                     key={route.href}
                                     href={route.href}
                                     onClick={() => setMobileOpen(false)}
-                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition ${isActive
-                                            ? 'bg-emerald-500/15 text-emerald-400'
-                                            : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${isActive
+                                        ? 'bg-indigo-50 text-indigo-700'
+                                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                                         }`}
                                 >
                                     <Icon size={16} />

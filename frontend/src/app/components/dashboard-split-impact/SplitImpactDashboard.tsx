@@ -68,25 +68,25 @@ export function SplitImpactDashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-950 text-slate-200 p-4 md:p-6 lg:p-8 font-sans selection:bg-emerald-500/30">
+        <div className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-6 lg:p-8 font-sans selection:bg-indigo-500/30">
             {/* Header */}
-            <div className="flex flex-col gap-4 mb-6 border-b border-slate-800 pb-4 md:pb-6">
+            <div className="flex flex-col gap-4 mb-6 border-b border-slate-200 pb-4 md:pb-6">
                 {/* Title Row */}
                 <div className="flex items-center justify-between">
                     <div className="flex-1 min-w-0">
-                        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent flex items-center gap-2 md:gap-3 truncate">
-                            <LayoutDashboard className="text-emerald-500 shrink-0 w-5 h-5 md:w-6 md:h-6" />
+                        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 flex items-center gap-2 md:gap-3 truncate tracking-tight">
+                            <LayoutDashboard className="text-indigo-600 shrink-0 w-5 h-5 md:w-6 md:h-6" />
                             <span className="hidden sm:inline">Boundary Split Impact Analysis</span>
                             <span className="sm:hidden">Split Impact</span>
                         </h1>
-                        <p className="text-slate-400 mt-1 md:mt-2 text-xs md:text-sm leading-relaxed hidden md:block max-w-2xl">
+                        <p className="text-slate-600 mt-1 md:mt-2 text-xs md:text-sm leading-relaxed hidden md:block max-w-2xl font-medium">
                             Scientific analysis of agricultural performance across district boundary changes.
                         </p>
                     </div>
 
                     {/* Mobile Menu Toggle */}
                     <button
-                        className="lg:hidden p-2 rounded-lg bg-slate-900 border border-slate-700"
+                        className="lg:hidden p-2 rounded-lg bg-white border border-slate-300 text-slate-600 hover:bg-slate-50 transition"
                         onClick={() => setShowMobileMenu(!showMobileMenu)}
                     >
                         {showMobileMenu ? <X size={20} /> : <Menu size={20} />}
@@ -94,7 +94,7 @@ export function SplitImpactDashboard() {
                 </div>
 
                 {/* Controls - Always visible on desktop, toggle on mobile */}
-                <div className={`${showMobileMenu ? 'flex' : 'hidden'} lg:flex flex-wrap gap-2 md:gap-3 bg-slate-900 p-2 md:p-3 rounded-lg border border-slate-800 shadow-xl`}>
+                <div className={`${showMobileMenu ? 'flex' : 'hidden'} lg:flex flex-wrap gap-2 md:gap-3 bg-white p-2 md:p-3 rounded-xl border border-slate-200 shadow-sm`}>
                     {/* State Selector */}
                     <div className="flex flex-col gap-1 flex-1 min-w-[120px]">
                         <label className="text-[10px] uppercase font-bold text-slate-500 px-1">State</label>
@@ -107,7 +107,7 @@ export function SplitImpactDashboard() {
                                 setSelectedEvent(null);
                                 setMobileView('list');
                             }}
-                            className="bg-slate-950 border border-slate-700 rounded px-2 md:px-3 py-1.5 text-sm focus:ring-1 focus:ring-emerald-500 outline-none text-white w-full"
+                            className="bg-slate-50 border border-slate-300 rounded-lg px-2 md:px-3 py-1.5 text-sm focus:ring-1 focus:ring-indigo-500 outline-none text-slate-900 w-full transition shadow-sm"
                         >
                             {states.map(s => <option key={s} value={s}>{s}</option>)}
                         </select>
@@ -119,7 +119,7 @@ export function SplitImpactDashboard() {
                         <select
                             value={selectedCrop}
                             onChange={e => setSelectedCrop(e.target.value)}
-                            className="bg-slate-950 border border-slate-700 rounded px-2 md:px-3 py-1.5 text-sm focus:ring-1 focus:ring-emerald-500 outline-none text-white w-full"
+                            className="bg-slate-50 border border-slate-300 rounded-lg px-2 md:px-3 py-1.5 text-sm focus:ring-1 focus:ring-indigo-500 outline-none text-slate-900 w-full transition shadow-sm"
                         >
                             <option value="wheat">Wheat</option>
                             <option value="rice">Rice</option>
@@ -137,7 +137,7 @@ export function SplitImpactDashboard() {
                         <select
                             value={selectedMetric}
                             onChange={e => setSelectedMetric(e.target.value)}
-                            className="bg-slate-950 border border-slate-700 rounded px-2 md:px-3 py-1.5 text-sm focus:ring-1 focus:ring-emerald-500 outline-none text-white w-full"
+                            className="bg-slate-50 border border-slate-300 rounded-lg px-2 md:px-3 py-1.5 text-sm focus:ring-1 focus:ring-indigo-500 outline-none text-slate-900 w-full transition shadow-sm"
                         >
                             <option value="yield">Yield (Kg/Ha)</option>
                             <option value="area">Area</option>
@@ -156,18 +156,18 @@ export function SplitImpactDashboard() {
             <div className="lg:hidden flex gap-2 mb-4">
                 <button
                     onClick={() => setMobileView('list')}
-                    className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${mobileView === 'list'
-                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'
-                        : 'bg-slate-900 text-slate-400 border border-slate-700'
+                    className={`flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-colors ${mobileView === 'list'
+                        ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
+                        : 'bg-white text-slate-600 border border-slate-200'
                         }`}
                 >
                     Split Events
                 </button>
                 <button
                     onClick={() => setMobileView('analysis')}
-                    className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${mobileView === 'analysis'
-                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'
-                        : 'bg-slate-900 text-slate-400 border border-slate-700'
+                    className={`flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-colors ${mobileView === 'analysis'
+                        ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
+                        : 'bg-white text-slate-600 border border-slate-200'
                         }`}
                     disabled={!selectedEvent}
                 >
@@ -190,12 +190,12 @@ export function SplitImpactDashboard() {
                 </div>
 
                 {/* Charts (Right) - Full width on mobile when viewing analysis */}
-                <div className={`lg:col-span-7 flex flex-col min-h-[60vh] lg:min-h-[600px] lg:h-[calc(100vh-350px)] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent ${mobileView === 'list' ? 'hidden lg:flex' : 'flex'}`}>
+                <div className={`lg:col-span-7 flex flex-col min-h-[60vh] lg:min-h-[600px] lg:h-[calc(100vh-350px)] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent ${mobileView === 'list' ? 'hidden lg:flex' : 'flex'}`}>
                     {selectedEvent ? (
                         <>
                             {/* Back button on mobile */}
                             <button
-                                className="lg:hidden flex items-center gap-2 text-slate-400 hover:text-white mb-3 text-sm"
+                                className="lg:hidden flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-3 text-sm font-medium transition"
                                 onClick={() => setMobileView('list')}
                             >
                                 <ChevronLeft size={16} />
@@ -211,10 +211,10 @@ export function SplitImpactDashboard() {
                             />
                         </>
                     ) : (
-                        <div className="h-full border border-dashed border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-500 bg-slate-900/20 p-6">
-                            <LayoutDashboard size={48} className="mb-4 opacity-50 text-emerald-500" />
-                            <p className="text-lg font-medium text-slate-400 text-center">Select a split event</p>
-                            <p className="text-sm opacity-70 text-center">Choose a district from the list to begin analysis.</p>
+                        <div className="h-full border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center text-slate-500 bg-white shadow-sm p-6">
+                            <LayoutDashboard size={48} className="mb-4 opacity-70 text-indigo-400" />
+                            <p className="text-lg font-semibold text-slate-700 text-center tracking-tight">Select a split event</p>
+                            <p className="text-sm text-slate-500 text-center mt-1">Choose a district from the list to begin analysis.</p>
                         </div>
                     )}
                 </div>

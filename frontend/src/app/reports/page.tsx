@@ -69,8 +69,8 @@ export default function ReportsPage() {
         <main className="page-container">
             <div className="mb-8">
                 <div className="flex items-center gap-3 mb-1">
-                    <FileText className="text-indigo-400" size={24} />
-                    <h1 className="text-2xl font-bold text-white">Report Builder</h1>
+                    <FileText className="text-indigo-600" size={24} />
+                    <h1 className="text-2xl font-bold text-slate-900">Report Builder</h1>
                 </div>
                 <p className="text-slate-400 text-sm">Generate and download analytical reports</p>
             </div>
@@ -79,7 +79,7 @@ export default function ReportsPage() {
                 {/* Left: Configuration */}
                 <div className="lg:col-span-1 space-y-6">
                     {/* Report Type */}
-                    <div className="glass-card rounded-xl p-5">
+                    <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-5">
                         <h3 className="section-header">Report Type</h3>
                         <div className="space-y-2">
                             {REPORT_TYPES.map((type) => (
@@ -87,19 +87,19 @@ export default function ReportsPage() {
                                     key={type.id}
                                     onClick={() => setReportType(type.id)}
                                     className={`w-full text-left p-3 rounded-lg border transition ${reportType === type.id
-                                            ? 'bg-indigo-500/10 border-indigo-500/30'
-                                            : 'bg-slate-800/30 border-slate-700/50 hover:border-slate-600'
+                                        ? 'bg-indigo-50 border-indigo-200'
+                                        : 'bg-slate-50 border-slate-200 hover:border-indigo-300'
                                         }`}
                                 >
-                                    <div className="text-sm font-medium text-white">{type.label}</div>
-                                    <div className="text-xs text-slate-500 mt-0.5">{type.desc}</div>
+                                    <div className="text-sm font-medium text-slate-900">{type.label}</div>
+                                    <div className="text-xs text-slate-500 mt-0.5 font-medium">{type.desc}</div>
                                 </button>
                             ))}
                         </div>
                     </div>
 
                     {/* District Search */}
-                    <div className="glass-card rounded-xl p-5">
+                    <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-5">
                         <h3 className="section-header">Select District</h3>
                         <div className="relative mb-3">
                             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
@@ -108,7 +108,7 @@ export default function ReportsPage() {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search districts..."
-                                className="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg pl-9 pr-4 py-2 text-sm focus:border-indigo-500 transition"
+                                className="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-lg pl-9 pr-4 py-2 text-sm focus:border-indigo-600 outline-none transition"
                             />
                         </div>
                         {searchResults && searchQuery.length >= 2 && (
@@ -117,32 +117,32 @@ export default function ReportsPage() {
                                     <button
                                         key={i}
                                         onClick={() => { setSelectedCdk(r.cdk || ''); setSearchQuery(r.name); setPreviewOpen(false); }}
-                                        className={`w-full flex items-center justify-between p-2 rounded-lg text-left transition ${selectedCdk === r.cdk ? 'bg-indigo-500/10 border border-indigo-500/30' : 'hover:bg-slate-800/30'
+                                        className={`w-full flex items-center justify-between p-2 rounded-lg text-left transition ${selectedCdk === r.cdk ? 'bg-indigo-50 border border-indigo-200' : 'hover:bg-slate-100'
                                             }`}
                                     >
                                         <div>
-                                            <div className="text-sm text-slate-200">{r.name}</div>
-                                            <div className="text-[10px] text-slate-500">{r.state}</div>
+                                            <div className="text-sm text-slate-900 font-medium">{r.name}</div>
+                                            <div className="text-[10px] text-slate-500 font-bold">{r.state}</div>
                                         </div>
-                                        <ChevronRight size={14} className="text-slate-600" />
+                                        <ChevronRight size={14} className="text-slate-400" />
                                     </button>
                                 ))}
                             </div>
                         )}
                         {selectedCdk && (
-                            <div className="mt-3 p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-300">
+                            <div className="mt-3 p-2 rounded-lg bg-indigo-50 border border-indigo-200 text-xs text-indigo-800 font-medium">
                                 Selected: {searchQuery} ({selectedCdk})
                             </div>
                         )}
                     </div>
 
                     {/* Crop Selector */}
-                    <div className="glass-card rounded-xl p-5">
+                    <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-5">
                         <h3 className="section-header">Crop</h3>
                         <select
                             value={selectedCrop}
                             onChange={(e) => setSelectedCrop(e.target.value)}
-                            className="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm focus:border-indigo-500 transition"
+                            className="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-lg px-4 py-2 text-sm focus:border-indigo-600 outline-none transition"
                         >
                             {CROPS.map((c) => (
                                 <option key={c.value} value={c.value}>{c.label}</option>
@@ -155,8 +155,8 @@ export default function ReportsPage() {
                         onClick={() => setPreviewOpen(true)}
                         disabled={!selectedCdk}
                         className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-medium text-sm transition ${selectedCdk
-                                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-500 hover:to-purple-500 shadow-lg shadow-indigo-500/20'
-                                : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-500 hover:to-purple-500 shadow-lg shadow-indigo-500/20'
+                            : 'bg-slate-800 text-slate-500 cursor-not-allowed'
                             }`}
                     >
                         <Eye size={16} />
@@ -167,17 +167,17 @@ export default function ReportsPage() {
                 {/* Right: Preview */}
                 <div className="lg:col-span-2">
                     {!previewOpen && (
-                        <div className="text-center py-20 glass-card rounded-xl">
-                            <FileText className="mx-auto text-slate-600 mb-4" size={48} />
-                            <p className="text-slate-500 text-sm">Configure report parameters and click Generate</p>
+                        <div className="text-center py-20 bg-white border border-slate-200 shadow-sm rounded-xl">
+                            <FileText className="mx-auto text-slate-300 mb-4" size={48} />
+                            <p className="text-slate-500 text-sm font-medium">Configure report parameters and click Generate</p>
                         </div>
                     )}
 
                     {generating && previewOpen && (
-                        <div className="flex items-center justify-center py-20 glass-card rounded-xl">
+                        <div className="flex items-center justify-center py-20 bg-white border border-slate-200 shadow-sm rounded-xl">
                             <div className="flex flex-col items-center gap-3">
-                                <div className="w-8 h-8 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
-                                <span className="text-sm text-slate-400">Generating report...</span>
+                                <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+                                <span className="text-sm font-medium text-slate-500">Generating report...</span>
                             </div>
                         </div>
                     )}
@@ -203,14 +203,14 @@ export default function ReportsPage() {
                             </div>
 
                             {/* Report Header */}
-                            <div className="glass-card rounded-xl p-5">
-                                <h2 className="text-lg font-bold text-white mb-1">{report.district?.name}</h2>
-                                <div className="text-sm text-slate-400">{report.district?.state} • {report.crop} • Profile Report</div>
+                            <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-5">
+                                <h2 className="text-lg font-bold text-slate-900 mb-1">{report.district?.name}</h2>
+                                <div className="text-sm text-slate-500 font-medium">{report.district?.state} • <span className="capitalize">{report.crop}</span> • Profile Report</div>
                             </div>
 
                             {/* Statistics */}
                             {report.statistics && (
-                                <div className="glass-card rounded-xl p-5">
+                                <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-5">
                                     <h3 className="section-header">Key Statistics</h3>
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                         <div>
@@ -218,16 +218,16 @@ export default function ReportsPage() {
                                             <div className="text-lg font-bold text-emerald-400">{report.statistics.mean_yield} <span className="text-xs text-slate-500">kg/ha</span></div>
                                         </div>
                                         <div>
-                                            <div className="text-xs text-slate-500">Max Yield</div>
-                                            <div className="text-lg font-bold text-blue-400">{report.statistics.max_yield}</div>
+                                            <div className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Max Yield</div>
+                                            <div className="text-lg font-bold text-blue-600">{report.statistics.max_yield}</div>
                                         </div>
                                         <div>
-                                            <div className="text-xs text-slate-500">Min Yield</div>
-                                            <div className="text-lg font-bold text-amber-400">{report.statistics.min_yield}</div>
+                                            <div className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Min Yield</div>
+                                            <div className="text-lg font-bold text-amber-600">{report.statistics.min_yield}</div>
                                         </div>
                                         <div>
-                                            <div className="text-xs text-slate-500">CV (%)</div>
-                                            <div className="text-lg font-bold text-red-400">{report.statistics.cv_yield || '—'}</div>
+                                            <div className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">CV (%)</div>
+                                            <div className="text-lg font-bold text-red-600">{report.statistics.cv_yield || '—'}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -235,16 +235,16 @@ export default function ReportsPage() {
 
                             {/* State Benchmark */}
                             {report.state_benchmark && (
-                                <div className="glass-card rounded-xl p-5">
+                                <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-5">
                                     <h3 className="section-header">State Benchmark</h3>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <div className="text-xs text-slate-500">State Avg Yield</div>
-                                            <div className="text-lg font-bold text-slate-200">{report.state_benchmark.avg_yield} <span className="text-xs text-slate-500">kg/ha</span></div>
+                                            <div className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">State Avg Yield</div>
+                                            <div className="text-lg font-bold text-slate-900">{report.state_benchmark.avg_yield} <span className="text-xs text-slate-500">kg/ha</span></div>
                                         </div>
                                         <div>
-                                            <div className="text-xs text-slate-500">Efficiency Ratio</div>
-                                            <div className={`text-lg font-bold ${report.state_benchmark.efficiency > 1 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                            <div className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Efficiency Ratio</div>
+                                            <div className={`text-lg font-bold ${report.state_benchmark.efficiency > 1 ? 'text-emerald-600' : 'text-rose-600'}`}>
                                                 {report.state_benchmark.efficiency?.toFixed(3) || '—'}
                                             </div>
                                         </div>
@@ -254,27 +254,27 @@ export default function ReportsPage() {
 
                             {/* Yearly Data Table */}
                             {report.yearly_data && report.yearly_data.length > 0 && (
-                                <div className="glass-card rounded-xl overflow-hidden">
-                                    <div className="px-5 py-4 border-b border-slate-700/50">
+                                <div className="bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden">
+                                    <div className="px-5 py-4 border-b border-slate-200 bg-slate-50">
                                         <h3 className="section-header mb-0">Yearly Data ({report.yearly_data.length} years)</h3>
                                     </div>
                                     <div className="overflow-x-auto max-h-[400px] overflow-y-auto custom-scrollbar">
                                         <table className="w-full text-sm">
-                                            <thead className="text-xs text-slate-500 uppercase bg-slate-900/50 sticky top-0">
+                                            <thead className="text-xs text-slate-500 uppercase bg-slate-50 sticky top-0 border-b border-slate-200 shadow-sm">
                                                 <tr>
-                                                    <th className="px-4 py-2 text-left">Year</th>
-                                                    <th className="px-4 py-2 text-right">Yield</th>
-                                                    <th className="px-4 py-2 text-right">Area</th>
-                                                    <th className="px-4 py-2 text-right">Production</th>
+                                                    <th className="px-4 py-2 text-left font-bold">Year</th>
+                                                    <th className="px-4 py-2 text-right font-bold">Yield</th>
+                                                    <th className="px-4 py-2 text-right font-bold">Area</th>
+                                                    <th className="px-4 py-2 text-right font-bold">Production</th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="divide-y divide-slate-700/30">
+                                            <tbody className="divide-y divide-slate-100">
                                                 {report.yearly_data.map((row: { year: number; yield?: number; area?: number; production?: number }, i: number) => (
-                                                    <tr key={i} className="hover:bg-slate-800/20">
-                                                        <td className="px-4 py-2 text-slate-300 font-mono">{row.year}</td>
-                                                        <td className="px-4 py-2 text-right text-emerald-400">{row.yield?.toFixed(0) || '—'}</td>
-                                                        <td className="px-4 py-2 text-right text-slate-400">{row.area?.toFixed(0) || '—'}</td>
-                                                        <td className="px-4 py-2 text-right text-slate-400">{row.production?.toFixed(0) || '—'}</td>
+                                                    <tr key={i} className="hover:bg-slate-50/50 transition">
+                                                        <td className="px-4 py-2 text-slate-900 font-bold font-mono">{row.year}</td>
+                                                        <td className="px-4 py-2 text-right font-bold text-emerald-600">{row.yield?.toFixed(0) || '—'}</td>
+                                                        <td className="px-4 py-2 text-right text-slate-500 font-medium">{row.area?.toFixed(0) || '—'}</td>
+                                                        <td className="px-4 py-2 text-right text-slate-500 font-medium">{row.production?.toFixed(0) || '—'}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>

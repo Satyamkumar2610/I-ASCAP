@@ -18,9 +18,9 @@ export function ImpactScorecard({ event, crop }: ImpactScorecardProps) {
 
     if (isLoading) {
         return (
-            <div className="h-24 bg-slate-900/50 rounded-lg border border-slate-800 flex items-center justify-center gap-2 text-slate-500">
-                <Loader2 className="animate-spin text-emerald-500" size={16} />
-                <span className="text-xs">Calculating Impact...</span>
+            <div className="h-24 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-center gap-2 text-slate-500 shadow-sm">
+                <Loader2 className="animate-spin text-emerald-600" size={16} />
+                <span className="text-xs font-medium">Calculating Impact...</span>
             </div>
         );
     }
@@ -36,14 +36,14 @@ export function ImpactScorecard({ event, crop }: ImpactScorecardProps) {
     const isNeutral = impact.assessment === 'neutral';
 
     return (
-        <div className="bg-slate-950/50 rounded-lg border border-slate-800 p-4 mb-4">
-            <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 flex items-center justify-between">
+        <div className="bg-white rounded-xl border border-slate-200 p-4 mb-4 shadow-sm">
+            <h4 className="text-xs font-bold text-slate-600 uppercase mb-3 flex items-center justify-between">
                 <span>Split Impact Assessment</span>
                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${isIdsPositive
-                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                     : isNeutral
-                        ? 'bg-slate-500/10 text-slate-400 border-slate-500/30'
-                        : 'bg-rose-500/10 text-rose-400 border-rose-500/30'
+                        ? 'bg-slate-100 text-slate-600 border-slate-200'
+                        : 'bg-rose-50 text-rose-700 border-rose-200'
                     }`}>
                     {impact.assessment?.toUpperCase() || 'UNKNOWN'}
                 </span>
@@ -52,16 +52,16 @@ export function ImpactScorecard({ event, crop }: ImpactScorecardProps) {
             <div className="grid grid-cols-3 gap-4">
                 {/* Before */}
                 <div className="flex flex-col">
-                    <span className="text-[10px] text-slate-500 mb-1">Pre-Split Avg ({before.years?.[0] || '?'}-{before.years?.[before.years.length - 1] || '?'})</span>
+                    <span className="text-[10px] text-slate-500 font-medium mb-1">Pre-Split Avg ({before.years?.[0] || '?'}-{before.years?.[before.years.length - 1] || '?'})</span>
                     <div className="flex items-end gap-1">
-                        <span className="text-lg font-bold text-slate-200">{before.average?.toFixed(0) || '—'}</span>
-                        <span className="text-[10px] text-slate-500 mb-1">kg/ha</span>
+                        <span className="text-lg font-bold text-slate-800">{before.average?.toFixed(0) || '—'}</span>
+                        <span className="text-[10px] text-slate-500 font-medium mb-1">kg/ha</span>
                     </div>
                 </div>
 
                 {/* Impact Arrow */}
                 <div className="flex flex-col items-center justify-center">
-                    <div className={`flex items-center gap-1 font-bold ${isIdsPositive ? 'text-emerald-400' : isNeutral ? 'text-slate-400' : 'text-rose-400'
+                    <div className={`flex items-center gap-1 font-bold ${isIdsPositive ? 'text-emerald-600' : isNeutral ? 'text-slate-500' : 'text-rose-600'
                         }`}>
                         {isIdsPositive ? <ArrowUpRight size={16} /> : isNeutral ? <Minus size={16} /> : <ArrowDownRight size={16} />}
                         <span>{impact.percent_change > 0 ? '+' : ''}{impact.percent_change}%</span>
@@ -70,24 +70,24 @@ export function ImpactScorecard({ event, crop }: ImpactScorecardProps) {
 
                 {/* After */}
                 <div className="flex flex-col items-end">
-                    <span className="text-[10px] text-slate-500 mb-1">Post-Split Avg (5yr)</span>
+                    <span className="text-[10px] text-slate-500 font-medium mb-1">Post-Split Avg (5yr)</span>
                     <div className="flex items-end gap-1">
-                        <span className="text-lg font-bold text-white">{after.combined_average?.toFixed(0) || '—'}</span>
-                        <span className="text-[10px] text-slate-500 mb-1">kg/ha</span>
+                        <span className="text-lg font-bold text-slate-800">{after.combined_average?.toFixed(0) || '—'}</span>
+                        <span className="text-[10px] text-slate-500 font-medium mb-1">kg/ha</span>
                     </div>
                 </div>
             </div>
 
             {/* Child Breakdown */}
-            <div className="mt-3 pt-3 border-t border-slate-800/50">
-                <div className="text-[10px] text-slate-500 mb-2">District Contribution (Post-Split):</div>
+            <div className="mt-3 pt-3 border-t border-slate-200">
+                <div className="text-[10px] text-slate-500 font-medium mb-2">District Contribution (Post-Split):</div>
                 <div className="flex flex-wrap gap-2">
                     {after.by_child && Object.entries(after.by_child).map(([cdk, stats]: [string, { avg: number }]) => (
-                        <div key={cdk} className="bg-slate-900 border border-slate-800 rounded px-2 py-1 flex items-center gap-2">
-                            <span className="text-[10px] text-slate-300 font-medium">
+                        <div key={cdk} className="bg-slate-50 border border-slate-200 rounded px-2 py-1 flex items-center gap-2 shadow-sm">
+                            <span className="text-[10px] text-slate-800 font-bold">
                                 {(event.children_districts || []).find((name: string) => cdk.toLowerCase().includes(name.toLowerCase().replace(/ /g, '').slice(0, 5))) || cdk}
                             </span>
-                            <span className="text-[10px] text-slate-500">{Math.round(stats.avg)} kg/ha</span>
+                            <span className="text-[10px] text-slate-500 font-medium">{Math.round(stats.avg)} kg/ha</span>
                         </div>
                     ))}
                 </div>

@@ -4,12 +4,12 @@
 import React from 'react';
 import { Map, AlertTriangle, Layers, Database } from 'lucide-react';
 
-// Static color map — Tailwind JIT cannot resolve dynamic class interpolation
-const COLOR_MAP: Record<string, { bg: string; text: string }> = {
-    blue: { bg: 'bg-blue-500/10', text: 'text-blue-500' },
-    amber: { bg: 'bg-amber-500/10', text: 'text-amber-500' },
-    purple: { bg: 'bg-purple-500/10', text: 'text-purple-500' },
-    emerald: { bg: 'bg-emerald-500/10', text: 'text-emerald-500' },
+// Static color map for light theme
+const COLOR_MAP: Record<string, { bg: string; text: string; iconBg: string }> = {
+    blue: { bg: 'bg-white', text: 'text-indigo-600', iconBg: 'bg-indigo-50' },
+    amber: { bg: 'bg-white', text: 'text-amber-600', iconBg: 'bg-amber-50' },
+    purple: { bg: 'bg-white', text: 'text-purple-600', iconBg: 'bg-purple-50' },
+    emerald: { bg: 'bg-white', text: 'text-emerald-600', iconBg: 'bg-emerald-50' },
 };
 
 interface StateSummaryPanelProps {
@@ -63,19 +63,19 @@ export function StateSummaryPanel({ stateName, stats }: StateSummaryPanelProps) 
                 return (
                     <div
                         key={idx}
-                        className={`glass-card p-3 md:p-4 rounded-lg md:rounded-xl transition-all hover:shadow-lg ${colors.bg.replace('/10', '/5')} ${card.faded ? 'opacity-50 grayscale' : ''}`}
+                        className={`bg-white p-3 md:p-4 rounded-lg md:rounded-xl transition-all hover:shadow-md border border-slate-200 shadow-sm ${card.faded ? 'opacity-50 grayscale' : ''}`}
                     >
                         <div className="flex items-center gap-2 md:gap-3 mb-1">
-                            <div className={`p-1.5 md:p-2 ${colors.bg} rounded-md md:rounded-lg`}>
+                            <div className={`p-1.5 md:p-2 ${colors.iconBg} rounded-md md:rounded-lg`}>
                                 <card.icon className={`${colors.text} w-3.5 h-3.5 md:w-[18px] md:h-[18px]`} />
                             </div>
-                            <span className="text-slate-400 text-[9px] md:text-xs font-medium uppercase tracking-wider truncate">
+                            <span className="text-slate-500 text-[9px] md:text-xs font-bold uppercase tracking-wider truncate">
                                 {card.label}
                             </span>
                         </div>
-                        <div className="text-lg md:text-2xl font-bold text-white pl-1">{card.value}</div>
+                        <div className="text-lg md:text-2xl font-bold text-slate-900 pl-1">{card.value}</div>
                         {card.subtitle && (
-                            <div className="text-[9px] md:text-[10px] text-slate-500 mt-1 pl-1 hidden sm:block">
+                            <div className="text-[9px] md:text-[10px] text-slate-500 mt-1 pl-1 hidden sm:block font-medium">
                                 {card.subtitle}
                             </div>
                         )}

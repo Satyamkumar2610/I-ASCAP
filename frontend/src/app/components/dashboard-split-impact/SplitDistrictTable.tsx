@@ -42,12 +42,12 @@ export default function SplitDistrictTable({ splits, onSelect, selectedEventId, 
         <div className="space-y-3">
             {/* Decade filter pills */}
             {decades.length > 1 && (
-                <div className="flex flex-wrap gap-1.5 pb-2 border-b border-slate-800/50">
+                <div className="flex flex-wrap gap-1.5 pb-2 border-b border-slate-200">
                     <button
                         onClick={() => setActiveDecade(null)}
-                        className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-colors ${!activeDecade
-                            ? 'glass-active text-indigo-300 border border-indigo-500/40'
-                            : 'glass-panel text-slate-500 hover:border-slate-600'
+                        className={`px-2.5 py-1 rounded-full text-[10px] font-bold transition-colors ${!activeDecade
+                            ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
+                            : 'bg-slate-50 text-slate-600 border border-slate-200 hover:border-slate-300'
                             }`}
                     >
                         All ({splits.length})
@@ -59,9 +59,9 @@ export default function SplitDistrictTable({ splits, onSelect, selectedEventId, 
                             <button
                                 key={d}
                                 onClick={() => setActiveDecade(activeDecade === d ? null : d)}
-                                className={`px-2.5 py-1 rounded-full text-[10px] font-medium transition-colors ${activeDecade === d
-                                    ? 'glass-active text-indigo-300 border border-indigo-500/40'
-                                    : 'glass-panel text-slate-500 hover:border-slate-600'
+                                className={`px-2.5 py-1 rounded-full text-[10px] font-bold transition-colors ${activeDecade === d
+                                    ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
+                                    : 'bg-slate-50 text-slate-600 border border-slate-200 hover:border-slate-300'
                                     }`}
                             >
                                 {d} ({count})
@@ -81,28 +81,28 @@ export default function SplitDistrictTable({ splits, onSelect, selectedEventId, 
                     <div
                         key={item.id}
                         onClick={() => onSelect && onSelect(item)}
-                        className={`p-3 rounded-lg border cursor-pointer transition-colors ${selectedEventId === item.id
-                            ? 'glass-active border-indigo-500/50'
-                            : 'glass-panel hover:border-slate-700'
+                        className={`p-3 rounded-lg border cursor-pointer transition-all shadow-sm ${selectedEventId === item.id
+                            ? 'bg-indigo-50 border-indigo-300 ring-1 ring-indigo-300'
+                            : 'bg-white border-slate-200 hover:border-indigo-200 hover:shadow-md'
                             }`}
                     >
                         <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
-                                <span className={`text-sm font-bold ${selectedEventId === item.id ? 'text-indigo-300' : 'text-slate-300'}`}>
+                                <span className={`text-sm font-bold ${selectedEventId === item.id ? 'text-indigo-900' : 'text-slate-800'}`}>
                                     {item.parent_name}
                                 </span>
-                                <ArrowRight size={12} className="text-slate-600" />
-                                <span className="text-xs text-slate-500">Split in {item.split_year}</span>
+                                <ArrowRight size={12} className="text-slate-400" />
+                                <span className="text-xs text-slate-500 font-medium">Split in {item.split_year}</span>
                             </div>
                             {/* Resolution badge */}
                             {allResolved ? (
-                                <span title="All districts resolved"><CheckCircle2 size={14} className="text-emerald-500/70 shrink-0" /></span>
+                                <span title="All districts resolved"><CheckCircle2 size={14} className="text-emerald-500 shrink-0" /></span>
                             ) : (
-                                <span title={`${resolvedCount}/${totalCount} resolved`}><AlertTriangle size={14} className="text-amber-500/70 shrink-0" /></span>
+                                <span title={`${resolvedCount}/${totalCount} resolved`}><AlertTriangle size={14} className="text-amber-500 shrink-0" /></span>
                             )}
                         </div>
 
-                        <div className="space-y-1 pl-4 border-l-2 border-indigo-500/20">
+                        <div className="space-y-1 pl-4 border-l-2 border-slate-200">
                             {item.children_names && Array.isArray(item.children_names) ? (
                                 item.children_names.map((childName: string, idx: number) => {
                                     const isRetainedParent = childName === item.parent_name;
@@ -110,11 +110,11 @@ export default function SplitDistrictTable({ splits, onSelect, selectedEventId, 
                                         <div key={`${childName}-${idx}`} className="flex items-center gap-1.5 text-xs">
                                             {isRetainedParent ? (
                                                 <>
-                                                    <span className="text-slate-400">{childName}</span>
-                                                    <span className="text-[9px] text-slate-600 bg-slate-800/80 px-1.5 py-0.5 rounded">retained</span>
+                                                    <span className="text-slate-500">{childName}</span>
+                                                    <span className="text-[9px] text-slate-500 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded font-medium">retained</span>
                                                 </>
                                             ) : (
-                                                <span className="text-indigo-300">{childName}</span>
+                                                <span className="text-indigo-600 font-medium">{childName}</span>
                                             )}
                                         </div>
                                     );

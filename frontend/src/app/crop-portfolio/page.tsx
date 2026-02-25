@@ -4,10 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../services/api';
 import { Wheat, TrendingUp, TrendingDown, Minus, BarChart3, Grid3X3 } from 'lucide-react';
-import {
-    PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
-    BarChart, Bar, XAxis, YAxis, LineChart, Line, CartesianGrid, Legend
-} from 'recharts';
+import ReactECharts from 'echarts-for-react';
 
 const PIE_COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4', '#f97316', '#6366f1', '#14b8a6', '#e11d48'];
 const CORR_POSITIVE = '#10b981';
@@ -120,10 +117,10 @@ export default function CropPortfolioPage() {
             {/* Header */}
             <div className="mb-8">
                 <div className="flex items-center gap-3 mb-1">
-                    <Wheat className="text-amber-400" size={24} />
-                    <h1 className="text-2xl font-bold text-white">Crop Portfolio Analyzer</h1>
+                    <Wheat className="text-emerald-600" size={24} />
+                    <h1 className="text-2xl font-bold text-slate-900">Crop Portfolio Analyzer</h1>
                 </div>
-                <p className="text-slate-400 text-sm">Analyze crop diversification, yield trends, and specialization across districts</p>
+                <p className="text-slate-600 text-sm">Analyze crop diversification, yield trends, and specialization across districts</p>
             </div>
 
             {/* Selectors */}
@@ -131,7 +128,7 @@ export default function CropPortfolioPage() {
                 <select
                     value={selectedState}
                     onChange={(e) => { setSelectedState(e.target.value); setSelectedCdk(''); }}
-                    className="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm focus:border-amber-500 transition min-w-[180px]"
+                    className="bg-white border border-slate-300 text-slate-900 rounded-lg px-4 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition min-w-[180px] shadow-sm"
                 >
                     <option value="">Select a state...</option>
                     {states?.map((s) => (
@@ -142,7 +139,7 @@ export default function CropPortfolioPage() {
                     value={selectedCdk}
                     onChange={(e) => setSelectedCdk(e.target.value)}
                     disabled={!selectedState}
-                    className="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm focus:border-amber-500 transition min-w-[220px] disabled:opacity-50"
+                    className="bg-white border border-slate-300 text-slate-900 rounded-lg px-4 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition min-w-[220px] shadow-sm disabled:opacity-50 disabled:bg-slate-50"
                 >
                     <option value="">Select a district...</option>
                     {districts.map((d) => (
@@ -155,18 +152,18 @@ export default function CropPortfolioPage() {
                     onChange={(e) => setYear(Number(e.target.value))}
                     min={1966}
                     max={2020}
-                    className="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm w-24 focus:border-amber-500 transition"
+                    className="bg-white border border-slate-300 text-slate-900 rounded-lg px-4 py-2 text-sm w-24 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition shadow-sm"
                 />
             </div>
 
             {/* Empty State */}
             {!selectedCdk && !isLoading && (
-                <div className="text-center py-24">
-                    <div className="w-20 h-20 rounded-full bg-slate-800/60 flex items-center justify-center mx-auto mb-5">
-                        <Wheat className="text-slate-600" size={36} />
+                <div className="text-center py-24 bg-white border border-slate-200 rounded-xl shadow-sm">
+                    <div className="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-5 border border-slate-100">
+                        <Wheat className="text-slate-400" size={36} />
                     </div>
-                    <p className="text-slate-500 text-lg">Select a district to analyze its crop portfolio</p>
-                    <p className="text-slate-600 text-sm mt-1">Choose a state and district to begin</p>
+                    <p className="text-slate-700 font-medium text-lg">Select a district to analyze its crop portfolio</p>
+                    <p className="text-slate-500 text-sm mt-1">Choose a state and district to begin</p>
                 </div>
             )}
 
@@ -181,11 +178,11 @@ export default function CropPortfolioPage() {
                 <div className="space-y-6 animate-in">
                     {/* District Label */}
                     {selectedDistrictName && (
-                        <div className="flex items-center gap-2 text-slate-400 text-sm">
-                            <span className="text-xs uppercase tracking-wider text-slate-600">Analyzing</span>
-                            <span className="text-white font-semibold">{selectedDistrictName}</span>
-                            <span className="text-slate-600">•</span>
-                            <span>{year}</span>
+                        <div className="flex items-center gap-2 text-slate-500 text-sm">
+                            <span className="text-xs uppercase tracking-wider text-slate-400 font-bold">Analyzing</span>
+                            <span className="text-slate-900 font-bold">{selectedDistrictName}</span>
+                            <span className="text-slate-300">•</span>
+                            <span className="font-medium text-slate-700">{year}</span>
                         </div>
                     )}
 
@@ -193,10 +190,10 @@ export default function CropPortfolioPage() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {/* CDI Gauge */}
                         <div className={`stat-card text-center border-l-4 ${getCdiBg(diversification.cdi)}`}>
-                            <div className="text-xs text-slate-500 uppercase mb-2 tracking-wider">Diversification Index</div>
+                            <div className="text-xs text-slate-500 uppercase mb-2 tracking-wider font-semibold">Diversification Index</div>
                             <div className="relative w-28 h-28 mx-auto mb-2">
                                 <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
-                                    <circle cx="60" cy="60" r="52" fill="none" stroke="#1e293b" strokeWidth="10" />
+                                    <circle cx="60" cy="60" r="52" fill="none" stroke="#e2e8f0" strokeWidth="10" />
                                     <circle
                                         cx="60" cy="60" r="52" fill="none"
                                         stroke={getCdiColor(diversification.cdi)}
@@ -206,40 +203,41 @@ export default function CropPortfolioPage() {
                                         className="transition-all duration-1000"
                                     />
                                 </svg>
-                                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                    <span className="text-2xl font-bold text-white">{(diversification.cdi * 100).toFixed(0)}%</span>
+                                <div className="absolute inset-0 flex flex-col items-center justify-center pt-1">
+                                    <span className="text-2xl font-bold text-slate-900">{(diversification.cdi * 100).toFixed(0)}%</span>
                                 </div>
                             </div>
-                            <span className="text-xs px-3 py-1 rounded-full" style={{
-                                backgroundColor: getCdiColor(diversification.cdi) + '20',
-                                color: getCdiColor(diversification.cdi)
+                            <span className="text-xs px-3 py-1 rounded-full font-medium border" style={{
+                                backgroundColor: getCdiColor(diversification.cdi) + '15',
+                                color: getCdiColor(diversification.cdi),
+                                borderColor: getCdiColor(diversification.cdi) + '40'
                             }}>
                                 {diversification.interpretation}
                             </span>
                         </div>
 
                         {/* Dominant Crop */}
-                        <div className="stat-card text-center border-l-4 border-amber-500/30">
-                            <div className="text-xs text-slate-500 uppercase mb-2 tracking-wider">Dominant Crop</div>
-                            <div className="text-2xl font-bold text-amber-400 capitalize mb-1">
+                        <div className="stat-card text-center border-l-4 border-amber-500/50">
+                            <div className="text-xs text-slate-500 uppercase mb-2 tracking-wider font-semibold">Dominant Crop</div>
+                            <div className="text-2xl font-bold text-amber-600 capitalize mb-1 mt-4">
                                 {diversification.dominant_crop?.replace(/_/g, ' ')}
                             </div>
-                            <div className="text-sm text-slate-400">
+                            <div className="text-sm text-slate-500 font-medium">
                                 {(diversification.dominant_share * 100).toFixed(1)}% of total area
                             </div>
-                            <div className="w-full bg-slate-800 rounded-full h-1.5 mt-3">
+                            <div className="w-3/4 mx-auto bg-slate-100 rounded-full h-2 mt-4 border border-slate-200">
                                 <div
-                                    className="h-1.5 rounded-full bg-amber-500 transition-all duration-700"
+                                    className="h-2 rounded-full bg-amber-500 transition-all duration-700 shadow-sm"
                                     style={{ width: `${diversification.dominant_share * 100}%` }}
                                 />
                             </div>
                         </div>
 
                         {/* Crops Grown */}
-                        <div className="stat-card text-center border-l-4 border-blue-500/30">
-                            <div className="text-xs text-slate-500 uppercase mb-2 tracking-wider">Crops Grown</div>
-                            <div className="text-4xl font-bold text-blue-400 mb-1">{diversification.crop_count}</div>
-                            <div className="text-xs text-slate-500">
+                        <div className="stat-card text-center border-l-4 border-indigo-500/50">
+                            <div className="text-xs text-slate-500 uppercase mb-2 tracking-wider font-semibold">Crops Grown</div>
+                            <div className="text-5xl font-bold text-indigo-600 mb-1 mt-3">{diversification.crop_count}</div>
+                            <div className="text-xs text-slate-500 font-medium mt-2">
                                 {diversification.crop_count > 8 ? 'Highly diversified portfolio' :
                                     diversification.crop_count > 4 ? 'Moderate crop variety' : 'Limited crop selection'}
                             </div>
@@ -249,61 +247,59 @@ export default function CropPortfolioPage() {
                     {/* ── Pie Chart + Rankings ── */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Pie Chart */}
-                        <div className="glass-card rounded-xl p-5">
+                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
                             <h3 className="section-header">Crop Share Distribution</h3>
                             <div className="h-[320px]">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <PieChart>
-                                        <Pie
-                                            data={pieData}
-                                            cx="50%"
-                                            cy="50%"
-                                            outerRadius={110}
-                                            innerRadius={60}
-                                            dataKey="value"
-                                            label={({ name, value, cx: chartCx, x }) => {
-                                                const isRight = x > (chartCx as number);
-                                                return (
-                                                    <text
-                                                        x={x}
-                                                        y={0}
-                                                        textAnchor={isRight ? 'start' : 'end'}
-                                                        dominantBaseline="central"
-                                                        className="fill-slate-300 text-[11px]"
-                                                    >
-                                                        {name} {value}%
-                                                    </text>
-                                                );
-                                            }}
-                                            stroke="rgba(15, 23, 42, 0.9)"
-                                            strokeWidth={2}
-                                            animationBegin={0}
-                                            animationDuration={800}
-                                        >
-                                            {pieData.map((_, i) => (
-                                                <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip
-                                            contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc', fontSize: 12, borderRadius: 8 }}
-                                            formatter={(val: number | undefined) => [`${val ?? 0}%`, 'Share']}
-                                        />
-                                    </PieChart>
-                                </ResponsiveContainer>
+                                <ReactECharts
+                                    option={{
+                                        tooltip: {
+                                            trigger: 'item',
+                                            backgroundColor: '#ffffff',
+                                            borderColor: '#e2e8f0',
+                                            textStyle: { color: '#0f172a' },
+                                            formatter: '{b}: {c}% ({d}%)'
+                                        },
+                                        legend: {
+                                            orient: 'vertical',
+                                            right: 10,
+                                            top: 'center',
+                                            textStyle: { color: '#475569', fontSize: 11 }
+                                        },
+                                        series: [
+                                            {
+                                                name: 'Crop Share',
+                                                type: 'pie',
+                                                radius: ['45%', '70%'],
+                                                center: ['40%', '50%'],
+                                                avoidLabelOverlap: false,
+                                                itemStyle: {
+                                                    borderRadius: 4,
+                                                    borderColor: '#fff',
+                                                    borderWidth: 2
+                                                },
+                                                label: { show: false },
+                                                labelLine: { show: false },
+                                                data: pieData,
+                                                color: PIE_COLORS
+                                            }
+                                        ]
+                                    }}
+                                    style={{ height: '100%', width: '100%' }}
+                                />
                             </div>
                         </div>
 
                         {/* District Rankings with crop selector */}
-                        <div className="glass-card rounded-xl p-5">
+                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-2">
-                                    <BarChart3 size={14} className="text-emerald-400" />
+                                    <BarChart3 size={14} className="text-indigo-600" />
                                     <h3 className="section-header mb-0">District Yield Rankings</h3>
                                 </div>
                                 <select
                                     value={rankCrop}
                                     onChange={(e) => setRankCrop(e.target.value)}
-                                    className="bg-slate-800 border border-slate-700 text-slate-300 rounded-md px-2 py-1 text-xs focus:border-emerald-500 transition"
+                                    className="bg-white border border-slate-300 text-slate-700 rounded-md px-2 py-1 text-xs focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 shadow-sm transition"
                                 >
                                     {availableCrops.map(c => (
                                         <option key={c} value={c}>{c.replace(/_/g, ' ')}</option>
@@ -312,21 +308,46 @@ export default function CropPortfolioPage() {
                             </div>
                             {rankings && rankings.length > 0 ? (
                                 <div className="h-[300px]">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={rankings.slice(0, 10)} layout="vertical">
-                                            <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} />
-                                            <YAxis dataKey="district" type="category" width={110} tick={{ fill: '#cbd5e1', fontSize: 10 }} />
-                                            <Tooltip
-                                                contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc', fontSize: 12, borderRadius: 8 }}
-                                                formatter={(val: number | undefined) => [`${val ?? 0} kg/ha`, 'Yield']}
-                                            />
-                                            <Bar dataKey="value" radius={[0, 4, 4, 0]} animationDuration={600}>
-                                                {rankings.slice(0, 10).map((_, i) => (
-                                                    <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
-                                                ))}
-                                            </Bar>
-                                        </BarChart>
-                                    </ResponsiveContainer>
+                                    <ReactECharts
+                                        option={{
+                                            tooltip: {
+                                                trigger: 'axis',
+                                                axisPointer: { type: 'shadow' },
+                                                backgroundColor: '#ffffff',
+                                                borderColor: '#e2e8f0',
+                                                textStyle: { color: '#0f172a' },
+                                                formatter: (params: any) => {
+                                                    const p = params[0];
+                                                    return `<div class="font-bold mb-1">${p.name}</div>
+                                                            <div class="text-sm text-slate-600">Yield: <span class="text-indigo-600 font-semibold">${p.value.toLocaleString()}</span> kg/ha</div>`;
+                                                }
+                                            },
+                                            grid: { top: 10, right: 30, bottom: 20, left: 10, containLabel: true },
+                                            xAxis: {
+                                                type: 'value',
+                                                splitLine: { lineStyle: { type: 'dashed', color: '#e2e8f0' } },
+                                                axisLabel: { color: '#64748b' }
+                                            },
+                                            yAxis: {
+                                                type: 'category',
+                                                data: rankings.slice(0, 10).map((d) => d.district).reverse(),
+                                                axisLine: { show: false },
+                                                axisTick: { show: false },
+                                                axisLabel: { color: '#475569', fontWeight: 500 }
+                                            },
+                                            series: [{
+                                                name: 'Yield',
+                                                type: 'bar',
+                                                data: rankings.slice(0, 10).map((d, i) => ({
+                                                    value: d.value,
+                                                    itemStyle: { color: PIE_COLORS[(9 - i) % PIE_COLORS.length] }
+                                                })).reverse(),
+                                                itemStyle: { borderRadius: [0, 4, 4, 0] },
+                                                barWidth: '18px'
+                                            }]
+                                        }}
+                                        style={{ height: '100%', width: '100%' }}
+                                    />
                                 </div>
                             ) : (
                                 <div className="text-center py-10 text-slate-500 text-sm">
@@ -338,10 +359,10 @@ export default function CropPortfolioPage() {
 
                     {/* ── Yield Trend ── */}
                     {trendLineData.length > 0 && (
-                        <div className="glass-card rounded-xl p-5">
+                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm mt-6">
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-2">
-                                    <TrendingUp size={14} className="text-cyan-400" />
+                                    <TrendingUp size={14} className="text-emerald-600" />
                                     <h3 className="section-header mb-0">
                                         Yield Trend — {(diversification.dominant_crop || '').replace(/_/g, ' ')}
                                     </h3>
@@ -349,15 +370,15 @@ export default function CropPortfolioPage() {
                                 {yieldTrend && (
                                     <div className="flex items-center gap-2">
                                         {yieldTrend.trend === 'increasing' ? (
-                                            <span className="flex items-center gap-1 text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full">
+                                            <span className="flex items-center gap-1 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-full font-semibold">
                                                 <TrendingUp size={12} /> +{yieldTrend.cagr_percent?.toFixed(1) ?? '?'}% CAGR
                                             </span>
                                         ) : yieldTrend.trend === 'decreasing' ? (
-                                            <span className="flex items-center gap-1 text-xs text-red-400 bg-red-500/10 px-2 py-1 rounded-full">
+                                            <span className="flex items-center gap-1 text-xs text-red-700 bg-red-50 border border-red-200 px-2 py-1 rounded-full font-semibold">
                                                 <TrendingDown size={12} /> {yieldTrend.cagr_percent?.toFixed(1) ?? '?'}% CAGR
                                             </span>
                                         ) : (
-                                            <span className="flex items-center gap-1 text-xs text-slate-400 bg-slate-700/50 px-2 py-1 rounded-full">
+                                            <span className="flex items-center gap-1 text-xs text-slate-600 bg-slate-100 border border-slate-200 px-2 py-1 rounded-full font-semibold">
                                                 <Minus size={12} /> Stable
                                             </span>
                                         )}
@@ -365,47 +386,73 @@ export default function CropPortfolioPage() {
                                 )}
                             </div>
                             <div className="h-[250px]">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <LineChart data={trendLineData}>
-                                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                                        <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
-                                        <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
-                                        <Tooltip
-                                            contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc', fontSize: 12, borderRadius: 8 }}
-                                            formatter={(val: number | undefined) => [`${(val ?? 0).toFixed(0)} kg/ha`, 'Yield']}
-                                        />
-                                        <Line
-                                            type="monotone"
-                                            dataKey="yield"
-                                            stroke="#06b6d4"
-                                            strokeWidth={2}
-                                            dot={{ r: 3, fill: '#06b6d4', strokeWidth: 0 }}
-                                            activeDot={{ r: 5, fill: '#06b6d4' }}
-                                            animationDuration={1000}
-                                        />
-                                    </LineChart>
-                                </ResponsiveContainer>
+                                <ReactECharts
+                                    option={{
+                                        tooltip: {
+                                            trigger: 'axis',
+                                            backgroundColor: '#ffffff',
+                                            borderColor: '#e2e8f0',
+                                            textStyle: { color: '#0f172a' },
+                                            formatter: (params: any) => {
+                                                const p = params[0];
+                                                return `<div class="font-bold mb-1">${p.name}</div>
+                                                        <div class="text-sm text-slate-600">Yield: <span class="text-emerald-600 font-semibold">${p.value.toLocaleString()}</span> kg/ha</div>`;
+                                            }
+                                        },
+                                        grid: { top: 10, right: 30, bottom: 20, left: 40, containLabel: false },
+                                        xAxis: {
+                                            type: 'category',
+                                            data: trendLineData.map(d => d.year),
+                                            axisLine: { lineStyle: { color: '#cbd5e1' } },
+                                            axisTick: { show: false },
+                                            axisLabel: { color: '#64748b' }
+                                        },
+                                        yAxis: {
+                                            type: 'value',
+                                            splitLine: { lineStyle: { type: 'dashed', color: '#e2e8f0' } },
+                                            axisLabel: { color: '#64748b' }
+                                        },
+                                        series: [{
+                                            name: 'Yield',
+                                            type: 'line',
+                                            data: trendLineData.map(d => d.yield),
+                                            smooth: true,
+                                            symbol: 'circle',
+                                            symbolSize: 6,
+                                            itemStyle: { color: '#10b981' }, // emerald-500
+                                            lineStyle: { width: 3 },
+                                            areaStyle: {
+                                                color: {
+                                                    type: 'linear',
+                                                    x: 0, y: 0, x2: 0, y2: 1,
+                                                    colorStops: [{ offset: 0, color: 'rgba(16, 185, 129, 0.2)' }, { offset: 1, color: 'rgba(16, 185, 129, 0)' }]
+                                                }
+                                            }
+                                        }]
+                                    }}
+                                    style={{ height: '100%', width: '100%' }}
+                                />
                             </div>
                         </div>
                     )}
 
                     {/* ── Crop Correlation Heatmap ── */}
                     {corrCrops.length > 0 && (
-                        <div className="glass-card rounded-xl p-5">
+                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm mt-6">
                             <div className="flex items-center gap-2 mb-4">
-                                <Grid3X3 size={14} className="text-purple-400" />
+                                <Grid3X3 size={14} className="text-indigo-600" />
                                 <h3 className="section-header mb-0">Crop Yield Correlations — {selectedState}</h3>
                             </div>
                             <p className="text-xs text-slate-500 mb-4">
                                 Green = positive correlation (crops grow together), Red = negative (substitution pattern)
                             </p>
                             <div className="overflow-x-auto">
-                                <table className="text-xs w-auto mx-auto">
+                                <table className="text-xs w-auto mx-auto border-separate border-spacing-[2px]">
                                     <thead>
                                         <tr>
                                             <th className="p-2 text-slate-500" />
                                             {corrCrops.map((c: string) => (
-                                                <th key={c} className="p-2 text-slate-400 capitalize font-medium text-center min-w-[70px]">
+                                                <th key={c} className="p-2 text-slate-600 capitalize font-semibold text-center min-w-[70px]">
                                                     {c.replace(/_/g, ' ')}
                                                 </th>
                                             ))}
@@ -414,23 +461,25 @@ export default function CropPortfolioPage() {
                                     <tbody>
                                         {corrCrops.map((row: string) => (
                                             <tr key={row}>
-                                                <td className="p-2 text-slate-400 capitalize font-medium text-right pr-3">{row.replace(/_/g, ' ')}</td>
+                                                <td className="p-2 text-slate-600 capitalize font-semibold text-right pr-3">{row.replace(/_/g, ' ')}</td>
                                                 {corrCrops.map((col: string) => {
                                                     const val = corrMatrix[row]?.[col];
                                                     const isIdentity = row === col;
-                                                    const bgColor = isIdentity ? '#1e293b' :
-                                                        val === null || val === undefined ? CORR_NEUTRAL :
+                                                    const bgColor = isIdentity ? '#f1f5f9' : // slate-100
+                                                        val === null || val === undefined ? '#f8fafc' : // slate-50
                                                             val > 0 ? CORR_POSITIVE : CORR_NEGATIVE;
                                                     const opacity = isIdentity ? 1 : Math.min(Math.abs(val ?? 0), 1);
                                                     return (
                                                         <td
                                                             key={col}
-                                                            className="p-2 text-center font-mono rounded-sm"
+                                                            className="p-2 text-center font-mono rounded"
                                                             style={{
-                                                                backgroundColor: isIdentity ? '#1e293b' : `${bgColor}${Math.round(opacity * 40 + 15).toString(16).padStart(2, '0')}`,
-                                                                color: isIdentity ? '#475569' :
-                                                                    val === null || val === undefined ? '#475569' :
-                                                                        val > 0.3 ? '#10b981' : val < -0.3 ? '#ef4444' : '#94a3b8'
+                                                                backgroundColor: isIdentity ? '#f1f5f9' :
+                                                                    (val === null || val === undefined) ? '#f8fafc' :
+                                                                        `${bgColor}${Math.round(opacity * 200).toString(16).padStart(2, '0')}`,
+                                                                color: isIdentity ? '#94a3b8' :
+                                                                    val === null || val === undefined ? '#cbd5e1' :
+                                                                        val > 0.3 ? '#065f46' : val < -0.3 ? '#991b1b' : '#334155'
                                                             }}
                                                             title={val !== null && val !== undefined ? `${row} × ${col}: ${val}` : 'Insufficient data'}
                                                         >
@@ -447,31 +496,31 @@ export default function CropPortfolioPage() {
                     )}
 
                     {/* ── Detailed Crop Breakdown Table ── */}
-                    <div className="glass-card rounded-xl overflow-hidden">
-                        <div className="px-5 py-4 border-b border-slate-700/50">
+                    <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm mt-6">
+                        <div className="px-5 py-4 border-b border-slate-200 bg-slate-50">
                             <h3 className="section-header mb-0">Detailed Crop Breakdown</h3>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm">
-                                <thead className="text-xs text-slate-500 uppercase bg-slate-900/50">
+                                <thead className="text-xs text-slate-500 uppercase bg-white border-b border-slate-200">
                                     <tr>
-                                        <th className="px-5 py-3 text-left">#</th>
-                                        <th className="px-5 py-3 text-left">Crop</th>
-                                        <th className="px-5 py-3 text-right">Share (%)</th>
-                                        <th className="px-5 py-3 text-left" style={{ minWidth: 200 }}>Visual</th>
+                                        <th className="px-5 py-3 text-left font-semibold">#</th>
+                                        <th className="px-5 py-3 text-left font-semibold">Crop</th>
+                                        <th className="px-5 py-3 text-right font-semibold">Share (%)</th>
+                                        <th className="px-5 py-3 text-left font-semibold" style={{ minWidth: 200 }}>Visual</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-slate-700/30">
+                                <tbody className="divide-y divide-slate-100 bg-white">
                                     {pieData.map((item, i) => (
-                                        <tr key={i} className="hover:bg-slate-800/20 transition">
-                                            <td className="px-5 py-3 text-slate-600 text-xs font-mono">{i + 1}</td>
-                                            <td className="px-5 py-3 text-slate-300 capitalize flex items-center gap-2">
-                                                <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }} />
+                                        <tr key={i} className="hover:bg-slate-50 transition">
+                                            <td className="px-5 py-3 text-slate-400 text-xs font-mono">{i + 1}</td>
+                                            <td className="px-5 py-3 text-slate-700 font-medium capitalize flex items-center gap-2">
+                                                <span className="w-2.5 h-2.5 rounded-full flex-shrink-0 shadow-sm" style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }} />
                                                 {item.name}
                                             </td>
-                                            <td className="px-5 py-3 text-right text-slate-200 font-mono">{item.value}%</td>
+                                            <td className="px-5 py-3 text-right text-slate-900 font-mono font-semibold">{item.value}%</td>
                                             <td className="px-5 py-3">
-                                                <div className="w-full bg-slate-800 rounded-full h-2">
+                                                <div className="w-full bg-slate-100 rounded-full h-2 shadow-inner">
                                                     <div
                                                         className="h-2 rounded-full transition-all duration-700"
                                                         style={{ width: `${item.value}%`, backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }}

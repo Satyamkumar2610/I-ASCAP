@@ -6,10 +6,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { useQueries } from '@tanstack/react-query';
 import { api } from '../services/api';
-import {
-    Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
-    Legend, Tooltip as RechartsTooltip
-} from 'recharts';
+import ReactECharts from 'echarts-for-react';
 import { EfficiencyData, RiskData } from '../../types/analysis';
 
 interface ComparisonData {
@@ -102,7 +99,7 @@ function CompareContent() {
                     <ArrowLeft size={20} className="text-slate-200" />
                 </Link>
                 <div>
-                    <h1 className="text-2xl font-bold text-white">Comparative Analysis</h1>
+                    <h1 className="text-2xl font-bold text-slate-900">Comparative Analysis</h1>
                     <p className="text-slate-500 text-sm">Comparing {data.length} districts</p>
                 </div>
             </div>
@@ -110,43 +107,56 @@ function CompareContent() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
                 {/* 1. Radar Chart (Visual) */}
-                <div className="lg:col-span-1 bg-slate-900/50 border border-slate-800 rounded-xl p-4 flex flex-col items-center justify-center">
-                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Strategic Balance</h3>
+                <div className="lg:col-span-1 bg-white border border-slate-200 shadow-sm rounded-xl p-4 flex flex-col items-center justify-center">
+                    <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">Strategic Balance</h3>
                     <div className="h-[300px] w-full">
-                        <ResponsiveContainer width="100%" height="100%" minHeight={200}>
-                            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-                                <PolarGrid stroke="#334155" />
-                                <PolarAngleAxis dataKey="metric" tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                                {data.map((d, i) => (
-                                    <Radar
-                                        key={d.id}
-                                        name={d.district}
-                                        dataKey={`d${i}`}
-                                        stroke={colors[i % colors.length]}
-                                        fill={colors[i % colors.length]}
-                                        fillOpacity={0.3}
-                                    />
-                                ))}
-                                <Legend />
-                                <RechartsTooltip
-                                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc' }}
-                                    itemStyle={{ fontSize: 12 }}
-                                />
-                            </RadarChart>
-                        </ResponsiveContainer>
+                        <ReactECharts
+                            option={{
+                                tooltip: {
+                                    trigger: 'item',
+                                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                    borderColor: '#e2e8f0',
+                                    textStyle: { color: '#0f172a', fontSize: 12 },
+                                },
+                                legend: {
+                                    bottom: 0,
+                                    textStyle: { color: '#64748b' }
+                                },
+                                radar: {
+                                    indicator: radarMetrics.map(m => ({ name: m.metric, max: m.fullMark })),
+                                    splitNumber: 4,
+                                    axisName: { color: '#64748b', fontSize: 12 },
+                                    splitLine: { lineStyle: { color: '#e2e8f0' } },
+                                    splitArea: { show: false },
+                                    axisLine: { lineStyle: { color: '#cbd5e1' } }
+                                },
+                                series: [{
+                                    type: 'radar',
+                                    data: data.map((d, i) => ({
+                                        value: radarMetrics.map(m => {
+                                            const point = radarData.find(p => p.metric === m.metric);
+                                            return point ? point[`d${i}`] as number : 0;
+                                        }),
+                                        name: d.district,
+                                        itemStyle: { color: colors[i % colors.length] },
+                                        areaStyle: { color: colors[i % colors.length], opacity: 0.3 }
+                                    }))
+                                }]
+                            }}
+                            style={{ height: '100%', width: '100%' }}
+                        />
                     </div>
                 </div>
 
                 {/* 2. Detailed Cards/Table */}
                 <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                     {data.map((item, idx) => (
-                        <div key={idx} className="bg-slate-900/50 border border-slate-800 rounded-xl p-5 relative overflow-hidden" style={{ borderColor: colors[idx % colors.length] + '40' }}>
+                        <div key={idx} className="bg-white border border-slate-200 shadow-sm rounded-xl p-5 relative overflow-hidden" style={{ borderColor: colors[idx % colors.length] + '40' }}>
                             <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: colors[idx % colors.length] }}></div>
 
                             <div className="flex justify-between items-start mb-4">
                                 <div>
-                                    <h2 className="text-xl font-bold text-white">{item.district}</h2>
+                                    <h2 className="text-xl font-bold text-slate-900">{item.district}</h2>
                                     <div className="text-xs text-slate-500">{item.year} • <span className="capitalize">{item.crop}</span></div>
                                 </div>
                                 <div className="text-2xl font-bold" style={{ color: colors[idx % colors.length] }}>
@@ -158,36 +168,36 @@ function CompareContent() {
                             {item.efficiency && item.risk ? (
                                 <div className="space-y-4">
                                     <div className="grid grid-cols-2 gap-4">
-                                        <div className="bg-slate-950/50 p-2 rounded">
-                                            <div className="text-[10px] text-slate-500 uppercase">Rel. Efficiency</div>
-                                            <div className="text-lg font-bold text-emerald-400">
+                                        <div className="bg-slate-50 border border-slate-200 p-2 rounded">
+                                            <div className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Rel. Efficiency</div>
+                                            <div className="text-lg font-bold text-emerald-600">
                                                 {(item.efficiency.relative_efficiency.efficiency_score * 100).toFixed(0)}%
                                             </div>
-                                            <div className="text-[10px] text-slate-600">Gap: {item.efficiency.relative_efficiency.yield_gap_pct.toFixed(1)}%</div>
+                                            <div className="text-[10px] text-slate-500 font-medium">Gap: {item.efficiency.relative_efficiency.yield_gap_pct.toFixed(1)}%</div>
                                         </div>
-                                        <div className="bg-slate-950/50 p-2 rounded">
-                                            <div className="text-[10px] text-slate-500 uppercase">Resilience</div>
-                                            <div className="text-lg font-bold text-blue-400">
+                                        <div className="bg-slate-50 border border-slate-200 p-2 rounded">
+                                            <div className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Resilience</div>
+                                            <div className="text-lg font-bold text-blue-600">
                                                 {(item.risk.resilience_index.resilience_score * 100).toFixed(0)}
                                             </div>
-                                            <div className="text-[10px] text-slate-600">Grade {item.risk.resilience_index.reliability_rating}</div>
+                                            <div className="text-[10px] text-slate-500 font-medium">Grade {item.risk.resilience_index.reliability_rating}</div>
                                         </div>
                                     </div>
 
-                                    <div className="border-t border-slate-800 pt-3">
+                                    <div className="border-t border-slate-200 pt-3">
                                         <div className="flex justify-between text-sm mb-1">
-                                            <span className="text-slate-400">Volatility (CV)</span>
-                                            <span className="text-slate-200">{item.risk.risk_profile.volatility_score.toFixed(1)}%</span>
+                                            <span className="text-slate-500 font-medium">Volatility (CV)</span>
+                                            <span className="text-slate-900 font-bold">{item.risk.risk_profile.volatility_score.toFixed(1)}%</span>
                                         </div>
                                         <div className="flex justify-between text-sm mb-1">
-                                            <span className="text-slate-400">5y CAGR</span>
-                                            <span className={`${item.risk.growth_matrix.cagr_5y > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                            <span className="text-slate-500 font-medium">5y CAGR</span>
+                                            <span className={`font-bold ${item.risk.growth_matrix.cagr_5y > 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
                                                 {item.risk.growth_matrix.cagr_5y}%
                                             </span>
                                         </div>
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-slate-400">Yield</span>
-                                            <span className="text-slate-200">{item.efficiency.relative_efficiency.district_yield.toFixed(0)} kg/ha</span>
+                                            <span className="text-slate-500 font-medium">Yield</span>
+                                            <span className="text-slate-900 font-bold">{item.efficiency.relative_efficiency.district_yield.toFixed(0)} kg/ha</span>
                                         </div>
                                     </div>
                                 </div>
@@ -200,13 +210,13 @@ function CompareContent() {
             </div>
 
             {/* 3. Unified Comparison Table (Bottom) */}
-            <div className="mt-8 bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden">
-                <div className="px-6 py-4 border-b border-slate-800">
-                    <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">Direct Comparison</h3>
+            <div className="mt-8 bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden">
+                <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+                    <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider">Direct Comparison</h3>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
-                        <thead className="text-xs text-slate-500 uppercase bg-slate-950/50">
+                        <thead className="text-xs text-slate-500 font-bold uppercase bg-slate-50 border-b border-slate-200">
                             <tr>
                                 <th className="px-6 py-3">Metric</th>
                                 {data.map((d, i) => (
@@ -216,9 +226,9 @@ function CompareContent() {
                                 ))}
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-800">
-                            <tr className="bg-slate-900/20">
-                                <td className="px-6 py-3 font-medium text-slate-300">Resilience Index</td>
+                        <tbody className="divide-y divide-slate-200 text-slate-900">
+                            <tr className="bg-slate-50/50">
+                                <td className="px-6 py-3 font-semibold text-slate-600">Resilience Index</td>
                                 {data.map((d, i) => (
                                     <td key={i} className="px-6 py-3 font-bold">
                                         {d.risk ? (d.risk.resilience_index.resilience_score * 100).toFixed(0) : '-'}
@@ -226,7 +236,7 @@ function CompareContent() {
                                 ))}
                             </tr>
                             <tr>
-                                <td className="px-6 py-3 font-medium text-slate-300">Relative Efficiency</td>
+                                <td className="px-6 py-3 font-semibold text-slate-600">Relative Efficiency</td>
                                 {data.map((d, i) => (
                                     <td key={i} className="px-6 py-3">
                                         {d.efficiency ? (d.efficiency.relative_efficiency.efficiency_score * 100).toFixed(1) : '-'}%
@@ -234,7 +244,7 @@ function CompareContent() {
                                 ))}
                             </tr>
                             <tr>
-                                <td className="px-6 py-3 font-medium text-slate-300">Yield (kg/ha)</td>
+                                <td className="px-6 py-3 font-semibold text-slate-600">Yield (kg/ha)</td>
                                 {data.map((d, i) => (
                                     <td key={i} className="px-6 py-3">
                                         {d.efficiency ? d.efficiency.relative_efficiency.district_yield.toFixed(0) : '-'}
@@ -242,7 +252,7 @@ function CompareContent() {
                                 ))}
                             </tr>
                             <tr>
-                                <td className="px-6 py-3 font-medium text-slate-300">Volatility (CV)</td>
+                                <td className="px-6 py-3 font-semibold text-slate-600">Volatility (CV)</td>
                                 {data.map((d, i) => (
                                     <td key={i} className="px-6 py-3">
                                         {d.risk ? d.risk.risk_profile.volatility_score.toFixed(1) : '-'}%
@@ -250,7 +260,7 @@ function CompareContent() {
                                 ))}
                             </tr>
                             <tr>
-                                <td className="px-6 py-3 font-medium text-slate-300">Growth (CAGR)</td>
+                                <td className="px-6 py-3 font-semibold text-slate-600">Growth (CAGR)</td>
                                 {data.map((d, i) => (
                                     <td key={i} className="px-6 py-3">
                                         {d.risk ? d.risk.growth_matrix.cagr_5y : '-'}%
@@ -268,7 +278,7 @@ function CompareContent() {
 
 export default function ComparePage() {
     return (
-        <Suspense fallback={<div className="text-white text-center pt-20">Loading comparisons...</div>}>
+        <Suspense fallback={<div className="text-slate-500 font-bold text-center pt-20">Loading comparisons...</div>}>
             <CompareContent />
         </Suspense>
     );

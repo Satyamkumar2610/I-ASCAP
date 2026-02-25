@@ -15,15 +15,15 @@ export function ComparisonModeSelector({ mode, onChange }: ComparisonModeSelecto
     ];
 
     return (
-        <div className="flex gap-1 md:gap-2 glass-panel p-1.5 rounded-xl mb-3 md:mb-4">
+        <div className="flex gap-1 md:gap-2 bg-slate-100 p-1.5 rounded-xl mb-3 md:mb-4 border border-slate-200">
             {modes.map(m => (
                 <button
                     key={m.id}
                     onClick={() => onChange(m.id)}
-                    className={`flex-1 flex items-center justify-center gap-1 md:gap-2 py-2 px-2 md:px-3 text-[10px] md:text-xs font-medium rounded-lg transition-all duration-300
+                    className={`flex-1 flex items-center justify-center gap-1 md:gap-2 py-2 px-2 md:px-3 text-[10px] md:text-xs font-semibold rounded-lg transition-all duration-300
                         ${mode === m.id
-                            ? 'glass-active text-indigo-300 font-bold'
-                            : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
+                            ? 'bg-white text-indigo-700 shadow-sm border border-slate-200/60'
+                            : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'
                         }`}
                 >
                     <m.icon size={12} className="md:w-[14px] md:h-[14px]" />

@@ -1,7 +1,6 @@
 
 "use client";
-import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Label, Legend } from 'recharts';
+import ReactECharts from 'echarts-for-react';
 
 const COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ec4899', '#8b5cf6'];
 
@@ -27,85 +26,98 @@ export function ComparisonChart({ data, series, splitYear, metric = 'yield' }: C
         return `${val.toLocaleString()}`;
     };
 
+    const option = {
+        tooltip: {
+            trigger: 'axis',
+            backgroundColor: '#ffffff',
+            borderColor: '#e2e8f0',
+            textStyle: { color: '#0f172a', fontSize: 11 },
+            formatter: (params: any) => {
+                let html = `<div class="font-bold text-slate-700 mb-1 border-b border-slate-100 pb-1">${params[0].axisValue}</div>`;
+                params.forEach((p: any) => {
+                    html += `
+                        <div class="flex items-center gap-2 my-1">
+                            <span class="w-2 h-2 rounded-full font-bold" style="background-color: ${p.color}"></span>
+                            <span class="text-slate-600">${p.seriesName.length > 20 ? p.seriesName.slice(0, 20) + '...' : p.seriesName}:</span>
+                            <span class="font-bold" style="color: ${p.color}">${getUnitCallback(Number(p.value || 0))}</span>
+                        </div>
+                    `;
+                });
+                return html;
+            }
+        },
+        legend: {
+            textStyle: { color: '#64748b', fontSize: 11 },
+            top: 0,
+            icon: 'circle',
+            itemWidth: 8,
+            itemHeight: 8
+        },
+        grid: { top: 35, right: 10, bottom: 20, left: 50, containLabel: false },
+        xAxis: {
+            type: 'category',
+            data: data.map(d => d.year),
+            axisLine: { lineStyle: { color: '#cbd5e1' } },
+            axisTick: { show: false },
+            axisLabel: { color: '#64748b', fontSize: 10, formatter: (val: string) => val.slice(-2) }
+        },
+        yAxis: {
+            type: 'value',
+            name: metric === 'yield' ? 'kg/ha' : metric === 'production' ? 'tons' : 'ha',
+            nameLocation: 'middle',
+            nameGap: 35,
+            nameTextStyle: { color: '#94a3b8', fontSize: 10 },
+            splitLine: { lineStyle: { type: 'dashed', color: '#e2e8f0' } },
+            axisLabel: {
+                color: '#64748b',
+                fontSize: 10,
+                formatter: (val: number) => val >= 1000 ? `${(val / 1000).toFixed(1)}k` : val
+            }
+        },
+        series: [
+            ...series.map((s, idx) => ({
+                name: s.label,
+                type: 'line',
+                data: data.map(d => d[s.id]),
+                symbol: 'circle',
+                symbolSize: 6,
+                showSymbol: false,
+                itemStyle: { color: COLORS[idx % COLORS.length] },
+                lineStyle: {
+                    width: s.style === 'solid' ? 2.5 : 2,
+                    type: s.style === 'dashed' ? 'dashed' : 'solid'
+                },
+                connectNulls: true
+            })),
+            {
+                name: 'Split Year',
+                type: 'line',
+                markLine: {
+                    symbol: ['none', 'none'],
+                    label: {
+                        formatter: 'SPLIT',
+                        position: 'insideStartTop',
+                        color: '#ef4444',
+                        fontWeight: 'bold',
+                        fontSize: 10
+                    },
+                    lineStyle: { color: '#ef4444', type: 'dashed', width: 1 },
+                    data: [{ xAxis: String(splitYear) }]
+                }
+            }
+        ]
+    };
+
     return (
         <div
-            className="h-64 md:h-80 w-full glass-card border-none rounded-xl p-3 md:p-5 shadow-[0_4px_20px_-3px_rgba(0,0,0,0.3)]"
+            className="h-64 md:h-80 w-full bg-white border border-slate-200 rounded-xl p-3 md:p-5 shadow-sm"
             role="img"
             aria-label={`Line chart showing ${metric} trends relative to split year ${splitYear}`}
         >
-            <ResponsiveContainer width="100%" height="100%" minHeight={200}>
-                <LineChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" opacity={0.8} />
-                    <XAxis
-                        dataKey="year"
-                        stroke="#64748b"
-                        fontSize={10}
-                        tickFormatter={(val) => val.toString().slice(-2)}
-                        interval="preserveStartEnd"
-                        tick={{ fill: '#94a3b8' }}
-                        tickLine={false}
-                        axisLine={false}
-                    />
-                    <YAxis
-                        stroke="#64748b"
-                        fontSize={10}
-                        width={45}
-                        tickFormatter={(val) => val >= 1000 ? `${(val / 1000).toFixed(1)}k` : val}
-                        tick={{ fill: '#94a3b8' }}
-                        tickLine={false}
-                        axisLine={false}
-                    >
-                        <Label
-                            value={metric === 'yield' ? 'kg/ha' : metric === 'production' ? 'tons' : 'ha'}
-                            angle={-90}
-                            position="insideLeft"
-                            style={{ textAnchor: 'middle', fill: '#94a3b8' }}
-                            fontSize={10}
-                        />
-                    </YAxis>
-                    <Tooltip
-                        contentStyle={{
-                            backgroundColor: 'rgba(15, 23, 42, 0.4)',
-                            backdropFilter: 'blur(16px)',
-                            WebkitBackdropFilter: 'blur(16px)',
-                            border: '1px solid rgba(148, 163, 184, 0.1)',
-                            color: '#f8fafc',
-                            fontSize: '11px',
-                            padding: '10px 14px',
-                            borderRadius: '8px',
-                            boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.5)'
-                        }}
-                        labelStyle={{ color: '#cbd5e1', fontWeight: 'bold', marginBottom: '4px' }}
-                        cursor={{ stroke: 'rgba(51, 65, 85, 0.5)', strokeWidth: 1, strokeDasharray: '3 3' }}
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        formatter={(value: any, name: any) => [getUnitCallback(Number(value || 0)), name]}
-                    />
-                    <Legend
-                        wrapperStyle={{ fontSize: '11px', paddingTop: '10px', color: '#cbd5e1' }}
-                        iconSize={10}
-                        iconType="circle"
-                    />
-
-                    <ReferenceLine x={splitYear} stroke="#ef4444" strokeDasharray="4 4" strokeWidth={1}>
-                        <Label value="SPLIT" position="insideTopLeft" fill="#ef4444" fontSize={10} fontWeight="bold" />
-                    </ReferenceLine>
-
-                    {(series || []).map((s: ChartSeries, idx: number) => (
-                        <Line
-                            key={s.id}
-                            type="monotone"
-                            dataKey={s.id}
-                            name={s.label.length > 20 ? s.label.slice(0, 20) + '...' : s.label}
-                            stroke={COLORS[idx % COLORS.length]}
-                            strokeWidth={s.style === 'solid' ? 2.5 : 2}
-                            strokeDasharray={s.style === 'dashed' ? '5 5' : '0'}
-                            dot={false}
-                            activeDot={{ r: 5, strokeWidth: 0, fill: COLORS[idx % COLORS.length] }}
-                            connectNulls={true}
-                        />
-                    ))}
-                </LineChart>
-            </ResponsiveContainer>
+            <ReactECharts
+                option={option}
+                style={{ height: '100%', width: '100%', minHeight: '200px' }}
+            />
         </div>
     );
 }

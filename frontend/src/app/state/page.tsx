@@ -5,9 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api, StateOverview } from '../services/api';
 import Link from 'next/link';
 import { MapPin, TrendingUp, TrendingDown, Layers, BarChart3, ArrowRight } from 'lucide-react';
-import {
-    BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell
-} from 'recharts';
+import ReactECharts from 'echarts-for-react';
 
 const CROPS = [
     { value: 'wheat', label: 'Wheat' },
@@ -42,8 +40,8 @@ export default function StatePage() {
         <main className="page-container">
             {/* Header */}
             <div className="mb-8">
-                <h1 className="text-2xl font-bold text-white mb-1">State Dashboard</h1>
-                <p className="text-slate-400 text-sm">Aggregate agricultural analytics by state</p>
+                <h1 className="text-2xl font-bold text-slate-900 mb-1">State Dashboard</h1>
+                <p className="text-slate-600 text-sm">Aggregate agricultural analytics by state</p>
             </div>
 
             {/* Selectors */}
@@ -51,7 +49,7 @@ export default function StatePage() {
                 <select
                     value={selectedState}
                     onChange={(e) => setSelectedState(e.target.value)}
-                    className="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm focus:border-emerald-500 transition min-w-[200px]"
+                    className="bg-white border border-slate-300 text-slate-900 rounded-lg px-4 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition min-w-[200px] shadow-sm"
                 >
                     <option value="">Select a state...</option>
                     {states?.map((s) => (
@@ -63,7 +61,7 @@ export default function StatePage() {
                 <select
                     value={selectedCrop}
                     onChange={(e) => setSelectedCrop(e.target.value)}
-                    className="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm focus:border-emerald-500 transition"
+                    className="bg-white border border-slate-300 text-slate-900 rounded-lg px-4 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition shadow-sm"
                 >
                     {CROPS.map((c) => (
                         <option key={c.value} value={c.value}>{c.label}</option>
@@ -72,7 +70,7 @@ export default function StatePage() {
                 <select
                     value={selectedYear ?? ''}
                     onChange={(e) => setSelectedYear(e.target.value ? Number(e.target.value) : undefined)}
-                    className="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm focus:border-emerald-500 transition"
+                    className="bg-white border border-slate-300 text-slate-900 rounded-lg px-4 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition shadow-sm"
                 >
                     <option value="">Latest Year</option>
                     {years.map((y) => (
@@ -82,15 +80,15 @@ export default function StatePage() {
             </div>
 
             {!selectedState && (
-                <div className="text-center py-20">
-                    <Layers className="mx-auto text-slate-600 mb-4" size={48} />
-                    <p className="text-slate-500">Select a state to view its dashboard</p>
+                <div className="text-center py-20 bg-white border border-slate-200 rounded-xl shadow-sm">
+                    <Layers className="mx-auto text-slate-400 mb-4" size={48} />
+                    <p className="text-slate-600 font-medium">Select a state to view its dashboard</p>
                 </div>
             )}
 
             {isLoading && selectedState && (
                 <div className="flex items-center justify-center py-20">
-                    <div className="w-8 h-8 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin" />
+                    <div className="w-8 h-8 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
                 </div>
             )}
 
@@ -123,56 +121,100 @@ export default function StatePage() {
                         {/* Top 5 */}
                         <div className="glass-card rounded-xl p-5">
                             <div className="flex items-center gap-2 mb-4">
-                                <TrendingUp size={16} className="text-emerald-400" />
+                                <TrendingUp size={16} className="text-emerald-600" />
                                 <h3 className="section-header mb-0">Top Performers</h3>
                             </div>
                             <div className="h-[250px]">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={overview.top_performers} layout="vertical">
-                                        <defs>
-                                            <linearGradient id="topGradient" x1="0" y1="0" x2="1" y2="0">
-                                                <stop offset="0%" stopColor="#10b981" stopOpacity={0.8} />
-                                                <stop offset="100%" stopColor="#34d399" stopOpacity={1} />
-                                            </linearGradient>
-                                        </defs>
-                                        <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
-                                        <YAxis dataKey="district_name" type="category" width={120} tick={{ fill: '#cbd5e1', fontSize: 11, fontWeight: 500 }} axisLine={false} tickLine={false} />
-                                        <Tooltip
-                                            cursor={{ fill: 'rgba(30, 41, 59, 0.4)' }}
-                                            contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(8px)', borderColor: 'rgba(148, 163, 184, 0.2)', color: '#f8fafc', fontSize: 12, borderRadius: '8px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)' }}
-                                            formatter={(val: number | undefined) => [`${val?.toLocaleString() ?? 0} kg/ha`, 'Yield']}
-                                        />
-                                        <Bar dataKey="yield_value" radius={[0, 4, 4, 0]} barSize={20} fill="url(#topGradient)" animationDuration={1000} />
-                                    </BarChart>
-                                </ResponsiveContainer>
+                                <ReactECharts
+                                    option={{
+                                        tooltip: {
+                                            trigger: 'axis',
+                                            axisPointer: { type: 'shadow' },
+                                            backgroundColor: '#ffffff',
+                                            borderColor: '#e2e8f0',
+                                            textStyle: { color: '#0f172a' },
+                                            formatter: (params: any) => {
+                                                const p = params[0];
+                                                return `<div class="font-bold mb-1">${p.name}</div>
+                                                        <div class="text-sm text-slate-600">Yield: <span class="text-emerald-600 font-semibold">${p.value.toLocaleString()}</span> kg/ha</div>`;
+                                            }
+                                        },
+                                        grid: { top: 10, right: 30, bottom: 20, left: 10, containLabel: true },
+                                        xAxis: {
+                                            type: 'value',
+                                            splitLine: { lineStyle: { type: 'dashed', color: '#e2e8f0' } },
+                                            axisLabel: { color: '#64748b' }
+                                        },
+                                        yAxis: {
+                                            type: 'category',
+                                            data: overview.top_performers.map((d) => d.district_name).reverse(),
+                                            axisLine: { show: false },
+                                            axisTick: { show: false },
+                                            axisLabel: { color: '#475569', fontWeight: 500 }
+                                        },
+                                        series: [{
+                                            name: 'Yield',
+                                            type: 'bar',
+                                            data: overview.top_performers.map((d) => d.yield_value).reverse(),
+                                            itemStyle: {
+                                                color: '#10b981', // emerald-500
+                                                borderRadius: [0, 4, 4, 0]
+                                            },
+                                            barWidth: '24px'
+                                        }]
+                                    }}
+                                    style={{ height: '100%', width: '100%' }}
+                                />
                             </div>
                         </div>
 
                         {/* Bottom 5 */}
                         <div className="glass-card rounded-xl p-5">
                             <div className="flex items-center gap-2 mb-4">
-                                <TrendingDown size={16} className="text-rose-400" />
+                                <TrendingDown size={16} className="text-rose-600" />
                                 <h3 className="section-header mb-0">Bottom Performers</h3>
                             </div>
                             <div className="h-[250px]">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={overview.bottom_performers} layout="vertical">
-                                        <defs>
-                                            <linearGradient id="bottomGradient" x1="0" y1="0" x2="1" y2="0">
-                                                <stop offset="0%" stopColor="#e11d48" stopOpacity={0.8} />
-                                                <stop offset="100%" stopColor="#fb7185" stopOpacity={1} />
-                                            </linearGradient>
-                                        </defs>
-                                        <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
-                                        <YAxis dataKey="district_name" type="category" width={120} tick={{ fill: '#cbd5e1', fontSize: 11, fontWeight: 500 }} axisLine={false} tickLine={false} />
-                                        <Tooltip
-                                            cursor={{ fill: 'rgba(30, 41, 59, 0.4)' }}
-                                            contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(8px)', borderColor: 'rgba(148, 163, 184, 0.2)', color: '#f8fafc', fontSize: 12, borderRadius: '8px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)' }}
-                                            formatter={(val: number | undefined) => [`${val?.toLocaleString() ?? 0} kg/ha`, 'Yield']}
-                                        />
-                                        <Bar dataKey="yield_value" radius={[0, 4, 4, 0]} barSize={20} fill="url(#bottomGradient)" animationDuration={1000} />
-                                    </BarChart>
-                                </ResponsiveContainer>
+                                <ReactECharts
+                                    option={{
+                                        tooltip: {
+                                            trigger: 'axis',
+                                            axisPointer: { type: 'shadow' },
+                                            backgroundColor: '#ffffff',
+                                            borderColor: '#e2e8f0',
+                                            textStyle: { color: '#0f172a' },
+                                            formatter: (params: any) => {
+                                                const p = params[0];
+                                                return `<div class="font-bold mb-1">${p.name}</div>
+                                                        <div class="text-sm text-slate-600">Yield: <span class="text-rose-600 font-semibold">${p.value.toLocaleString()}</span> kg/ha</div>`;
+                                            }
+                                        },
+                                        grid: { top: 10, right: 30, bottom: 20, left: 10, containLabel: true },
+                                        xAxis: {
+                                            type: 'value',
+                                            splitLine: { lineStyle: { type: 'dashed', color: '#e2e8f0' } },
+                                            axisLabel: { color: '#64748b' }
+                                        },
+                                        yAxis: {
+                                            type: 'category',
+                                            data: overview.bottom_performers.map((d) => d.district_name).reverse(),
+                                            axisLine: { show: false },
+                                            axisTick: { show: false },
+                                            axisLabel: { color: '#475569', fontWeight: 500 }
+                                        },
+                                        series: [{
+                                            name: 'Yield',
+                                            type: 'bar',
+                                            data: overview.bottom_performers.map((d) => d.yield_value).reverse(),
+                                            itemStyle: {
+                                                color: '#f43f5e', // rose-500
+                                                borderRadius: [0, 4, 4, 0]
+                                            },
+                                            barWidth: '24px'
+                                        }]
+                                    }}
+                                    style={{ height: '100%', width: '100%' }}
+                                />
                             </div>
                         </div>
                     </div>
@@ -186,8 +228,8 @@ export default function StatePage() {
                                     key={crop}
                                     onClick={() => setSelectedCrop(crop)}
                                     className={`px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition ${crop === selectedCrop
-                                        ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-400 border border-emerald-500/40 shadow-[0_0_15px_-3px_rgba(16,185,129,0.3)]'
-                                        : 'bg-slate-800/40 text-slate-400 border border-slate-700/60 hover:text-slate-200 hover:border-slate-500 hover:bg-slate-800/80'
+                                        ? 'bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-sm'
+                                        : 'bg-slate-50 text-slate-600 border border-slate-200 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-100'
                                         }`}
                                 >
                                     {crop.replace(/_/g, ' ')}
@@ -204,13 +246,13 @@ export default function StatePage() {
                                 <Link
                                     key={d.cdk}
                                     href={`/?district=${d.cdk}&crop=${selectedCrop}`}
-                                    className="flex items-center justify-between p-3 rounded-lg bg-slate-800/30 border border-slate-700/50 hover:border-emerald-500/30 hover:bg-slate-800/60 transition group"
+                                    className="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition group"
                                 >
                                     <div className="flex items-center gap-2">
-                                        <MapPin size={14} className="text-emerald-500" />
-                                        <span className="text-sm text-slate-300">{d.district_name}</span>
+                                        <MapPin size={14} className="text-indigo-600" />
+                                        <span className="text-sm font-medium text-slate-700">{d.district_name}</span>
                                     </div>
-                                    <ArrowRight size={14} className="text-slate-600 group-hover:text-emerald-400 transition" />
+                                    <ArrowRight size={14} className="text-slate-400 group-hover:text-indigo-600 transition" />
                                 </Link>
                             ))}
                         </div>

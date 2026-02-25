@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../services/api';
 import { Search, MapPin, Calendar, Activity, Menu, X, ChevronDown } from 'lucide-react';
-import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import ReactECharts from 'echarts-for-react';
 import Link from 'next/link';
 import bridgeData from '../../data/map_bridge.json';
 import AnalyticsPanel from './AnalyticsPanel';
@@ -343,28 +343,46 @@ const Dashboard: React.FC<DashboardProps> = ({
                             )}
 
                             {/* Analytics Chart */}
-                            <div className="border-t border-white/5 pt-4">
-                                <h4 className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-3 flex items-center gap-2">
+                            <div className="border-t border-slate-200 pt-4">
+                                <h4 className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-3 flex items-center gap-2">
                                     <Activity size={10} /> Historical Trend
                                 </h4>
-                                <div className="h-32 w-full -ml-4">
-                                    <ResponsiveContainer width="100%" height="100%" minHeight={80}>
-                                        <LineChart data={Array.isArray(history) ? history : []}>
-                                            <XAxis dataKey="year" stroke="#475569" fontSize={8} tickLine={false} axisLine={false} />
-                                            <Tooltip
-                                                contentStyle={{ backgroundColor: '#020617', border: '1px solid #1e293b', borderRadius: '4px', fontSize: '10px' }}
-                                                itemStyle={{ color: '#34d399' }}
-                                            />
-                                            <Line
-                                                type="monotone"
-                                                dataKey={currentMetric}
-                                                stroke="#34d399"
-                                                strokeWidth={2}
-                                                dot={false}
-                                                activeDot={{ r: 4, fill: '#fff' }}
-                                            />
-                                        </LineChart>
-                                    </ResponsiveContainer>
+                                <div className="h-40 w-full -ml-4">
+                                    <ReactECharts
+                                        option={{
+                                            grid: { top: 10, right: 15, bottom: 20, left: 40 },
+                                            tooltip: {
+                                                trigger: 'axis',
+                                                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                                borderColor: '#e2e8f0',
+                                                textStyle: { color: '#0f172a', fontSize: 10 },
+                                                padding: [8, 12],
+                                                axisPointer: { type: 'line', lineStyle: { color: '#cbd5e1', type: 'dashed' } }
+                                            },
+                                            xAxis: {
+                                                type: 'category',
+                                                data: Array.isArray(history) ? history.map(d => d.year) : [],
+                                                axisLabel: { color: '#64748b', fontSize: 9 },
+                                                axisLine: { show: false },
+                                                axisTick: { show: false }
+                                            },
+                                            yAxis: {
+                                                type: 'value',
+                                                axisLabel: { color: '#64748b', fontSize: 9, formatter: (val: number) => val >= 1000 ? `${(val / 1000).toFixed(1)}k` : val },
+                                                splitLine: { show: false },
+                                                axisLine: { show: false }
+                                            },
+                                            series: [{
+                                                data: Array.isArray(history) ? history.map(d => d[currentMetric]) : [],
+                                                type: 'line',
+                                                smooth: true,
+                                                symbol: 'none',
+                                                itemStyle: { color: '#10b981' },
+                                                lineStyle: { width: 2 }
+                                            }]
+                                        }}
+                                        style={{ height: '100%', width: '100%' }}
+                                    />
                                 </div>
                             </div>
 
