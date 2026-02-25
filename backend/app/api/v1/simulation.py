@@ -8,6 +8,7 @@ import asyncpg
 
 from app.api.deps import get_db
 from app.analytics.advanced import get_advanced_analyzer, SimulationResult
+from app.ml.prediction_engine import PredictionEngine
 
 router = APIRouter()
 
@@ -149,7 +150,7 @@ async def get_simulation(
 # V2 — Multi-Factor Prediction Endpoint
 # ──────────────────────────────────────────────────────────────────────────────
 
-from app.ml.prediction_engine import PredictionEngine
+
 
 @router.get("/v2")
 async def get_prediction_v2(

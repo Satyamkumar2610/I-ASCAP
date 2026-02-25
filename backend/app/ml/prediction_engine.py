@@ -9,8 +9,8 @@ Provides a robust, explainable prediction model that combines:
 Uses Ridge-style regularized regression via numpy (no sklearn dependency).
 """
 
-from dataclasses import dataclass, asdict, field
-from typing import List, Dict, Any, Optional, Tuple
+from dataclasses import dataclass, asdict
+from typing import List, Dict, Any, Optional
 import math
 import logging
 import numpy as np
@@ -223,8 +223,8 @@ class PredictionEngine:
         # Ridge regression: β = (X'X + αI)^(-1) X'y
         XtX = X_z.T @ X_z
         Xty = X_z.T @ y_centered
-        I = np.eye(p)
-        beta_z = np.linalg.solve(XtX + self.RIDGE_ALPHA * I, Xty)
+        identity = np.eye(p)
+        beta_z = np.linalg.solve(XtX + self.RIDGE_ALPHA * identity, Xty)
 
         # Convert standardized coefficients back to original scale
         beta_raw = beta_z / X_std
