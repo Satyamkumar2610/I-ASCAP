@@ -105,6 +105,17 @@ export default function LineagePage() {
                 <p className="text-slate-400 text-sm">Explore administrative boundary changes and data provenance (1951–2024)</p>
             </div>
 
+            {/* Context Banner */}
+            <div className="mb-8 bg-purple-900/20 border border-purple-500/30 rounded-xl p-5 backdrop-blur-sm">
+                <h3 className="text-purple-300 font-bold mb-2 flex items-center gap-2">
+                    <GitBranch size={16} />
+                    The District Continuity Problem
+                </h3>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                    India's administrative map has been continuously redrawn since Independence. Based on an extensive historical audit of gazette notifications and census records, over <strong>565 district split events</strong> have occurred across the country, with 64% concentrated after 1991. When datasets don't account for these evolving boundaries, apparent changes in agricultural yield often just reflect statistical artifacts of spatial reconfiguration rather than genuine agronomic shifts. Here, you can trace the exact lineage of these boundary changes.
+                </p>
+            </div>
+
             {/* State Selector */}
             <div className="mb-6">
                 <select

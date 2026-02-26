@@ -67,12 +67,15 @@ export default function ReportsPage() {
 
     return (
         <main className="page-container">
-            <div className="mb-8">
+            <div className="mb-6">
                 <div className="flex items-center gap-3 mb-1">
                     <FileText className="text-indigo-600" size={24} />
                     <h1 className="text-2xl font-bold text-slate-900">Report Builder</h1>
                 </div>
-                <p className="text-slate-400 text-sm">Generate and download analytical reports</p>
+                <p className="text-slate-500 text-sm mb-3">Generate and download analytical reports</p>
+                <div className="bg-indigo-50 border border-indigo-100 rounded-lg p-3 text-xs text-indigo-800 font-medium">
+                    <strong>Note on Data Continuity:</strong> These reports automatically adjust for historical district boundary changes. By accounting for the 565+ split events since 1951, the metrics presented here reflect genuine agronomic performance rather than statistical artifacts caused by administrative restructuring.
+                </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

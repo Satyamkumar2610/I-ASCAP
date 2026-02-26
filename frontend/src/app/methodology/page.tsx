@@ -25,6 +25,31 @@ export default function MethodologyPage() {
             </div>
 
             <div className="space-y-8 max-w-4xl">
+                {/* Research Context */}
+                <section className="bg-white border border-slate-200 shadow-sm rounded-xl p-6">
+                    <div className="flex items-center gap-2 mb-4">
+                        <FileText size={16} className="text-indigo-600" />
+                        <h2 className="text-lg font-bold text-slate-900">The District Continuity Problem</h2>
+                    </div>
+                    <div className="space-y-4 text-sm text-slate-600 font-medium leading-relaxed">
+                        <p>
+                            Since Independence, India's administrative map has been continuously redrawn. From just over 300 districts in 1951, the count reached over 780 by 2024. This growth was driven by political reorganization, security imperatives, demographic pressure, and decentralization objectives.
+                        </p>
+                        <p>
+                            However, this administrative flexibility comes at a direct cost to data continuity. Documented across seven decades, over <strong>565 district split events</strong> occurred—with 64% concentrated after 1991. When districts continuously reorganize without any mechanism for preserving data continuity, longitudinal analysis becomes structurally flawed.
+                        </p>
+                        <div className="bg-indigo-50 border border-indigo-100 rounded-lg p-4 my-2">
+                            <h4 className="font-bold text-indigo-900 mb-1">Impact on Agricultural Data</h4>
+                            <p className="text-indigo-800 text-xs">
+                                Agriculture is arguably the most exposed sector. Agricultural statistics—such as yield, cropped area, and production—are highly dependent on fine-grained spatial data. When a district splits without historical data reconciliation, it creates artificial breaks in time series. Apparent changes in productivity or cropping patterns may simply reflect administrative restructuring rather than genuine agronomic shifts.
+                            </p>
+                        </div>
+                        <p>
+                            <strong>I-ASCAP addresses this structural gap.</strong> By integrating district lineage tracking directly into its analytical pipelines, the platform accounts for historical boundary changes. This ensures that when you evaluate a district's multi-decade agricultural resilience or yield trends, you are analyzing actual agronomic performance—not statistical artifacts created by administrative fragmentation.
+                        </p>
+                    </div>
+                </section>
+
                 {/* Data Sources */}
                 <section className="bg-white border border-slate-200 shadow-sm rounded-xl p-6">
                     <div className="flex items-center gap-2 mb-4">
