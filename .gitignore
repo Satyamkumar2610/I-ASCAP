@@ -10,12 +10,9 @@ __pycache__/
 
 # Data & Output
 output/
-# Keep data/raw and data/processed but ignore contents if large, for now we keep them tracked unless specified otherwise.
-# If data is large:
-# data/raw/*
-# !data/raw/.gitkeep
-# data/processed/*
-# !data/processed/.gitkeep
+data/raw/
+data/quarantine/
+data/maps-master/
 
 # OS
 .DS_Store
@@ -30,16 +27,24 @@ frontend/.next/
 # Temp
 ~$*
 
-# Private Docs
+# Logs & Debug artifacts
+*.log
+response.json
+summary.json
+
+# Legacy code
+legacy/
+app/
+lib/
+
+# Private / orphan docs
 README_DATABASE.md
 INTERVIEW_GUIDE.md
 
-# Raw ingestion data (too large for git)
-data/raw/
-data/quarantine/
-
-# Legacy Code
-legacy/
-
 # District Splits Data (Excel)
 data/District Splits*
+
+# Research artifacts (keep in Git history only)
+paper/
+results/
+figures/
