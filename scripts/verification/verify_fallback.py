@@ -1,11 +1,11 @@
 import requests
 import json
+import os
 
 def verify():
     print("Fetching Metrics for Rice 2001...")
-    # URL for local backend (assuming port 8000 based on uvicorn command)
-    # The uvicorn command was run in 'backend' dir, likely on 8000.
-    url = "http://localhost:8000/api/v1/metrics?year=2001&crop=rice&metric=yield"
+    base_url = os.getenv("API_BASE_URL", "http://localhost:8000")
+    url = f"{base_url}/api/v1/metrics?year=2001&crop=rice&metric=yield"
     
     try:
         response = requests.get(url)

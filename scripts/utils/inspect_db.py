@@ -8,8 +8,9 @@ load_dotenv(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../backe
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
-     print("DATABASE_URL not found, using default locally")
-     DATABASE_URL = "postgresql://user:password@localhost/dbname"
+     print("ERROR: DATABASE_URL not set. Set it in backend/.env or as an environment variable.")
+     print("Example: export DATABASE_URL='postgresql://user:password@host:5432/i_ascap'")
+     exit(1)
 
 async def inspect_db():
     conn = await asyncpg.connect(DATABASE_URL)

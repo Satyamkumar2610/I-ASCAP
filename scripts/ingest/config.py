@@ -141,10 +141,9 @@ class IngestionConfig:
 
 
 # Database
-DATABASE_URL = os.environ.get(
-    "DATABASE_URL",
-    "postgresql://user:password@localhost:5432/i_ascap"
-)
+DATABASE_URL = os.environ.get("DATABASE_URL")
+if not DATABASE_URL:
+    raise EnvironmentError("DATABASE_URL is not set. Set it in your environment or backend/.env.")
 
 # Logging
 import logging

@@ -21,9 +21,10 @@ else:
     logger.warning("No backend/.env file found.")
 
 # Config
-DB_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/i_ascap")
-if not os.getenv("DATABASE_URL"):
-    logger.warning("DATABASE_URL not set, using default local URL.")
+DB_URL = os.getenv("DATABASE_URL")
+if not DB_URL:
+    logger.error("DATABASE_URL not set. Set it in backend/.env or as an environment variable.")
+    raise EnvironmentError("DATABASE_URL is required. Example: postgresql://user:pass@host:5432/i_ascap")
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ICRISAT_PATH = os.path.join(BASE_DIR, 'data', 'raw', 'ICRISAT_correct.csv')
 

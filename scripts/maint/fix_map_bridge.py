@@ -1,7 +1,7 @@
 import json
 import os
 
-BRIDGE_PATH = "/Users/satyamkumar/Desktop/DistrictEvolution/frontend/src/data/map_bridge.json"
+BRIDGE_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'frontend', 'src', 'data', 'map_bridge.json')
 
 # Same mapping as DB fix
 UPDATES = {

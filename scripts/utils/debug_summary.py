@@ -1,8 +1,9 @@
 import urllib.request
 import json
+import os
 import sys
 
-url = "http://localhost:8000/api/v1/analysis/split-impact/summary"
+url = os.getenv("API_BASE_URL", "http://localhost:8000") + "/api/v1/analysis/split-impact/summary"
 
 try:
     # Create request with headers to mimic browser/frontend if needed, 

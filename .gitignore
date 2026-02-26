@@ -40,6 +40,8 @@ lib/
 # Private / orphan docs
 README_DATABASE.md
 INTERVIEW_GUIDE.md
+PROJECT_EVALUATION_AND_ROADMAP.md
+install_deps.sh
 
 # District Splits Data (Excel)
 data/District Splits*

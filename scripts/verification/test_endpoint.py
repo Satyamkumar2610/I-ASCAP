@@ -1,8 +1,9 @@
 
 import requests
 import time
+import os
 
-URL = "http://localhost:8000/api/v1/analysis/efficiency"
+URL = os.getenv("API_BASE_URL", "http://localhost:8000") + "/api/v1/analysis/efficiency"
 params = {
     "cdk": "UP_agra_1981",
     "crop": "wheat",
