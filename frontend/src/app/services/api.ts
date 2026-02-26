@@ -186,6 +186,9 @@ export const api = {
     getSplitEvents: (state: string) =>
         fetcher<SplitDistrict[]>(`analysis/split-impact/districts?state=${encodeURIComponent(state)}`),
 
+    getUnmappedSplits: () =>
+        fetcher<{ district: string; state: string; year: number; role: string }[]>('lineage/unmapped'),
+
     getAnalysis: (params: Record<string, string | number>) => {
         const searchParams = new URLSearchParams();
         Object.entries(params).forEach(([key, value]) => {

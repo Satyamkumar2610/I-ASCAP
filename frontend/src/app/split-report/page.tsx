@@ -56,6 +56,12 @@ export default function SplitReportPage() {
     const { data: summaryData } = useQuery({ queryKey: ['stateSummary'], queryFn: api.getSummary, staleTime: 3600000 });
     const states = summaryData?.states || [];
 
+    const { data: unmappedSplits, isLoading: loadingUnmapped } = useQuery({
+        queryKey: ['unmappedSplits'],
+        queryFn: api.getUnmappedSplits,
+        staleTime: 3600000,
+    });
+
     const { data: splitEvents, isLoading: loadingEvents } = useQuery({
         queryKey: ['splitEvents', selectedState],
         queryFn: () => api.getSplitEvents(selectedState),
@@ -694,6 +700,51 @@ export default function SplitReportPage() {
                                     )}
                                 </div>
                             )}
+                        </div>
+                    </div>
+                )}
+
+                {/* ══════════════════ UNMAPPED DISTRICTS WARNING ══════════════════ */}
+                {!loadingUnmapped && unmappedSplits && unmappedSplits.length > 0 && (
+                    <div className="mt-12 bg-white border border-rose-200 rounded-xl shadow-sm overflow-hidden mb-8">
+                        <div className="bg-rose-50 px-5 py-4 border-b border-rose-100 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <AlertCircle className="text-rose-600" size={20} />
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-900">Data Integrity Warning: Unmapped Historical Districts</h3>
+                                    <p className="text-xs text-slate-600 mt-0.5">
+                                        The following {unmappedSplits.length} district lineages could not be mapped to modern LGD codes due to missing spelling aliases or colonial name changes.
+                                        Splits originating from or resulting in these districts will have no metrics.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="p-0 overflow-x-auto max-h-[400px]">
+                            <table className="text-xs w-full text-left border-collapse">
+                                <thead className="bg-slate-50 sticky top-0 border-b border-slate-200 shadow-sm z-10">
+                                    <tr>
+                                        <th className="px-4 py-3 font-semibold text-slate-600">State</th>
+                                        <th className="px-4 py-3 font-semibold text-slate-600">Historical District Name</th>
+                                        <th className="px-4 py-3 font-semibold text-slate-600 w-24">Split Year</th>
+                                        <th className="px-4 py-3 font-semibold text-slate-600 w-24">Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100">
+                                    {unmappedSplits.map((item, idx) => (
+                                        <tr key={idx} className="hover:bg-slate-50 transition">
+                                            <td className="px-4 py-2.5 text-slate-700">{item.state}</td>
+                                            <td className="px-4 py-2.5 font-medium text-slate-900">{item.district}</td>
+                                            <td className="px-4 py-2.5 text-slate-500 font-mono">{item.year}</td>
+                                            <td className="px-4 py-2.5">
+                                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${item.role === 'Parent' ? 'bg-indigo-50 text-indigo-700 border border-indigo-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                                    }`}>
+                                                    {item.role}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 )}

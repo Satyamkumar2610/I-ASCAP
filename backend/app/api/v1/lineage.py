@@ -158,3 +158,53 @@ async def get_state_coverage(
         "districts": len(coverage),
         "coverage": [dict(c) for c in coverage]
     }
+
+@router.get("/unmapped")
+async def get_unmapped_splits(
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """
+    Get all districts involved in splits that cannot be mapped to an LGD code.
+    """
+    from app.core.name_matching import resolve_district_name, STATE_ALIASES, TELANGANA_DISTRICTS
+    
+    districts = await db.fetch("SELECT lgd_code, district_name, state_name FROM districts")
+    lgd_lookup = {}
+    for r in districts:
+        key = (r['district_name'].strip().lower(), r['state_name'].strip().lower())
+        lgd_lookup[key] = r['lgd_code']
+        
+    def resolve_lgd(district_name, state_name):
+        dn = resolve_district_name(district_name)
+        sn = state_name.lower().strip()
+        if (dn, sn) in lgd_lookup: return lgd_lookup[(dn, sn)]
+        
+        for alias_key, alias_states in STATE_ALIASES.items():
+            if alias_key in sn:
+                for alt_state in alias_states:
+                    if (dn, alt_state.lower()) in lgd_lookup: return lgd_lookup[(dn, alt_state.lower())]
+                    
+        if dn in TELANGANA_DISTRICTS and "andhra" in sn:
+             if (dn, "telangana") in lgd_lookup: return lgd_lookup[(dn, "telangana")]
+             
+        return None
+
+    splits = await db.fetch("SELECT parent_district, child_district, split_year, state_name FROM district_splits")
+    
+    unmapped = set()
+    
+    for row in splits:
+        p_lgd = resolve_lgd(row['parent_district'], row['state_name'])
+        if not p_lgd:
+            unmapped.add((row['parent_district'], row['state_name'], row['split_year'], 'Parent'))
+            
+        c_lgd = resolve_lgd(row['child_district'], row['state_name'])
+        if not c_lgd:
+            unmapped.add((row['child_district'], row['state_name'], row['split_year'], 'Child'))
+            
+    sorted_unmapped = sorted(list(unmapped), key=lambda x: (x[1], x[0], x[2]))
+    
+    return [
+        {"district": u[0], "state": u[1], "year": u[2], "role": u[3]}
+        for u in sorted_unmapped
+    ]
