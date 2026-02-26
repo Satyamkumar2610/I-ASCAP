@@ -33,9 +33,9 @@ response.json
 summary.json
 
 # Legacy code
-legacy/
-app/
-lib/
+/legacy/
+/app/
+/lib/
 
 # Private / orphan docs
 README_DATABASE.md
