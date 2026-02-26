@@ -210,11 +210,26 @@ export const api = {
     getDiversification: (cdk: string, year: number) =>
         fetcher<DiversificationData>(`analytics/diversification?cdk=${encodeURIComponent(cdk)}&year=${year}`),
 
+    getCropShift: (cdk: string) =>
+        fetcher<{ cdk: string; timeline: Array<{ year: number; total_area: number; shannon_index: number; simpson_index: number; dominant_crop: string; dominant_share: number; crop_mix: Record<string, number> }> }>(`analytics/crop-shift?cdk=${cdk}`),
+
+    getWaterStress: (state: string, year: number) =>
+        fetcher<{ state: string; year: number; districts: Array<{ district_name: string; cdk: string; total_area: number; water_intensive_area: number; water_intensive_share: number; annual_rainfall: number; mismatch_score: number; category: string; crop_breakdown: Record<string, number> }> }>(`climate/water-stress?state=${encodeURIComponent(state)}&year=${year}`),
+
+    getSpatialContagion: (cdk: string, crop: string, startYear: number, endYear: number) =>
+        fetcher<{ target: { cdk: string; name: string; cagr: number }; regional_avg_cagr: number; spillover_category: string; period: string; crop: string; neighbors: Array<{ cdk: string; name: string; state: string; cagr: number }> }>(`spatial/contagion?cdk=${cdk}&crop=${crop}&start_year=${startYear}&end_year=${endYear}`),
+
+    getYieldGap: (state: string, crop: string, startYear: number, endYear: number) =>
+        fetcher<{ state: string; crop: string; period: string; convergence_timeline: Array<{ year: number; frontier_yield: number; state_avg_yield: number; avg_gap: number }>; district_rankings: Array<{ cdk: string; district_name: string; avg_gap: number; latest_gap: number; avg_yield: number; gap_trend: number; status: string; rank: number }> }>(`analytics/yield-gap?state=${encodeURIComponent(state)}&crop=${crop}&start_year=${startYear}&end_year=${endYear}`),
+
     getYieldTrend: (cdk: string, crop: string) =>
         fetcher<YieldTrendData>(`analytics/yield-trend?cdk=${cdk}&crop=${crop}`),
 
     getSplitImpact: (parentCdk: string, childCdks: string[], splitYear: number, crop: string) =>
         fetcher<SplitImpactData>(`analytics/split-impact?parent_cdk=${parentCdk}&child_cdks=${childCdks.join(',')}&split_year=${splitYear}&crop=${crop}`),
+
+    getSplitSpecialization: (parentCdk: string, childCdks: string[], splitYear: number) =>
+        fetcher<{ split_year: number; crops: string[]; parent: { name: string; cdk: string; pre_mix: Record<string, number> }; children: Record<string, { cdk: string; mix: Record<string, number> }>; divergence_scores: Record<string, number> }>(`analytics/split-specialization?parent_cdk=${parentCdk}&child_cdks=${childCdks.join(',')}&split_year=${splitYear}`),
 
     getCropCorrelations: (state: string, year: number, crops?: string[]) =>
         fetcher<CorrelationData>(`analytics/crop-correlations?state=${encodeURIComponent(state)}&year=${year}${crops ? `&crops=${crops.join(',')}` : ''}`),

@@ -166,3 +166,91 @@ async def get_state_rainfall_stats(
 async def get_rainfall_count(db: asyncpg.Connection) -> int:
     """Get total number of rainfall records in database."""
     return await db.fetchval("SELECT COUNT(*) FROM rainfall_normals")
+
+
+async def get_water_stress_index(
+    db: asyncpg.Connection,
+    state: str,
+    year: int
+) -> List[Dict[str, Any]]:
+    """
+    Compute a Water Stress / Mismatch Index for districts in a state.
+    Matches the area of water-intensive crops (Rice, Sugarcane, Cotton)
+    against the district's annual historical rainfall.
+    """
+    # 1. Get area for water intensive crops vs total area
+    query = """
+        SELECT 
+            d.district_name,
+            d.lgd_code,
+            SUM(CASE WHEN m.variable_name LIKE 'rice_area%' AND m.variable_name NOT LIKE '%_kharif%' AND m.variable_name NOT LIKE '%_rabi%' THEN m.value ELSE 0 END) as rice_area,
+            SUM(CASE WHEN m.variable_name LIKE 'sugarcane_area%' AND m.variable_name NOT LIKE '%_kharif%' AND m.variable_name NOT LIKE '%_rabi%' THEN m.value ELSE 0 END) as sugarcane_area,
+            SUM(CASE WHEN m.variable_name LIKE 'cotton_area%' AND m.variable_name NOT LIKE '%_kharif%' AND m.variable_name NOT LIKE '%_rabi%' THEN m.value ELSE 0 END) as cotton_area,
+            SUM(CASE WHEN m.variable_name LIKE '%_area%' AND m.variable_name NOT LIKE '%_kharif%' AND m.variable_name NOT LIKE '%_rabi%' THEN m.value ELSE 0 END) as total_area
+        FROM districts d
+        JOIN agri_metrics m ON d.lgd_code = m.district_lgd
+        WHERE d.state_name = $1 AND m.year = $2
+        GROUP BY d.district_name, d.lgd_code
+    """
+    rows = await db.fetch(query, state, year)
+    
+    results = []
+    for row in rows:
+        district_name = row["district_name"]
+        total_area = float(row["total_area"] or 0)
+        
+        if total_area == 0:
+            continue
+            
+        rice_area = float(row["rice_area"] or 0)
+        sugarcane_area = float(row["sugarcane_area"] or 0)
+        cotton_area = float(row["cotton_area"] or 0)
+        
+        water_intensive_area = rice_area + sugarcane_area + cotton_area
+        water_intensive_share = water_intensive_area / total_area
+        
+        if water_intensive_area == 0:
+            continue
+            
+        # 2. Get rainfall data
+        rainfall = await get_rainfall_by_district(db, state, district_name)
+        if not rainfall:
+            continue
+            
+        annual_rain = rainfall.annual
+        
+        # 3. Compute Mismatch Score (0-100)
+        # High share (>50%) + Low Rain (< 1000mm) = High Stress
+        normalized_share = min(1.0, water_intensive_share / 0.5) # Maxes at 50% share
+        normalized_deficit = max(0.0, 1.0 - (annual_rain / 1500)) # Deficit factor (1 at 0mm, 0 at >=1500mm)
+        
+        mismatch_score = round(normalized_share * normalized_deficit * 100, 1)
+        
+        if mismatch_score > 60:
+            category = "Critical"
+        elif mismatch_score > 40:
+            category = "High"
+        elif mismatch_score > 20:
+            category = "Moderate"
+        else:
+            category = "Low"
+            
+        results.append({
+            "district_name": district_name,
+            "cdk": str(row["lgd_code"]),
+            "total_area": round(total_area, 2),
+            "water_intensive_area": round(water_intensive_area, 2),
+            "water_intensive_share": round(water_intensive_share * 100, 1),
+            "annual_rainfall": round(annual_rain, 1),
+            "mismatch_score": mismatch_score,
+            "category": category,
+            "crop_breakdown": {
+                "rice": round(rice_area, 2),
+                "sugarcane": round(sugarcane_area, 2),
+                "cotton": round(cotton_area, 2)
+            }
+        })
+        
+    # Sort by mismatch score descending
+    results.sort(key=lambda x: x["mismatch_score"], reverse=True)
+    return results

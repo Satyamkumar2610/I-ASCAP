@@ -6,7 +6,7 @@ import { api } from '../services/api';
 import {
     GitBranch, Download, FileText, TrendingUp, TrendingDown,
     Minus, ChevronDown, ChevronUp, AlertCircle, ArrowRight,
-    Activity, Target, Layers
+    Activity, Target, Layers, PieChart
 } from 'lucide-react';
 import ReactECharts from 'echarts-for-react';
 
@@ -50,7 +50,7 @@ export default function SplitReportPage() {
     const [crop, setCrop] = useState('wheat');
     const [metric, setMetric] = useState('yield');
     const [generated, setGenerated] = useState(false);
-    const [expandedSections, setExpandedSections] = useState({ pre: true, post: true, impact: true });
+    const [expandedSections, setExpandedSections] = useState({ pre: true, post: true, impact: true, spec: true });
 
     // Queries
     const { data: summaryData } = useQuery({ queryKey: ['stateSummary'], queryFn: api.getSummary, staleTime: 3600000 });
@@ -88,7 +88,6 @@ export default function SplitReportPage() {
     });
 
     // Quick split-impact for summary stats
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: impactData } = useQuery<any>({
         queryKey: ['split-impact-quick', selectedEvent?.parent_cdk, selectedEvent?.children_cdks, selectedEvent?.split_year, crop],
         queryFn: () => api.getSplitImpact(
@@ -96,6 +95,16 @@ export default function SplitReportPage() {
             selectedEvent.children_cdks.filter(Boolean),
             selectedEvent.split_year,
             crop,
+        ),
+        enabled: !!selectedEvent && generated && !!selectedEvent.parent_cdk,
+    });
+
+    const { data: specData } = useQuery({
+        queryKey: ['split-spec', selectedEvent?.parent_cdk, selectedEvent?.children_cdks, selectedEvent?.split_year],
+        queryFn: () => api.getSplitSpecialization(
+            selectedEvent.parent_cdk,
+            selectedEvent.children_cdks.filter(Boolean),
+            selectedEvent.split_year
         ),
         enabled: !!selectedEvent && generated && !!selectedEvent.parent_cdk,
     });
@@ -154,6 +163,56 @@ export default function SplitReportPage() {
             } : {}),
         };
     }, [analysis, selectedEvent]);
+
+    const radarOption = useMemo(() => {
+        if (!specData) return null;
+
+        const indicator = specData.crops.map((c: string) => ({ name: c.charAt(0).toUpperCase() + c.slice(1).replace('_', ' '), max: 100 }));
+
+        const seriesData = [
+            {
+                value: specData.crops.map((c: string) => specData.parent.pre_mix[c]),
+                name: `${specData.parent.name} (Pre-Split)`,
+                itemStyle: { color: '#6366f1' },
+                lineStyle: { type: 'dashed' },
+                areaStyle: { opacity: 0.1 }
+            }
+        ];
+
+        const colors = ['#10b981', '#f59e0b', '#ec4899', '#06b6d4'];
+        let idx = 0;
+        for (const [childName, childData] of Object.entries(specData.children)) {
+            const cData = childData as { mix: Record<string, number> };
+            seriesData.push({
+                value: specData.crops.map((c: string) => cData.mix[c]),
+                name: `${childName} (Post-Split)`,
+                itemStyle: { color: colors[idx % colors.length] },
+                lineStyle: { type: 'solid' },
+                areaStyle: { opacity: 0.2 }
+            });
+            idx++;
+        }
+
+        return {
+            tooltip: { trigger: 'item' },
+            legend: { bottom: 0, textStyle: { fontSize: 11, color: '#64748b' } },
+            radar: {
+                indicator,
+                shape: 'circle',
+                splitNumber: 5,
+                axisName: { color: '#475569', fontSize: 10, fontWeight: 'bold' },
+                splitLine: { lineStyle: { color: ['#e2e8f0'].reverse() } },
+                splitArea: { show: false },
+                axisLine: { lineStyle: { color: '#e2e8f0' } }
+            },
+            series: [{
+                name: 'Crop Mix',
+                type: 'radar',
+                data: seriesData,
+                symbolSize: 4
+            }]
+        };
+    }, [specData]);
 
     // Export handlers
     const handleExportJSON = () => {
@@ -701,6 +760,61 @@ export default function SplitReportPage() {
                                 </div>
                             )}
                         </div>
+                    </div>
+                )}
+
+                {/* ─── SECTION 4: ECONOMIC SPECIALIZATION ─── */}
+                {generated && specData && (
+                    <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden mt-6 animate-in">
+                        <button
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            onClick={() => toggleSection('spec' as any)}
+                            className="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-lg bg-fuchsia-100 flex items-center justify-center">
+                                    <PieChart size={16} className="text-fuchsia-600" />
+                                </div>
+                                <div className="text-left">
+                                    <h3 className="text-sm font-bold text-slate-900">Section 4: Economic Specialization</h3>
+                                    <p className="text-xs text-slate-500">Multi-crop matrix divergence (Parent vs Children)</p>
+                                </div>
+                            </div>
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                            {(expandedSections as any).spec ? <ChevronUp size={16} className="text-slate-400" /> : <ChevronDown size={16} className="text-slate-400" />}
+                        </button>
+
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                        {(expandedSections as any).spec && (
+                            <div className="px-5 pb-5 border-t border-slate-100 pt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">Crop Mix Radar Comparison</h4>
+                                    <div className="h-[350px] w-full">
+                                        <ReactECharts option={radarOption!} style={{ height: '100%', width: '100%' }} />
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col justify-center">
+                                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                                        <h4 className="text-sm font-bold text-slate-900 mb-4">Divergence Scores</h4>
+                                        <p className="text-xs text-slate-500 mb-4">
+                                            Measures how far the child's post-split crop portfolio drifted from the parent's pre-split portfolio. Higher Euclidean distance implies stronger agricultural specialization.
+                                        </p>
+                                        <div className="space-y-3">
+                                            {Object.entries(specData.divergence_scores).map(([childName, score]) => (
+                                                <div key={childName} className="flex items-center justify-between p-3 bg-white border border-slate-200 rounded-lg">
+                                                    <span className="font-semibold text-slate-800 text-sm">{childName}</span>
+                                                    <div className="text-right">
+                                                        <span className="font-mono font-bold text-fuchsia-700 text-lg">{score as React.ReactNode}</span>
+                                                        <span className="text-[10px] text-slate-400 ml-1">pts</span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
 

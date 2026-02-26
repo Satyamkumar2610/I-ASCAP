@@ -114,6 +114,86 @@ class AdvancedAnalyticsService:
             breakdown=breakdown
         )
     
+    @cached(ttl=CacheTTL.ANALYSIS, prefix="crop_shift")
+    async def get_crop_shift(
+        self,
+        cdk: str,
+    ) -> List[Dict[str, Any]]:
+        """
+        Calculates the shifting mix of crops over a district's entire history.
+        Groups minor crops into an 'Other' category and computes diversity indices per year.
+        """
+        # Fetch all area metrics across all years
+        rows = await self.db.fetch("""
+            SELECT 
+                year,
+                SPLIT_PART(variable_name, '_', 1) as crop,
+                value as area
+            FROM agri_metrics
+            WHERE district_lgd::text = $1 
+              AND variable_name LIKE '%_area%'
+              AND variable_name NOT LIKE '%_kharif%'
+              AND variable_name NOT LIKE '%_rabi%'
+              AND value > 0
+            ORDER BY year, value DESC
+        """, cdk)
+        
+        if not rows:
+            return []
+            
+        # Group by year
+        yearly_data = {}
+        for r in rows:
+            yr = r['year']
+            crp = r['crop']
+            area = r['area']
+            
+            if yr not in yearly_data:
+                yearly_data[yr] = {}
+                
+            yearly_data[yr][crp] = yearly_data[yr].get(crp, 0) + area
+            
+        results = []
+        for yr, crops in sorted(yearly_data.items()):
+            total_area = sum(crops.values())
+            if total_area == 0:
+                continue
+                
+            # Filter to top 5 crops, everything else goes to 'Other'
+            sorted_crops = sorted(crops.items(), key=lambda x: x[1], reverse=True)
+            top_crops = sorted_crops[:5]
+            other_area = sum(area for crp, area in sorted_crops[5:])
+            
+            # Compute Shannon Diversity Index (H = -sum(p * ln(p)))
+            shannon_index = 0
+            shares = {}
+            for crp, area in top_crops:
+                share = area / total_area
+                shares[crp] = round(share, 4)
+                if share > 0:
+                    shannon_index -= share * math.log(share)
+                    
+            if other_area > 0:
+                other_share = other_area / total_area
+                shares['other'] = round(other_share, 4)
+                if other_share > 0:
+                    shannon_index -= other_share * math.log(other_share)
+            
+            hhi = sum(s ** 2 for s in shares.values())
+            simpson = 1 - hhi
+            
+            results.append({
+                "year": yr,
+                "total_area": round(total_area, 2),
+                "shannon_index": round(shannon_index, 4),
+                "simpson_index": round(simpson, 4),
+                "dominant_crop": top_crops[0][0] if top_crops else "none",
+                "dominant_share": round(shares.get(top_crops[0][0], 0) * 100, 1) if top_crops else 0,
+                "crop_mix": shares
+            })
+            
+        return results
+    
     # ============================================================
     # YIELD TREND ANALYSIS
     # ============================================================
@@ -680,3 +760,235 @@ class AdvancedAnalyticsService:
             r["rank"] = i
             
         return results
+
+    # ============================================================
+    # YIELD GAP ANALYSIS
+    # ============================================================
+    
+    @cached(ttl=CacheTTL.ANALYSIS, prefix="yield_gap")
+    async def get_yield_gap(
+        self,
+        state: str,
+        crop: str,
+        start_year: int = 2000,
+        end_year: int = 2020
+    ) -> Dict[str, Any]:
+        """
+        Quantifies the yield gap for each district against the state's 90th percentile "frontier".
+        Tracks convergence or divergence over the time period.
+        """
+        rows = await self.db.fetch("""
+             SELECT 
+                d.district_name,
+                m.district_lgd::text as cdk,
+                m.year,
+                m.value
+            FROM agri_metrics m
+            JOIN districts d ON m.district_lgd = d.lgd_code
+            WHERE d.state_name = $1
+              AND m.variable_name = $2
+              AND m.value > 0
+              AND m.year BETWEEN $3 AND $4
+            ORDER BY m.year, m.value DESC
+        """, state, f"{crop}_yield", start_year, end_year)
+        
+        if not rows:
+            return {"error": "No data found for the given parameters"}
+            
+        # Group by year to compute frontiers
+        yearly_data = {}
+        for r in rows:
+            yr = r['year']
+            if yr not in yearly_data:
+                yearly_data[yr] = []
+            yearly_data[yr].append((r['cdk'], r['district_name'], r['value']))
+            
+        # Compute frontier (90th percentile) and average yield gap for each year to plot convergence
+        convergence_timeline = []
+        district_gaps = {}  # Store lifetime gaps for ranking
+        
+        for yr, dist_vals in sorted(yearly_data.items()):
+            yields = sorted([v[2] for v in dist_vals])
+            if not yields:
+                continue
+            
+            # 90th percentile index
+            idx_90 = int(0.9 * len(yields))
+            if idx_90 >= len(yields):
+                idx_90 = len(yields) - 1
+                
+            frontier_yield = yields[idx_90]
+            
+            total_gap = 0
+            for cdk, name, yld in dist_vals:
+                gap = max(0, frontier_yield - yld)
+                total_gap += gap
+                
+                if cdk not in district_gaps:
+                    district_gaps[cdk] = {"name": name, "gaps": [], "yields": []}
+                district_gaps[cdk]["gaps"].append(gap)
+                district_gaps[cdk]["yields"].append(yld)
+                
+            avg_state_gap = total_gap / len(dist_vals)
+            
+            convergence_timeline.append({
+                "year": yr,
+                "frontier_yield": round(frontier_yield, 2),
+                "state_avg_yield": round(sum(yields) / len(yields), 2),
+                "avg_gap": round(avg_state_gap, 2)
+            })
+            
+        # Aggregate district data
+        rankings = []
+        for cdk, data in district_gaps.items():
+            gaps = data["gaps"]
+            yields = data["yields"]
+            if not gaps:
+                continue
+            avg_gap = sum(gaps) / len(gaps)
+            avg_yld = sum(yields) / len(yields)
+            
+            # Latest gap to show current status
+            latest_gap = gaps[-1]
+            
+            # Convergence rate (negative means gap is closing -> good)
+            n_years = len(gaps)
+            gap_trend = 0
+            if n_years > 5:
+                # Simple linear trend over the gaps
+                x = list(range(n_years))
+                y = gaps
+                sum_x = sum(x)
+                sum_y = sum(y)
+                sum_xy = sum(x_i * y_i for x_i, y_i in zip(x, y))
+                sum_xx = sum(x_i * x_i for x_i in x)
+                denom = n_years * sum_xx - sum_x * sum_x
+                if denom != 0:
+                    gap_trend = (n_years * sum_xy - sum_x * sum_y) / denom
+                    
+            rankings.append({
+                "cdk": cdk,
+                "district_name": data["name"],
+                "avg_gap": round(avg_gap, 2),
+                "latest_gap": round(latest_gap, 2),
+                "avg_yield": round(avg_yld, 2),
+                "gap_trend": round(gap_trend, 2),
+                "status": "Closing" if gap_trend < -1 else "Widening" if gap_trend > 1 else "Stagnant"
+            })
+            
+        # Sort by largest average gap
+        rankings.sort(key=lambda x: x["avg_gap"], reverse=True)
+        
+        # Add rank
+        for i, r in enumerate(rankings, 1):
+            r["rank"] = i
+            
+        return {
+            "state": state,
+            "crop": crop,
+            "period": f"{start_year}-{end_year}",
+            "convergence_timeline": convergence_timeline,
+            "district_rankings": rankings
+        }
+
+    # ============================================================
+    # POST-SPLIT ECONOMIC SPECIALIZATION
+    # ============================================================
+    @cached(ttl=CacheTTL.ANALYSIS, prefix="split_spec")
+    async def get_post_split_specialization(
+        self,
+        parent_cdk: str,
+        child_cdks: List[str],
+        split_year: int
+    ) -> Dict[str, Any]:
+        """
+        Compare the crop mix of the parent (pre-split) vs the child (post-split)
+        to measure economic specialization or divergence.
+        Builds a multi-crop matrix for a radar chart.
+        """
+        # Focus on top ~8 crops to make the radar chart readable
+        target_crops = ['wheat', 'rice', 'cotton', 'sugarcane', 'maize', 'groundnut', 'sorghum', 'pearl_millet']
+        
+        # Pre-split period: average of 3 years before split
+        pre_start = split_year - 4
+        pre_end = split_year - 1
+        
+        # Post-split period: average of 3 years after split (give it a few years to stabilize)
+        post_start = split_year + 3
+        post_end = split_year + 6
+        
+        async def get_crop_mix(cdks: List[str], start_yr: int, end_yr: int) -> Dict[str, float]:
+            if not cdks:
+                return {c: 0.0 for c in target_crops}
+                
+            cdk_ints = []
+            for c in cdks:
+                try: cdk_ints.append(float(c))
+                except: pass
+                
+            if not cdk_ints:
+                return {c: 0.0 for c in target_crops}
+            
+            # Use SIMILAR TO or LIKE to match area metrics
+            case_statements = []
+            for c in target_crops:
+                case_statements.append(f"SUM(CASE WHEN variable_name = '{c}_area' THEN value ELSE 0 END) as {c}")
+                
+            query = f"""
+                SELECT {', '.join(case_statements)},
+                       SUM(CASE WHEN variable_name LIKE '%_area' AND variable_name NOT LIKE '%_kharif%' AND variable_name NOT LIKE '%_rabi%' THEN value ELSE 0 END) as total_area
+                FROM agri_metrics
+                WHERE district_lgd = ANY($1::float[])
+                  AND year BETWEEN $2 AND $3
+            """
+            
+            row = await self.db.fetchrow(query, cdk_ints, start_yr, end_yr)
+            
+            res = {}
+            if row and row['total_area']:
+                total = float(row['total_area'])
+                for c in target_crops:
+                    val = float(row[c] or 0)
+                    # Return share as percentage
+                    res[c] = round((val / total) * 100, 1) if total > 0 else 0.0
+            else:
+                for c in target_crops:
+                    res[c] = 0.0
+            return res
+
+        parent_pre_mix = await get_crop_mix([parent_cdk], pre_start, pre_end)
+        
+        children_post_mix = {}
+        for cdk in child_cdks:
+            if not cdk: continue
+            mix = await get_crop_mix([cdk], post_start, post_end)
+            
+            # Fetch name
+            name_row = await self.db.fetchrow("SELECT district_name FROM districts WHERE lgd_code::text = $1", str(cdk))
+            name = name_row['district_name'] if name_row else str(cdk)
+            children_post_mix[name] = {"cdk": str(cdk), "mix": mix}
+            
+        # Parent Name
+        p_name_row = await self.db.fetchrow("SELECT district_name FROM districts WHERE lgd_code::text = $1", str(parent_cdk))
+        parent_name = p_name_row['district_name'] if p_name_row else str(parent_cdk)
+        
+        # Calculate divergence score (Euclidean distance of crop vectors)
+        import math
+        divergence_scores = {}
+        for c_name, c_data in children_post_mix.items():
+            dist = 0
+            for crop in target_crops:
+                dist += (parent_pre_mix[crop] - c_data["mix"][crop]) ** 2
+            divergence_scores[c_name] = round(math.sqrt(dist), 1)
+
+        return {
+            "split_year": split_year,
+            "crops": target_crops,
+            "parent": {
+                "name": parent_name,
+                "cdk": parent_cdk,
+                "pre_mix": parent_pre_mix
+            },
+            "children": children_post_mix,
+            "divergence_scores": divergence_scores
+        }

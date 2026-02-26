@@ -14,6 +14,7 @@ from app.services.rainfall_service import (
     get_all_rainfall,
     get_state_rainfall_stats,
     get_rainfall_count,
+    get_water_stress_index,
 )
 from app.analytics import get_analyzer
 
@@ -95,6 +96,27 @@ async def get_state_stats(
 ):
     """Get aggregated rainfall statistics for a state."""
     return await get_state_rainfall_stats(db, state)
+
+
+@router.get("/water-stress")
+async def get_water_stress(
+    state: str = Query(..., description="State name", max_length=50),
+    year: int = Query(2020, description="Year to analyze (e.g., 2020)", ge=1950, le=2025),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """
+    Get Water Stress Index (Mismatch Index) mapping water-intensive crops against annual rainfall.
+    """
+    results = await get_water_stress_index(db, state, year)
+    if not results:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail=f"Insufficient data to compute water stress for {state} in {year}")
+        
+    return {
+        "state": state,
+        "year": year,
+        "districts": results
+    }
 
 
 @router.get("/correlation")

@@ -166,7 +166,7 @@ async def get_unmapped_splits(
     """
     Get all districts involved in splits that cannot be mapped to an LGD code.
     """
-    from app.core.name_matching import resolve_district_name, STATE_ALIASES, TELANGANA_DISTRICTS
+    from app.core.name_matching import resolve_district_name, STATE_ALIASES, TELANGANA_DISTRICTS, check_historical_resolution
     
     districts = await db.fetch("SELECT lgd_code, district_name, state_name FROM districts")
     lgd_lookup = {}
@@ -195,11 +195,11 @@ async def get_unmapped_splits(
     
     for row in splits:
         p_lgd = resolve_lgd(row['parent_district'], row['state_name'])
-        if not p_lgd:
+        if not p_lgd and not check_historical_resolution(row['state_name'], row['parent_district']):
             unmapped.add((row['parent_district'], row['state_name'], row['split_year'], 'Parent'))
             
         c_lgd = resolve_lgd(row['child_district'], row['state_name'])
-        if not c_lgd:
+        if not c_lgd and not check_historical_resolution(row['state_name'], row['child_district']):
             unmapped.add((row['child_district'], row['state_name'], row['split_year'], 'Child'))
             
     sorted_unmapped = sorted(list(unmapped), key=lambda x: (x[1], x[0], x[2]))

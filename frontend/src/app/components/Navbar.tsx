@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-    Map, Shield, GitBranch, Wheat, FileText, BookOpen, Menu, X, Search
+    Map, Shield, GitBranch, Wheat, FileText, BookOpen, Menu, X, Search, Layers, Droplet, Network, Target
 } from 'lucide-react';
 
 const NAV_ROUTES = [
@@ -13,6 +13,10 @@ const NAV_ROUTES = [
     { href: '/risk-monitor', label: 'Risk Monitor', icon: Shield },
     { href: '/lineage', label: 'Lineage', icon: GitBranch },
     { href: '/split-report', label: 'Split Report', icon: GitBranch },
+    { href: '/crop-shift', label: 'Crop Shift Analytics', icon: Layers },
+    { href: '/water-stress', label: 'Water Stress Index', icon: Droplet },
+    { href: '/spatial-contagion', label: 'Spatial Contagion', icon: Network },
+    { href: '/yield-gap', label: 'Yield Gap Mapping', icon: Target },
     { href: '/crop-portfolio', label: 'Crop Portfolio', icon: Wheat },
     { href: '/reports', label: 'Reports', icon: FileText },
     { href: '/methodology', label: 'Methodology', icon: BookOpen },

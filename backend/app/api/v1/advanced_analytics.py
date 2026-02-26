@@ -59,6 +59,34 @@ async def get_crop_diversification(
     }
 
 
+@router.get("/crop-shift")
+async def get_crop_shift_timeline(
+    cdk: str = Query(..., description="District LGD code (as text)"),
+    db: asyncpg.Connection = Depends(get_db)
+):
+    """
+    Get full timeline of crop mix shifts and diversity for a district.
+    
+    Returns array of yearly data with:
+    - total_area
+    - shannon_index
+    - simpson_index
+    - dominant_crop & share
+    - crop_mix breakdown (top 5 + other)
+    """
+    service = AdvancedAnalyticsService(db)
+    result = await service.get_crop_shift(cdk)
+    
+    if not result:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail=f"No area data found for {cdk}")
+        
+    return {
+        "cdk": cdk,
+        "timeline": result
+    }
+
+
 @router.get("/yield-trend")
 async def get_yield_trend(
     cdk: str = Query(..., description="District LGD code (as text)"),
@@ -289,3 +317,36 @@ async def get_resilience_index(
         "total_districts": len(result),
         "rankings": result
     }
+
+@router.get("/yield-gap")
+async def get_yield_gap_analysis(
+    state: str = Query(..., description="State name"),
+    crop: str = Query(..., description="Crop name"),
+    start_year: int = Query(2000, description="Start year"),
+    end_year: int = Query(2020, description="End year"),
+    db: asyncpg.Connection = Depends(get_db)
+):
+    """
+    Get the yield gap analysis for a state and crop, comparing districts against the 90th percentile frontier.
+    Returns convergence timeline and district rankings.
+    """
+    service = AdvancedAnalyticsService(db)
+    result = await service.get_yield_gap(state, crop, start_year, end_year)
+    if "error" in result:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail=result["error"])
+    return result
+
+@router.get("/split-specialization")
+async def get_split_specialization(
+    parent_cdk: str = Query(..., description="Parent district LGD code"),
+    child_cdks: str = Query(..., description="Comma-separated child CDKs"),
+    split_year: int = Query(..., description="Year of the split"),
+    db: asyncpg.Connection = Depends(get_db)
+):
+    """
+    Get post-split economic specialization radar chart data.
+    """
+    children_list = [c.strip() for c in child_cdks.split(",") if c.strip()]
+    service = AdvancedAnalyticsService(db)
+    return await service.get_post_split_specialization(parent_cdk, children_list, split_year)
