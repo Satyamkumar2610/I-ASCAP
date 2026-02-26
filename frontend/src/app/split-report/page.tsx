@@ -4,8 +4,8 @@ import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../services/api';
 import {
-    GitBranch, Download, FileText, BarChart3, TrendingUp, TrendingDown,
-    Minus, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, ArrowRight,
+    GitBranch, Download, FileText, TrendingUp, TrendingDown,
+    Minus, ChevronDown, ChevronUp, AlertCircle, ArrowRight,
     Activity, Target, Layers
 } from 'lucide-react';
 import ReactECharts from 'echarts-for-react';

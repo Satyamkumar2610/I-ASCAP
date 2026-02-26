@@ -72,8 +72,8 @@ function SelectInner<T = string>(
   // Filter options based on search query
   const filteredOptions = isSearchable && searchQuery
     ? options.filter((opt) =>
-        opt.label.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      opt.label.toLowerCase().includes(searchQuery.toLowerCase())
+    )
     : options;
 
   // Determine if select is in error state
@@ -108,6 +108,7 @@ function SelectInner<T = string>(
 
   // Reset highlighted index when filtered options change
   useEffect(() => {
+    // eslint-disable-next-line
     setHighlightedIndex(-1);
   }, [searchQuery]);
 
@@ -120,7 +121,7 @@ function SelectInner<T = string>(
   // Handle option selection
   const handleSelect = (option: SelectOption<T>) => {
     if (option.disabled) return;
-    
+
     onChange(option.value);
     setIsOpen(false);
     setSearchQuery('');
@@ -163,11 +164,11 @@ function SelectInner<T = string>(
             ? highlightedIndex + 1
             : 0;
           setHighlightedIndex(nextIndex);
-          
+
           // Scroll into view
           const optionElement = listboxRef.current?.children[nextIndex] as HTMLElement;
           optionElement?.scrollIntoView({ block: 'nearest' });
-          
+
           announce(filteredOptions[nextIndex].label);
         }
         break;
@@ -182,11 +183,11 @@ function SelectInner<T = string>(
             ? highlightedIndex - 1
             : filteredOptions.length - 1;
           setHighlightedIndex(prevIndex);
-          
+
           // Scroll into view
           const optionElement = listboxRef.current?.children[prevIndex] as HTMLElement;
           optionElement?.scrollIntoView({ block: 'nearest' });
-          
+
           announce(filteredOptions[prevIndex].label);
         }
         break;
@@ -221,7 +222,7 @@ function SelectInner<T = string>(
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     setSearchQuery(query);
-    
+
     if (query) {
       announce(`${filteredOptions.length} options available`);
     }
@@ -230,14 +231,14 @@ function SelectInner<T = string>(
   // Toggle dropdown
   const handleToggle = () => {
     if (isDisabled) return;
-    
+
     const newIsOpen = !isOpen;
     setIsOpen(newIsOpen);
-    
+
     if (!newIsOpen) {
       setSearchQuery('');
     }
-    
+
     announce(newIsOpen ? 'Dropdown opened' : 'Dropdown closed');
   };
 
@@ -265,15 +266,15 @@ function SelectInner<T = string>(
     'flex items-center justify-between',
     hasError
       ? cn(
-          'border-[var(--color-error-500)]',
-          'focus:border-[var(--color-error-500)]',
-          'focus:ring-[var(--color-error-500)]'
-        )
+        'border-[var(--color-error-500)]',
+        'focus:border-[var(--color-error-500)]',
+        'focus:ring-[var(--color-error-500)]'
+      )
       : cn(
-          'hover:border-[var(--color-border-hover)]',
-          'focus:border-[var(--color-border-focus)]',
-          'focus:ring-[var(--color-primary-500)]'
-        ),
+        'hover:border-[var(--color-border-hover)]',
+        'focus:border-[var(--color-border-focus)]',
+        'focus:ring-[var(--color-primary-500)]'
+      ),
     isDisabled && 'opacity-50 cursor-not-allowed bg-[var(--color-background-secondary)]',
     !isDisabled && 'cursor-pointer'
   );
@@ -318,10 +319,10 @@ function SelectInner<T = string>(
     option.disabled
       ? 'opacity-50 cursor-not-allowed'
       : cn(
-          'hover:bg-[var(--color-background-secondary)]',
-          highlightedIndex === index && 'bg-[var(--color-background-secondary)]',
-          option.value === value && 'bg-[var(--color-primary-50)] text-[var(--color-primary-700)]'
-        )
+        'hover:bg-[var(--color-background-secondary)]',
+        highlightedIndex === index && 'bg-[var(--color-background-secondary)]',
+        option.value === value && 'bg-[var(--color-primary-50)] text-[var(--color-primary-700)]'
+      )
   );
 
   const errorTextStyles = cn(
@@ -360,7 +361,7 @@ function SelectInner<T = string>(
         <span className={cn(!selectedOption && 'text-[var(--color-text-tertiary)]')}>
           {selectedOption ? selectedOption.label : placeholder}
         </span>
-        
+
         {/* Chevron Icon */}
         <svg
           className={cn(
@@ -400,7 +401,7 @@ function SelectInner<T = string>(
               onKeyDown={(e) => {
                 if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
                   e.preventDefault();
-                  handleKeyDown(e as any);
+                  handleKeyDown(e as any /* eslint-disable-line @typescript-eslint/no-explicit-any */);
                 } else if (e.key === 'Escape') {
                   setIsOpen(false);
                   setSearchQuery('');
@@ -437,7 +438,7 @@ function SelectInner<T = string>(
                   onMouseEnter={() => !option.disabled && setHighlightedIndex(index)}
                 >
                   <span>{option.label}</span>
-                  
+
                   {/* Checkmark for selected option */}
                   {option.value === value && (
                     <svg

@@ -108,21 +108,21 @@ export const Card = forwardRef<HTMLElement, CardProps>(
     // Props for interactive cards
     const interactiveProps = isInteractive
       ? {
-          role: onClick ? 'button' : undefined,
-          tabIndex: 0,
-          onClick,
-          onKeyDown: (e: React.KeyboardEvent) => {
-            if (onClick && (e.key === 'Enter' || e.key === ' ')) {
-              e.preventDefault();
-              onClick();
-            }
-          },
-        }
+        role: onClick ? 'button' : undefined,
+        tabIndex: 0,
+        onClick,
+        onKeyDown: (e: React.KeyboardEvent) => {
+          if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            onClick();
+          }
+        },
+      }
       : {};
 
     return (
       <Component
-        ref={ref as any}
+        ref={ref as any /* eslint-disable-line @typescript-eslint/no-explicit-any */}
         className={cardClasses}
         {...interactiveProps}
         {...props}

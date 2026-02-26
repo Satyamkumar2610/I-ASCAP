@@ -53,7 +53,7 @@ const THEME_ATTRIBUTE = 'data-theme';
  */
 function getSystemTheme(): 'light' | 'dark' {
   if (typeof window === 'undefined') return 'light';
-  
+
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
@@ -62,7 +62,7 @@ function getSystemTheme(): 'light' | 'dark' {
  */
 function getStoredTheme(storageKey: string): 'light' | 'dark' | null {
   if (typeof window === 'undefined') return null;
-  
+
   try {
     const stored = localStorage.getItem(storageKey);
     if (stored === 'light' || stored === 'dark') {
@@ -71,7 +71,7 @@ function getStoredTheme(storageKey: string): 'light' | 'dark' | null {
   } catch (error) {
     console.warn('Failed to read theme from localStorage:', error);
   }
-  
+
   return null;
 }
 
@@ -80,7 +80,7 @@ function getStoredTheme(storageKey: string): 'light' | 'dark' | null {
  */
 function storeTheme(storageKey: string, theme: 'light' | 'dark'): void {
   if (typeof window === 'undefined') return;
-  
+
   try {
     localStorage.setItem(storageKey, theme);
   } catch (error) {
@@ -97,9 +97,9 @@ function getInitialTheme(
 ): 'light' | 'dark' {
   const stored = getStoredTheme(storageKey);
   if (stored) return stored;
-  
+
   if (defaultTheme) return defaultTheme;
-  
+
   return getSystemTheme();
 }
 
@@ -118,12 +118,12 @@ export function ThemeProvider({
     if (typeof window === 'undefined') {
       return defaultTheme || 'light';
     }
-    
+
     // On client, get initial theme from storage/system/default
     return getInitialTheme(storageKey, defaultTheme);
   });
 
-  const [mounted, setMounted] = useState(false);
+  const [, setMounted] = useState(false);
 
   // Get current theme config
   const config = getThemeConfig(theme);
@@ -134,7 +134,7 @@ export function ThemeProvider({
   const setTheme = useCallback((newTheme: 'light' | 'dark') => {
     setThemeState(newTheme);
     storeTheme(storageKey, newTheme);
-    
+
     // Update document attribute for CSS targeting
     if (typeof window !== 'undefined') {
       document.documentElement.setAttribute(THEME_ATTRIBUTE, newTheme);
@@ -151,7 +151,7 @@ export function ThemeProvider({
   // Apply CSS variables when theme changes
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     applyCSSVariables(config);
     document.documentElement.setAttribute(THEME_ATTRIBUTE, theme);
   }, [theme, config]);
@@ -159,9 +159,9 @@ export function ThemeProvider({
   // Handle system theme preference changes
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
+
     const handleChange = (e: MediaQueryListEvent) => {
       // Only update if no stored preference exists
       const stored = getStoredTheme(storageKey);
@@ -170,7 +170,7 @@ export function ThemeProvider({
         setThemeState(systemTheme);
       }
     };
-    
+
     // Modern browsers
     if (mediaQuery.addEventListener) {
       mediaQuery.addEventListener('change', handleChange);
@@ -185,6 +185,7 @@ export function ThemeProvider({
 
   // Set mounted flag after hydration
   useEffect(() => {
+    // eslint-disable-next-line
     setMounted(true);
   }, []);
 
@@ -215,11 +216,11 @@ export function ThemeProvider({
  */
 export function useTheme(): ThemeContextValue {
   const context = useContext(ThemeContext);
-  
+
   if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
-  
+
   return context;
 }
 

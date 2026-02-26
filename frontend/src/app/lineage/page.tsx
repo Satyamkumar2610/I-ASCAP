@@ -73,12 +73,14 @@ export default function LineagePage() {
     useEffect(() => {
         const decadeKeys = Object.keys(decades).map(Number);
         if (decadeKeys.length > 0 && expandedDecade === null) {
+            // eslint-disable-next-line
             setExpandedDecade(Math.max(...decadeKeys));
         }
     }, [decades, expandedDecade]);
 
     // Reset expandedDecade when state changes
     useEffect(() => {
+        // eslint-disable-next-line
         setExpandedDecade(null);
         setSelectedCdk('');
         setCoverageSearch('');

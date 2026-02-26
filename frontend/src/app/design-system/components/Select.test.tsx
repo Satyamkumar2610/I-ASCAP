@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Select, SelectOption } from './Select';
 
@@ -24,7 +24,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           placeholder="Select an option"
         />
       );
@@ -39,7 +39,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value="option2"
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -52,7 +52,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           label="Choose Option"
         />
       );
@@ -66,14 +66,14 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           label="Choose Option"
         />
       );
 
       const button = screen.getByRole('combobox');
       const label = screen.getByText('Choose Option');
-      
+
       expect(button).toHaveAttribute('aria-labelledby', label.id);
     });
 
@@ -82,7 +82,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -99,7 +99,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -117,16 +117,16 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
       const button = screen.getByRole('combobox');
-      
+
       // Open dropdown
       await user.click(button);
       expect(screen.getByRole('listbox')).toBeInTheDocument();
-      
+
       // Close dropdown
       await user.click(button);
       expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
@@ -139,7 +139,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -160,7 +160,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value="option2"
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -169,7 +169,7 @@ describe('Select Component', () => {
 
       const selectedOption = screen.getByRole('option', { name: /option 2/i });
       expect(selectedOption).toHaveAttribute('aria-selected', 'true');
-      
+
       // Check for checkmark SVG
       const checkmark = selectedOption.querySelector('svg');
       expect(checkmark).toBeInTheDocument();
@@ -182,7 +182,7 @@ describe('Select Component', () => {
           <Select
             options={mockOptions}
             value=""
-            onChange={() => {}}
+            onChange={() => { }}
           />
           <button>Outside Button</button>
         </div>
@@ -190,7 +190,7 @@ describe('Select Component', () => {
 
       const selectButton = screen.getByRole('combobox');
       await user.click(selectButton);
-      
+
       expect(screen.getByRole('listbox')).toBeInTheDocument();
 
       const outsideButton = screen.getByRole('button', { name: /outside button/i });
@@ -204,7 +204,7 @@ describe('Select Component', () => {
     it('calls onChange when option is selected', async () => {
       const user = userEvent.setup();
       const handleChange = vi.fn();
-      
+
       render(
         <Select
           options={mockOptions}
@@ -229,7 +229,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -245,7 +245,7 @@ describe('Select Component', () => {
     it('does not call onChange for disabled options', async () => {
       const user = userEvent.setup();
       const handleChange = vi.fn();
-      
+
       render(
         <Select
           options={mockOptionsWithDisabled}
@@ -269,7 +269,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptionsWithDisabled}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -288,13 +288,13 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
       const button = screen.getByRole('combobox');
       button.focus();
-      
+
       await user.keyboard('{Enter}');
 
       expect(screen.getByRole('listbox')).toBeInTheDocument();
@@ -307,13 +307,13 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
       const button = screen.getByRole('combobox');
       button.focus();
-      
+
       await user.keyboard(' ');
 
       expect(screen.getByRole('listbox')).toBeInTheDocument();
@@ -325,16 +325,16 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
       const button = screen.getByRole('combobox');
       button.focus();
-      
+
       await user.keyboard('{Enter}');
       expect(screen.getByRole('listbox')).toBeInTheDocument();
-      
+
       await user.keyboard('{Escape}');
       expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     });
@@ -345,19 +345,19 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
       const button = screen.getByRole('combobox');
       button.focus();
-      
+
       await user.keyboard('{ArrowDown}');
       expect(screen.getByRole('listbox')).toBeInTheDocument();
-      
+
       // Press ArrowDown again to highlight first option (initial highlightedIndex is -1)
       await user.keyboard('{ArrowDown}');
-      
+
       // First option should be highlighted
       const options = screen.getAllByRole('option');
       expect(options[0]).toHaveClass('bg-[var(--color-background-secondary)]');
@@ -369,19 +369,19 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
       const button = screen.getByRole('combobox');
       button.focus();
-      
+
       await user.keyboard('{ArrowUp}');
       expect(screen.getByRole('listbox')).toBeInTheDocument();
-      
+
       // Press ArrowUp again - wraps around from -1 to last option (index 3)
       await user.keyboard('{ArrowUp}');
-      
+
       // Last option should be highlighted
       const options = screen.getAllByRole('option');
       expect(options[options.length - 1]).toHaveClass('bg-[var(--color-background-secondary)]');
@@ -393,17 +393,17 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
       const button = screen.getByRole('combobox');
       button.focus();
-      
+
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{ArrowDown}');
-      
+
       const options = screen.getAllByRole('option');
       expect(options[1]).toHaveClass('bg-[var(--color-background-secondary)]');
     });
@@ -411,7 +411,7 @@ describe('Select Component', () => {
     it('selects highlighted option with Enter key', async () => {
       const user = userEvent.setup();
       const handleChange = vi.fn();
-      
+
       render(
         <Select
           options={mockOptions}
@@ -422,7 +422,7 @@ describe('Select Component', () => {
 
       const button = screen.getByRole('combobox');
       button.focus();
-      
+
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{Enter}');
@@ -436,18 +436,18 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
       const button = screen.getByRole('combobox');
       button.focus();
-      
+
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{Home}');
-      
+
       const options = screen.getAllByRole('option');
       expect(options[0]).toHaveClass('bg-[var(--color-background-secondary)]');
     });
@@ -458,16 +458,16 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
       const button = screen.getByRole('combobox');
       button.focus();
-      
+
       await user.keyboard('{ArrowDown}');
       await user.keyboard('{End}');
-      
+
       const options = screen.getAllByRole('option');
       // Last option should be highlighted
       expect(options[options.length - 1]).toHaveClass('bg-[var(--color-background-secondary)]');
@@ -481,7 +481,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isSearchable
         />
       );
@@ -500,7 +500,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isSearchable={false}
         />
       );
@@ -517,7 +517,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isSearchable
         />
       );
@@ -539,7 +539,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isSearchable
         />
       );
@@ -560,7 +560,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isSearchable
         />
       );
@@ -582,7 +582,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isSearchable
         />
       );
@@ -606,7 +606,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isSearchable
         />
       );
@@ -624,7 +624,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isSearchable
         />
       );
@@ -636,7 +636,7 @@ describe('Select Component', () => {
       expect(searchInput).toHaveFocus();
 
       await user.keyboard('{ArrowDown}');
-      
+
       const options = screen.getAllByRole('option');
       expect(options[0]).toHaveClass('bg-[var(--color-background-secondary)]');
     });
@@ -647,7 +647,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isSearchable
         />
       );
@@ -669,7 +669,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -683,7 +683,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -699,7 +699,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -713,7 +713,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -729,7 +729,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           error="Please select an option"
         />
       );
@@ -743,14 +743,14 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           error="Please select an option"
         />
       );
 
       const button = screen.getByRole('combobox');
       const errorMessage = screen.getByText('Please select an option');
-      
+
       expect(button).toHaveAttribute('aria-describedby');
       expect(button.getAttribute('aria-describedby')).toContain(errorMessage.id);
     });
@@ -760,7 +760,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -773,13 +773,13 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
       const button = screen.getByRole('combobox');
       const chevron = button.querySelector('svg');
-      
+
       expect(chevron).toHaveAttribute('aria-hidden', 'true');
     });
 
@@ -789,7 +789,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value="option1"
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -798,7 +798,7 @@ describe('Select Component', () => {
 
       const selectedOption = screen.getByRole('option', { name: /option 1/i });
       const checkmark = selectedOption.querySelector('svg');
-      
+
       expect(checkmark).toHaveAttribute('aria-hidden', 'true');
     });
   });
@@ -809,7 +809,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           error="This field is required"
         />
       );
@@ -823,7 +823,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           error="This field is required"
         />
       );
@@ -837,14 +837,14 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           error="This field is required"
         />
       );
 
       const errorContainer = screen.getByText('This field is required').parentElement;
       const errorIcon = errorContainer?.querySelector('svg');
-      
+
       expect(errorIcon).toBeInTheDocument();
       expect(errorIcon).toHaveAttribute('aria-hidden', 'true');
     });
@@ -854,7 +854,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           error="This field is required"
         />
       );
@@ -871,7 +871,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isDisabled
         />
       );
@@ -885,7 +885,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isDisabled
         />
       );
@@ -901,7 +901,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isDisabled
         />
       );
@@ -918,14 +918,14 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           isDisabled
         />
       );
 
       const button = screen.getByRole('combobox');
       button.focus();
-      
+
       await user.keyboard('{Enter}');
 
       expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
@@ -936,7 +936,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           label="Choose Option"
           isDisabled
         />
@@ -955,13 +955,13 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
       const button = screen.getByRole('combobox');
       const chevron = button.querySelector('svg');
-      
+
       expect(chevron).not.toHaveClass('rotate-180');
 
       await user.click(button);
@@ -976,7 +976,7 @@ describe('Select Component', () => {
         <Select
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -993,13 +993,13 @@ describe('Select Component', () => {
   describe('Ref Forwarding', () => {
     it('forwards ref to button element', () => {
       const ref = { current: null as HTMLButtonElement | null };
-      
+
       render(
         <Select
           ref={ref}
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -1008,13 +1008,13 @@ describe('Select Component', () => {
 
     it('allows programmatic focus via ref', () => {
       const ref = { current: null as HTMLButtonElement | null };
-      
+
       render(
         <Select
           ref={ref}
           options={mockOptions}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       );
 
@@ -1053,11 +1053,11 @@ describe('Select Component', () => {
     it('works with object values', async () => {
       const user = userEvent.setup();
       const handleChange = vi.fn();
-      
+
       type CustomValue = { id: string; name: string };
       const obj1: CustomValue = { id: '1', name: 'First' };
       const obj2: CustomValue = { id: '2', name: 'Second' };
-      
+
       const objectOptions: SelectOption<CustomValue>[] = [
         { value: obj1, label: 'First Option' },
         { value: obj2, label: 'Second Option' },

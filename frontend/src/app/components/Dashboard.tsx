@@ -83,7 +83,7 @@ const Dashboard: React.FC<DashboardProps> = ({
         if (!selectedDistrict) return '';
         const raw = bridgeData as Record<string, string>;
         // Try exact match first
-        const exactKey = Object.keys(raw).find(k => k === `${selectedDistrict}|${selectedDistrict}`); // Unlikely format
+        // Try finding key starting with district
         // Try finding key starting with district
         const stateKey = Object.keys(raw).find(k => k.startsWith(selectedDistrict + '|'));
         return stateKey ? stateKey.split('|')[1] : '';

@@ -33,7 +33,7 @@ export default function MethodologyPage() {
                     </div>
                     <div className="space-y-4 text-sm text-slate-600 font-medium leading-relaxed">
                         <p>
-                            Since Independence, India's administrative map has been continuously redrawn. From just over 300 districts in 1951, the count reached over 780 by 2024. This growth was driven by political reorganization, security imperatives, demographic pressure, and decentralization objectives.
+                            Since Independence, India&apos;s administrative map has been continuously redrawn. From just over 300 districts in 1951, the count reached over 780 by 2024. This growth was driven by political reorganization, security imperatives, demographic pressure, and decentralization objectives.
                         </p>
                         <p>
                             However, this administrative flexibility comes at a direct cost to data continuity. Documented across seven decades, over <strong>565 district split events</strong> occurred—with 64% concentrated after 1991. When districts continuously reorganize without any mechanism for preserving data continuity, longitudinal analysis becomes structurally flawed.
@@ -45,7 +45,7 @@ export default function MethodologyPage() {
                             </p>
                         </div>
                         <p>
-                            <strong>I-ASCAP addresses this structural gap.</strong> By integrating district lineage tracking directly into its analytical pipelines, the platform accounts for historical boundary changes. This ensures that when you evaluate a district's multi-decade agricultural resilience or yield trends, you are analyzing actual agronomic performance—not statistical artifacts created by administrative fragmentation.
+                            <strong>I-ASCAP addresses this structural gap.</strong> By integrating district lineage tracking directly into its analytical pipelines, the platform accounts for historical boundary changes. This ensures that when you evaluate a district&apos;s multi-decade agricultural resilience or yield trends, you are analyzing actual agronomic performance—not statistical artifacts created by administrative fragmentation.
                         </p>
                     </div>
                 </section>

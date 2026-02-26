@@ -177,7 +177,7 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
                                 borderColor: '#334155',
                                 textStyle: { color: '#e2e8f0', fontSize: 10 },
                                 padding: [6, 10],
-                                formatter: function (params: any) {
+                                formatter: function (params: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) {
                                     if (!params.value || !Array.isArray(params.value) || params.value.length < 2) return '';
                                     if (params.seriesName === 'Projection') {
                                         return `<span style="color:#f43f5e;font-weight:600">Projected</span><br/>Yield: ${Number(params.value[1]).toFixed(0)} kg/ha<br/>Rain: ${Number(params.value[0]).toFixed(0)} mm`;
@@ -266,8 +266,8 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
                                 <div className="h-1 bg-slate-700 rounded-full overflow-hidden">
                                     <div
                                         className={`h-full rounded-full transition-all duration-500 ${f.direction === 'positive'
-                                                ? 'bg-indigo-500'
-                                                : 'bg-amber-500'
+                                            ? 'bg-indigo-500'
+                                            : 'bg-amber-500'
                                             }`}
                                         style={{ width: `${Math.max(3, f.importance * 100)}%` }}
                                     />

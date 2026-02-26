@@ -78,7 +78,7 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
                             borderColor: '#e2e8f0',
                             textStyle: { color: '#0f172a', fontSize: 11 },
                             padding: [8, 12],
-                            formatter: function (params: any) {
+                            formatter: function (params: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) {
                                 return `<b>Yield:</b> ${params.value[1]} kg/ha<br/><b>Rainfall:</b> ${params.value[0]} mm`;
                             }
                         },

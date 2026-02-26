@@ -32,9 +32,9 @@ export function ComparisonChart({ data, series, splitYear, metric = 'yield' }: C
             backgroundColor: '#ffffff',
             borderColor: '#e2e8f0',
             textStyle: { color: '#0f172a', fontSize: 11 },
-            formatter: (params: any) => {
+            formatter: (params: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => {
                 let html = `<div class="font-bold text-slate-700 mb-1 border-b border-slate-100 pb-1">${params[0].axisValue}</div>`;
-                params.forEach((p: any) => {
+                params.forEach((p: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => {
                     html += `
                         <div class="flex items-center gap-2 my-1">
                             <span class="w-2 h-2 rounded-full font-bold" style="background-color: ${p.color}"></span>
