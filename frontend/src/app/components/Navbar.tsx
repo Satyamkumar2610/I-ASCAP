@@ -12,6 +12,7 @@ const NAV_ROUTES = [
     { href: '/state', label: 'States', icon: Map },
     { href: '/risk-monitor', label: 'Risk Monitor', icon: Shield },
     { href: '/lineage', label: 'Lineage', icon: GitBranch },
+    { href: '/split-report', label: 'Split Report', icon: GitBranch },
     { href: '/crop-portfolio', label: 'Crop Portfolio', icon: Wheat },
     { href: '/reports', label: 'Reports', icon: FileText },
     { href: '/methodology', label: 'Methodology', icon: BookOpen },

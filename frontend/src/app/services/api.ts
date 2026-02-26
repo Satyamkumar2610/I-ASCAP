@@ -57,8 +57,8 @@ async function fetcher<T>(endpoint: string, options: RequestInit = {}): Promise<
             return await fetchOnce<T>(url, options);
         } catch (retryError) {
             if (retryError instanceof ApiError) throw retryError;
-            console.error(`[API] Retry failed:`, retryError);
-            throw new ApiError(0, `Network error - backend may be waking up. Please retry.`);
+            console.warn(`[API] Retry failed (Backend offline?):`, retryError);
+            throw new ApiError(0, `Network error - backend may be offline. Please retry.`);
         }
     }
 }
