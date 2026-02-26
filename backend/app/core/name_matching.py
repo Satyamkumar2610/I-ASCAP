@@ -433,15 +433,237 @@ DISTRICT_RESOLUTION = {
 {"name":"Dakshin Dinajpur","lgd":318}
 ]},
 
-("West Bengal","Twenty Four Parganas"): {
-"type":"parent_split",
-"maps_to":[
-{"name":"North 24 Parganas","lgd":304},
-{"name":"South 24 Parganas","lgd":305}
-]},
+    ("West Bengal","Twenty Four Parganas"): {
+        "type":"parent_split",
+        "maps_to":[
+            {"name":"North 24 Parganas","lgd":304},
+            {"name":"South 24 Parganas","lgd":305}
+        ]
+    },
 
+    # ---------------- ANDAMAN ----------------
+    ("Andaman and Nicobar Islands","Andamans"): {
+        "type":"alias",
+        "maps_to":[
+            {"name":"North and Middle Andaman","lgd":637},
+            {"name":"South Andaman","lgd":638}
+        ]
+    },
+
+    # ---------------- ARUNACHAL ----------------
+    ("Arunachal Pradesh","Kameng Frontier"): {
+        "type":"colonial_parent",
+        "maps_to":[
+            {"name":"West Kameng","lgd":229},
+            {"name":"East Kameng","lgd":230}
+        ]
+    },
+
+    # ---------------- CHHATTISGARH ----------------
+    ("Chhattisgarh","Bijapur"): {
+        "type":"valid",
+        "maps_to":[{"name":"Bijapur","lgd":374}]
+    },
+
+    # ---------------- J&K CORE ----------------
+    ("Jammu & Kashmir","Anantnag"): {
+        "type":"valid",
+        "maps_to":[{"name":"Anantnag","lgd":14}]
+    },
+
+    ("Jammu & Kashmir","Badgam"): {
+        "type":"alias",
+        "maps_to":[{"name":"Budgam","lgd":8}]
+    },
+
+    ("Jammu & Kashmir","Bandipore"): {
+        "type":"alias",
+        "maps_to":[{"name":"Bandipora","lgd":6}]
+    },
+
+    ("Jammu & Kashmir","Baramulla"): {
+        "type":"valid",
+        "maps_to":[{"name":"Baramulla","lgd":9}]
+    },
+
+    ("Jammu & Kashmir","Ganderbal"): {
+        "type":"valid",
+        "maps_to":[{"name":"Ganderbal","lgd":7}]
+    },
+
+    ("Jammu & Kashmir","Jammu"): {
+        "type":"valid",
+        "maps_to":[{"name":"Jammu","lgd":3}]
+    },
+
+    ("Jammu & Kashmir","Kargil"): {
+        "type":"valid",
+        "maps_to":[{"name":"Kargil","lgd":10}]
+    },
+
+    ("Jammu & Kashmir","Kathua"): {
+        "type":"valid",
+        "maps_to":[{"name":"Kathua","lgd":5}]
+    },
+
+    ("Jammu & Kashmir","Kishtwar"): {
+        "type":"valid",
+        "maps_to":[{"name":"Kishtwar","lgd":12}]
+    },
+
+    ("Jammu & Kashmir","Kulgam"): {
+        "type":"valid",
+        "maps_to":[{"name":"Kulgam","lgd":15}]
+    },
+
+    ("Jammu & Kashmir","Kupwara"): {
+        "type":"valid",
+        "maps_to":[{"name":"Kupwara","lgd":11}]
+    },
+
+    ("Jammu & Kashmir","Poonch"): {
+        "type":"valid",
+        "maps_to":[{"name":"Poonch","lgd":2}]
+    },
+
+    ("Jammu & Kashmir","Pulwama"): {
+        "type":"valid",
+        "maps_to":[{"name":"Pulwama","lgd":16}]
+    },
+
+    ("Jammu & Kashmir","Rajauri"): {
+        "type":"alias",
+        "maps_to":[{"name":"Rajouri","lgd":1}]
+    },
+
+    ("Jammu & Kashmir","Ramban"): {
+        "type":"valid",
+        "maps_to":[{"name":"Ramban","lgd":13}]
+    },
+
+    ("Jammu & Kashmir","Reasi"): {
+        "type":"valid",
+        "maps_to":[{"name":"Reasi","lgd":17}]
+    },
+
+    ("Jammu & Kashmir","Samba"): {
+        "type":"valid",
+        "maps_to":[{"name":"Samba","lgd":18}]
+    },
+
+    ("Jammu & Kashmir","Shupiyan"): {
+        "type":"alias",
+        "maps_to":[{"name":"Shopian","lgd":19}]
+    },
+
+    ("Jammu & Kashmir","Srinagar"): {
+        "type":"valid",
+        "maps_to":[{"name":"Srinagar","lgd":20}]
+    },
+
+    ("Jammu & Kashmir","Udhampur"): {
+        "type":"valid",
+        "maps_to":[{"name":"Udhampur","lgd":21}]
+    },
+
+    # ---------------- MAHARASHTRA ----------------
+    ("Maharashtra","Mumbai (Suburban)"): {
+        "type":"alias",
+        "maps_to":[{"name":"Mumbai Suburban","lgd":399}]
+    },
+
+    # ---------------- MANIPUR ----------------
+    ("Manipur","Imphal"): {
+        "type":"parent_split",
+        "maps_to":[
+            {"name":"Imphal East","lgd":253},
+            {"name":"Imphal West","lgd":254}
+        ]
+    },
+
+    ("Manipur","Manipur East"): {
+        "type":"alias",
+        "maps_to":[{"name":"Imphal East","lgd":253}]
+    },
+
+    ("Manipur","Manipur North"): {
+        "type":"alias",
+        "maps_to":[{"name":"Senapati","lgd":257}]
+    },
+
+    ("Manipur","Manipur South"): {
+        "type":"alias",
+        "maps_to":[{"name":"Churachandpur","lgd":252}]
+    },
+
+    ("Manipur","Manipur West"): {
+        "type":"alias",
+        "maps_to":[{"name":"Imphal West","lgd":254}]
+    },
+
+    # ---------------- MEGHALAYA ----------------
+    ("Meghalaya","United Khasi and Jaintia Hills"): {
+        "type":"parent_split",
+        "maps_to":[
+            {"name":"East Khasi Hills","lgd":282},
+            {"name":"West Khasi Hills","lgd":284},
+            {"name":"West Jaintia Hills","lgd":286}
+        ]
+    },
+
+    # ---------------- MIZORAM ----------------
+    ("Mizoram","Mizoram"): {
+        "type":"virtual_parent",
+        "maps_to":[
+            {"name":"Aizawl","lgd":261},
+            {"name":"Lunglei","lgd":264},
+            {"name":"Champhai","lgd":262},
+            {"name":"Serchhip","lgd":267}
+        ]
+    },
+
+    # ---------------- DELHI ----------------
+    ("NCT of Delhi","Central"): {"type":"valid","maps_to":[{"name":"Central Delhi","lgd":95}]},
+    ("NCT of Delhi","East"): {"type":"valid","maps_to":[{"name":"East Delhi","lgd":96}]},
+    ("NCT of Delhi","New Delhi"): {"type":"valid","maps_to":[{"name":"New Delhi","lgd":97}]},
+    ("NCT of Delhi","North"): {"type":"valid","maps_to":[{"name":"North Delhi","lgd":98}]},
+    ("NCT of Delhi","North East"): {"type":"valid","maps_to":[{"name":"North East Delhi","lgd":99}]},
+    ("NCT of Delhi","North West"): {"type":"valid","maps_to":[{"name":"North West Delhi","lgd":100}]},
+    ("NCT of Delhi","South"): {"type":"valid","maps_to":[{"name":"South Delhi","lgd":101}]},
+    ("NCT of Delhi","South West"): {"type":"valid","maps_to":[{"name":"South West Delhi","lgd":102}]},
+    ("NCT of Delhi","West"): {"type":"valid","maps_to":[{"name":"West Delhi","lgd":103}]},
+
+    # ---------------- SIKKIM ----------------
+    ("Sikkim","East"): {"type":"valid","maps_to":[{"name":"East Sikkim","lgd":239}]},
+    ("Sikkim","West"): {"type":"valid","maps_to":[{"name":"West Sikkim","lgd":242}]},
+    ("Sikkim","North District"): {"type":"alias","maps_to":[{"name":"North Sikkim","lgd":240}]},
+    ("Sikkim","South District"): {"type":"alias","maps_to":[{"name":"South Sikkim","lgd":241}]},
+
+    # ---------------- TAMIL NADU ----------------
+    ("Tamil Nadu","Pasumpon Muthuramalinga Thevar"): {
+        "type":"renamed",
+        "maps_to":[{"name":"Ramanathapuram","lgd":585}]
+    },
+
+    ("Tamil Nadu","Tiruvannamalai Sambuvarayar"): {
+        "type":"renamed",
+        "maps_to":[{"name":"Tiruvannamalai","lgd":590}]
+    },
+
+    # ---------------- TELANGANA ----------------
+    ("Telangana","Warangal Urban (Hanamkonda)"): {
+        "type":"renamed",
+        "maps_to":[{"name":"Hanamkonda","lgd":711}]
+    },
+
+    # ---------------- WEST BENGAL ----------------
+    ("West Bengal","Dakshin Dinajpur"): {"type":"valid","maps_to":[{"name":"Dakshin Dinajpur","lgd":318}]},
+    ("West Bengal","Uttar Dinajpur"): {"type":"valid","maps_to":[{"name":"Uttar Dinajpur","lgd":317}]},
+    ("West Bengal","North Twenty Four Parganas"): {"type":"alias","maps_to":[{"name":"North 24 Parganas","lgd":304}]},
+    ("West Bengal","South Twenty Four Parganas"): {"type":"alias","maps_to":[{"name":"South 24 Parganas","lgd":305}]},
+    ("West Bengal","Paschim Medinipur"): {"type":"valid","maps_to":[{"name":"Paschim Medinipur","lgd":312}]},
+    ("West Bengal","Purba Medinipur"): {"type":"valid","maps_to":[{"name":"Purba Medinipur","lgd":311}]},
 }
-
 def check_historical_resolution(state_name: str, district_name: str) -> bool:
     """
     Checks if a given state and historical district name exists in the 
