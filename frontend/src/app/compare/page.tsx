@@ -93,7 +93,7 @@ function CompareContent() {
     const colors = ['#10b981', '#3b82f6', '#f59e0b']; // Emerald, Blue, Amber
 
     return (
-        <div className="p-6 max-w-7xl mx-auto min-h-screen">
+        <div className="p-6 max-w-7xl mx-auto w-full">
             <div className="flex items-center gap-4 mb-8">
                 <Link href="/" className="p-2 bg-slate-800 rounded-full hover:bg-slate-700 transition">
                     <ArrowLeft size={20} className="text-slate-200" />

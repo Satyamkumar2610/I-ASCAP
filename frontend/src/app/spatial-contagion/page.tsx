@@ -99,7 +99,7 @@ export default function SpatialContagionPage() {
     }, [contagion]);
 
     return (
-        <main className="min-h-screen bg-slate-50 pt-16 pb-20">
+        <main className="w-full py-6">
             <div className="max-w-6xl mx-auto px-6">
 
                 {/* Header */}
@@ -204,9 +204,9 @@ export default function SpatialContagionPage() {
                                 <div className="relative z-10">
                                     <div className="text-[10px] uppercase font-bold text-slate-400 mb-2">Spillover Classification</div>
                                     <div className={`text-4xl font-bold mb-2 flex items-center gap-3 ${contagion.spillover_category === 'Outperformer' ? 'text-indigo-600' :
-                                            contagion.spillover_category === 'Underperformer' ? 'text-rose-600' :
-                                                contagion.spillover_category.includes('Clustered') ? 'text-emerald-600' :
-                                                    'text-amber-600'
+                                        contagion.spillover_category === 'Underperformer' ? 'text-rose-600' :
+                                            contagion.spillover_category.includes('Clustered') ? 'text-emerald-600' :
+                                                'text-amber-600'
                                         }`}>
                                         {contagion.spillover_category}
                                         {contagion.spillover_category === 'Outperformer' && <TrendingUp size={32} />}

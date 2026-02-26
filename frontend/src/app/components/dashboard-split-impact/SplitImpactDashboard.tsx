@@ -68,7 +68,7 @@ export function SplitImpactDashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-6 lg:p-8 font-sans selection:bg-indigo-500/30">
+        <div className="w-full text-slate-900 p-4 md:p-6 lg:p-8 font-sans selection:bg-indigo-500/30">
             {/* Header */}
             <div className="flex flex-col gap-4 mb-6 border-b border-slate-200 pb-4 md:pb-6">
                 {/* Title Row */}

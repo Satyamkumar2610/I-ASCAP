@@ -138,7 +138,7 @@ export default function WaterStressPage() {
     }, [districts, hasData]);
 
     return (
-        <main className="min-h-screen bg-slate-50 pt-16 pb-20">
+        <main className="w-full py-6">
             <div className="max-w-6xl mx-auto px-6">
 
                 {/* Header */}
@@ -288,9 +288,9 @@ export default function WaterStressPage() {
                                                         <td className="py-3 px-4 text-right font-mono font-bold text-slate-700">{d.mismatch_score.toFixed(1)}</td>
                                                         <td className="py-3 px-4">
                                                             <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${d.category === 'Critical' ? 'bg-rose-100 text-rose-700' :
-                                                                    d.category === 'High' ? 'bg-amber-100 text-amber-700' :
-                                                                        d.category === 'Moderate' ? 'bg-amber-50 text-amber-600 border border-amber-200' :
-                                                                            'bg-emerald-50 text-emerald-600 border border-emerald-200'
+                                                                d.category === 'High' ? 'bg-amber-100 text-amber-700' :
+                                                                    d.category === 'Moderate' ? 'bg-amber-50 text-amber-600 border border-amber-200' :
+                                                                        'bg-emerald-50 text-emerald-600 border border-emerald-200'
                                                                 }`}>
                                                                 {d.category}
                                                             </span>

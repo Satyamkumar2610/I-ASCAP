@@ -99,7 +99,7 @@ export default function YieldGapPage() {
     }, [gapData, hasData]);
 
     return (
-        <main className="min-h-screen bg-slate-50 pt-16 pb-20">
+        <main className="w-full py-6">
             <div className="max-w-6xl mx-auto px-6">
 
                 {/* Header */}
