@@ -923,8 +923,10 @@ class AdvancedAnalyticsService:
                 
             cdk_ints = []
             for c in cdks:
-                try: cdk_ints.append(float(c))
-                except: pass
+                try:
+                    cdk_ints.append(float(c))
+                except ValueError:
+                    pass
                 
             if not cdk_ints:
                 return {c: 0.0 for c in target_crops}
@@ -960,7 +962,8 @@ class AdvancedAnalyticsService:
         
         children_post_mix = {}
         for cdk in child_cdks:
-            if not cdk: continue
+            if not cdk:
+                continue
             mix = await get_crop_mix([cdk], post_start, post_end)
             
             # Fetch name

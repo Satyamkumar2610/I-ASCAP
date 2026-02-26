@@ -177,15 +177,18 @@ async def get_unmapped_splits(
     def resolve_lgd(district_name, state_name):
         dn = resolve_district_name(district_name)
         sn = state_name.lower().strip()
-        if (dn, sn) in lgd_lookup: return lgd_lookup[(dn, sn)]
+        if (dn, sn) in lgd_lookup:
+            return lgd_lookup[(dn, sn)]
         
         for alias_key, alias_states in STATE_ALIASES.items():
             if alias_key in sn:
                 for alt_state in alias_states:
-                    if (dn, alt_state.lower()) in lgd_lookup: return lgd_lookup[(dn, alt_state.lower())]
+                    if (dn, alt_state.lower()) in lgd_lookup:
+                        return lgd_lookup[(dn, alt_state.lower())]
                     
         if dn in TELANGANA_DISTRICTS and "andhra" in sn:
-             if (dn, "telangana") in lgd_lookup: return lgd_lookup[(dn, "telangana")]
+             if (dn, "telangana") in lgd_lookup:
+                 return lgd_lookup[(dn, "telangana")]
              
         return None
 
