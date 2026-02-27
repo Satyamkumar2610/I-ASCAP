@@ -53,6 +53,42 @@ class AdvancedAnalyticsService:
         self.db = db
     
     # ============================================================
+    # HELPER METHODS
+    # ============================================================
+    
+    async def _fetch_with_fallback(
+        self,
+        query_template: str,
+        crop: str,
+        metric: str,
+        *args
+    ) -> List[asyncpg.Record]:
+        """
+        Executes a query by substituting the variable_name parameter (always the last arg).
+        If the primary crop_metric (e.g. 'wheat_yield') returns no data, it falls back
+        to 'wheat_yield_rabi', etc.
+        """
+        # 1. Try standard aggregated metric
+        primary_var = f"{crop}_{metric}"
+        all_args = list(args) + [primary_var]
+        rows = await self.db.fetch(query_template, *all_args)
+        
+        # 2. Try seasonal fallback if no data
+        if not rows or len(rows) == 0:
+            season_map = {
+                "rice": "kharif", "wheat": "rabi", "maize": "kharif",
+                "soyabean": "kharif", "groundnut": "kharif", "cotton": "kharif",
+                "pearl_millet": "kharif", "sorghum": "kharif", "chickpea": "rabi"
+            }
+            season = season_map.get(crop.lower())
+            if season:
+                fallback_var = f"{crop}_{metric}_{season}"
+                all_args[-1] = fallback_var
+                rows = await self.db.fetch(query_template, *all_args)
+                
+        return rows
+
+    # ============================================================
     # CROP DIVERSIFICATION INDEX
     # ============================================================
     
@@ -209,15 +245,16 @@ class AdvancedAnalyticsService:
         """
         Calculate yield trend with CAGR and volatility.
         """
-        rows = await self.db.fetch("""
+        query_template = """
             SELECT year, value
             FROM agri_metrics
             WHERE district_lgd::text = $1 
-              AND variable_name = $2
-              AND year BETWEEN $3 AND $4
+              AND year BETWEEN $2 AND $3
               AND value > 0
+              AND variable_name = $4
             ORDER BY year
-        """, cdk, f"{crop}_yield", start_year, end_year)
+        """
+        rows = await self._fetch_with_fallback(query_template, crop, "yield", cdk, start_year, end_year)
         
         if len(rows) < 3:
             return None
@@ -282,15 +319,18 @@ class AdvancedAnalyticsService:
         Compare agricultural performance before/after district split.
         """
         # Before split: parent district performance
-        before_data = await self.db.fetch("""
+        query_template = """
             SELECT year, value
             FROM agri_metrics
             WHERE district_lgd::text = $1 
-              AND variable_name = $2
-              AND year BETWEEN $3 AND $4
+              AND year BETWEEN $2 AND $3
               AND value > 0
+              AND variable_name = $4
             ORDER BY year
-        """, parent_cdk, f"{crop}_yield", split_year - years_before, split_year - 1)
+        """
+        before_data = await self._fetch_with_fallback(
+            query_template, crop, "yield", parent_cdk, split_year - years_before, split_year - 1
+        )
         
         before_yields = [r['value'] for r in before_data]
         before_avg = sum(before_yields) / len(before_yields) if before_yields else 0
@@ -298,15 +338,9 @@ class AdvancedAnalyticsService:
         # After split: weighted average of children
         after_results = {}
         for child_cdk in child_cdks:
-            after_data = await self.db.fetch("""
-                SELECT year, value
-                FROM agri_metrics
-                WHERE district_lgd::text = $1 
-                  AND variable_name = $2
-                  AND year BETWEEN $3 AND $4
-                  AND value > 0
-                ORDER BY year
-            """, child_cdk, f"{crop}_yield", split_year, split_year + years_after)
+            after_data = await self._fetch_with_fallback(
+                query_template, crop, "yield", child_cdk, split_year, split_year + years_after
+            )
             
             after_yields = [r['value'] for r in after_data]
             after_results[child_cdk] = {
@@ -364,15 +398,16 @@ class AdvancedAnalyticsService:
         # Get yield data for each crop across districts
         crop_data = {}
         for crop in crops:
-            rows = await self.db.fetch("""
+            query_template = """
                 SELECT m.district_lgd::text as cdk, m.value
                 FROM agri_metrics m
                 JOIN districts d ON m.district_lgd = d.lgd_code
-                WHERE d.state_name = $1
+                WHERE UPPER(d.state_name) = UPPER($1)
                   AND m.year = $2
-                  AND m.variable_name = $3
                   AND m.value > 0
-            """, state, year, f"{crop}_yield")
+                  AND m.variable_name = $3
+            """
+            rows = await self._fetch_with_fallback(query_template, crop, "yield", state, year)
             
             crop_data[crop] = {r['cdk']: r['value'] for r in rows}
         
@@ -429,19 +464,20 @@ class AdvancedAnalyticsService:
         """
         Rank districts by crop performance.
         """
-        rows = await self.db.fetch("""
+        query_template = """
             SELECT 
                 m.district_lgd::text as cdk,
                 d.district_name,
                 m.value
             FROM agri_metrics m
             JOIN districts d ON m.district_lgd = d.lgd_code
-            WHERE d.state_name = $1
-              AND m.variable_name = $2
-              AND m.year = $3
+            WHERE UPPER(d.state_name) = UPPER($1)
+              AND m.year = $2
               AND m.value > 0
+              AND m.variable_name = $3
             ORDER BY m.value DESC
-        """, state, f"{crop}_{metric}", year)
+        """
+        rows = await self._fetch_with_fallback(query_template, crop, metric, state, year)
         
         rankings = []
         for i, r in enumerate(rows, 1):
@@ -469,15 +505,16 @@ class AdvancedAnalyticsService:
         """
         Calculate year-over-year growth rates.
         """
-        rows = await self.db.fetch("""
+        query_template = """
             SELECT year, value
             FROM agri_metrics
             WHERE district_lgd::text = $1 
-              AND variable_name = $2
-              AND year BETWEEN $3 AND $4
+              AND year BETWEEN $2 AND $3
               AND value > 0
+              AND variable_name = $4
             ORDER BY year
-        """, cdk, f"{crop}_yield", start_year, end_year)
+        """
+        rows = await self._fetch_with_fallback(query_template, crop, "yield", cdk, start_year, end_year)
         
         growth_data = []
         prev_value = None
@@ -551,14 +588,15 @@ class AdvancedAnalyticsService:
         with a fallback to simple linear regression.
         """
         # Fetch the last 20+ years of data
-        rows = await self.db.fetch("""
+        query_template = """
             SELECT year, value FROM agri_metrics
             WHERE district_lgd::text = $1 
-              AND variable_name = $2
               AND year >= 2000
               AND value > 0
+              AND variable_name = $2
             ORDER BY year
-        """, cdk, f"{crop}_yield")
+        """
+        rows = await self._fetch_with_fallback(query_template, crop, "yield", cdk)
         
         if len(rows) < 5:
             return {"error": "Insufficient data to forecast. Need at least 5 years."}
@@ -665,7 +703,7 @@ class AdvancedAnalyticsService:
         Rank districts by true climate resilience, measured by the magnitude
         of yield drop and speed of recovery during known systemic drought/shock years.
         """
-        rows = await self.db.fetch("""
+        query_template = """
             SELECT 
                 d.district_name,
                 m.district_lgd::text as cdk,
@@ -673,12 +711,13 @@ class AdvancedAnalyticsService:
                 m.value
             FROM agri_metrics m
             JOIN districts d ON m.district_lgd = d.lgd_code
-            WHERE d.state_name = $1
-              AND m.variable_name = $2
+            WHERE UPPER(d.state_name) = UPPER($1)
               AND m.value > 0
-              AND m.year BETWEEN $3 AND $4
+              AND m.year BETWEEN $2 AND $3
+              AND m.variable_name = $4
             ORDER BY m.district_lgd, m.year
-        """, state, f"{crop}_yield", year_range[0], year_range[1])
+        """
+        rows = await self._fetch_with_fallback(query_template, crop, "yield", state, year_range[0], year_range[1])
         
         # Group by district into {year: value} dicts
         district_data = {}
@@ -777,7 +816,7 @@ class AdvancedAnalyticsService:
         Quantifies the yield gap for each district against the state's 90th percentile "frontier".
         Tracks convergence or divergence over the time period.
         """
-        rows = await self.db.fetch("""
+        query_template = """
              SELECT 
                 d.district_name,
                 m.district_lgd::text as cdk,
@@ -785,12 +824,13 @@ class AdvancedAnalyticsService:
                 m.value
             FROM agri_metrics m
             JOIN districts d ON m.district_lgd = d.lgd_code
-            WHERE d.state_name = $1
-              AND m.variable_name = $2
+            WHERE UPPER(d.state_name) = UPPER($1)
               AND m.value > 0
-              AND m.year BETWEEN $3 AND $4
+              AND m.year BETWEEN $2 AND $3
+              AND m.variable_name = $4
             ORDER BY m.year, m.value DESC
-        """, state, f"{crop}_yield", start_year, end_year)
+        """
+        rows = await self._fetch_with_fallback(query_template, crop, "yield", state, start_year, end_year)
         
         if not rows:
             return {"error": "No data found for the given parameters"}

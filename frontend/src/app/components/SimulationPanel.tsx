@@ -54,7 +54,7 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
 
     if (error) {
         return (
-            <div className="flex items-center gap-2 text-red-400 text-[11px] py-2">
+            <div className="flex items-center gap-2 text-rose-600 text-[11px] py-2">
                 <AlertCircle size={13} />
                 <span>{error}</span>
             </div>
@@ -70,25 +70,25 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
 
             {/* ── Model Quality Badges ── */}
             <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-300 border border-indigo-500/20">
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
                     {methodLabel}
                 </span>
-                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
                     R² {prediction.r_squared.toFixed(2)}
                 </span>
-                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
                     {prediction.sample_size} dist
                 </span>
-                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
                     {prediction.feature_count} feat
                 </span>
             </div>
 
             {/* ── Predicted Yield ── */}
-            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+            <div className="bg-white rounded-lg p-3 border border-slate-200 shadow-sm">
                 <div className="flex justify-between items-baseline mb-2">
                     <span className="text-[9px] text-slate-500 uppercase tracking-widest font-bold">Predicted Yield</span>
-                    <div className={`flex items-center gap-1 text-[11px] font-bold font-mono ${projection.change_pct > 0 ? 'text-emerald-400' : projection.change_pct < 0 ? 'text-red-400' : 'text-slate-400'
+                    <div className={`flex items-center gap-1 text-[11px] font-bold font-mono ${projection.change_pct > 0 ? 'text-emerald-600' : projection.change_pct < 0 ? 'text-rose-600' : 'text-slate-500'
                         }`}>
                         {projection.change_pct > 0 ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
                         {projection.change_pct > 0 ? '+' : ''}{projection.change_pct.toFixed(1)}%
@@ -97,21 +97,21 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
 
                 <div className="flex items-end justify-between mb-2">
                     <div>
-                        <span className={`text-2xl font-bold font-mono tracking-tight ${projection.yield >= prediction.baseline_yield ? 'text-emerald-400' : 'text-amber-400'
+                        <span className={`text-2xl font-bold font-mono tracking-tight ${projection.yield >= prediction.baseline_yield ? 'text-emerald-700' : 'text-amber-600'
                             }`}>
                             {projection.yield.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                         </span>
-                        <span className="text-[10px] text-slate-500 ml-1">kg/ha</span>
+                        <span className="text-[10px] text-slate-500 ml-1 font-medium">kg/ha</span>
                     </div>
-                    <span className="text-[10px] text-slate-500 font-mono">
+                    <span className="text-[10px] text-slate-500 font-mono font-medium">
                         base: {prediction.baseline_yield.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                     </span>
                 </div>
 
                 {/* Confidence bar */}
                 <div className="relative">
-                    <div className="h-1.5 bg-slate-700/80 rounded-full overflow-hidden">
-                        <div className="h-full bg-indigo-500/30 rounded-full" style={{
+                    <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200/50 shadow-inner">
+                        <div className="h-full bg-indigo-500/40 rounded-full" style={{
                             width: '80%',
                             marginLeft: '10%',
                         }} />
@@ -128,24 +128,24 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
                             );
                         })()}
                     </div>
-                    <div className="flex justify-between text-[8px] text-slate-600 mt-0.5 font-mono">
+                    <div className="flex justify-between text-[8px] text-slate-500 mt-0.5 font-mono">
                         <span>{prediction.confidence_lower.toFixed(0)}</span>
-                        <span className="text-slate-500 text-[7px]">95% CI</span>
+                        <span className="text-slate-400 text-[7px] uppercase tracking-widest font-bold">95% CI</span>
                         <span>{prediction.confidence_upper.toFixed(0)}</span>
                     </div>
                 </div>
             </div>
 
             {/* ── Rainfall Deviation Slider ── */}
-            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+            <div className="bg-white rounded-lg p-3 border border-slate-200 shadow-sm">
                 <div className="flex justify-between items-center mb-2">
                     <span className="text-[9px] text-slate-500 uppercase tracking-widest font-bold">Rainfall Deviation</span>
-                    <span className="font-mono text-xs font-bold text-indigo-300 bg-indigo-500/15 px-1.5 py-0.5 rounded border border-indigo-500/20">
+                    <span className="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200">
                         {deviation > 0 ? '+' : ''}{deviation}%
                     </span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="text-[8px] font-bold text-red-400">-50</span>
+                    <span className="text-[8px] font-bold text-rose-500">-50</span>
                     <input
                         type="range"
                         min="-50"
@@ -153,17 +153,17 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
                         step="5"
                         value={deviation}
                         onChange={(e) => setDeviation(parseInt(e.target.value))}
-                        className="flex-1 h-1 bg-slate-700 rounded-full appearance-none cursor-pointer accent-indigo-500"
+                        className="flex-1 h-1.5 bg-slate-200 rounded-full appearance-none cursor-pointer accent-indigo-600"
                     />
-                    <span className="text-[8px] font-bold text-emerald-400">+50</span>
+                    <span className="text-[8px] font-bold text-emerald-600">+50</span>
                 </div>
-                <div className="text-[8px] text-slate-600 text-center mt-1 font-mono">
+                <div className="text-[9px] text-slate-500 text-center mt-1.5 font-mono font-medium">
                     {projection.rain_mm.toFixed(0)} mm (avg {prediction.mean_rain.toFixed(0)} mm)
                 </div>
             </div>
 
             {/* ── Scatter Plot ── */}
-            <div className="bg-slate-800/50 rounded-lg border border-slate-700/50 overflow-hidden">
+            <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
                 <div className="px-3 pt-2">
                     <span className="text-[9px] text-slate-500 uppercase tracking-widest font-bold">Rainfall vs Yield</span>
                 </div>
@@ -173,18 +173,18 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
                             grid: { top: 15, right: 10, bottom: 22, left: 38 },
                             tooltip: {
                                 trigger: 'item',
-                                backgroundColor: 'rgba(15, 23, 42, 0.95)',
-                                borderColor: '#334155',
-                                textStyle: { color: '#e2e8f0', fontSize: 10 },
+                                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                borderColor: '#e2e8f0',
+                                textStyle: { color: '#0f172a', fontSize: 10 },
                                 padding: [6, 10],
                                 formatter: function (params: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) {
                                     if (!params.value || !Array.isArray(params.value) || params.value.length < 2) return '';
                                     if (params.seriesName === 'Projection') {
-                                        return `<span style="color:#f43f5e;font-weight:600">Projected</span><br/>Yield: ${Number(params.value[1]).toFixed(0)} kg/ha<br/>Rain: ${Number(params.value[0]).toFixed(0)} mm`;
+                                        return `<span style="color:#e11d48;font-weight:600">Projected</span><br/>Yield: ${Number(params.value[1]).toFixed(0)} kg/ha<br/>Rain: ${Number(params.value[0]).toFixed(0)} mm`;
                                     }
                                     if (params.seriesName === 'Trend') return '';
                                     const label = params.data?.[2] || '';
-                                    return `${label ? `<span style="color:#94a3b8">${label}</span><br/>` : ''}Yield: ${params.value[1]} kg/ha<br/>Rain: ${params.value[0]} mm`;
+                                    return `${label ? `<span style="color:#64748b;font-weight:600">${label}</span><br/>` : ''}Yield: ${params.value[1]} kg/ha<br/>Rain: ${params.value[0]} mm`;
                                 }
                             },
                             xAxis: {
@@ -192,23 +192,23 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
                                 name: 'Rain (mm)',
                                 nameLocation: 'middle',
                                 nameGap: 14,
-                                nameTextStyle: { color: '#4b5563', fontSize: 8 },
-                                axisLabel: { color: '#4b5563', fontSize: 8 },
-                                splitLine: { lineStyle: { color: '#1e293b' } },
-                                axisLine: { lineStyle: { color: '#334155' } },
+                                nameTextStyle: { color: '#64748b', fontSize: 8 },
+                                axisLabel: { color: '#64748b', fontSize: 8 },
+                                splitLine: { lineStyle: { color: '#e2e8f0', type: 'dashed' } },
+                                axisLine: { lineStyle: { color: '#cbd5e1' } },
                                 axisTick: { show: false },
                                 scale: true,
                             },
                             yAxis: {
                                 type: 'value',
                                 name: 'Yield',
-                                nameTextStyle: { color: '#4b5563', fontSize: 8 },
+                                nameTextStyle: { color: '#64748b', fontSize: 8 },
                                 axisLabel: {
-                                    color: '#4b5563', fontSize: 8,
+                                    color: '#64748b', fontSize: 8,
                                     formatter: (val: number) => val >= 1000 ? `${(val / 1000).toFixed(1)}k` : String(val),
                                 },
-                                splitLine: { lineStyle: { color: '#1e293b' } },
-                                axisLine: { lineStyle: { color: '#334155' } },
+                                splitLine: { lineStyle: { color: '#e2e8f0', type: 'dashed' } },
+                                axisLine: { lineStyle: { color: '#cbd5e1' } },
                                 axisTick: { show: false },
                                 scale: true,
                             },
@@ -252,22 +252,22 @@ export default function SimulationPanel({ district, state, crop, year }: Simulat
 
             {/* ── Factor Importance ── */}
             {prediction.factors.length > 1 && (
-                <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+                <div className="bg-white rounded-lg p-3 border border-slate-200 shadow-sm">
                     <span className="text-[9px] text-slate-500 uppercase tracking-widest font-bold">Factor Importance</span>
                     <div className="mt-2 space-y-1.5">
                         {prediction.factors.map((f) => (
                             <div key={f.key}>
                                 <div className="flex justify-between items-center mb-0.5">
-                                    <span className="text-[10px] text-slate-400">{f.name}</span>
-                                    <span className="text-[9px] font-mono text-slate-500">
+                                    <span className="text-[10px] text-slate-700 font-medium">{f.name}</span>
+                                    <span className="text-[9px] font-mono font-semibold text-slate-500">
                                         {(f.importance * 100).toFixed(0)}%
                                     </span>
                                 </div>
-                                <div className="h-1 bg-slate-700 rounded-full overflow-hidden">
+                                <div className="h-1 bg-slate-100 rounded-full overflow-hidden shadow-inner border border-slate-200/50">
                                     <div
                                         className={`h-full rounded-full transition-all duration-500 ${f.direction === 'positive'
                                             ? 'bg-indigo-500'
-                                            : 'bg-amber-500'
+                                            : 'bg-amber-400'
                                             }`}
                                         style={{ width: `${Math.max(3, f.importance * 100)}%` }}
                                     />

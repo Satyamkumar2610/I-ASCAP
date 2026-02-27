@@ -24,23 +24,23 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
 
     // Determine color based on Correlation Strength
     const getColor = (rVal: number) => {
-        if (Math.abs(rVal) < 0.2) return "text-slate-400"; // Negligible
-        if (rVal > 0) return "text-emerald-400"; // Positive
-        return "text-rose-400"; // Negative
+        if (Math.abs(rVal) < 0.2) return "text-slate-500"; // Negligible
+        if (rVal > 0) return "text-emerald-600"; // Positive
+        return "text-rose-600"; // Negative
     };
 
     const getBgColor = (rVal: number) => {
-        if (Math.abs(rVal) < 0.2) return "bg-slate-500/10 border-slate-500";
-        if (rVal > 0) return "bg-emerald-500/10 border-emerald-500";
-        return "bg-rose-500/10 border-rose-500";
+        if (Math.abs(rVal) < 0.2) return "bg-slate-50 border-slate-200";
+        if (rVal > 0) return "bg-emerald-50 border-emerald-200";
+        return "bg-rose-50 border-rose-200";
     };
 
     return (
-        <div className="glass-card rounded-xl p-4 transition-all duration-300 hover:shadow-sky-900/10">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-4 transition-all duration-300 hover:shadow-md hover:border-sky-200">
             {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-                <h4 className="text-[10px] text-sky-400 uppercase font-bold flex items-center gap-2 tracking-wider">
-                    <CloudRain size={14} /> Climate Impact (Monsoon)
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                <h4 className="text-[10px] text-sky-600 uppercase font-bold flex items-center gap-2 tracking-wider">
+                    <CloudRain size={14} className="text-sky-500" /> Climate Impact (Monsoon)
                 </h4>
                 {Math.abs(r) > 0.3 && (
                     <span className={`text-[10px] px-1.5 py-0.5 rounded border ${getBgColor(r)} ${getColor(r)} font-bold uppercase`}>
@@ -50,20 +50,26 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
             </div>
 
             {/* Stats Row */}
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-4 mb-4 bg-slate-50 border border-slate-200 shadow-sm p-4 rounded-xl">
                 {/* Big R Value */}
                 <div className="flex flex-col items-center">
-                    <div className={`text-2xl font-bold ${getColor(r)}`}>
-                        {r > 0 ? '+' : ''}{r.toFixed(2)}
+                    <div className={`text-2xl font-bold font-mono ${getColor(r)}`}>
+                        {Math.abs(r) > 0.05 ? `${r > 0 ? '+' : ''}${r.toFixed(2)}` : 'N/A'}
                     </div>
-                    <div className="text-[9px] text-slate-500 uppercase tracking-wide">Correlation (r)</div>
+                    <div className="text-[9px] text-slate-500 uppercase tracking-wide font-bold mt-1">Correlation (r)</div>
                 </div>
 
                 {/* Intepretation Text */}
-                <div className="flex-1 text-xs text-slate-300 leading-relaxed border-l border-slate-800 pl-3">
-                    <span className="font-semibold text-white capitalize">{crop}</span> yields have a
-                    <span className={`font-bold ${getColor(r)}`}> {interpretation} {direction} </span>
-                    relationship with monsoon rainfall in this state.
+                <div className="flex-1 text-xs text-slate-600 leading-relaxed border-l border-slate-200 pl-4">
+                    {Math.abs(r) > 0.05 ? (
+                        <>
+                            <span className="font-semibold text-slate-900 capitalize">{crop}</span> yields have a
+                            <span className={`font-bold ${getColor(r)}`}> {interpretation} {direction} </span>
+                            relationship with monsoon rainfall in this state.
+                        </>
+                    ) : (
+                        <span className="text-slate-500 italic">Insufficient data for correlation analysis in this region.</span>
+                    )}
                 </div>
             </div>
 
@@ -111,8 +117,8 @@ export default function ClimateCorrelationCard({ data, crop }: ClimateCorrelatio
             </div>
 
             {/* Methodology Footnote */}
-            <div className="flex items-start gap-1.5 text-[9px] text-slate-400 bg-slate-950/40 p-2.5 rounded-lg border border-slate-800/50 shadow-inner">
-                <Info size={12} className="shrink-0 mt-0.5 text-slate-500" />
+            <div className="flex items-start gap-1.5 text-[9px] text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-200 shadow-sm">
+                <Info size={12} className="shrink-0 mt-0.5 text-slate-400" />
                 <p>
                     Statistical correlation based on {data?.data_points?.length || 0} districts.
                     Compares {data.validity?.baseline_period || 'historic'} Rainfall Normals vs Yield.

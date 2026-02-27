@@ -139,7 +139,7 @@ async def get_rainfall_yield_correlation(
         SELECT d.district_name, m.value as yield_val
         FROM agri_metrics m
         JOIN districts d ON m.district_lgd = d.lgd_code
-        WHERE d.state_name = $1 AND m.variable_name = $2 AND m.year = $3
+        WHERE UPPER(d.state_name) = UPPER($1) AND m.variable_name = $2 AND m.year = $3
         AND m.value IS NOT NULL AND m.value > 0
     """
     yield_rows = await db.fetch(yield_query, state, variable, year)

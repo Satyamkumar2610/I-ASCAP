@@ -397,6 +397,7 @@ const Dashboard: React.FC<DashboardProps> = ({
                                     return (
                                         <AnalyticsPanel
                                             cdk={cdk}
+                                            districtName={selectedDistrict}
                                             state={stateName}
                                             year={currentYear}
                                             crop={currentCrop}
