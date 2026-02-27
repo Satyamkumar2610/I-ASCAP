@@ -193,8 +193,9 @@ async def get_prediction_v2(
                       "soyabean": "kharif", "groundnut": "kharif"}
         season = season_map.get(crop.lower())
         if season:
+            variable_name = f"{crop.lower()}_yield_{season}"
             yield_rows = await db.fetch(
-                yield_query, state, f"{crop.lower()}_yield_{season}", year
+                yield_query, state, variable_name, year
             )
 
     if len(yield_rows) < 5:
