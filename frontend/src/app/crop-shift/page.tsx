@@ -197,7 +197,7 @@ export default function CropShiftPage() {
                 {/* Configuration Panel */}
                 <div className="bg-white border border-slate-200 rounded-xl p-5 mb-6 shadow-sm flex flex-col sm:flex-row gap-4">
                     <div className="flex-1">
-                        <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">State</label>
+                        <label className="text-[10px] uppercase font-bold text-slate-600 mb-1 block">State</label>
                         <select
                             value={selectedState}
                             onChange={(e) => { setSelectedState(e.target.value); setSelectedCdk(''); }}
@@ -209,7 +209,7 @@ export default function CropShiftPage() {
                     </div>
 
                     <div className="flex-1">
-                        <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">District</label>
+                        <label className="text-[10px] uppercase font-bold text-slate-600 mb-1 block">District</label>
                         <select
                             value={selectedCdk}
                             onChange={(e) => setSelectedCdk(e.target.value)}
@@ -235,7 +235,7 @@ export default function CropShiftPage() {
                 {/* No Data State */}
                 {!loadingShift && selectedCdk && !hasData && (
                     <div className="bg-white border border-slate-200 rounded-xl p-10 text-center shadow-sm">
-                        <AlertCircle size={36} className="mx-auto mb-3 text-slate-300" />
+                        <AlertCircle size={36} className="mx-auto mb-3 text-slate-500" />
                         <h3 className="text-lg font-bold text-slate-700">No Longitudinal Data</h3>
                         <p className="text-sm text-slate-500 mt-1">There is insufficient historical crop area data to analyze the shift for this district.</p>
                     </div>
@@ -247,13 +247,13 @@ export default function CropShiftPage() {
                         {/* Summary Metrics */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-                                <div className="text-[10px] uppercase font-bold text-slate-400 mb-1">Observation Period</div>
+                                <div className="text-[10px] uppercase font-bold text-slate-600 mb-1">Observation Period</div>
                                 <div className="text-2xl font-bold font-mono text-slate-900">{analytics.firstYear}–{analytics.lastYear}</div>
                                 <div className="text-xs text-slate-500 mt-1">{timeline.length} years of continuous data</div>
                             </div>
 
                             <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-                                <div className="text-[10px] uppercase font-bold text-slate-400 mb-1">Diversity Trend</div>
+                                <div className="text-[10px] uppercase font-bold text-slate-600 mb-1">Diversity Trend</div>
                                 <div className={`text-2xl font-bold ${analytics.trend === 'Diversifying' ? 'text-emerald-600' :
                                     analytics.trend === 'Concentrating' ? 'text-amber-600' : 'text-slate-900'
                                     }`}>
@@ -265,7 +265,7 @@ export default function CropShiftPage() {
                             </div>
 
                             <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm col-span-2">
-                                <div className="text-[10px] uppercase font-bold text-slate-400 mb-1">Historical Paradigm Shift</div>
+                                <div className="text-[10px] uppercase font-bold text-slate-600 mb-1">Historical Paradigm Shift</div>
                                 {analytics.isShift ? (
                                     <div>
                                         <div className="text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -297,10 +297,10 @@ export default function CropShiftPage() {
                                 </div>
 
                                 <div className="group relative cursor-help">
-                                    <Info size={16} className="text-slate-400" />
+                                    <Info size={16} className="text-slate-600" />
                                     <div className="absolute right-0 top-6 w-64 bg-slate-800 text-white text-xs p-3 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
                                         <p className="font-bold mb-1">Reading this chart:</p>
-                                        <p className="text-slate-300">This normalizes all agricultural area to 100%. Wide bands indicate major crops. If a band widens significantly while others shrink, the district is concentrating towards monoculture.</p>
+                                        <p className="text-slate-500">This normalizes all agricultural area to 100%. Wide bands indicate major crops. If a band widens significantly while others shrink, the district is concentrating towards monoculture.</p>
                                     </div>
                                 </div>
                             </div>

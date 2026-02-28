@@ -127,7 +127,7 @@ export default function ReportsPage() {
                                             <div className="text-sm text-slate-900 font-medium">{r.name}</div>
                                             <div className="text-[10px] text-slate-500 font-bold">{r.state}</div>
                                         </div>
-                                        <ChevronRight size={14} className="text-slate-400" />
+                                        <ChevronRight size={14} className="text-slate-600" />
                                     </button>
                                 ))}
                             </div>
@@ -171,7 +171,7 @@ export default function ReportsPage() {
                 <div className="lg:col-span-2">
                     {!previewOpen && (
                         <div className="text-center py-20 bg-white border border-slate-200 shadow-sm rounded-xl">
-                            <FileText className="mx-auto text-slate-300 mb-4" size={48} />
+                            <FileText className="mx-auto text-slate-500 mb-4" size={48} />
                             <p className="text-slate-500 text-sm font-medium">Configure report parameters and click Generate</p>
                         </div>
                     )}

@@ -91,7 +91,7 @@ export default function SplitDistrictTable({ splits, onSelect, selectedEventId, 
                                 <span className={`text-sm font-bold ${selectedEventId === item.id ? 'text-indigo-900' : 'text-slate-800'}`}>
                                     {item.parent_name}
                                 </span>
-                                <ArrowRight size={12} className="text-slate-400" />
+                                <ArrowRight size={12} className="text-slate-600" />
                                 <span className="text-xs text-slate-500 font-medium">Split in {item.split_year}</span>
                             </div>
                             {/* Resolution badge */}

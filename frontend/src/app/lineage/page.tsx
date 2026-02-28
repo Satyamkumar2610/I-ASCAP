@@ -136,10 +136,10 @@ export default function LineagePage() {
             {!selectedState && (
                 <div className="text-center py-24">
                     <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-5">
-                        <GitBranch className="text-slate-400" size={36} />
+                        <GitBranch className="text-slate-600" size={36} />
                     </div>
                     <p className="text-slate-500 text-lg font-medium">Select a state to explore its district lineage</p>
-                    <p className="text-slate-400 text-sm mt-1">View split history, data provenance & coverage</p>
+                    <p className="text-slate-600 text-sm mt-1">View split history, data provenance & coverage</p>
                 </div>
             )}
 
@@ -185,9 +185,9 @@ export default function LineagePage() {
 
                             {Object.keys(decades).length === 0 && (
                                 <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-8 text-center">
-                                    <GitBranch className="mx-auto text-slate-300 mb-3" size={32} />
+                                    <GitBranch className="mx-auto text-slate-500 mb-3" size={32} />
                                     <p className="text-slate-500 text-sm font-medium">No split events recorded for {selectedState}</p>
-                                    <p className="text-slate-400 text-xs mt-1">This state may not have undergone district reorganization</p>
+                                    <p className="text-slate-600 text-xs mt-1">This state may not have undergone district reorganization</p>
                                 </div>
                             )}
 
@@ -208,7 +208,7 @@ export default function LineagePage() {
                                             </div>
                                             <ChevronDown
                                                 size={16}
-                                                className={`text-slate-400 transition-transform duration-200 ${expandedDecade === Number(decade) ? 'rotate-180' : ''}`}
+                                                className={`text-slate-600 transition-transform duration-200 ${expandedDecade === Number(decade) ? 'rotate-180' : ''}`}
                                             />
                                         </button>
                                         {expandedDecade === Number(decade) && (
@@ -227,7 +227,7 @@ export default function LineagePage() {
                                                             </div>
                                                             <div className="flex items-center gap-2 text-sm">
                                                                 <span className="text-amber-700 font-semibold">{event.parent_district}</span>
-                                                                <ArrowRight size={12} className="text-slate-400 flex-shrink-0" />
+                                                                <ArrowRight size={12} className="text-slate-600 flex-shrink-0" />
                                                                 <button
                                                                     onClick={() => setSelectedCdk(event.child_cdk)}
                                                                     className="text-emerald-600 hover:text-emerald-700 hover:underline transition font-semibold"
@@ -235,7 +235,7 @@ export default function LineagePage() {
                                                                     {event.child_district}
                                                                 </button>
                                                             </div>
-                                                            <div className="text-[10px] text-slate-400 mt-1 flex items-center gap-1 font-medium">
+                                                            <div className="text-[10px] text-slate-600 mt-1 flex items-center gap-1 font-medium">
                                                                 <Hash size={8} />
                                                                 {event.source || 'Census/Gazette'}
                                                                 {event.child_cdk && (
@@ -305,13 +305,13 @@ export default function LineagePage() {
 
                                     {/* Search */}
                                     <div className="relative mb-3">
-                                        <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                                        <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-600" />
                                         <input
                                             type="text"
                                             value={coverageSearch}
                                             onChange={(e) => setCoverageSearch(e.target.value)}
                                             placeholder="Filter districts..."
-                                            className="w-full bg-slate-50 border border-slate-200 rounded-md pl-7 pr-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:border-purple-500 outline-none transition"
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-md pl-7 pr-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-600 focus:border-purple-500 outline-none transition"
                                         />
                                     </div>
 
@@ -333,7 +333,7 @@ export default function LineagePage() {
                                             </button>
                                         ))}
                                         {filteredCoverage.length === 0 && (
-                                            <p className="text-xs text-slate-400 text-center py-4">No matching districts</p>
+                                            <p className="text-xs text-slate-600 text-center py-4">No matching districts</p>
                                         )}
                                     </div>
                                 </div>

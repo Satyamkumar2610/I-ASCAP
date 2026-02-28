@@ -55,7 +55,7 @@ function CompareContent() {
     if (ids.length === 0) {
         return (
             <div className="text-center py-20">
-                <h2 className="text-xl text-slate-400">No districts selected for comparison.</h2>
+                <h2 className="text-xl text-slate-600">No districts selected for comparison.</h2>
                 <Link href="/" className="text-emerald-400 hover:underline mt-4 inline-block">
                     Return to Dashboard
                 </Link>

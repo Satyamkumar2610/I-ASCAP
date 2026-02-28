@@ -47,7 +47,7 @@ export function ComparisonView({ event, crop, metric, mode }: ComparisonViewProp
                     </div>
                 ) : !hasData ? (
                     <div className="flex-1 flex flex-col items-center justify-center text-slate-500 p-4 md:p-8 text-center bg-white">
-                        <Sprout size={36} className="text-slate-300 mb-3 md:mb-4 md:w-12 md:h-12" />
+                        <Sprout size={36} className="text-slate-500 mb-3 md:mb-4 md:w-12 md:h-12" />
                         <h3 className="text-base md:text-lg font-bold text-slate-700">No Data Available</h3>
                         <p className="max-w-xs mt-2 text-xs md:text-sm text-slate-500">
                             We found no records for <span className="text-indigo-600 font-bold">{crop.toUpperCase()}</span> in

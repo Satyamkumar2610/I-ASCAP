@@ -160,7 +160,7 @@ export default function WaterStressPage() {
                 {/* Configuration Panel */}
                 <div className="bg-white border border-slate-200 rounded-xl p-5 mb-6 shadow-sm flex flex-col sm:flex-row gap-4 items-end">
                     <div className="flex-1">
-                        <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">State</label>
+                        <label className="text-[10px] uppercase font-bold text-slate-600 mb-1 block">State</label>
                         <select
                             value={selectedState}
                             onChange={(e) => setSelectedState(e.target.value)}
@@ -172,7 +172,7 @@ export default function WaterStressPage() {
                     </div>
 
                     <div className="w-48">
-                        <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Analysis Year</label>
+                        <label className="text-[10px] uppercase font-bold text-slate-600 mb-1 block">Analysis Year</label>
                         <select
                             value={selectedYear}
                             onChange={(e) => setSelectedYear(Number(e.target.value))}
@@ -196,7 +196,7 @@ export default function WaterStressPage() {
                 {/* No Data State */}
                 {!loadingStress && selectedState && !hasData && (
                     <div className="bg-white border border-slate-200 rounded-xl p-10 text-center shadow-sm">
-                        <Droplet size={36} className="mx-auto mb-3 text-slate-300" />
+                        <Droplet size={36} className="mx-auto mb-3 text-slate-500" />
                         <h3 className="text-lg font-bold text-slate-700">No Data Available</h3>
                         <p className="text-sm text-slate-500 mt-1">Either rainfall normals or crop area records are missing for this state and year.</p>
                     </div>
@@ -217,19 +217,19 @@ export default function WaterStressPage() {
                             </div>
 
                             <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-                                <div className="text-[10px] uppercase font-bold text-slate-400 mb-1">Statewide Intensive Share</div>
+                                <div className="text-[10px] uppercase font-bold text-slate-600 mb-1">Statewide Intensive Share</div>
                                 <div className="text-2xl font-bold font-mono text-slate-900">{summary.overallShare.toFixed(1)}%</div>
                                 <div className="text-xs text-slate-500 mt-1">Of total cultivated area</div>
                             </div>
 
                             <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-                                <div className="text-[10px] uppercase font-bold text-slate-400 mb-1">Avg State Rainfall</div>
+                                <div className="text-[10px] uppercase font-bold text-slate-600 mb-1">Avg State Rainfall</div>
                                 <div className="text-2xl font-bold font-mono text-slate-900">{Math.round(summary.avgRainfall)} <span className="text-sm text-slate-500 font-sans">mm</span></div>
                                 <div className="text-xs text-slate-500 mt-1">Historical Annual Normal</div>
                             </div>
 
                             <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-                                <div className="text-[10px] uppercase font-bold text-slate-400 mb-1">Highest Stress Area</div>
+                                <div className="text-[10px] uppercase font-bold text-slate-600 mb-1">Highest Stress Area</div>
                                 <div className="text-lg font-bold text-slate-900 truncate" title={summary.highestStress.district_name}>
                                     {summary.highestStress.district_name}
                                 </div>
@@ -262,7 +262,7 @@ export default function WaterStressPage() {
                                     <div className="h-[500px] w-full relative">
                                         <div className="absolute top-4 right-4 z-10 bg-slate-800/90 text-white text-xs p-2 rounded-lg max-w-[200px] pointer-events-none backdrop-blur-sm shadow-xl">
                                             <p className="font-bold flex items-center gap-1.5 mb-1 text-slate-200"><Info size={12} /> The Danger Zone</p>
-                                            <p className="text-slate-300">Bottom-Right indicates high cultivation of thirsty crops in arid geographies.</p>
+                                            <p className="text-slate-500">Bottom-Right indicates high cultivation of thirsty crops in arid geographies.</p>
                                         </div>
                                         <ReactECharts option={scatterOption!} style={{ height: '100%', width: '100%' }} />
                                     </div>
@@ -283,7 +283,7 @@ export default function WaterStressPage() {
                                             <tbody className="divide-y divide-slate-100">
                                                 {districts.map((d, i) => (
                                                     <tr key={d.cdk} className="hover:bg-slate-50 transition-colors">
-                                                        <td className="py-3 px-4 text-slate-400 font-mono">#{i + 1}</td>
+                                                        <td className="py-3 px-4 text-slate-600 font-mono">#{i + 1}</td>
                                                         <td className="py-3 px-4 font-medium text-slate-900">{d.district_name}</td>
                                                         <td className="py-3 px-4 text-right font-mono font-bold text-slate-700">{d.mismatch_score.toFixed(1)}</td>
                                                         <td className="py-3 px-4">
@@ -297,7 +297,7 @@ export default function WaterStressPage() {
                                                         </td>
                                                         <td className="py-3 px-4 text-right font-mono text-slate-600">{d.water_intensive_share.toFixed(1)}%</td>
                                                         <td className="py-3 px-4 text-right font-mono text-slate-600">{Math.round(d.annual_rainfall)} mm</td>
-                                                        <td className="py-3 px-4 text-right font-mono text-slate-400">{d.total_area.toFixed(0)} ha</td>
+                                                        <td className="py-3 px-4 text-right font-mono text-slate-600">{d.total_area.toFixed(0)} ha</td>
                                                     </tr>
                                                 ))}
                                             </tbody>

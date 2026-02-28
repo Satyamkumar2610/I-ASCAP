@@ -156,13 +156,13 @@ export default function RiskMonitorPage() {
                                         className="w-full flex items-center justify-between p-3 rounded-lg bg-white border border-slate-200 hover:border-slate-300 transition shadow-sm"
                                     >
                                         <div className="flex items-center gap-3">
-                                            <Activity size={14} className="text-slate-400" />
+                                            <Activity size={14} className="text-slate-600" />
                                             <span className="text-sm font-medium text-slate-800">{d.district_name || d.cdk}</span>
                                             <span className="text-xs text-slate-500">{d.anomaly_count} anomalies</span>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <RiskBadge level={d.risk_level || 'low'} />
-                                            <ChevronRight size={14} className="text-slate-400" />
+                                            <ChevronRight size={14} className="text-slate-600" />
                                         </div>
                                     </button>
                                 ))}

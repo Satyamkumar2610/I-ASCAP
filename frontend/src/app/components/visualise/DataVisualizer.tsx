@@ -121,7 +121,7 @@ export default function DataVisualizer() {
                                 analyze <strong>{selectedDistrict || "Whole State"}</strong> for <strong>{selectedCrop}</strong>
                             </span>
                         ) : (
-                            <span className="text-gray-400">Select a state to begin</span>
+                            <span className="text-gray-600">Select a state to begin</span>
                         )}
                     </div>
                 </div>
@@ -177,7 +177,7 @@ export default function DataVisualizer() {
                 )}
 
                 {!loading && !error && data.length === 0 && selectedState && (
-                    <div className="flex flex-col items-center justify-center h-64 text-gray-400">
+                    <div className="flex flex-col items-center justify-center h-64 text-gray-600">
                         <p>No data found for this selection.</p>
                     </div>
                 )}

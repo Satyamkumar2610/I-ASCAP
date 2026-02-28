@@ -160,7 +160,7 @@ export default function CropPortfolioPage() {
             {!selectedCdk && !isLoading && (
                 <div className="text-center py-24 bg-white border border-slate-200 rounded-xl shadow-sm">
                     <div className="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-5 border border-slate-100">
-                        <Wheat className="text-slate-400" size={36} />
+                        <Wheat className="text-slate-600" size={36} />
                     </div>
                     <p className="text-slate-700 font-medium text-lg">Select a district to analyze its crop portfolio</p>
                     <p className="text-slate-500 text-sm mt-1">Choose a state and district to begin</p>
@@ -179,9 +179,9 @@ export default function CropPortfolioPage() {
                     {/* District Label */}
                     {selectedDistrictName && (
                         <div className="flex items-center gap-2 text-slate-500 text-sm">
-                            <span className="text-xs uppercase tracking-wider text-slate-400 font-bold">Analyzing</span>
+                            <span className="text-xs uppercase tracking-wider text-slate-600 font-bold">Analyzing</span>
                             <span className="text-slate-900 font-bold">{selectedDistrictName}</span>
-                            <span className="text-slate-300">•</span>
+                            <span className="text-slate-500">•</span>
                             <span className="font-medium text-slate-700">{year}</span>
                         </div>
                     )}
@@ -513,7 +513,7 @@ export default function CropPortfolioPage() {
                                 <tbody className="divide-y divide-slate-100 bg-white">
                                     {pieData.map((item, i) => (
                                         <tr key={i} className="hover:bg-slate-50 transition">
-                                            <td className="px-5 py-3 text-slate-400 text-xs font-mono">{i + 1}</td>
+                                            <td className="px-5 py-3 text-slate-600 text-xs font-mono">{i + 1}</td>
                                             <td className="px-5 py-3 text-slate-700 font-medium capitalize flex items-center gap-2">
                                                 <span className="w-2.5 h-2.5 rounded-full flex-shrink-0 shadow-sm" style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }} />
                                                 {item.name}
