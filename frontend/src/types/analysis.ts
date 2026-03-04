@@ -91,10 +91,34 @@ export interface AnalysisExportData {
 }
 
 export interface YieldTrendData {
-    trend: number;
-    intercept: number;
-    p_value: number;
-    r_squared: number;
+    cdk: string;
+    crop: string;
+    period: string;
+    start_yield_kg_ha: number;
+    end_yield_kg_ha: number;
+    cagr_percent: number | null;
+    volatility_percent: number;
+    trend: 'increasing' | 'decreasing' | 'stable';
+    risk_assessment: 'low' | 'medium' | 'high';
+}
+
+export interface YoyGrowthData {
+    cdk: string;
+    crop: string;
+    period: string;
+    data: { year: number; yield: number; yoy_growth: number | null }[];
+    summary: {
+        average_yoy_growth_percent: number;
+        positive_growth_years: number;
+        negative_growth_years: number;
+    };
+}
+
+export interface CropCorrelationData {
+    state: string;
+    year: number;
+    crops: string[];
+    correlations: Record<string, Record<string, number | null>>;
 }
 
 export interface SplitImpactData {

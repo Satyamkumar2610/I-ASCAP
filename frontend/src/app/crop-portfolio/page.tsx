@@ -9,7 +9,6 @@ import ReactECharts from 'echarts-for-react';
 const PIE_COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4', '#f97316', '#6366f1', '#14b8a6', '#e11d48'];
 const CORR_POSITIVE = '#10b981';
 const CORR_NEGATIVE = '#ef4444';
-// const CORR_NEUTRAL = '#334155';
 
 function getCdiColor(cdi: number) {
     if (cdi > 0.7) return '#10b981';
@@ -54,22 +53,19 @@ export default function CropPortfolioPage() {
         enabled: !!selectedState,
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: yieldTrend } = useQuery<any>({
+    const { data: yieldTrend } = useQuery({
         queryKey: ['yield-trend', selectedCdk, diversification?.dominant_crop],
         queryFn: () => api.getYieldTrend(selectedCdk, diversification?.dominant_crop || 'rice'),
         enabled: !!selectedCdk && !!diversification?.dominant_crop,
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: yoyGrowth } = useQuery<any>({
+    const { data: yoyGrowth } = useQuery({
         queryKey: ['yoy-growth', selectedCdk, diversification?.dominant_crop],
         queryFn: () => api.getYoyGrowth(selectedCdk, diversification?.dominant_crop || 'rice'),
         enabled: !!selectedCdk && !!diversification?.dominant_crop,
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: correlations } = useQuery<any>({
+    const { data: correlations } = useQuery({
         queryKey: ['crop-correlations', selectedState, year],
         queryFn: () => api.getCropCorrelations(selectedState, year),
         enabled: !!selectedState,
@@ -100,8 +96,7 @@ export default function CropPortfolioPage() {
     }, [diversification]);
 
     // Yield trend data for LineChart
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const trendLineData = useMemo<any[]>(() => {
+    const trendLineData = useMemo<{ year: number; yield: number }[]>(() => {
         if (!yoyGrowth?.data) return [];
         return yoyGrowth.data;
     }, [yoyGrowth]);
@@ -316,7 +311,8 @@ export default function CropPortfolioPage() {
                                                 backgroundColor: '#ffffff',
                                                 borderColor: '#e2e8f0',
                                                 textStyle: { color: '#0f172a' },
-                                                formatter: (params: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => {
+                                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                formatter: (params: any) => {
                                                     const p = params[0];
                                                     return `<div class="font-bold mb-1">${p.name}</div>
                                                             <div class="text-sm text-slate-600">Yield: <span class="text-indigo-600 font-semibold">${p.value.toLocaleString()}</span> kg/ha</div>`;
@@ -393,7 +389,8 @@ export default function CropPortfolioPage() {
                                             backgroundColor: '#ffffff',
                                             borderColor: '#e2e8f0',
                                             textStyle: { color: '#0f172a' },
-                                            formatter: (params: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => {
+                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                            formatter: (params: any) => {
                                                 const p = params[0];
                                                 return `<div class="font-bold mb-1">${p.name}</div>
                                                         <div class="text-sm text-slate-600">Yield: <span class="text-emerald-600 font-semibold">${p.value.toLocaleString()}</span> kg/ha</div>`;

@@ -117,7 +117,7 @@ export interface RainfallData {
     };
 }
 
-import { EfficiencyData, RiskData, DiversificationData, CorrelationData, YieldTrendData, SplitImpactData } from '../../types/analysis';
+import { EfficiencyData, RiskData, DiversificationData, CorrelationData, YieldTrendData, YoyGrowthData, CropCorrelationData, SplitImpactData } from '../../types/analysis';
 
 export interface HistoryItem {
     year: number;
@@ -232,7 +232,7 @@ export const api = {
         fetcher<{ split_year: number; crops: string[]; parent: { name: string; cdk: string; pre_mix: Record<string, number> }; children: Record<string, { cdk: string; mix: Record<string, number> }>; divergence_scores: Record<string, number> }>(`analytics/split-specialization?parent_cdk=${parentCdk}&child_cdks=${childCdks.join(',')}&split_year=${splitYear}`),
 
     getCropCorrelations: (state: string, year: number, crops?: string[]) =>
-        fetcher<CorrelationData>(`analytics/crop-correlations?state=${encodeURIComponent(state)}&year=${year}${crops ? `&crops=${crops.join(',')}` : ''}`),
+        fetcher<CropCorrelationData>(`analytics/crop-correlations?state=${encodeURIComponent(state)}&year=${year}${crops ? `&crops=${crops.join(',')}` : ''}`),
 
     getDistrictRankings: (state: string, crop: string, year: number) =>
         fetcher<DistrictRanking[]>(`analytics/district-rankings?state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`),
@@ -257,11 +257,13 @@ export const api = {
         fetcher<RiskData>(`analysis/risk-profile?cdk=${cdk}&crop=${crop}`),
 
     getYoyGrowth: (cdk: string, crop: string, startYear: number = 1990, endYear: number = 2020) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        fetcher<any>(`analytics/yoy-growth?cdk=${cdk}&crop=${crop}&start_year=${startYear}&end_year=${endYear}`),
+        fetcher<YoyGrowthData>(`analytics/yoy-growth?cdk=${cdk}&crop=${crop}&start_year=${startYear}&end_year=${endYear}`),
 
     getRainfall: (district: string, state: string, year: number) =>
         fetcher<RainfallData>(`climate/rainfall?district=${encodeURIComponent(district)}&state=${encodeURIComponent(state)}&year=${year}`),
+
+    getClimateCorrelation: (state: string, crop: string, year: number) =>
+        fetcher<CorrelationData>(`climate/correlation?state=${encodeURIComponent(state)}&crop=${crop}&year=${year}`),
 
     // --- State-Level ---
 

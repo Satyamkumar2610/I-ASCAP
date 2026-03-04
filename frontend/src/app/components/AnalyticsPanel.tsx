@@ -35,9 +35,9 @@ export default function AnalyticsPanel({ cdk, districtName, state, year, crop }:
     });
 
     const { data: correlation, isLoading: loadingCorr } = useQuery({
-        queryKey: ['correlation', state, crop, year],
-        queryFn: () => api.getCropCorrelations(state, year, [crop]),
-        enabled: !!state
+        queryKey: ['climate-correlation', state, crop, year],
+        queryFn: () => api.getClimateCorrelation(state, crop, year),
+        enabled: !!state && !!crop
     });
 
     const { addBookmark, isBookmarked, removeBookmark } = useBookmarks();
