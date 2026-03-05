@@ -35,7 +35,7 @@ function DistrictEvolutionApp() {
       if (value === null) params.delete(key);
       else params.set(key, String(value));
     });
-    router.push(`/?${params.toString()}`, { scroll: false });
+    router.push(`/explore/map?${params.toString()}`, { scroll: false });
   }, [searchParams, router]);
 
   // Data Fetching Hook
