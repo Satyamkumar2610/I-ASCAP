@@ -13,7 +13,6 @@ from app.validators import (
     validate_state_name,
     validate_limit,
     validate_offset,
-    sanitize_string,
     validate_positive_number,
     YEAR_MIN,
     YEAR_MAX,
@@ -193,26 +192,6 @@ class TestValidateOffset:
     def test_negative_offset(self):
         assert validate_offset(-10) == 0
 
-
-class TestSanitizeString:
-    """Tests for sanitize_string function."""
-    
-    def test_normal_string(self):
-        assert sanitize_string("Hello World") == "Hello World"
-    
-    def test_html_removal(self):
-        result = sanitize_string("<script>alert('xss')</script>Hello")
-        assert "<script>" not in result
-    
-    def test_sql_pattern_removal(self):
-        result = sanitize_string("'; DROP TABLE users; --")
-        assert "DROP" not in result.upper()
-        assert "--" not in result
-    
-    def test_max_length(self):
-        long_string = "a" * 1000
-        result = sanitize_string(long_string, max_length=100)
-        assert len(result) <= 100
 
 
 class TestValidatePositiveNumber:

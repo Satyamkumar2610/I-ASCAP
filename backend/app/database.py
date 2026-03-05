@@ -30,11 +30,10 @@ async def init_db_pool() -> asyncpg.Pool:
             "command_timeout": settings.db_command_timeout,
         }
         
-        # Add SSL for Neon/cloud databases
+        # Add SSL for Neon/cloud databases (verify certificates properly)
         if "neon.tech" in dsn or "sslmode=require" in dsn:
             ssl_context = ssl.create_default_context()
-            ssl_context.check_hostname = False
-            ssl_context.verify_mode = ssl.CERT_NONE
+            # Do NOT disable verification — CERT_REQUIRED is the default
             pool_kwargs["ssl"] = ssl_context
         
         _pool = await asyncpg.create_pool(**pool_kwargs)

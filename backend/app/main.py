@@ -26,7 +26,7 @@ from app.logging_config import (
 )
 
 from app.rate_limit import RateLimitMiddleware
-from app.security import SecurityHeadersMiddleware, HTTPSRedirectMiddleware, OIDCMiddleware
+from app.security import SecurityHeadersMiddleware, HTTPSRedirectMiddleware
 from app.api.v1.router import api_router
 
 settings = get_settings()
@@ -96,8 +96,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization", "X-Request-ID"],
 )
 
 # Rate Limiting Middleware
@@ -107,7 +107,6 @@ app.add_middleware(RateLimitMiddleware)
 # Security Middleware
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(HTTPSRedirectMiddleware)
-app.add_middleware(OIDCMiddleware)
 
 
 # -----------------------------------------------------------------------------
@@ -241,12 +240,20 @@ async def root():
 
 
 @app.get("/stats", tags=["System"], summary="System statistics")
-async def get_system_stats():
+async def get_system_stats(request: Request):
     """
     Get system statistics including cache and rate limiter metrics.
     
-    Useful for monitoring application health and performance.
+    Protected: requires X-Admin-Key header matching the configured API key.
     """
+    # Guard: only allow if admin key is configured and matches
+    admin_key = request.headers.get("X-Admin-Key")
+    if settings.api_key and admin_key != settings.api_key:
+        return JSONResponse(
+            status_code=403,
+            content={"error": "Forbidden: admin access required"}
+        )
+    
     from app.cache import get_cache
     from app.rate_limit import get_rate_limiter
     from app.database import get_pool

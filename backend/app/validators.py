@@ -4,13 +4,14 @@ Provides centralized validation functions and constants.
 """
 
 import re
+from datetime import datetime
 from typing import List, Set, Any
 from .exceptions import ValidationError
 
 
 # Valid year range for agricultural data
 YEAR_MIN = 1966
-YEAR_MAX = 2024
+YEAR_MAX = datetime.now().year
 
 # Valid crops in the database
 VALID_CROPS: Set[str] = {
@@ -235,26 +236,6 @@ def validate_offset(offset: Any) -> int:
     
     return offset_int
 
-
-def sanitize_string(value: str, max_length: int = 500) -> str:
-    """Sanitize a string input to prevent injection attacks."""
-    if not value:
-        return ""
-    
-    # Truncate to max length
-    value = value[:max_length]
-    
-    # Remove potential SQL injection patterns
-    sql_patterns = ['--', ';', 'DROP', 'DELETE', 'INSERT', 'UPDATE', 'UNION', 'SELECT']
-    value_upper = value.upper()
-    for pattern in sql_patterns:
-        if pattern in value_upper:
-            value = value.replace(pattern, '').replace(pattern.lower(), '')
-    
-    # Remove HTML tags
-    value = re.sub(r'<[^>]+>', '', value)
-    
-    return value.strip()
 
 
 def validate_positive_number(value: Any, field_name: str = "value") -> float:
