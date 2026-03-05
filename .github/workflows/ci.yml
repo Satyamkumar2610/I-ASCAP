@@ -105,6 +105,10 @@ jobs:
     - name: Run Linting
       working-directory: ./frontend
       run: npm run lint || true
+
+    - name: Type Check
+      working-directory: ./frontend
+      run: npx tsc --noEmit
       
     - name: Build Frontend
       working-directory: ./frontend
