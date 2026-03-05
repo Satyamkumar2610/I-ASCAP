@@ -1,27 +1,33 @@
 """API v1 Router - aggregates all endpoint routers."""
 from fastapi import APIRouter
 
-from app.api.v1 import districts, lineage, metrics, analysis, climate, simulation, health, quality, forecast, anomalies, advanced_analytics, states, search, reports, spatial
+from app.api.v1 import (
+    districts, lineage, metrics, analysis, climate, simulation,
+    health, quality, forecast, anomalies, advanced_analytics,
+    states, search, reports, spatial,
+)
 
 api_router = APIRouter()
 
-# Include sub-routers
-api_router.include_router(health.router)  # Health checks at /health
-api_router.include_router(quality.router)  # Data quality at /quality
-api_router.include_router(forecast.router)  # Forecasting at /forecast
-api_router.include_router(anomalies.router)  # Anomaly detection at /anomalies
+# --- System ---
+api_router.include_router(health.router)
+api_router.include_router(quality.router)
+
+# --- Core Data ---
 api_router.include_router(districts.router, prefix="/districts", tags=["Districts"])
 api_router.include_router(lineage.router, prefix="/lineage", tags=["Lineage"])
 api_router.include_router(metrics.router, prefix="/metrics", tags=["Metrics"])
+
+# --- Analysis & Analytics ---
 api_router.include_router(analysis.router, prefix="/analysis", tags=["Analysis"])
+api_router.include_router(advanced_analytics.router)  # self-prefixed /analytics
 api_router.include_router(climate.router, prefix="/climate", tags=["Climate"])
 api_router.include_router(simulation.router, prefix="/simulation", tags=["Simulation"])
-api_router.include_router(advanced_analytics.router)  # Advanced analytics at /analytics
-api_router.include_router(states.router)  # State-level overview at /states
-api_router.include_router(search.router)  # Search at /search
-api_router.include_router(reports.router)  # Reports at /reports
-api_router.include_router(spatial.router)  # Spatial Contagion at /spatial
+api_router.include_router(spatial.router)  # self-prefixed /spatial
+api_router.include_router(forecast.router)  # self-prefixed /forecast
+api_router.include_router(anomalies.router)  # self-prefixed /anomalies
 
-
-
-
+# --- Discovery & Reports ---
+api_router.include_router(states.router)  # self-prefixed /states
+api_router.include_router(search.router)  # self-prefixed /search
+api_router.include_router(reports.router)  # self-prefixed /reports

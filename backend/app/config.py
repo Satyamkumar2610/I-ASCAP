@@ -24,8 +24,8 @@ class Settings(BaseSettings):
     
 
     # Database
-    # Start with empty string or sensible ERROR placeholder to catch config issues early
-    database_url: str = "postgresql://user:password@db:5432/i_ascap" 
+    # Must be set via DATABASE_URL env var — no hardcoded credentials
+    database_url: str = ""
     db_pool_min_size: int = 2
     db_pool_max_size: int = 20
     db_command_timeout: int = 60
@@ -49,10 +49,10 @@ class Settings(BaseSettings):
         return "neon.tech" in self.database_url or "sslmode=require" in self.database_url
     
 
-    # Security (OIDC / OAuth2)
-    auth_enabled: bool = False  # Disabled for public access; enable when OIDC configured
-    auth0_domain: str = "dev-i-ascap.us.auth0.com" 
-    auth0_audience: str = "https://api.i-ascap.org"
+    # Security
+    auth_enabled: bool = False
+    auth0_domain: str = ""
+    auth0_audience: str = ""
     auth0_algorithms: List[str] = ["RS256"]
     
     # Deprecated
