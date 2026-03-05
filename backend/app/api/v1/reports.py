@@ -1,11 +1,12 @@
 """
 Reports API: Generate downloadable reports combining multiple analytics.
 """
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, Query
 import asyncpg
 
 from app.database import get_db
 from app.export import get_exporter
+from app.exceptions import NotFoundError
 
 router = APIRouter(prefix="/reports", tags=["Reports"])
 
@@ -30,7 +31,7 @@ async def get_district_profile_report(
     """, cdk)
 
     if not district:
-        raise HTTPException(status_code=404, detail=f"District not found: {cdk}")
+        raise NotFoundError("District", cdk)
 
     district_name = district["district_name"]
     state_name = district["state_name"]

@@ -11,6 +11,7 @@ from app.api.deps import get_db
 from app.services.analysis_service import AnalysisService
 from app.schemas.analysis import SplitImpactResponse
 from app.analytics import get_advanced_analyzer
+from app.exceptions import NotFoundError, ValidationError
 
 router = APIRouter()
 
@@ -256,8 +257,7 @@ async def get_crop_diversification(
     rows = await db.fetch(query, state, year)
     
     if not rows:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail="No data found for specified state and year")
+        raise NotFoundError(detail="No data found for specified state and year")
     
     crop_areas = {}
     for row in rows:
@@ -320,8 +320,7 @@ async def get_yield_efficiency(
     district_row = await db.fetchrow(district_query, cdk, variable, year)
     
     if not district_row:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail="No data found for specified district, crop, and year")
+        raise NotFoundError(detail="No data found for specified district, crop, and year")
     
     state_name = district_row["state_name"]
     district_yield = float(district_row["yield_val"]) if district_row["yield_val"] else 0
@@ -375,8 +374,7 @@ async def get_risk_profile(
     """
     ALLOWED_METRICS = {"yield", "area", "production"}
     if metric.lower() not in ALLOWED_METRICS:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=400, detail=f"Invalid metric. Allowed: {ALLOWED_METRICS}")
+        raise ValidationError(detail=f"Invalid metric. Allowed: {ALLOWED_METRICS}")
     
     variable = f"{crop.lower()}_{metric.lower()}"
     
@@ -404,8 +402,7 @@ async def get_risk_profile(
     rows = await db.fetch(query, cdk, variable)
     
     if not rows or len(rows) < 3:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=400, detail="Insufficient historical data (need at least 3 years)")
+        raise ValidationError(detail="Insufficient historical data (need at least 3 years)")
     
     yearly_values = {row["year"]: float(row["value"]) for row in rows}
     

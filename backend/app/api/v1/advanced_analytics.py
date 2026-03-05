@@ -17,6 +17,7 @@ import asyncpg
 
 from app.api.deps import get_db
 from app.services.advanced_analytics import AdvancedAnalyticsService
+from app.exceptions import NotFoundError, ValidationError
 
 router = APIRouter(prefix="/analytics", tags=["Advanced Analytics"])
 
@@ -40,8 +41,7 @@ async def get_crop_diversification(
     result = await service.get_crop_diversification(cdk, year)
     
     if not result:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail=f"No data found for {cdk} in {year}")
+        raise NotFoundError(detail=f"No data found for {cdk} in {year}")
     
     return {
         "cdk": result.cdk,
@@ -78,8 +78,7 @@ async def get_crop_shift_timeline(
     result = await service.get_crop_shift(cdk)
     
     if not result:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail=f"No area data found for {cdk}")
+        raise NotFoundError(detail=f"No area data found for {cdk}")
         
     return {
         "cdk": cdk,
@@ -102,8 +101,7 @@ async def get_yield_trend(
     result = await service.get_yield_trend(cdk, crop, start_year, end_year)
     
     if not result:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail=f"Insufficient data for {crop} in {cdk}")
+        raise NotFoundError(detail=f"Insufficient data for {crop} in {cdk}")
     
     return {
         "cdk": cdk,
@@ -289,8 +287,7 @@ async def get_yield_forecast(
     result = await service.get_yield_forecast(cdk, crop, forecast_years)
     
     if "error" in result:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=400, detail=result["error"])
+        raise ValidationError(detail=result["error"])
         
     return result
 
@@ -308,8 +305,7 @@ async def get_resilience_index(
     result = await service.get_resilience_index(state, crop)
     
     if not result:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail=f"Insufficient data for resilience analysis in {state}")
+        raise NotFoundError(detail=f"Insufficient data for resilience analysis in {state}")
         
     return {
         "state": state,
@@ -333,8 +329,7 @@ async def get_yield_gap_analysis(
     service = AdvancedAnalyticsService(db)
     result = await service.get_yield_gap(state, crop, start_year, end_year)
     if "error" in result:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail=result["error"])
+        raise NotFoundError(detail=result["error"])
     return result
 
 @router.get("/split-specialization")

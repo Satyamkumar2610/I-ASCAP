@@ -3,7 +3,7 @@ Anomaly Detection API Endpoints.
 Provides anomaly scanning and risk assessment for districts.
 """
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 import asyncpg
 
 from app.database import get_db
@@ -11,6 +11,7 @@ from app.analytics.anomaly_detection import (
     AnomalyDetector, 
     scan_state_anomalies
 )
+from app.exceptions import NotFoundError, ValidationError
 
 router = APIRouter(prefix="/anomalies", tags=["Anomaly Detection"])
 
@@ -35,7 +36,7 @@ async def scan_district_anomalies(
     # Verify district exists
     exists = await db.fetchval("SELECT 1 FROM districts WHERE lgd_code::text = $1", cdk)
     if not exists:
-        raise HTTPException(status_code=404, detail=f"District not found: {cdk}")
+        raise NotFoundError(detail=f"District not found: {cdk}")
     
     detector = AnomalyDetector(db)
     report = await detector.scan_district(cdk)
@@ -58,7 +59,7 @@ async def scan_state(
     result = await scan_state_anomalies(db, state_name, limit)
     
     if "error" in result:
-        raise HTTPException(status_code=404, detail=result["error"])
+        raise NotFoundError(detail=result["error"])
     
     return result
 

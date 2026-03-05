@@ -2,13 +2,14 @@
 Simulation API Endpoints.
 Uses Spatial-for-Temporal substitution to estimate rainfall sensitivity.
 """
-from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
 import asyncpg
 
 from app.api.deps import get_db
 from app.analytics.advanced import get_advanced_analyzer, SimulationResult
 from app.ml.prediction_engine import PredictionEngine
+from app.exceptions import NotFoundError, ValidationError
 
 router = APIRouter()
 
@@ -81,7 +82,7 @@ async def get_simulation(
     if len(yield_rows) < 5:
         # Fallback: Try average over last 5 years if single year is sparse?
         # For now, strict fail or maybe relax? Let's return empty result.
-        raise HTTPException(status_code=404, detail="Insufficient state data for spatial regression")
+        raise NotFoundError(detail="Insufficient state data for spatial regression")
 
     # 2. Fetch Rainfall Normals for these districts
     # We can join or loop. Loop is easier given rainfall_service.py structure and likely small N (<50 districts).
@@ -120,7 +121,7 @@ async def get_simulation(
                 _target_district_rain = r_val
 
     if len(rainfall_x) < 5:
-        raise HTTPException(status_code=404, detail="Insufficient matching rainfall/yield data")
+        raise NotFoundError(detail="Insufficient matching rainfall/yield data")
 
     # 4. Run Regression
     # We use the existing 'calculate_impact_simulation' which expects (rain, yield, years).
@@ -199,7 +200,7 @@ async def get_prediction_v2(
             )
 
     if len(yield_rows) < 5:
-        raise HTTPException(status_code=404, detail="Insufficient yield data for prediction")
+        raise NotFoundError(detail="Insufficient yield data for prediction")
 
     # 2. Rainfall normals (with seasonal breakdown)
     rain_query = """
@@ -282,14 +283,14 @@ async def get_prediction_v2(
         district_data.append(entry)
 
     if len(district_data) < 5:
-        raise HTTPException(status_code=404, detail="Insufficient matched data for prediction")
+        raise NotFoundError(detail="Insufficient matched data for prediction")
 
     # 6. Run PredictionEngine
     engine = PredictionEngine()
     result = engine.predict(district_data, district)
 
     if result is None:
-        raise HTTPException(status_code=400, detail="Prediction engine returned no result")
+        raise ValidationError(detail="Prediction engine returned no result")
 
     response = {
         "district": district,

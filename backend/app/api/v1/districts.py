@@ -9,6 +9,7 @@ import asyncpg
 from app.api.deps import get_db
 from app.repositories.district_repo import DistrictRepository
 from app.schemas.district import District, DistrictList
+from app.exceptions import NotFoundError
 
 router = APIRouter()
 
@@ -53,7 +54,6 @@ async def get_district(
     district = await repo.get_by_cdk(cdk)
     
     if not district:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail=f"District not found (CDK: {cdk})")
+        raise NotFoundError("District", cdk)
     
     return district

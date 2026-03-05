@@ -10,6 +10,7 @@ from app.api.deps import get_db
 from app.repositories.district_repo import DistrictRepository
 from app.repositories.metric_repo import MetricRepository
 from app.schemas.metric import AggregatedMetric
+from app.exceptions import NotFoundError, ValidationError
 
 router = APIRouter()
 
@@ -66,8 +67,7 @@ async def get_time_series(
              pass
     
     if not target_cdk:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail=f"District not found: {district}")
+        raise NotFoundError(detail=f"District not found: {district}")
     
     timeline = await metric_repo.get_time_series_pivoted(target_cdk, crop.lower())
     

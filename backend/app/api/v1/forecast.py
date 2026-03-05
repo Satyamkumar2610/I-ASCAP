@@ -3,11 +3,12 @@ Forecast API Endpoints.
 Provides yield forecasting and crop recommendations.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, Query
 import asyncpg
 
 from app.database import get_db
 from app.ml.forecaster import YieldForecaster, CropRecommender
+from app.exceptions import NotFoundError, ValidationError
 
 router = APIRouter(prefix="/forecast", tags=["Forecasting"])
 
@@ -29,7 +30,7 @@ async def get_yield_forecast(
     # Verify district exists
     exists = await db.fetchval("SELECT 1 FROM districts WHERE lgd_code::text = $1", cdk)
     if not exists:
-        raise HTTPException(status_code=404, detail=f"District not found: {cdk}")
+        raise NotFoundError(detail=f"District not found: {cdk}")
     
     # Get historical yield data
     yield_var = f"{crop}_yield"
@@ -41,10 +42,7 @@ async def get_yield_forecast(
     """, cdk, yield_var)
     
     if len(rows) < 5:
-        raise HTTPException(
-            status_code=400, 
-            detail=f"Insufficient data: need at least 5 years, found {len(rows)}"
-        )
+        raise ValidationError(detail=f"Insufficient data: need at least 5 years, found {len(rows)}")
     
     historical = {row['year']: row['value'] for row in rows}
     
@@ -52,7 +50,7 @@ async def get_yield_forecast(
     result = forecaster.forecast(cdk, crop, historical, horizon)
     
     if result is None:
-        raise HTTPException(status_code=400, detail="Failed to generate forecast")
+        raise ValidationError(detail="Failed to generate forecast")
     
     return result.to_dict()
 
@@ -72,7 +70,7 @@ async def get_crop_recommendations(
     """, cdk)
     
     if not district:
-        raise HTTPException(status_code=404, detail=f"District not found: {cdk}")
+        raise NotFoundError(detail=f"District not found: {cdk}")
     
     state = district['state_name']
     
@@ -107,7 +105,7 @@ async def get_crop_recommendations(
             }
     
     if not crop_performances:
-        raise HTTPException(status_code=400, detail="No crop data available for this district")
+        raise ValidationError(detail="No crop data available for this district")
     
     # Get state benchmarks
     state_benchmarks = {}

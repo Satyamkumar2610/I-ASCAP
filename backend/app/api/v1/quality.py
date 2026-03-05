@@ -3,10 +3,11 @@ Data Quality API Endpoints.
 Provides quality scoring for districts and states.
 """
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 import asyncpg
 
 from app.database import get_db
+from app.exceptions import NotFoundError
 from app.analytics.data_quality import DataQualityScorer, get_state_quality_summary
 
 router = APIRouter(prefix="/quality", tags=["Data Quality"])
@@ -25,7 +26,7 @@ async def get_district_quality(
     # Verify district exists
     exists = await db.fetchval("SELECT 1 FROM districts WHERE lgd_code::text = $1", cdk)
     if not exists:
-        raise HTTPException(status_code=404, detail=f"District not found: {cdk}")
+        raise NotFoundError("District", cdk)
     
     scorer = DataQualityScorer(db)
     report = await scorer.score_district(cdk)
@@ -46,6 +47,6 @@ async def get_state_quality(
     result = await get_state_quality_summary(db, state_name)
     
     if "error" in result:
-        raise HTTPException(status_code=404, detail=result["error"])
+        raise NotFoundError("State", state_name)
     
     return result

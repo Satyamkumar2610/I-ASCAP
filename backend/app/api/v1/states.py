@@ -2,10 +2,11 @@
 States API: Aggregate state-level endpoints.
 Provides overview statistics for each state.
 """
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, Query
 import asyncpg
 
 from app.database import get_db
+from app.exceptions import NotFoundError
 
 router = APIRouter(prefix="/states", tags=["States"])
 
@@ -28,7 +29,7 @@ async def get_state_overview(
         "SELECT COUNT(*) FROM districts WHERE state_name = $1", state_name
     )
     if not state_check:
-        raise HTTPException(status_code=404, detail=f"State not found: {state_name}")
+        raise NotFoundError("State", state_name)
 
     # Get total districts
     total_districts = await db.fetchval(

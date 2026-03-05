@@ -17,6 +17,7 @@ from app.services.rainfall_service import (
     get_water_stress_index,
 )
 from app.analytics import get_analyzer
+from app.exceptions import NotFoundError, ValidationError
 
 router = APIRouter()
 
@@ -109,8 +110,7 @@ async def get_water_stress(
     """
     results = await get_water_stress_index(db, state, year)
     if not results:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail=f"Insufficient data to compute water stress for {state} in {year}")
+        raise NotFoundError(detail=f"Insufficient data to compute water stress for {state} in {year}")
         
     return {
         "state": state,

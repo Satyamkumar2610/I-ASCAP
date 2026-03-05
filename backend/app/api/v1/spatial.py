@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends, Query
 import asyncpg
 
 from app.api.deps import get_db
 from app.services.spatial_service import SpatialService
+from app.exceptions import NotFoundError, ValidationError
 
 router = APIRouter(prefix="/spatial", tags=["Spatial Data"])
 
@@ -23,7 +24,7 @@ async def get_spatial_contagion(
     # Validation logic to ensure district exists
     check = await db.fetchval("SELECT lgd_code FROM districts WHERE lgd_code::text = $1", cdk)
     if not check:
-        raise HTTPException(status_code=404, detail=f"District {cdk} not found.")
+        raise NotFoundError(detail=f"District {cdk} not found.")
         
     result = await service.get_spatial_contagion(cdk, crop, start_year, end_year)
     return result
