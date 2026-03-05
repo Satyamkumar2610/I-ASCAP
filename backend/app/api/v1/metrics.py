@@ -10,7 +10,7 @@ from app.api.deps import get_db
 from app.repositories.district_repo import DistrictRepository
 from app.repositories.metric_repo import MetricRepository
 from app.schemas.metric import AggregatedMetric
-from app.exceptions import NotFoundError, ValidationError
+from app.exceptions import NotFoundError
 
 router = APIRouter()
 

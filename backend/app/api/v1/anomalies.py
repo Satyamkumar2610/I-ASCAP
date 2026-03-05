@@ -11,7 +11,7 @@ from app.analytics.anomaly_detection import (
     AnomalyDetector, 
     scan_state_anomalies
 )
-from app.exceptions import NotFoundError, ValidationError
+from app.exceptions import NotFoundError
 
 router = APIRouter(prefix="/anomalies", tags=["Anomaly Detection"])
 

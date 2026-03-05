@@ -3,7 +3,7 @@ import asyncpg
 
 from app.api.deps import get_db
 from app.services.spatial_service import SpatialService
-from app.exceptions import NotFoundError, ValidationError
+from app.exceptions import NotFoundError
 
 router = APIRouter(prefix="/spatial", tags=["Spatial Data"])
 

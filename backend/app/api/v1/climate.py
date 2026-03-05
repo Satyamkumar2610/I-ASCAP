@@ -17,7 +17,7 @@ from app.services.rainfall_service import (
     get_water_stress_index,
 )
 from app.analytics import get_analyzer
-from app.exceptions import NotFoundError, ValidationError
+from app.exceptions import NotFoundError
 
 router = APIRouter()
 
