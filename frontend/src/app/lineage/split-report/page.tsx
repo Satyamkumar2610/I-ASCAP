@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../services/api';
+import { api } from '../../services/api';
 import {
     GitBranch, Download, FileText, TrendingUp, TrendingDown,
     Minus, ChevronDown, ChevronUp, AlertCircle, ArrowRight,

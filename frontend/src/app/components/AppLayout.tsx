@@ -8,7 +8,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
 
     // Don't wrap the Map page in the main layout shell as it has its own full-screen layout
-    if (pathname === '/') {
+    if (pathname === '/explore/map') {
         return <>{children}</>;
     }
 

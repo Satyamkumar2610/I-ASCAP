@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../services/api';
+import { api } from '../../services/api';
 import { Activity, Target, TrendingUp, TrendingDown, Maximize2, Minimize2, Map as MapIcon, Table2, Info } from 'lucide-react';
 import ReactECharts from 'echarts-for-react';
 

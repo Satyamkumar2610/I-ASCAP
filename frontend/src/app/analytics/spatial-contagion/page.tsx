@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../services/api';
+import { api } from '../../services/api';
 import { Network, Search, TrendingUp, TrendingDown, Layers, MapPin, Map as MapIcon, ShieldIcon } from 'lucide-react';
 import ReactECharts from 'echarts-for-react';
 

@@ -1,39 +1,46 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
     Map, Shield, GitBranch, Wheat, FileText, BookOpen, Menu, X,
-    Layers, Droplet, Network, Target
+    Layers, Droplet, Network, Target, Home, BarChart3, Globe2
 } from 'lucide-react';
 
 const NAV_GROUPS = [
     {
-        name: "Core Explorer",
+        name: "Overview",
         items: [
-            { href: '/', label: 'Interactive Map', icon: Map },
-            { href: '/state', label: 'State Summaries', icon: Map },
-            { href: '/reports', label: 'Reports', icon: FileText },
-            { href: '/methodology', label: 'Methodology', icon: BookOpen },
+            { href: '/', label: 'Dashboard', icon: Home },
+            { href: '/explore/map', label: 'Interactive Map', icon: Map },
+            { href: '/compare', label: 'District Comparison', icon: BarChart3 },
+        ]
+    },
+    {
+        name: "Analytics",
+        items: [
+            { href: '/analytics/crop-portfolio', label: 'Crop Portfolio', icon: Wheat },
+            { href: '/analytics/crop-shift', label: 'Crop Shift', icon: Layers },
+            { href: '/analytics/yield-gap', label: 'Yield Gap', icon: Target },
+            { href: '/analytics/water-stress', label: 'Water Stress', icon: Droplet },
+            { href: '/analytics/spatial-contagion', label: 'Spatial Contagion', icon: Network },
+            { href: '/analytics/risk-monitor', label: 'Risk Monitor', icon: Shield },
         ]
     },
     {
         name: "Lineage & Boundary",
         items: [
-            { href: '/lineage', label: 'Lineage Graph', icon: GitBranch },
-            { href: '/split-report', label: 'Split Impact Report', icon: GitBranch },
+            { href: '/lineage/graph', label: 'Lineage Graph', icon: GitBranch },
+            { href: '/lineage/split-report', label: 'Split Impact', icon: GitBranch },
+            { href: '/lineage/state-overview', label: 'State Overview', icon: Globe2 },
         ]
     },
     {
-        name: "Advanced Analytics",
+        name: "Resources",
         items: [
-            { href: '/crop-shift', label: 'Crop Shift', icon: Layers },
-            { href: '/water-stress', label: 'Water Stress', icon: Droplet },
-            { href: '/spatial-contagion', label: 'Spatial Contagion', icon: Network },
-            { href: '/yield-gap', label: 'Yield Gap Mapping', icon: Target },
-            { href: '/crop-portfolio', label: 'Crop Portfolio', icon: Wheat },
-            { href: '/risk-monitor', label: 'Risk Monitor', icon: Shield },
+            { href: '/reports', label: 'Reports', icon: FileText },
+            { href: '/methodology', label: 'Methodology', icon: BookOpen },
         ]
     }
 ];
@@ -41,6 +48,19 @@ const NAV_GROUPS = [
 export default function Sidebar() {
     const pathname = usePathname();
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [backendOnline, setBackendOnline] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        const BASE = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'https://i-ascap.onrender.com';
+        fetch(`${BASE}/health`, { signal: AbortSignal.timeout(5000) })
+            .then(r => setBackendOnline(r.ok))
+            .catch(() => setBackendOnline(false));
+    }, []);
+
+    const isActive = (href: string) => {
+        if (href === '/') return pathname === '/';
+        return pathname === href || pathname.startsWith(href + '/');
+    };
 
     return (
         <>
@@ -83,7 +103,7 @@ export default function Sidebar() {
                             </h3>
                             <div className="space-y-1">
                                 {group.items.map((route) => {
-                                    const isActive = pathname === route.href;
+                                    const active = isActive(route.href);
                                     const Icon = route.icon;
                                     return (
                                         <Link
@@ -92,13 +112,13 @@ export default function Sidebar() {
                                             onClick={() => setMobileOpen(false)}
                                             className={`
                                                 flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 group
-                                                ${isActive
+                                                ${active
                                                     ? 'bg-indigo-500/10 text-indigo-400 font-bold border border-indigo-500/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]'
                                                     : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/50 hover:border-slate-700/50 border border-transparent'
                                                 }
                                             `}
                                         >
-                                            <Icon size={16} className={`transition-colors ${isActive ? "text-indigo-400" : "text-slate-500 group-hover:text-slate-300"}`} />
+                                            <Icon size={16} className={`transition-colors ${active ? "text-indigo-400" : "text-slate-500 group-hover:text-slate-300"}`} />
                                             {route.label}
                                         </Link>
                                     );
@@ -108,16 +128,18 @@ export default function Sidebar() {
                     ))}
                 </div>
 
-                {/* Footer simple tag */}
+                {/* Dynamic System Status */}
                 <div className="p-4 border-t border-slate-800/50 bg-slate-900/50 backdrop-blur-sm shrink-0">
                     <div className="bg-slate-800/50 rounded-xl p-3 border border-slate-700/50 flex flex-col items-center text-center">
-                        <span className="text-[10px] uppercase font-bold text-slate-500 mb-1">System Status</span>
+                        <span className="text-[10px] uppercase font-bold text-slate-500 mb-1">Backend Status</span>
                         <div className="flex items-center gap-2">
                             <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                {backendOnline && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>}
+                                <span className={`relative inline-flex rounded-full h-2 w-2 ${backendOnline === true ? 'bg-emerald-500' : backendOnline === false ? 'bg-rose-500' : 'bg-slate-500'}`}></span>
                             </span>
-                            <span className="text-[11px] font-medium text-slate-300">All Modules Online</span>
+                            <span className="text-[11px] font-medium text-slate-300">
+                                {backendOnline === true ? 'Online' : backendOnline === false ? 'Offline' : 'Checking...'}
+                            </span>
                         </div>
                     </div>
                 </div>

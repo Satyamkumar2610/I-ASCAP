@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../services/api';
+import { api } from '../../services/api';
 import { Layers, AlertCircle, Info, Sparkles } from 'lucide-react';
 import ReactECharts from 'echarts-for-react';
 

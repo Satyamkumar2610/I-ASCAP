@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../services/api';
+import { api } from '../../services/api';
 import Link from 'next/link';
 import { MapPin, TrendingUp, TrendingDown, Layers, ArrowRight } from 'lucide-react';
 import ReactECharts from 'echarts-for-react';
@@ -245,7 +245,7 @@ export default function StatePage() {
                             {overview.top_performers.slice(0, 6).map((d) => (
                                 <Link
                                     key={d.cdk}
-                                    href={`/?district=${d.cdk}&crop=${selectedCrop}`}
+                                    href={`/explore/map?district=${d.cdk}&crop=${selectedCrop}`}
                                     className="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition group"
                                 >
                                     <div className="flex items-center gap-2">
