@@ -88,6 +88,7 @@ export default function SplitReportPage() {
     });
 
     // Quick split-impact for summary stats
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: impactData } = useQuery<any>({
         queryKey: ['split-impact-quick', selectedEvent?.parent_cdk, selectedEvent?.children_cdks, selectedEvent?.split_year, crop],
         queryFn: () => api.getSplitImpact(
@@ -798,7 +799,7 @@ export default function SplitReportPage() {
                                     <div className="bg-slate-50 border border-slate-200 rounded-xl p-5">
                                         <h4 className="text-sm font-bold text-slate-900 mb-4">Divergence Scores</h4>
                                         <p className="text-xs text-slate-500 mb-4">
-                                            Measures how far the child's post-split crop portfolio drifted from the parent's pre-split portfolio. Higher Euclidean distance implies stronger agricultural specialization.
+                                            Measures how far the child&apos;s post-split crop portfolio drifted from the parent&apos;s pre-split portfolio. Higher Euclidean distance implies stronger agricultural specialization.
                                         </p>
                                         <div className="space-y-3">
                                             {Object.entries(specData.divergence_scores).map(([childName, score]) => (

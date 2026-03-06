@@ -6,7 +6,7 @@ import { useQuery, useQueries } from '@tanstack/react-query';
 import { api } from '../services/api';
 import ReactECharts from 'echarts-for-react';
 import { EfficiencyData, RiskData } from '../../types/analysis';
-import { GitCompareArrows, Plus, X, Search, BarChart3 } from 'lucide-react';
+import { GitCompareArrows, X, BarChart3 } from 'lucide-react';
 import EmptyState from '../components/EmptyState';
 
 interface ComparisonData {

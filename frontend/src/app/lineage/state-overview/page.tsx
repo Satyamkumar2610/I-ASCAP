@@ -82,7 +82,8 @@ export default function StatePage() {
             {!selectedState && (
                 <div className="text-center py-20 bg-white border border-slate-200 rounded-xl shadow-sm">
                     <Layers className="mx-auto text-slate-400 mb-4" size={48} />
-                    <EmptyState icon={Globe2} title="No State Selected" description="Select a state above to view district counts, boundary changes, and split event statistics." />
+                    <h3 className="text-lg font-bold text-slate-700">No State Selected</h3>
+                    <p className="text-sm text-slate-500 mt-1">Select a state above to view district counts, boundary changes, and split event statistics.</p>
                 </div>
             )}
 

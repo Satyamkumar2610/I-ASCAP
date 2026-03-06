@@ -19,7 +19,6 @@ export function useBookmarks() {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
             try {
-                // eslint-disable-next-line react-hooks/set-state-in-effect
                 setBookmarks(JSON.parse(saved));
             } catch (e) {
                 console.error("Failed to parse bookmarks", e);
