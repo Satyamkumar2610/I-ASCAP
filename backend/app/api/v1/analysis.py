@@ -3,6 +3,7 @@ Analysis API: Split impact and advanced analytics endpoints.
 Updated to use lgd_code/district_lgd schema.
 """
 import hashlib
+import logging
 
 from fastapi import APIRouter, Depends, Query, Request
 import asyncpg
@@ -207,7 +208,7 @@ async def analyze_split_impact(
         if cached_result:
             return cached_result
     except Exception:
-        pass  # Cache miss or unavailable — proceed to compute
+        logging.getLogger(__name__).debug("Cache get failed for %s", query_hash)
 
     service = AnalysisService(db)
     result = await service.analyze_split_impact(
@@ -224,7 +225,7 @@ async def analyze_split_impact(
     try:
         await cache.set(query_hash, result, CacheTTL.ANALYSIS)
     except Exception:
-        pass  # Cache write failed — non-fatal
+        logging.getLogger(__name__).debug("Cache set failed for %s", query_hash)
     return result
 
 

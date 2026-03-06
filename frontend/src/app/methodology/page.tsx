@@ -13,6 +13,12 @@ function FormulaBlock({ title, formula, explanation }: { title: string; formula:
     );
 }
 
+
+export const metadata = {
+    title: "Methodology & About — I-ASCAP",
+    description: "Data sources, analytical methods, and technical architecture of the I-ASCAP platform.",
+};
+
 export default function MethodologyPage() {
     return (
         <main className="page-container">

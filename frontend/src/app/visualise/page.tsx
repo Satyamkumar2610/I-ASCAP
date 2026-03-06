@@ -1,12 +1,16 @@
 
 import DataVisualizer from '@/app/components/visualise/DataVisualizer';
 
+export const metadata = {
+    title: 'Data Visualiser — I-ASCAP',
+    description: 'Build custom charts and visualisations from agricultural metrics across Indian districts.',
+};
+
 export default function VisualisePage() {
     return (
-        <main className="min-h-screen bg-gray-50 p-8">
-            <div className="max-w-7xl mx-auto">
-                <DataVisualizer />
-            </div>
+        <main className="page-container">
+            <DataVisualizer />
         </main>
     );
 }
+

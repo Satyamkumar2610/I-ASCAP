@@ -27,13 +27,14 @@ const NAV_GROUPS = [
             { href: '/analytics/water-stress', label: 'Water Stress', icon: Droplet },
             { href: '/analytics/spatial-contagion', label: 'Spatial Contagion', icon: Network },
             { href: '/analytics/risk-monitor', label: 'Risk Monitor', icon: Shield },
+            { href: '/visualise', label: 'Data Visualiser', icon: BarChart3 },
         ]
     },
     {
         name: "Lineage & Boundary",
         items: [
             { href: '/lineage/graph', label: 'Lineage Graph', icon: GitBranch },
-            { href: '/lineage/split-report', label: 'Split Impact', icon: GitBranch },
+            { href: '/lineage/split-report', label: 'Split Report', icon: GitBranch },
             { href: '/lineage/state-overview', label: 'State Overview', icon: Globe2 },
         ]
     },

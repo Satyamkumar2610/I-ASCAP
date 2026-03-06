@@ -157,7 +157,7 @@ export default function CropPortfolioPage() {
                     <div className="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-5 border border-slate-100">
                         <Wheat className="text-slate-600" size={36} />
                     </div>
-                    <p className="text-slate-700 font-medium text-lg">Select a district to analyze its crop portfolio</p>
+                    <EmptyState icon={Wheat} title="No District Selected" description="Select a state and district above to analyze its crop portfolio and diversification patterns." />
                     <p className="text-slate-500 text-sm mt-1">Choose a state and district to begin</p>
                 </div>
             )}

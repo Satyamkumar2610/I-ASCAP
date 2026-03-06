@@ -138,7 +138,7 @@ export default function LineagePage() {
                     <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-5">
                         <GitBranch className="text-slate-600" size={36} />
                     </div>
-                    <p className="text-slate-500 text-lg font-medium">Select a state to explore its district lineage</p>
+                    <EmptyState icon={GitBranch} title="No State Selected" description="Select a state above to explore how its districts have evolved through splits and reorganizations." />
                     <p className="text-slate-600 text-sm mt-1">View split history, data provenance & coverage</p>
                 </div>
             )}

@@ -1,6 +1,7 @@
 """
 Metrics API: Endpoints for agricultural/domain metrics.
 """
+import logging
 from typing import Optional, List
 
 from fastapi import APIRouter, Depends, Query
@@ -64,7 +65,7 @@ async def get_time_series(
         # 2. If valid state provided, try to find by exact match in that state (fallback)
         if not target_cdk and state:
              # Try simple normalization locally if repository search failed (repo uses ILIKE, so fuzzy logic already there)
-             pass
+             logging.getLogger(__name__).debug("District '%s' not found in state '%s' via repo search", district, state)
     
     if not target_cdk:
         raise NotFoundError(detail=f"District not found: {district}")

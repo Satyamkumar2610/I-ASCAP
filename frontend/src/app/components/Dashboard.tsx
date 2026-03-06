@@ -300,7 +300,22 @@ const Dashboard: React.FC<DashboardProps> = ({
                                     <X size={20} />
                                 </button>
                             </div>
-                            <div className="text-slate-400 text-xs mb-4 font-mono">Year: {currentYear}</div>
+                            <div className="flex items-center gap-2 mb-4">
+                                <span className="text-slate-400 text-xs font-mono">Year: {currentYear}</span>
+                                {(() => {
+                                    const raw = bridgeData as Record<string, string>;
+                                    const stateKey = Object.keys(raw).find(k => k.startsWith(selectedDistrict + '|'));
+                                    const cdk = stateKey ? raw[stateKey] : null;
+                                    return cdk ? (
+                                        <Link
+                                            href={`/compare?districts=${cdk}`}
+                                            className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30 transition-colors font-bold uppercase tracking-wider"
+                                        >
+                                            + Compare
+                                        </Link>
+                                    ) : null;
+                                })()}
+                            </div>
 
                             <div className="text-3xl font-bold text-emerald-400 font-mono tracking-tight mb-4">
                                 {districtData?.value != null ? districtData.value.toLocaleString(undefined, { maximumFractionDigits: 1 }) : '—'}
