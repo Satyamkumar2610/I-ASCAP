@@ -6,6 +6,11 @@ import { VisualizerToolbar, ChartType } from './VisualizerToolbar';
 import { StateSelector } from './StateSelector';
 import { DistrictSelector } from './DistrictSelector';
 import { TimeSeriesChart } from './charts/TimeSeriesChart';
+import { BarChart } from './charts/BarChart';
+import { PieChart } from './charts/PieChart';
+import { ScatterChart } from './charts/ScatterChart';
+import { TableChart } from './charts/TableChart';
+import { MapChart } from './charts/MapChart';
 
 interface MetricData {
     year: number;
@@ -163,15 +168,47 @@ export default function DataVisualizer() {
                         )}
 
                         {viewType === 'bar' && (
-                            <div className="bg-yellow-50 p-4 rounded text-yellow-800">
-                                Comparison View is coming soon. (Select multiple districts to compare)
+                            <div className="grid grid-cols-1 gap-6">
+                                <div>
+                                    <h3 className="text-sm font-semibold text-gray-700 mb-2">Production Volume</h3>
+                                    <BarChart data={data} metrics={['production']} colors={['#10B981']} />
+                                </div>
+                                <div>
+                                    <h3 className="text-sm font-semibold text-gray-700 mb-2">Yield Trends</h3>
+                                    <BarChart data={data} metrics={['yield']} colors={['#3B82F6']} />
+                                </div>
                             </div>
                         )}
 
-                        {viewType !== 'line' && viewType !== 'bar' && (
-                            <div className="bg-blue-50 p-4 rounded text-blue-800">
-                                {viewType.charAt(0).toUpperCase() + viewType.slice(1)} view not implemented yet.
+                        {viewType === 'pie' && (
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h3 className="text-sm font-semibold text-gray-700 mb-2">Total Production Share (Last 10 Years)</h3>
+                                    <PieChart data={data} metric="production" />
+                                </div>
+                                <div>
+                                    <h3 className="text-sm font-semibold text-gray-700 mb-2">Area Share (Last 10 Years)</h3>
+                                    <PieChart data={data} metric="area" />
+                                </div>
                             </div>
+                        )}
+
+                        {viewType === 'scatter' && (
+                            <div>
+                                <h3 className="text-sm font-semibold text-gray-700 mb-2">Area vs Production Relationship</h3>
+                                <ScatterChart data={data} xAxisMetric="area" yAxisMetric="production" />
+                            </div>
+                        )}
+
+                        {viewType === 'table' && (
+                            <div>
+                                <h3 className="text-sm font-semibold text-gray-700 mb-2">Raw Metrics Data</h3>
+                                <TableChart data={data} metrics={['yield', 'production', 'area']} />
+                            </div>
+                        )}
+
+                        {viewType === 'map' && (
+                            <MapChart />
                         )}
                     </div>
                 )}
