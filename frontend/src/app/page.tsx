@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
     Map, GitBranch, Wheat, Layers, Droplet, Network, Target, Shield,
     ArrowRight, BarChart3, Database, Globe2, TrendingUp
@@ -126,9 +127,7 @@ export default function LandingDashboard() {
             <header className="px-6 md:px-10 pt-10 pb-8">
                 <div className="max-w-6xl mx-auto">
                     <div className="flex items-center gap-3 mb-2">
-                        <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-indigo-200">
-                            IA
-                        </div>
+                        <Image src="/logo.png" alt="I-ASCAP" width={44} height={44} className="rounded-xl shadow-lg shadow-indigo-200" />
                         <span className="text-xs font-mono text-slate-400 uppercase tracking-widest">v1.0</span>
                     </div>
                     <h1 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mt-4">
@@ -198,16 +197,56 @@ export default function LandingDashboard() {
             </section>
 
             {/* Footer */}
-            <footer className="border-t border-slate-200 bg-slate-50 px-6 md:px-10 py-6">
-                <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div className="flex items-center gap-2 text-xs text-slate-400">
-                        <Database size={12} />
-                        <span>Dataset v1.5 Harmonized · Boundary v2024-01-15</span>
+            <footer className="border-t border-slate-200 bg-slate-50 px-6 md:px-10 py-8">
+                <div className="max-w-6xl mx-auto">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                        {/* Left: Brand + Description */}
+                        <div className="flex flex-col items-center md:items-start gap-2">
+                            <div className="flex items-center gap-2">
+                                <Image src="/logo.png" alt="I-ASCAP" width={28} height={28} className="rounded-lg" />
+                                <span className="font-bold text-slate-700 text-sm">I-ASCAP Platform</span>
+                            </div>
+                            <p className="text-xs text-slate-400 max-w-sm text-center md:text-left">
+                                Indian Agri-Spatial Comparative Analytics Platform — Research-grade infrastructure for longitudinal agricultural analysis.
+                            </p>
+                        </div>
+
+                        {/* Center: Navigation */}
+                        <div className="flex items-center gap-6 text-xs text-slate-400">
+                            <Link href="/methodology" className="hover:text-indigo-600 transition-colors">Methodology</Link>
+                            <Link href="/reports" className="hover:text-indigo-600 transition-colors">Reports</Link>
+                            <Link href="/explore/map" className="hover:text-indigo-600 transition-colors">Explore Map</Link>
+                        </div>
+
+                        {/* Right: GitHub */}
+                        <div className="flex items-center gap-3">
+                            <a
+                                href="https://github.com/Satyamkumar2610/I-ASCAP"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-medium hover:bg-slate-800 transition-colors"
+                            >
+                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" /></svg>
+                                Source Code
+                            </a>
+                            <a
+                                href="https://github.com/Satyamkumar2610"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs text-slate-400 hover:text-indigo-600 transition-colors"
+                            >
+                                @Satyamkumar2610
+                            </a>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-4 text-xs text-slate-400">
-                        <Link href="/methodology" className="hover:text-indigo-600 transition-colors">Methodology</Link>
-                        <Link href="/reports" className="hover:text-indigo-600 transition-colors">Reports</Link>
-                        <a href="/docs" target="_blank" className="hover:text-indigo-600 transition-colors">API Docs</a>
+
+                    {/* Bottom bar */}
+                    <div className="mt-6 pt-4 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 text-[11px] text-slate-400">
+                            <Database size={11} />
+                            <span>Dataset v1.5 Harmonized · Boundary v2024-01-15</span>
+                        </div>
+                        <span className="text-[11px] text-slate-400">© 2026 Satyam Kumar. All rights reserved.</span>
                     </div>
                 </div>
             </footer>

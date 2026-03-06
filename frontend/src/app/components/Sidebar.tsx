@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
     Map, Shield, GitBranch, Wheat, FileText, BookOpen, Menu, X,
@@ -67,9 +68,7 @@ export default function Sidebar() {
             {/* Mobile Toggle Button (Top Bar on Mobile) */}
             <div className="md:hidden fixed top-0 left-0 w-full h-14 bg-slate-900 z-50 flex items-center justify-between px-4 border-b border-slate-800">
                 <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-[0_0_15px_rgba(79,70,229,0.5)]">
-                        IA
-                    </div>
+                    <Image src="/logo.png" alt="I-ASCAP" width={32} height={32} className="rounded-lg" />
                     <span className="font-bold text-white tracking-wide">I-ASCAP</span>
                 </div>
                 <button
@@ -89,9 +88,7 @@ export default function Sidebar() {
                 ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
             `}>
                 <div className="hidden md:flex h-16 shrink-0 items-center justify-center gap-3 px-6 border-b border-slate-800/50 bg-slate-900/50 backdrop-blur-md">
-                    <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-[0_0_15px_rgba(79,70,229,0.6)] ring-1 ring-indigo-400">
-                        IA
-                    </div>
+                    <Image src="/logo.png" alt="I-ASCAP" width={32} height={32} className="rounded-lg" />
                     <span className="font-bold text-white tracking-wide text-sm">I-ASCAP Platform</span>
                 </div>
 
