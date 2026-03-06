@@ -96,8 +96,7 @@ async def get_state_time_series(
     timeline = await metric_repo.get_time_series_pivoted(state_cdk, crop.lower())
     
     if not timeline:
-        # Fallback? Or return empty?
-        # Maybe the state name provided doesn't match keys.
-        return []
+        # Fallback to dynamic aggregation if S_STATE_NAME data is not in DB
+        timeline = await metric_repo.get_state_time_series_aggregated(state, crop.lower())
         
     return timeline

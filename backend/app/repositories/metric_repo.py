@@ -287,3 +287,59 @@ class MetricRepository(BaseRepository):
                 data_map[year][cdk]["yld"] = m.value
         
         return data_map
+    @cached(ttl=CacheTTL.METRICS, prefix="metrics:state_agg")
+    async def get_state_time_series_aggregated(self, state: str, crop: str) -> List[Dict]:
+        """Aggregate district data up to state level if pre-aggregated data is missing."""
+        variables = [f"{crop}_area", f"{crop}_production", f"{crop}_yield"]
+        
+        query = """
+            SELECT m.year, m.variable_name, SUM(m.value) as value
+            FROM agri_metrics m
+            JOIN districts d ON m.district_lgd = d.lgd_code
+            WHERE d.state_name ILIKE $1 
+            AND m.variable_name = ANY($2)
+            AND d.district_name != 'State Average'
+            GROUP BY m.year, m.variable_name
+            ORDER BY m.year ASC
+        """
+        rows = await self.fetch_all(query, f"%{state}%", variables)
+        
+        if not rows:
+            season_map = {
+                "rice": "kharif", "wheat": "rabi", "maize": "kharif", 
+                "soyabean": "kharif", "groundnut": "kharif", "cotton": "kharif",
+                "pearl_millet": "kharif", "sorghum": "kharif",
+            }
+            season = season_map.get(crop.lower())
+            if season:
+                variables = [f"{crop}_area_{season}", f"{crop}_production_{season}", f"{crop}_yield_{season}"]
+                rows = await self.fetch_all(query, f"%{state}%", variables)
+            
+            if not rows and crop.lower() == "rice":
+                for s in ["winter", "autumn", "summer"]:
+                    if not rows:
+                         s_vars = [f"{crop}_area_{s}", f"{crop}_production_{s}", f"{crop}_yield_{s}"]
+                         rows = await self.fetch_all(query, f"%{state}%", s_vars)
+                    else:
+                        break
+        
+        timeline: Dict[int, Dict] = {}
+        for r in rows:
+            year = r["year"]
+            if year not in timeline:
+                timeline[year] = {"year": year, "area": 0, "production": 0, "yield": 0}
+            
+            var_name = r["variable_name"]
+            val = float(r["value"]) if r["value"] else 0
+            if var_name.endswith("_area") or "_area_" in var_name:
+                timeline[year]["area"] = val
+            elif var_name.endswith("_production") or "_production_" in var_name:
+                timeline[year]["production"] = val
+        
+        for year, data in timeline.items():
+            area = data.get("area", 0)
+            prod = data.get("production", 0)
+            if area > 0:
+                 data["yield"] = round((prod / area) * 1000, 2)
+                 
+        return list(timeline.values())
