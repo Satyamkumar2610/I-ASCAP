@@ -3,6 +3,8 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { api } from '../../services/api';
+
 interface StateSelectorProps {
     selectedState: string | null;
     onStateChange: (state: string) => void;
@@ -15,11 +17,9 @@ export function StateSelector({ selectedState, onStateChange }: StateSelectorPro
     useEffect(() => {
         async function fetchStates() {
             try {
-                const res = await fetch('/api/v1/districts/states');
-                if (res.ok) {
-                    const data = await res.json();
-                    setStates(data.states || []);
-                }
+                const data = await api.getStatesList();
+                // Map the array of objects to array of strings
+                setStates(data.map((item: { state: string }) => item.state) || []);
             } catch (err) {
                 console.error("Failed to fetch states", err);
             } finally {

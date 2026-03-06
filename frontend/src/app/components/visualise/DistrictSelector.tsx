@@ -3,6 +3,8 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { api } from '../../services/api';
+
 interface DistrictSelectorProps {
     selectedState: string | null;
     selectedDistrict: string | null;
@@ -22,11 +24,12 @@ export function DistrictSelector({ selectedState, selectedDistrict, onDistrictCh
         async function fetchDistricts() {
             setLoading(true);
             try {
-                const res = await fetch(`/api/v1/districts?state=${encodeURIComponent(selectedState || '')}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    // Filter out the "Whole State" entry which has cdk starting with S_
-                    const items = data.items.filter((d: { cdk: string; district_name: string }) => !d.cdk.startsWith('S_'));
+                const data = await api.getDistrictsByState(selectedState as string);
+                if (data && data.items) {
+                    // Map name to district_name to match component types
+                    const items = data.items
+                        .filter((d: { cdk: string }) => !d.cdk.startsWith('S_'))
+                        .map((d: { cdk: string; name: string }) => ({ cdk: d.cdk, district_name: d.name }));
                     setDistricts(items);
                 }
             } catch (err) {
