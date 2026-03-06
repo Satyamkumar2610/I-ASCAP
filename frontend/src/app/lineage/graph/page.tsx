@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import ReactECharts from 'echarts-for-react';
 import { api } from '../../services/api';
 import { GitBranch, Calendar, Database, MapPin, ChevronDown, Search, ArrowRight, Clock, Hash, Info } from 'lucide-react';
 
@@ -69,22 +70,62 @@ export default function LineagePage() {
         };
     }, [history, decades]);
 
-    // Auto-expand the latest decade when data loads
+    // Reset selectedCdk and coverageSearch when state changes
     useEffect(() => {
-        const decadeKeys = Object.keys(decades).map(Number);
-        if (decadeKeys.length > 0 && expandedDecade === null) {
-            // eslint-disable-next-line
-            setExpandedDecade(Math.max(...decadeKeys));
-        }
-    }, [decades, expandedDecade]);
-
-    // Reset expandedDecade when state changes
-    useEffect(() => {
-        // eslint-disable-next-line
-        setExpandedDecade(null);
         setSelectedCdk('');
         setCoverageSearch('');
     }, [selectedState]);
+
+    // Construct Graph Data
+    const graphData = useMemo(() => {
+        if (!history || history.length === 0) return null;
+
+        const nodes: any[] = [];
+        const links: any[] = [];
+        const uniqueNodes = new Set<string>();
+
+        // Set up root and derived districts based on split year and edges
+        history.forEach((event: SplitEvent) => {
+            if (!uniqueNodes.has(event.parent_district)) {
+                uniqueNodes.add(event.parent_district);
+                nodes.push({
+                    id: event.parent_district,
+                    name: event.parent_district,
+                    symbolSize: 40,
+                    itemStyle: { color: '#8B5CF6' }, // Purple
+                    category: 0
+                });
+            }
+            if (!uniqueNodes.has(event.child_district)) {
+                uniqueNodes.add(event.child_district);
+                nodes.push({
+                    id: event.child_district,
+                    name: event.child_district,
+                    symbolSize: 30,
+                    itemStyle: { color: '#10B981' }, // Emerald
+                    category: 1
+                });
+            }
+
+            links.push({
+                source: event.parent_district,
+                target: event.child_district,
+                label: {
+                    show: true,
+                    formatter: `${event.split_year}`,
+                    fontSize: 10,
+                    color: '#64748b'
+                },
+                lineStyle: {
+                    color: '#94a3b8',
+                    width: 2,
+                    curveness: 0.2
+                }
+            });
+        });
+
+        return { nodes, links };
+    }, [history]);
 
     // Filter coverage by search
     const filteredCoverage = useMemo(() => {
@@ -176,79 +217,79 @@ export default function LineagePage() {
 
                     {/* ── Main Content Grid ── */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-in">
-                        {/* Timeline */}
                         <div className="lg:col-span-2 space-y-4">
                             <h3 className="section-header flex items-center gap-2">
-                                <Clock size={14} className="text-purple-600" />
-                                Split Timeline
+                                <GitBranch size={14} className="text-purple-600" />
+                                Interactive Lineage Network
                             </h3>
 
-                            {Object.keys(decades).length === 0 && (
-                                <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-8 text-center">
+                            {!graphData ? (
+                                <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-8 text-center h-[500px] flex justify-center items-center flex-col">
                                     <GitBranch className="mx-auto text-slate-500 mb-3" size={32} />
                                     <p className="text-slate-500 text-sm font-medium">No split events recorded for {selectedState}</p>
                                     <p className="text-slate-600 text-xs mt-1">This state may not have undergone district reorganization</p>
                                 </div>
-                            )}
-
-                            {Object.entries(decades)
-                                .sort(([a], [b]) => Number(b) - Number(a))
-                                .map(([decade, events]) => (
-                                    <div key={decade} className="bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden">
-                                        <button
-                                            onClick={() => setExpandedDecade(expandedDecade === Number(decade) ? null : Number(decade))}
-                                            className="w-full flex items-center justify-between p-4 hover:bg-slate-50 transition"
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <Calendar size={16} className="text-purple-600" />
-                                                <span className="text-slate-900 font-bold">{decade}s</span>
-                                                <span className="text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full font-semibold">
-                                                    {events.length} {events.length === 1 ? 'event' : 'events'}
-                                                </span>
-                                            </div>
-                                            <ChevronDown
-                                                size={16}
-                                                className={`text-slate-600 transition-transform duration-200 ${expandedDecade === Number(decade) ? 'rotate-180' : ''}`}
-                                            />
-                                        </button>
-                                        {expandedDecade === Number(decade) && (
-                                            <div className="border-t border-slate-200 p-4 space-y-3 animate-in">
-                                                {events.map((event, i) => (
-                                                    <div key={i} className="flex items-start gap-3 relative pl-6">
-                                                        <div className="absolute left-0 top-1.5 w-2.5 h-2.5 rounded-full bg-purple-500 ring-2 ring-purple-100" />
-                                                        {i < events.length - 1 && (
-                                                            <div className="absolute left-[4px] top-4 w-0.5 h-full bg-slate-200" />
-                                                        )}
-                                                        <div className="flex-1">
-                                                            <div className="flex items-center gap-2 mb-1">
-                                                                <span className="text-xs font-mono text-purple-700 bg-purple-50 border border-purple-100 px-1.5 py-0.5 rounded font-semibold">
-                                                                    {event.split_year}
-                                                                </span>
-                                                            </div>
-                                                            <div className="flex items-center gap-2 text-sm">
-                                                                <span className="text-amber-700 font-semibold">{event.parent_district}</span>
-                                                                <ArrowRight size={12} className="text-slate-600 flex-shrink-0" />
-                                                                <button
-                                                                    onClick={() => setSelectedCdk(event.child_cdk)}
-                                                                    className="text-emerald-600 hover:text-emerald-700 hover:underline transition font-semibold"
-                                                                >
-                                                                    {event.child_district}
-                                                                </button>
-                                                            </div>
-                                                            <div className="text-[10px] text-slate-600 mt-1 flex items-center gap-1 font-medium">
-                                                                <Hash size={8} />
-                                                                {event.source || 'Census/Gazette'}
-                                                                {event.child_cdk && (
-                                                                    <span className="ml-2 text-slate-500">LGD: {event.child_cdk}</span>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
+                            ) : (
+                                <div className="bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden h-[600px] relative">
+                                    <ReactECharts
+                                        option={{
+                                            tooltip: {
+                                                trigger: 'item',
+                                                formatter: function (params: any) {
+                                                    if (params.dataType === 'node') {
+                                                        return `<div class="font-bold">${params.data.name}</div><div class="text-xs text-gray-500">Click to view data coverage</div>`;
+                                                    } else if (params.dataType === 'edge') {
+                                                        return `<div class="font-semibold">${params.data.source} ➔ ${params.data.target}</div><div class="text-xs text-gray-500">Split Occurred: <span class="font-mono text-purple-600">${params.data.label.formatter}</span></div>`;
+                                                    }
+                                                }
+                                            },
+                                            series: [
+                                                {
+                                                    type: 'graph',
+                                                    layout: 'force',
+                                                    data: graphData.nodes,
+                                                    links: graphData.links,
+                                                    roam: true,
+                                                    label: {
+                                                        show: true,
+                                                        position: 'right',
+                                                        formatter: '{b}'
+                                                    },
+                                                    force: {
+                                                        repulsion: 400,
+                                                        edgeLength: 100
+                                                    },
+                                                    edgeSymbol: ['circle', 'arrow'],
+                                                    edgeSymbolSize: [4, 8],
+                                                    emphasis: {
+                                                        focus: 'adjacency',
+                                                        lineStyle: {
+                                                            width: 4
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }}
+                                        style={{ height: '100%', width: '100%' }}
+                                        onEvents={{
+                                            'click': (params: any) => {
+                                                if (params.dataType === 'node') {
+                                                    // Try to match the clicked node to a CDK from coverage lists
+                                                    const matchedDistrict = coverage?.coverage?.find((d: any) => d.district_name === params.data.name);
+                                                    if (matchedDistrict) {
+                                                        setSelectedCdk(matchedDistrict.cdk);
+                                                    }
+                                                }
+                                            }
+                                        }}
+                                    />
+                                    <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg border border-slate-200 shadow-sm text-xs text-slate-600 flex flex-col gap-1 pointer-events-none">
+                                        <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-purple-500 inline-block"></span> Parent District</div>
+                                        <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> Child District (Created)</div>
+                                        <div className="mt-1 flex items-center gap-1 text-[10px] text-slate-400"><Info size={10} /> Scroll to zoom, drag to pan</div>
                                     </div>
-                                ))}
+                                </div>
+                            )}
                         </div>
 
                         {/* Right sidebar: Tracking + Coverage */}
