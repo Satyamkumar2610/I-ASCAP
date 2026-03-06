@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../services/api';
-import { Activity, Target, TrendingUp, TrendingDown, Maximize2, Minimize2, Map as MapIcon, Table2, Info } from 'lucide-react';
+import { Activity, Target, TrendingUp, Maximize2, Minimize2, Info } from 'lucide-react';
 import ReactECharts from 'echarts-for-react';
 
 export default function YieldGapPage() {
@@ -38,6 +38,7 @@ export default function YieldGapPage() {
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 data: gapData.convergence_timeline.map((t: any) => t.year)
             },
             yAxis: [
@@ -52,6 +53,7 @@ export default function YieldGapPage() {
                 {
                     name: '90th Percentile Frontier',
                     type: 'line',
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     data: gapData.convergence_timeline.map((t: any) => t.frontier_yield),
                     itemStyle: { color: '#8b5cf6' }, // Violet
                     lineStyle: { width: 3 },
@@ -66,6 +68,7 @@ export default function YieldGapPage() {
                 {
                     name: 'State Average',
                     type: 'line',
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     data: gapData.convergence_timeline.map((t: any) => t.state_avg_yield),
                     itemStyle: { color: '#10b981' }, // Emerald
                     lineStyle: { width: 3, type: 'dashed' },
@@ -74,6 +77,7 @@ export default function YieldGapPage() {
                 {
                     name: 'Average Gap',
                     type: 'bar',
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     data: gapData.convergence_timeline.map((t: any) => t.avg_gap),
                     itemStyle: { color: '#f59e0b', opacity: 0.6 }, // Amber
                     barMaxWidth: 30
@@ -87,7 +91,9 @@ export default function YieldGapPage() {
         if (!hasData) return null;
         const ranks = gapData.district_rankings;
         const totalDistricts = ranks.length;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const closingCount = ranks.filter((r: any) => r.status === 'Closing').length;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const wideningCount = ranks.filter((r: any) => r.status === 'Widening').length;
 
         const firstYear = gapData.convergence_timeline[0];
@@ -243,6 +249,7 @@ export default function YieldGapPage() {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-50">
+                                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                         {gapData.district_rankings.map((d: any) => (
                                             <tr key={d.cdk} className="hover:bg-slate-50/80 transition-colors">
                                                 <td className="py-3 px-4">

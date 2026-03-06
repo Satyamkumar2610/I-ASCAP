@@ -43,6 +43,7 @@ export default function CropShiftPage() {
     const allDistricts = useMemo(() => {
         if (!districtsData) return [];
         const distMap = new Map();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         districtsData.forEach((event: any) => {
             if (!distMap.has(event.parent_cdk)) distMap.set(event.parent_cdk, event.parent_district);
             event.children_cdks.forEach((cId: string, i: number) => {
@@ -97,10 +98,13 @@ export default function CropShiftPage() {
             tooltip: {
                 trigger: 'axis',
                 axisPointer: { type: 'cross', label: { backgroundColor: '#6a7985' } },
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 formatter: function (params: any) {
                     let html = `<div class="font-bold text-slate-800 mb-1">${params[0].name} Crop Mix</div>`;
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     let total = 0;
                     // Sort tooltip by largest share first
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const sortedParams = [...params].sort((a, b) => b.value - a.value);
                     sortedParams.forEach((p: any) => {
                         if (p.value > 0) {
@@ -177,151 +181,151 @@ export default function CropShiftPage() {
     return (
         <main className="page-container">
 
-                {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                    <div className="flex items-start gap-4">
-                        <div className="p-3 bg-indigo-100 text-indigo-700 rounded-xl shadow-inner mt-1">
-                            <Layers size={24} />
+            {/* Header */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div className="flex items-start gap-4">
+                    <div className="p-3 bg-indigo-100 text-indigo-700 rounded-xl shadow-inner mt-1">
+                        <Layers size={24} />
+                    </div>
+                    <div>
+                        <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-indigo-50 border border-indigo-200 text-[10px] font-bold text-indigo-700 uppercase tracking-widest mb-2">
+                            <Sparkles size={10} /> Advanced Analytics
                         </div>
-                        <div>
-                            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-indigo-50 border border-indigo-200 text-[10px] font-bold text-indigo-700 uppercase tracking-widest mb-2">
-                                <Sparkles size={10} /> Advanced Analytics
-                            </div>
-                            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Crop Diversification Shift</h1>
-                            <p className="text-sm text-slate-500">Track longitudinal shifts in agricultural specialization and monoculture risks.</p>
-                        </div>
+                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Crop Diversification Shift</h1>
+                        <p className="text-sm text-slate-500">Track longitudinal shifts in agricultural specialization and monoculture risks.</p>
                     </div>
                 </div>
+            </div>
 
-                {/* Configuration Panel */}
-                <div className="bg-white border border-slate-200 rounded-xl p-5 mb-6 shadow-sm flex flex-col sm:flex-row gap-4">
-                    <div className="flex-1">
-                        <label className="text-[10px] uppercase font-bold text-slate-600 mb-1 block">State</label>
-                        <select
-                            value={selectedState}
-                            onChange={(e) => { setSelectedState(e.target.value); setSelectedCdk(''); }}
-                            className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-indigo-500 outline-none"
-                        >
-                            <option value="">Select state...</option>
-                            {states.map((s: string) => <option key={s} value={s}>{s}</option>)}
-                        </select>
-                    </div>
-
-                    <div className="flex-1">
-                        <label className="text-[10px] uppercase font-bold text-slate-600 mb-1 block">District</label>
-                        <select
-                            value={selectedCdk}
-                            onChange={(e) => setSelectedCdk(e.target.value)}
-                            disabled={!selectedState || allDistricts.length === 0}
-                            className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-indigo-500 outline-none disabled:opacity-50"
-                        >
-                            <option value="">Select district...</option>
-                            {allDistricts.map(d => (
-                                <option key={d.cdk} value={d.cdk}>{d.name} ({d.cdk})</option>
-                            ))}
-                        </select>
-                    </div>
+            {/* Configuration Panel */}
+            <div className="bg-white border border-slate-200 rounded-xl p-5 mb-6 shadow-sm flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
+                    <label className="text-[10px] uppercase font-bold text-slate-600 mb-1 block">State</label>
+                    <select
+                        value={selectedState}
+                        onChange={(e) => { setSelectedState(e.target.value); setSelectedCdk(''); }}
+                        className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-indigo-500 outline-none"
+                    >
+                        <option value="">Select state...</option>
+                        {states.map((s: string) => <option key={s} value={s}>{s}</option>)}
+                    </select>
                 </div>
 
-                {/* Loading State */}
-                {loadingShift && (
-                    <div className="flex items-center justify-center py-20 bg-white border border-slate-200 rounded-xl">
-                        <div className="w-8 h-8 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mr-3" />
-                        <span className="text-sm text-slate-500 font-medium">Analyzing multi-decadal crop compositions...</span>
-                    </div>
-                )}
+                <div className="flex-1">
+                    <label className="text-[10px] uppercase font-bold text-slate-600 mb-1 block">District</label>
+                    <select
+                        value={selectedCdk}
+                        onChange={(e) => setSelectedCdk(e.target.value)}
+                        disabled={!selectedState || allDistricts.length === 0}
+                        className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-indigo-500 outline-none disabled:opacity-50"
+                    >
+                        <option value="">Select district...</option>
+                        {allDistricts.map(d => (
+                            <option key={d.cdk} value={d.cdk}>{d.name} ({d.cdk})</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
 
-                
-                {/* Error State */}
-                {isError && (
-                    <div className="bg-white border border-rose-200 rounded-xl p-10 text-center shadow-sm">
-                        <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-rose-50 flex items-center justify-center">
-                            <Layers size={24} className="text-rose-400" />
+            {/* Loading State */}
+            {loadingShift && (
+                <div className="flex items-center justify-center py-20 bg-white border border-slate-200 rounded-xl">
+                    <div className="w-8 h-8 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mr-3" />
+                    <span className="text-sm text-slate-500 font-medium">Analyzing multi-decadal crop compositions...</span>
+                </div>
+            )}
+
+
+            {/* Error State */}
+            {isError && (
+                <div className="bg-white border border-rose-200 rounded-xl p-10 text-center shadow-sm">
+                    <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-rose-50 flex items-center justify-center">
+                        <Layers size={24} className="text-rose-400" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-700">Failed to Load Data</h3>
+                    <p className="text-sm text-slate-500 mt-1">The server returned an error. Please try a different selection or refresh the page.</p>
+                </div>
+            )}
+
+            {/* No Data State */}
+            {!loadingShift && selectedCdk && !hasData && (
+                <div className="bg-white border border-slate-200 rounded-xl p-10 text-center shadow-sm">
+                    <AlertCircle size={36} className="mx-auto mb-3 text-slate-500" />
+                    <h3 className="text-lg font-bold text-slate-700">No Longitudinal Data</h3>
+                    <p className="text-sm text-slate-500 mt-1">There is insufficient historical crop area data to analyze the shift for this district.</p>
+                </div>
+            )}
+
+            {/* Results Dashboard */}
+            {hasData && analytics && (
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    {/* Summary Metrics */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                            <div className="text-[10px] uppercase font-bold text-slate-600 mb-1">Observation Period</div>
+                            <div className="text-2xl font-bold font-mono text-slate-900">{analytics.firstYear}–{analytics.lastYear}</div>
+                            <div className="text-xs text-slate-500 mt-1">{timeline.length} years of continuous data</div>
                         </div>
-                        <h3 className="text-lg font-bold text-slate-700">Failed to Load Data</h3>
-                        <p className="text-sm text-slate-500 mt-1">The server returned an error. Please try a different selection or refresh the page.</p>
-                    </div>
-                )}
 
-                {/* No Data State */}
-                {!loadingShift && selectedCdk && !hasData && (
-                    <div className="bg-white border border-slate-200 rounded-xl p-10 text-center shadow-sm">
-                        <AlertCircle size={36} className="mx-auto mb-3 text-slate-500" />
-                        <h3 className="text-lg font-bold text-slate-700">No Longitudinal Data</h3>
-                        <p className="text-sm text-slate-500 mt-1">There is insufficient historical crop area data to analyze the shift for this district.</p>
-                    </div>
-                )}
-
-                {/* Results Dashboard */}
-                {hasData && analytics && (
-                    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        {/* Summary Metrics */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-                                <div className="text-[10px] uppercase font-bold text-slate-600 mb-1">Observation Period</div>
-                                <div className="text-2xl font-bold font-mono text-slate-900">{analytics.firstYear}–{analytics.lastYear}</div>
-                                <div className="text-xs text-slate-500 mt-1">{timeline.length} years of continuous data</div>
+                        <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                            <div className="text-[10px] uppercase font-bold text-slate-600 mb-1">Diversity Trend</div>
+                            <div className={`text-2xl font-bold ${analytics.trend === 'Diversifying' ? 'text-emerald-600' :
+                                analytics.trend === 'Concentrating' ? 'text-amber-600' : 'text-slate-900'
+                                }`}>
+                                {analytics.trend}
                             </div>
-
-                            <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-                                <div className="text-[10px] uppercase font-bold text-slate-600 mb-1">Diversity Trend</div>
-                                <div className={`text-2xl font-bold ${analytics.trend === 'Diversifying' ? 'text-emerald-600' :
-                                    analytics.trend === 'Concentrating' ? 'text-amber-600' : 'text-slate-900'
-                                    }`}>
-                                    {analytics.trend}
-                                </div>
-                                <div className="text-xs text-slate-500 mt-1">
-                                    Simpson Index: {analytics.initialDiversity.toFixed(2)} → {analytics.finalDiversity.toFixed(2)}
-                                </div>
-                            </div>
-
-                            <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm col-span-2">
-                                <div className="text-[10px] uppercase font-bold text-slate-600 mb-1">Historical Paradigm Shift</div>
-                                {analytics.isShift ? (
-                                    <div>
-                                        <div className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                                            <span className="capitalize text-slate-500 line-through">{analytics.initialDominant}</span>
-                                            <span>→</span>
-                                            <span className="capitalize text-indigo-700">{analytics.finalDominant}</span>
-                                        </div>
-                                        <div className="text-xs text-slate-500 mt-1">
-                                            The district fundamentally transitioned its primary agricultural output.
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <div className="text-lg font-bold text-slate-900 capitalize">{analytics.finalDominant} Dominant</div>
-                                        <div className="text-xs text-slate-500 mt-1">
-                                            The primary crop remained the same throughout the observed history.
-                                        </div>
-                                    </div>
-                                )}
+                            <div className="text-xs text-slate-500 mt-1">
+                                Simpson Index: {analytics.initialDiversity.toFixed(2)} → {analytics.finalDiversity.toFixed(2)}
                             </div>
                         </div>
 
-                        {/* Chart Area */}
-                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                            <div className="flex items-start justify-between mb-6">
+                        <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm col-span-2">
+                            <div className="text-[10px] uppercase font-bold text-slate-600 mb-1">Historical Paradigm Shift</div>
+                            {analytics.isShift ? (
                                 <div>
-                                    <h2 className="text-sm font-bold text-slate-900">Crop Composition Timeline</h2>
-                                    <p className="text-xs text-slate-500 mt-0.5">Stacked area showing proportional share (100%) of total cropped area.</p>
-                                </div>
-
-                                <div className="group relative cursor-help">
-                                    <Info size={16} className="text-slate-600" />
-                                    <div className="absolute right-0 top-6 w-64 bg-slate-800 text-white text-xs p-3 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
-                                        <p className="font-bold mb-1">Reading this chart:</p>
-                                        <p className="text-slate-500">This normalizes all agricultural area to 100%. Wide bands indicate major crops. If a band widens significantly while others shrink, the district is concentrating towards monoculture.</p>
+                                    <div className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                                        <span className="capitalize text-slate-500 line-through">{analytics.initialDominant}</span>
+                                        <span>→</span>
+                                        <span className="capitalize text-indigo-700">{analytics.finalDominant}</span>
+                                    </div>
+                                    <div className="text-xs text-slate-500 mt-1">
+                                        The district fundamentally transitioned its primary agricultural output.
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className="h-[400px] w-full">
-                                <ReactECharts option={chartOption!} style={{ height: '100%', width: '100%' }} />
-                            </div>
+                            ) : (
+                                <div>
+                                    <div className="text-lg font-bold text-slate-900 capitalize">{analytics.finalDominant} Dominant</div>
+                                    <div className="text-xs text-slate-500 mt-1">
+                                        The primary crop remained the same throughout the observed history.
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
-                )}
+
+                    {/* Chart Area */}
+                    <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                        <div className="flex items-start justify-between mb-6">
+                            <div>
+                                <h2 className="text-sm font-bold text-slate-900">Crop Composition Timeline</h2>
+                                <p className="text-xs text-slate-500 mt-0.5">Stacked area showing proportional share (100%) of total cropped area.</p>
+                            </div>
+
+                            <div className="group relative cursor-help">
+                                <Info size={16} className="text-slate-600" />
+                                <div className="absolute right-0 top-6 w-64 bg-slate-800 text-white text-xs p-3 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                                    <p className="font-bold mb-1">Reading this chart:</p>
+                                    <p className="text-slate-500">This normalizes all agricultural area to 100%. Wide bands indicate major crops. If a band widens significantly while others shrink, the district is concentrating towards monoculture.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="h-[400px] w-full">
+                            <ReactECharts option={chartOption!} style={{ height: '100%', width: '100%' }} />
+                        </div>
+                    </div>
+                </div>
+            )}
         </main>
     )
 }
