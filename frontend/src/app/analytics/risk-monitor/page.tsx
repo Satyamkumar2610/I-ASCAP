@@ -15,7 +15,7 @@ export default function RiskMonitorPage() {
     const [selectedCdk, setSelectedCdk] = useState<string>('');
 
     // High-risk districts feed
-    const { data: highRisk, isLoading: loadingHighRisk } = useQuery({
+    const { data: highRisk, isLoading: loadingHighRisk, isError: highRiskError } = useQuery({
         queryKey: ['high-risk'],
         queryFn: () => api.getHighRiskDistricts(15),
         staleTime: 1000 * 60 * 5,
@@ -63,6 +63,13 @@ export default function RiskMonitorPage() {
                     {loadingHighRisk && (
                         <div className="flex items-center justify-center py-10">
                             <div className="w-6 h-6 border-2 border-red-500/30 border-t-red-500 rounded-full animate-spin" />
+                        </div>
+                    )}
+
+                    {highRiskError && (
+                        <div className="text-center py-8">
+                            <AlertTriangle size={24} className="mx-auto mb-2 text-rose-400" />
+                            <p className="text-sm text-slate-500">Failed to load risk data</p>
                         </div>
                     )}
 

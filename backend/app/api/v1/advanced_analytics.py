@@ -18,6 +18,7 @@ import asyncpg
 from app.api.deps import get_db
 from app.services.advanced_analytics import AdvancedAnalyticsService
 from app.exceptions import NotFoundError, ValidationError
+from app.validators import validate_crop, validate_state_name, validate_year, validate_year_range, validate_cdk
 
 router = APIRouter(prefix="/analytics", tags=["Advanced Analytics"])
 
@@ -37,11 +38,13 @@ async def get_crop_diversification(
     - Number of crops grown
     - Dominant crop and its share
     """
+    cdk = validate_cdk(cdk)
+    year = validate_year(year)
     service = AdvancedAnalyticsService(db)
     result = await service.get_crop_diversification(cdk, year)
     
     if not result:
-        raise NotFoundError(detail=f"No data found for {cdk} in {year}")
+        raise NotFoundError("Diversification data", f"{cdk} in {year}")
     
     return {
         "cdk": result.cdk,
@@ -74,11 +77,12 @@ async def get_crop_shift_timeline(
     - dominant_crop & share
     - crop_mix breakdown (top 5 + other)
     """
+    cdk = validate_cdk(cdk)
     service = AdvancedAnalyticsService(db)
     result = await service.get_crop_shift(cdk)
     
     if not result:
-        raise NotFoundError(detail=f"No area data found for {cdk}")
+        raise NotFoundError("Crop shift data", cdk)
         
     return {
         "cdk": cdk,
@@ -97,11 +101,14 @@ async def get_yield_trend(
     """
     Get yield trend analysis with CAGR and volatility.
     """
+    cdk = validate_cdk(cdk)
+    crop = validate_crop(crop)
+    start_year, end_year = validate_year_range(start_year, end_year)
     service = AdvancedAnalyticsService(db)
     result = await service.get_yield_trend(cdk, crop, start_year, end_year)
     
     if not result:
-        raise NotFoundError(detail=f"Insufficient data for {crop} in {cdk}")
+        raise NotFoundError("Yield trend data", f"{crop} in {cdk}")
     
     return {
         "cdk": cdk,
@@ -158,6 +165,8 @@ async def get_crop_correlations(
     - Crop substitution patterns (negative correlation)
     - Complementary crops (positive correlation)
     """
+    state = validate_state_name(state)
+    year = validate_year(year)
     service = AdvancedAnalyticsService(db)
     
     crop_list = None
@@ -180,6 +189,9 @@ async def get_district_rankings(
     """
     Get district rankings by crop performance.
     """
+    state = validate_state_name(state)
+    crop = validate_crop(crop)
+    year = validate_year(year)
     service = AdvancedAnalyticsService(db)
     rankings = await service.get_district_rankings(state, crop, year, metric)
     
@@ -197,6 +209,9 @@ async def get_yoy_growth(
     """
     Get year-over-year yield growth rates.
     """
+    cdk = validate_cdk(cdk)
+    crop = validate_crop(crop)
+    start_year, end_year = validate_year_range(start_year, end_year)
     service = AdvancedAnalyticsService(db)
     growth_data = await service.get_yoy_growth(cdk, crop, start_year, end_year)
     
@@ -229,6 +244,9 @@ async def get_seasonal_comparison(
     Compare Kharif vs Rabi season yields.
     Only available for DES data (1998+).
     """
+    cdk = validate_cdk(cdk)
+    crop = validate_crop(crop)
+    year = validate_year(year)
     service = AdvancedAnalyticsService(db)
     result = await service.get_seasonal_comparison(cdk, crop, year)
     
@@ -301,11 +319,13 @@ async def get_resilience_index(
     """
     Rank districts in a state by lowest yield volatility (highest climate resilience).
     """
+    state = validate_state_name(state)
+    crop = validate_crop(crop)
     service = AdvancedAnalyticsService(db)
     result = await service.get_resilience_index(state, crop)
     
     if not result:
-        raise NotFoundError(detail=f"Insufficient data for resilience analysis in {state}")
+        raise NotFoundError("Resilience data", state)
         
     return {
         "state": state,
@@ -326,10 +346,13 @@ async def get_yield_gap_analysis(
     Get the yield gap analysis for a state and crop, comparing districts against the 90th percentile frontier.
     Returns convergence timeline and district rankings.
     """
+    state = validate_state_name(state)
+    crop = validate_crop(crop)
+    start_year, end_year = validate_year_range(start_year, end_year)
     service = AdvancedAnalyticsService(db)
     result = await service.get_yield_gap(state, crop, start_year, end_year)
     if "error" in result:
-        raise NotFoundError(detail=result["error"])
+        raise NotFoundError("Yield gap data", result.get("error", "unknown"))
     return result
 
 @router.get("/split-specialization")

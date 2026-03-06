@@ -44,7 +44,9 @@ async function fetcher<T>(endpoint: string, options: RequestInit = {}): Promise<
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
     const url = `${BASE_URL}/api/v1/${cleanEndpoint}`;
 
-    console.log(`[API] Fetching: ${url}`);
+    if (process.env.NODE_ENV === 'development') {
+        console.log(`[API] Fetching: ${url}`);
+    }
 
     try {
         return await fetchOnce<T>(url, options);

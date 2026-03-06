@@ -34,7 +34,7 @@ export default function ReportsPage() {
     });
 
     // Generate report
-    const { data: report, isLoading: generating } = useQuery({
+    const { data: report, isLoading: generating, isError: reportError } = useQuery({
         queryKey: ['report', reportType, selectedCdk, selectedCrop],
         queryFn: () => api.getDistrictReport(selectedCdk, selectedCrop, 'json'),
         enabled: !!selectedCdk && previewOpen,
@@ -182,6 +182,14 @@ export default function ReportsPage() {
                                 <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
                                 <span className="text-sm font-medium text-slate-500">Generating report...</span>
                             </div>
+                        </div>
+                    )}
+
+                    {reportError && previewOpen && (
+                        <div className="bg-white border border-rose-200 rounded-xl p-10 text-center shadow-sm">
+                            <FileText size={36} className="mx-auto mb-3 text-rose-300" />
+                            <h3 className="text-lg font-bold text-slate-700">Report Generation Failed</h3>
+                            <p className="text-sm text-slate-500 mt-1">Unable to generate report. The district may not have data for this crop.</p>
                         </div>
                     )}
 

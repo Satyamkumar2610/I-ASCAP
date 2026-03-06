@@ -18,7 +18,10 @@ VALID_CROPS: Set[str] = {
     "rice", "wheat", "maize", "jowar", "bajra", "ragi",
     "barley", "sorghum", "millet", "groundnut", "cotton",
     "sugarcane", "tobacco", "jute", "potato", "onion",
-    "pulses", "oilseeds", "cereals", "foodgrains"
+    "pulses", "oilseeds", "cereals", "foodgrains",
+    # Crops available in frontend Dashboard selector
+    "soyabean", "sesamum", "rapeseed_and_mustard", "sunflower",
+    "chickpea", "pigeonpea", "finger_millet", "pearl_millet",
 }
 
 # Valid metrics
