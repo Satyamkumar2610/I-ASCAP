@@ -15,7 +15,7 @@ export default function WaterStressPage() {
     const { data: summaryData } = useQuery({ queryKey: ['stateSummary'], queryFn: api.getSummary, staleTime: 3600000 });
     const states = summaryData?.states || [];
 
-    const { data: stressData, isLoading: loadingStress } = useQuery({
+    const { data: stressData, isLoading: loadingStress, isError } = useQuery({
         queryKey: ['waterStress', selectedState, selectedYear],
         queryFn: () => api.getWaterStress(selectedState, selectedYear),
         enabled: !!selectedState,
@@ -138,8 +138,7 @@ export default function WaterStressPage() {
     }, [districts, hasData]);
 
     return (
-        <main className="w-full py-6">
-            <div className="max-w-6xl mx-auto px-6">
+        <main className="page-container">
 
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8 border-b border-slate-200 pb-6">
@@ -190,6 +189,18 @@ export default function WaterStressPage() {
                     <div className="flex items-center justify-center py-20 bg-white border border-slate-200 rounded-xl">
                         <div className="w-8 h-8 border-2 border-sky-200 border-t-sky-600 rounded-full animate-spin mr-3" />
                         <span className="text-sm text-slate-500 font-medium">Computing spatial climatic mismatch...</span>
+                    </div>
+                )}
+
+                
+                {/* Error State */}
+                {isError && (
+                    <div className="bg-white border border-rose-200 rounded-xl p-10 text-center shadow-sm">
+                        <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-rose-50 flex items-center justify-center">
+                            <Droplet size={24} className="text-rose-400" />
+                        </div>
+                        <h3 className="text-lg font-bold text-slate-700">Failed to Load Data</h3>
+                        <p className="text-sm text-slate-500 mt-1">The server returned an error. Please try a different selection or refresh the page.</p>
                     </div>
                 )}
 
@@ -308,7 +319,6 @@ export default function WaterStressPage() {
                         </div>
                     </div>
                 )}
-            </div>
         </main>
     )
 }

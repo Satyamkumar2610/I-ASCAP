@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '../../services/api';
 import { Wheat, TrendingUp, TrendingDown, Minus, BarChart3, Grid3X3 } from 'lucide-react';
 import ReactECharts from 'echarts-for-react';
+import EmptyState from '../../components/EmptyState';
 
 const PIE_COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4', '#f97316', '#6366f1', '#14b8a6', '#e11d48'];
 const CORR_POSITIVE = '#10b981';
@@ -153,13 +154,7 @@ export default function CropPortfolioPage() {
 
             {/* Empty State */}
             {!selectedCdk && !isLoading && (
-                <div className="text-center py-24 bg-white border border-slate-200 rounded-xl shadow-sm">
-                    <div className="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-5 border border-slate-100">
-                        <Wheat className="text-slate-600" size={36} />
-                    </div>
-                    <EmptyState icon={Wheat} title="No District Selected" description="Select a state and district above to analyze its crop portfolio and diversification patterns." />
-                    <p className="text-slate-500 text-sm mt-1">Choose a state and district to begin</p>
-                </div>
+                <EmptyState icon={Wheat} title="No District Selected" description="Select a state and district above to analyze its crop portfolio and diversification patterns." />
             )}
 
             {/* Loading */}

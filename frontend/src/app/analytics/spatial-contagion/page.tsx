@@ -38,7 +38,7 @@ export default function SpatialContagionPage() {
         return Array.from(distMap.entries()).map(([cdk, name]) => ({ cdk, name })).sort((a, b) => a.name.localeCompare(b.name));
     }, [districtsData]);
 
-    const { data: contagion, isLoading: loadingContagion } = useQuery({
+    const { data: contagion, isLoading: loadingContagion, isError } = useQuery({
         queryKey: ['spatialContagion', selectedCdk, selectedCrop, startYear, endYear],
         queryFn: () => api.getSpatialContagion(selectedCdk, selectedCrop, startYear, endYear),
         enabled: !!selectedCdk,
@@ -99,8 +99,7 @@ export default function SpatialContagionPage() {
     }, [contagion]);
 
     return (
-        <main className="w-full py-6">
-            <div className="max-w-6xl mx-auto px-6">
+        <main className="page-container">
 
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8 border-b border-slate-200 pb-6">
@@ -182,6 +181,18 @@ export default function SpatialContagionPage() {
                     </div>
                 )}
 
+                
+                {/* Error State */}
+                {isError && (
+                    <div className="bg-white border border-rose-200 rounded-xl p-10 text-center shadow-sm">
+                        <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-rose-50 flex items-center justify-center">
+                            <Network size={24} className="text-rose-400" />
+                        </div>
+                        <h3 className="text-lg font-bold text-slate-700">Failed to Load Data</h3>
+                        <p className="text-sm text-slate-500 mt-1">The server returned an error. Please try a different selection or refresh the page.</p>
+                    </div>
+                )}
+
                 {/* No Data State */}
                 {!loadingContagion && selectedCdk && !hasData && (
                     <div className="bg-white border border-slate-200 rounded-xl p-10 text-center shadow-sm">
@@ -260,7 +271,6 @@ export default function SpatialContagionPage() {
                         </div>
                     </div>
                 )}
-            </div>
         </main>
     )
 }

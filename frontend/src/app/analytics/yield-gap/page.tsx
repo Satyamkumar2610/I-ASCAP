@@ -18,7 +18,7 @@ export default function YieldGapPage() {
     const { data: summaryData } = useQuery({ queryKey: ['stateSummary'], queryFn: api.getSummary, staleTime: 3600000 });
     const states = summaryData?.states || [];
 
-    const { data: gapData, isLoading } = useQuery({
+    const { data: gapData, isLoading, isError } = useQuery({
         queryKey: ['yieldGap', selectedState, selectedCrop, startYear, endYear],
         queryFn: () => api.getYieldGap(selectedState, selectedCrop, startYear, endYear),
         enabled: !!selectedState,
@@ -99,174 +99,183 @@ export default function YieldGapPage() {
     }, [gapData, hasData]);
 
     return (
-        <main className="w-full py-6">
-            <div className="max-w-6xl mx-auto px-6">
+        <main className="page-container">
 
-                {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8 border-b border-slate-200 pb-6">
-                    <div className="p-3 bg-fuchsia-100 text-fuchsia-700 rounded-xl shadow-inner mt-1 shrink-0">
-                        <Target size={24} />
-                    </div>
-                    <div>
-                        <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-fuchsia-50 border border-fuchsia-200 text-[10px] font-bold text-fuchsia-700 uppercase tracking-widest mb-2">
-                            <Activity size={10} /> Productivity Potential
-                        </div>
-                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Yield Gap Mapping</h1>
-                        <p className="text-sm text-slate-500 mt-1 max-w-3xl">
-                            Measures the untapped agricultural potential by calculating the difference between a district&apos;s actual yield and the state&apos;s 90th percentile &quot;Frontier Yield&quot;. Plots long-term convergence trends.
-                        </p>
-                    </div>
+            {/* Header */}
+            <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8 border-b border-slate-200 pb-6">
+                <div className="p-3 bg-fuchsia-100 text-fuchsia-700 rounded-xl shadow-inner mt-1 shrink-0">
+                    <Target size={24} />
                 </div>
-
-                {/* Configuration Panel */}
-                <div className="bg-white border border-slate-200 rounded-xl p-5 mb-6 shadow-sm flex flex-col sm:flex-row gap-4 items-end">
-                    <div className="flex-1">
-                        <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">State</label>
-                        <select
-                            value={selectedState}
-                            onChange={(e) => setSelectedState(e.target.value)}
-                            className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-fuchsia-500 outline-none"
-                        >
-                            <option value="">Select state...</option>
-                            {states.map((s: string) => <option key={s} value={s}>{s}</option>)}
-                        </select>
+                <div>
+                    <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-fuchsia-50 border border-fuchsia-200 text-[10px] font-bold text-fuchsia-700 uppercase tracking-widest mb-2">
+                        <Activity size={10} /> Productivity Potential
                     </div>
-
-                    <div className="w-40">
-                        <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Crop</label>
-                        <select
-                            value={selectedCrop}
-                            onChange={(e) => setSelectedCrop(e.target.value)}
-                            className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-fuchsia-500 outline-none"
-                        >
-                            {['wheat', 'rice', 'cotton', 'sugarcane', 'maize', 'groundnut'].map(c => (
-                                <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className="w-48">
-                        <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Analysis Window</label>
-                        <select
-                            value={yearRange}
-                            onChange={(e) => setYearRange(e.target.value)}
-                            className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-fuchsia-500 outline-none"
-                        >
-                            {['2000-2020', '1990-2010', '1980-2000', '1970-1990'].map(y => (
-                                <option key={y} value={y}>{y}</option>
-                            ))}
-                        </select>
-                    </div>
+                    <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Yield Gap Mapping</h1>
+                    <p className="text-sm text-slate-500 mt-1 max-w-3xl">
+                        Measures the untapped agricultural potential by calculating the difference between a district&apos;s actual yield and the state&apos;s 90th percentile &quot;Frontier Yield&quot;. Plots long-term convergence trends.
+                    </p>
                 </div>
-
-                {/* Loading / No Data State */}
-                {isLoading && (
-                    <div className="flex items-center justify-center py-20 bg-white border border-slate-200 rounded-xl">
-                        <div className="w-8 h-8 border-2 border-fuchsia-200 border-t-fuchsia-600 rounded-full animate-spin mr-3" />
-                        <span className="text-sm text-slate-500 font-medium">Computing frontier yields...</span>
-                    </div>
-                )}
-
-                {!isLoading && selectedState && !hasData && (
-                    <div className="bg-white border border-slate-200 rounded-xl p-10 text-center shadow-sm">
-                        <Info size={36} className="mx-auto mb-3 text-slate-300" />
-                        <h3 className="text-lg font-bold text-slate-700">No Productivity Data Available</h3>
-                        <p className="text-sm text-slate-500 mt-1">Unable to compute frontier yields for this crop and period.</p>
-                    </div>
-                )}
-
-                {/* Results Dashboard */}
-                {hasData && stats && (
-                    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        {/* Summary Metrics */}
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                                <div className="text-[10px] uppercase font-bold text-slate-400 mb-1">Convergence Trajectory</div>
-                                <div className={`text-2xl font-bold font-mono ${stats.gapReductionPct > 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
-                                    {stats.gapReductionPct > 0 ? '+' : ''}{stats.gapReductionPct.toFixed(1)}%
-                                </div>
-                                <div className="text-xs text-slate-500 mt-1">{stats.gapReductionPct > 0 ? 'Reduction in average gap' : 'Increase in average gap'}</div>
-                            </div>
-
-                            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                                <div className="text-[10px] uppercase font-bold text-slate-400 mb-1">Statewide Avg Gap</div>
-                                <div className="text-2xl font-bold font-mono text-amber-600">{Math.round(stats.lastYearGap)} <span className="text-sm sans text-slate-500">kg/ha</span></div>
-                                <div className="text-xs text-slate-500 mt-1">Current untapped potential</div>
-                            </div>
-
-                            <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-5 shadow-sm">
-                                <div className="text-[10px] uppercase font-bold text-emerald-800/60 mb-1">Closing The Gap</div>
-                                <div className="text-2xl font-bold font-mono text-emerald-700">{stats.closingCount} <span className="text-sm sans text-emerald-600/70">/ {stats.totalDistricts}</span></div>
-                                <div className="text-xs text-emerald-600/80 mt-1">Districts catching up to frontier</div>
-                            </div>
-
-                            <div className="bg-rose-50 border border-rose-200 rounded-xl p-5 shadow-sm">
-                                <div className="text-[10px] uppercase font-bold text-rose-800/60 mb-1">Falling Behind</div>
-                                <div className="text-2xl font-bold font-mono text-rose-700">{stats.wideningCount} <span className="text-sm sans text-rose-600/70">/ {stats.totalDistricts}</span></div>
-                                <div className="text-xs text-rose-600/80 mt-1">Districts dropping from frontier</div>
-                            </div>
-                        </div>
-
-                        {/* Chart Row */}
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            {/* Line Chart */}
-                            <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                                <h2 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2"><TrendingUp size={16} className="text-fuchsia-600" /> State Convergence Timeline</h2>
-                                <div className="h-[400px] w-full relative">
-                                    <ReactECharts option={timelineOption!} style={{ height: '100%', width: '100%' }} />
-                                </div>
-                            </div>
-
-                            {/* Table */}
-                            <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[470px]">
-                                <div className="p-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
-                                    <h2 className="text-sm font-bold text-slate-900">Highest Yield Gaps</h2>
-                                    <span className="text-[10px] uppercase font-bold text-amber-600 bg-amber-100 px-2 py-0.5 rounded">Needs Intervention</span>
-                                </div>
-                                <div className="flex-1 overflow-y-auto">
-                                    <table className="w-full text-left text-sm">
-                                        <thead className="bg-white sticky top-0 border-b border-slate-100 shadow-sm z-10">
-                                            <tr className="text-xs uppercase text-slate-400">
-                                                <th className="py-2 px-4 font-semibold">District</th>
-                                                <th className="py-2 px-4 font-semibold text-right">Avg Gap</th>
-                                                <th className="py-2 px-4 font-semibold text-center">Trend</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-slate-50">
-                                            {gapData.district_rankings.map((d: any) => (
-                                                <tr key={d.cdk} className="hover:bg-slate-50/80 transition-colors">
-                                                    <td className="py-3 px-4">
-                                                        <div className="font-medium text-slate-800">{d.district_name}</div>
-                                                        <div className="text-[10px] text-slate-400">Yield: {Math.round(d.avg_yield)} kg/ha</div>
-                                                    </td>
-                                                    <td className="py-3 px-4 text-right font-mono text-amber-600 font-bold">
-                                                        {Math.round(d.avg_gap)}
-                                                    </td>
-                                                    <td className="py-3 px-4 text-center">
-                                                        {d.status === 'Closing' ? (
-                                                            <div className="inline-flex items-center text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded" title="Gap is narrowing">
-                                                                <Minimize2 size={12} />
-                                                            </div>
-                                                        ) : d.status === 'Widening' ? (
-                                                            <div className="inline-flex items-center text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded" title="Gap is widening">
-                                                                <Maximize2 size={12} />
-                                                            </div>
-                                                        ) : (
-                                                            <div className="inline-flex items-center text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded" title="Stagnant">
-                                                                —
-                                                            </div>
-                                                        )}
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
+
+            {/* Configuration Panel */}
+            <div className="bg-white border border-slate-200 rounded-xl p-5 mb-6 shadow-sm flex flex-col sm:flex-row gap-4 items-end">
+                <div className="flex-1">
+                    <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">State</label>
+                    <select
+                        value={selectedState}
+                        onChange={(e) => setSelectedState(e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-fuchsia-500 outline-none"
+                    >
+                        <option value="">Select state...</option>
+                        {states.map((s: string) => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                </div>
+
+                <div className="w-40">
+                    <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Crop</label>
+                    <select
+                        value={selectedCrop}
+                        onChange={(e) => setSelectedCrop(e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-fuchsia-500 outline-none"
+                    >
+                        {['wheat', 'rice', 'cotton', 'sugarcane', 'maize', 'groundnut'].map(c => (
+                            <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="w-48">
+                    <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Analysis Window</label>
+                    <select
+                        value={yearRange}
+                        onChange={(e) => setYearRange(e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-fuchsia-500 outline-none"
+                    >
+                        {['2000-2020', '1990-2010', '1980-2000', '1970-1990'].map(y => (
+                            <option key={y} value={y}>{y}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+
+            {/* Loading / No Data State */}
+            {isLoading && (
+                <div className="flex items-center justify-center py-20 bg-white border border-slate-200 rounded-xl">
+                    <div className="w-8 h-8 border-2 border-fuchsia-200 border-t-fuchsia-600 rounded-full animate-spin mr-3" />
+                    <span className="text-sm text-slate-500 font-medium">Computing frontier yields...</span>
+                </div>
+            )}
+
+            {/* Error State */}
+            {isError && (
+                <div className="bg-white border border-rose-200 rounded-xl p-10 text-center shadow-sm">
+                    <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-rose-50 flex items-center justify-center">
+                        <Target size={24} className="text-rose-400" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-700">Failed to Load Data</h3>
+                    <p className="text-sm text-slate-500 mt-1">The server returned an error. Please try a different selection or refresh.</p>
+                </div>
+            )}
+
+            {!isLoading && !isError && selectedState && !hasData && (
+                <div className="bg-white border border-slate-200 rounded-xl p-10 text-center shadow-sm">
+                    <Info size={36} className="mx-auto mb-3 text-slate-300" />
+                    <h3 className="text-lg font-bold text-slate-700">No Productivity Data Available</h3>
+                    <p className="text-sm text-slate-500 mt-1">Unable to compute frontier yields for this crop and period.</p>
+                </div>
+            )}
+
+            {/* Results Dashboard */}
+            {hasData && stats && (
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    {/* Summary Metrics */}
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                            <div className="text-[10px] uppercase font-bold text-slate-400 mb-1">Convergence Trajectory</div>
+                            <div className={`text-2xl font-bold font-mono ${stats.gapReductionPct > 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+                                {stats.gapReductionPct > 0 ? '+' : ''}{stats.gapReductionPct.toFixed(1)}%
+                            </div>
+                            <div className="text-xs text-slate-500 mt-1">{stats.gapReductionPct > 0 ? 'Reduction in average gap' : 'Increase in average gap'}</div>
+                        </div>
+
+                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                            <div className="text-[10px] uppercase font-bold text-slate-400 mb-1">Statewide Avg Gap</div>
+                            <div className="text-2xl font-bold font-mono text-amber-600">{Math.round(stats.lastYearGap)} <span className="text-sm sans text-slate-500">kg/ha</span></div>
+                            <div className="text-xs text-slate-500 mt-1">Current untapped potential</div>
+                        </div>
+
+                        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-5 shadow-sm">
+                            <div className="text-[10px] uppercase font-bold text-emerald-800/60 mb-1">Closing The Gap</div>
+                            <div className="text-2xl font-bold font-mono text-emerald-700">{stats.closingCount} <span className="text-sm sans text-emerald-600/70">/ {stats.totalDistricts}</span></div>
+                            <div className="text-xs text-emerald-600/80 mt-1">Districts catching up to frontier</div>
+                        </div>
+
+                        <div className="bg-rose-50 border border-rose-200 rounded-xl p-5 shadow-sm">
+                            <div className="text-[10px] uppercase font-bold text-rose-800/60 mb-1">Falling Behind</div>
+                            <div className="text-2xl font-bold font-mono text-rose-700">{stats.wideningCount} <span className="text-sm sans text-rose-600/70">/ {stats.totalDistricts}</span></div>
+                            <div className="text-xs text-rose-600/80 mt-1">Districts dropping from frontier</div>
+                        </div>
+                    </div>
+
+                    {/* Chart Row */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {/* Line Chart */}
+                        <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                            <h2 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2"><TrendingUp size={16} className="text-fuchsia-600" /> State Convergence Timeline</h2>
+                            <div className="h-[400px] w-full relative">
+                                <ReactECharts option={timelineOption!} style={{ height: '100%', width: '100%' }} />
+                            </div>
+                        </div>
+
+                        {/* Table */}
+                        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[470px]">
+                            <div className="p-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
+                                <h2 className="text-sm font-bold text-slate-900">Highest Yield Gaps</h2>
+                                <span className="text-[10px] uppercase font-bold text-amber-600 bg-amber-100 px-2 py-0.5 rounded">Needs Intervention</span>
+                            </div>
+                            <div className="flex-1 overflow-y-auto">
+                                <table className="w-full text-left text-sm">
+                                    <thead className="bg-white sticky top-0 border-b border-slate-100 shadow-sm z-10">
+                                        <tr className="text-xs uppercase text-slate-400">
+                                            <th className="py-2 px-4 font-semibold">District</th>
+                                            <th className="py-2 px-4 font-semibold text-right">Avg Gap</th>
+                                            <th className="py-2 px-4 font-semibold text-center">Trend</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-50">
+                                        {gapData.district_rankings.map((d: any) => (
+                                            <tr key={d.cdk} className="hover:bg-slate-50/80 transition-colors">
+                                                <td className="py-3 px-4">
+                                                    <div className="font-medium text-slate-800">{d.district_name}</div>
+                                                    <div className="text-[10px] text-slate-400">Yield: {Math.round(d.avg_yield)} kg/ha</div>
+                                                </td>
+                                                <td className="py-3 px-4 text-right font-mono text-amber-600 font-bold">
+                                                    {Math.round(d.avg_gap)}
+                                                </td>
+                                                <td className="py-3 px-4 text-center">
+                                                    {d.status === 'Closing' ? (
+                                                        <div className="inline-flex items-center text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded" title="Gap is narrowing">
+                                                            <Minimize2 size={12} />
+                                                        </div>
+                                                    ) : d.status === 'Widening' ? (
+                                                        <div className="inline-flex items-center text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded" title="Gap is widening">
+                                                            <Maximize2 size={12} />
+                                                        </div>
+                                                    ) : (
+                                                        <div className="inline-flex items-center text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded" title="Stagnant">
+                                                            —
+                                                        </div>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </main>
     )
 }

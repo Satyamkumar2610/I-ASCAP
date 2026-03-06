@@ -53,7 +53,7 @@ export default function CropShiftPage() {
         return Array.from(distMap.entries()).map(([cdk, name]) => ({ cdk, name })).sort((a, b) => a.name.localeCompare(b.name));
     }, [districtsData]);
 
-    const { data: cropShift, isLoading: loadingShift } = useQuery({
+    const { data: cropShift, isLoading: loadingShift, isError } = useQuery({
         queryKey: ['cropShift', selectedCdk],
         queryFn: () => api.getCropShift(selectedCdk),
         enabled: !!selectedCdk,
@@ -175,8 +175,7 @@ export default function CropShiftPage() {
 
 
     return (
-        <main className="w-full py-6">
-            <div className="max-w-6xl mx-auto px-6">
+        <main className="page-container">
 
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -229,6 +228,18 @@ export default function CropShiftPage() {
                     <div className="flex items-center justify-center py-20 bg-white border border-slate-200 rounded-xl">
                         <div className="w-8 h-8 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mr-3" />
                         <span className="text-sm text-slate-500 font-medium">Analyzing multi-decadal crop compositions...</span>
+                    </div>
+                )}
+
+                
+                {/* Error State */}
+                {isError && (
+                    <div className="bg-white border border-rose-200 rounded-xl p-10 text-center shadow-sm">
+                        <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-rose-50 flex items-center justify-center">
+                            <Layers size={24} className="text-rose-400" />
+                        </div>
+                        <h3 className="text-lg font-bold text-slate-700">Failed to Load Data</h3>
+                        <p className="text-sm text-slate-500 mt-1">The server returned an error. Please try a different selection or refresh the page.</p>
                     </div>
                 )}
 
@@ -311,7 +322,6 @@ export default function CropShiftPage() {
                         </div>
                     </div>
                 )}
-            </div>
         </main>
     )
 }
