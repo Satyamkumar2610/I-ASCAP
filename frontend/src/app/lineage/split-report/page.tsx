@@ -54,7 +54,11 @@ export default function SplitReportPage() {
 
     // Queries
     const { data: summaryData } = useQuery({ queryKey: ['stateSummary'], queryFn: api.getSummary, staleTime: 3600000 });
-    const states = summaryData?.states || [];
+    const states = useMemo(() => {
+        if (!summaryData?.states) return [];
+        if (Array.isArray(summaryData.states)) return summaryData.states;
+        return Object.keys(summaryData.states).sort();
+    }, [summaryData]);
 
     const { data: unmappedSplits, isLoading: loadingUnmapped } = useQuery({
         queryKey: ['unmappedSplits'],
@@ -278,11 +282,14 @@ export default function SplitReportPage() {
                             <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">State</label>
                             <select
                                 value={selectedState}
-                                onChange={(e) => { setSelectedState(e.target.value); setSelectedEvent(null); setGenerated(false); }}
+                                onChange={(e) => {
+                                    setSelectedState(e.target.value);
+                                    setSelectedEvent(null);
+                                }}
                                 className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-indigo-500 outline-none"
                             >
                                 <option value="">Select state...</option>
-                                {states.map((s: string) => <option key={s} value={s}>{s}</option>)}
+                                {states.map((s) => <option key={s as string} value={s as string}>{s as string}</option>)}
                             </select>
                         </div>
 

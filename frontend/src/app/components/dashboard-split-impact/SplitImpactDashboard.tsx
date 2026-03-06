@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { StateSummaryPanel } from './StateSummaryPanel';
 import SplitDistrictTable from './SplitDistrictTable';
 import { ComparisonView } from './ComparisonView';
@@ -9,15 +9,21 @@ import { ComparisonModeSelector } from './ComparisonModeSelector';
 import { LayoutDashboard, ChevronLeft, Menu, X } from 'lucide-react';
 
 import { useStateSummary, useSplitEvents } from '../../hooks/useSplitImpact';
+import { useQuery } from '@tanstack/react-query'; // Assuming this import is needed for useQuery
+import { api } from '../../services/api';
 
 export function SplitImpactDashboard() {
     // New React Query Hooks
-    const { data: summaryData } = useStateSummary();
+    const { data: summaryData, isLoading: isLoadingSummary } = useQuery({ queryKey: ['stateSummary'], queryFn: api.getSummary, staleTime: 3600000 });
     const [selectedState, setSelectedState] = useState('');
     const { data: splitEventsData, isLoading: splitEventsLoading } = useSplitEvents(selectedState);
 
     // Derived state from query data
-    const states = summaryData?.states || [];
+    const states = useMemo(() => {
+        if (!summaryData?.states) return [];
+        if (Array.isArray(summaryData.states)) return summaryData.states;
+        return Object.keys(summaryData.states).sort();
+    }, [summaryData]);
     const allStats = summaryData?.stats || {};
     const splitEvents = splitEventsData || [];
 
@@ -107,9 +113,12 @@ export function SplitImpactDashboard() {
                                 setSelectedEvent(null);
                                 setMobileView('list');
                             }}
-                            className="bg-slate-50 border border-slate-300 rounded-lg px-2 md:px-3 py-1.5 text-sm focus:ring-1 focus:ring-indigo-500 outline-none text-slate-900 w-full transition shadow-sm"
+                            className="w-[200px] h-9 text-sm border-0 rounded bg-white/10 text-white font-medium pl-3 pr-8 focus:ring-2 focus:ring-white/20 outline-none hover:bg-white/20 transition-colors appearance-none cursor-pointer"
+                            style={{ backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem top 50%', backgroundSize: '0.65rem auto' }}
+                            disabled={isLoadingSummary}
                         >
-                            {states.map(s => <option key={s} value={s}>{s}</option>)}
+                            <option value="" className="text-slate-900">Select state...</option>
+                            {states.map((s) => <option key={s as string} value={s as string} className="text-slate-900">{s as string}</option>)}
                         </select>
                     </div>
 

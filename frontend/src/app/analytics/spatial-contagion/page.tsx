@@ -17,7 +17,11 @@ export default function SpatialContagionPage() {
 
     // Queries
     const { data: summaryData } = useQuery({ queryKey: ['stateSummary'], queryFn: api.getSummary, staleTime: 3600000 });
-    const states = summaryData?.states || [];
+    const states = useMemo(() => {
+        if (!summaryData?.states) return [];
+        if (Array.isArray(summaryData.states)) return summaryData.states;
+        return Object.keys(summaryData.states).sort();
+    }, [summaryData]);
 
     const { data: districtsData } = useQuery({
         queryKey: ['districts', selectedState],
@@ -125,7 +129,7 @@ export default function SpatialContagionPage() {
                     <select
                         value={selectedState}
                         onChange={(e) => { setSelectedState(e.target.value); setSelectedCdk(''); }}
-                        className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-violet-500 outline-none"
+                        className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-indigo-500 outline-none"
                     >
                         <option value="">Select state...</option>
                         {states.map((s: string) => <option key={s} value={s}>{s}</option>)}

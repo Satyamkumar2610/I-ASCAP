@@ -183,7 +183,17 @@ export interface PredictionV2Result {
 // EfficiencyData and RiskProfileData removed in favor of imported types
 
 export const api = {
-    getSummary: () => fetcher<StateSummary>('analysis/split-impact/summary'),
+    getSummary: async () => {
+        const res = await fetcher<StateSummary>('analysis/split-impact/summary');
+        // If the backend returned an object instead of an array, extract the keys
+        if (res.states && !Array.isArray(res.states)) {
+            res.states = Object.keys(res.states);
+        }
+        if (Array.isArray(res.states)) {
+            res.states = res.states.sort();
+        }
+        return res;
+    },
 
     getSplitEvents: (state: string) =>
         fetcher<SplitDistrict[]>(`analysis/split-impact/districts?state=${encodeURIComponent(state)}`),
