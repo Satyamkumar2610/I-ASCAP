@@ -22,7 +22,7 @@ export default function LineagePage() {
     const [expandedDecade, setExpandedDecade] = useState<number | null>(null);
     const [coverageSearch, setCoverageSearch] = useState('');
 
-    const { data: states } = useQuery({
+    const { data: states, isLoading: isLoadingStates } = useQuery({
         queryKey: ['states-list'],
         queryFn: () => api.getStatesList(),
     });
@@ -181,17 +181,20 @@ export default function LineagePage() {
             </div>
 
             {/* State Selector */}
-            <div className="mb-6">
+            <div className="mb-6 flex items-center gap-3">
                 <select
                     value={selectedState}
                     onChange={(e) => setSelectedState(e.target.value)}
-                    className="bg-white border border-slate-200 text-slate-900 rounded-lg px-4 py-2 text-sm focus:border-purple-500 transition min-w-[220px] shadow-sm"
+                    disabled={isLoadingStates || !states}
+                    className="bg-white border border-slate-200 text-slate-900 rounded-lg px-4 py-2 text-sm focus:border-purple-500 transition min-w-[220px] shadow-sm disabled:bg-slate-50 disabled:text-slate-500"
                 >
-                    <option value="">Select a state...</option>
+                    <option value="">{isLoadingStates ? 'Loading states... (Waking server)' : 'Select a state...'}</option>
                     {states?.map((s) => (
                         <option key={s.state} value={s.state}>{s.state}</option>
                     ))}
                 </select>
+                {isLoadingStates && <div className="text-xs text-purple-600 animate-pulse font-medium">Backend is waking up, please wait (~50s)...</div>}
+                {!isLoadingStates && !states && <div className="text-xs text-rose-500 font-medium">Backend offline. Please refresh.</div>}
             </div>
 
             {/* Empty State */}
