@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import ReactECharts from 'echarts-for-react';
 import { api } from '../../services/api';
-import { GitBranch, Calendar, Database, MapPin, ChevronDown, Search, ArrowRight, Clock, Hash, Info } from 'lucide-react';
+import { GitBranch, Calendar, Database, MapPin, ChevronDown, Search, ArrowRight, Clock, Hash, Info, Table as TableIcon, Activity } from 'lucide-react';
 
 interface SplitEvent {
     state_name: string;
@@ -21,29 +21,32 @@ export default function LineagePage() {
     const [selectedCdk, setSelectedCdk] = useState<string>('');
     const [expandedDecade, setExpandedDecade] = useState<number | null>(null);
     const [coverageSearch, setCoverageSearch] = useState('');
+    const [viewMode, setViewMode] = useState<'graph' | 'table'>('graph');
 
-    const { data: states, isLoading: isLoadingStates } = useQuery({
+    const { data: states, isLoading: isLoadingStates, isError: isStatesError } = useQuery({
         queryKey: ['states-list'],
         queryFn: () => api.getStatesList(),
     });
 
-    const { data: history, isLoading } = useQuery({
+    const { data: history, isLoading: isLoadingHistory, isError: isHistoryError } = useQuery({
         queryKey: ['lineage-history', selectedState],
         queryFn: () => api.getLineageHistory(selectedState),
         enabled: !!selectedState,
     });
 
-    const { data: tracking } = useQuery({
+    const { data: tracking, isLoading: isLoadingTracking } = useQuery({
         queryKey: ['lineage-tracking', selectedCdk],
         queryFn: () => api.getDataTracking(selectedCdk),
         enabled: !!selectedCdk,
     });
 
-    const { data: coverage } = useQuery({
+    const { data: coverage, isLoading: isLoadingCoverage, isError: isCoverageError } = useQuery({
         queryKey: ['state-coverage', selectedState],
         queryFn: () => api.getStateCoverage(selectedState),
         enabled: !!selectedState,
     });
+
+    const hasErrors = isStatesError || isHistoryError || isCoverageError;
 
     // Group history by decade
     const decades = useMemo(() => {
@@ -198,24 +201,34 @@ export default function LineagePage() {
             </div>
 
             {/* Empty State */}
-            {!selectedState && (
-                <div className="text-center py-24">
+            {!selectedState && !hasErrors && (
+                <div className="text-center py-24 px-4">
                     <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-5">
                         <GitBranch className="text-slate-600" size={36} />
                     </div>
                     <h3 className="text-lg font-bold text-slate-700">No State Selected</h3>
-                    <p className="text-slate-500 text-sm mt-1">Select a state above to explore how its districts have evolved through splits and reorganizations.</p>
+                    <p className="text-slate-500 text-sm mt-1 max-w-md mx-auto">Select a state above to explore how its districts have evolved through splits and reorganizations.</p>
                 </div>
             )}
 
             {/* Loading */}
-            {isLoading && (
-                <div className="flex items-center justify-center py-24">
-                    <div className="w-10 h-10 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
+            {(isLoadingHistory || isLoadingCoverage) && (
+                <div className="flex flex-col items-center justify-center py-24">
+                    <div className="w-10 h-10 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin mb-4" />
+                    <p className="text-sm font-medium text-slate-500">Loading lineage data...</p>
                 </div>
             )}
 
-            {selectedState && history && (
+            {/* Error State */}
+            {hasErrors && (
+                <div className="bg-rose-50 border border-rose-200 rounded-xl p-8 text-center my-8">
+                    <Activity className="mx-auto text-rose-500 mb-4" size={32} />
+                    <h3 className="text-lg font-bold text-rose-800 mb-2">Failed to load data</h3>
+                    <p className="text-sm text-rose-600 max-w-md mx-auto">There was an error communicating with the server. Please try refreshing the page or selecting a different state.</p>
+                </div>
+            )}
+
+            {selectedState && history && !isLoadingHistory && !hasErrors && (
                 <>
                     {/* ── Summary Stats ── */}
                     {summaryStats && (
@@ -240,12 +253,30 @@ export default function LineagePage() {
                     )}
 
                     {/* ── Main Content Grid ── */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-in">
-                        <div className="lg:col-span-2 space-y-4">
-                            <h3 className="section-header flex items-center gap-2">
-                                <GitBranch size={14} className="text-purple-600" />
-                                Interactive Lineage Network
-                            </h3>
+                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 animate-in">
+                        <div className="xl:col-span-2 space-y-4">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
+                                <h3 className="section-header flex items-center gap-2 mb-0">
+                                    <GitBranch size={16} className="text-purple-600" />
+                                    Interactive Lineage Network
+                                </h3>
+                                {/* View Toggle */}
+                                <div className="flex items-center bg-slate-100 rounded-lg p-1 border border-slate-200 self-start sm:self-auto">
+                                    <button
+                                        onClick={() => setViewMode('graph')}
+                                        className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all ${viewMode === 'graph' ? 'bg-white text-purple-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                                    >
+                                        <Activity size={14} /> Network
+                                    </button>
+                                    <button
+                                        onClick={() => setViewMode('table')}
+                                        className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all ${viewMode === 'table' ? 'bg-white text-purple-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                                        aria-label="View as data table"
+                                    >
+                                        <TableIcon size={14} /> Data Table
+                                    </button>
+                                </div>
+                            </div>
 
                             {!graphData ? (
                                 <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-8 text-center h-[500px] flex justify-center items-center flex-col">
@@ -253,13 +284,15 @@ export default function LineagePage() {
                                     <p className="text-slate-500 text-sm font-medium">No split events recorded for {selectedState}</p>
                                     <p className="text-slate-600 text-xs mt-1">This state may not have undergone district reorganization</p>
                                 </div>
-                            ) : (
+                            ) : viewMode === 'graph' ? (
                                 <div
-                                    className="bg-slate-50 border border-slate-200 shadow-sm rounded-xl overflow-hidden h-[600px] relative"
+                                    className="bg-slate-50 border border-slate-200 shadow-sm rounded-xl overflow-hidden h-[500px] md:h-[600px] relative"
                                     style={{
                                         backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)',
                                         backgroundSize: '24px 24px'
                                     }}
+                                    role="img"
+                                    aria-label={`Interactive force-directed graph showing district splits for ${selectedState}`}
                                 >
                                     <ReactECharts
                                         option={{
@@ -330,12 +363,16 @@ export default function LineagePage() {
                                                     const matchedDistrict = coverage?.coverage?.find((d: any) => d.district_name === params.data.name);
                                                     if (matchedDistrict) {
                                                         setSelectedCdk(matchedDistrict.cdk);
+                                                        // Auto-scroll to sidebar on mobile
+                                                        if (window.innerWidth < 1280) {
+                                                            document.getElementById('sidebar-panel')?.scrollIntoView({ behavior: 'smooth' });
+                                                        }
                                                     }
                                                 }
                                             }
                                         }}
                                     />
-                                    <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-4 py-3 rounded-xl border border-slate-200 shadow-md text-xs text-slate-600 flex flex-col gap-2 pointer-events-none transition-all">
+                                    <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-4 py-3 rounded-xl border border-slate-200 shadow-md text-xs text-slate-600 flex flex-col gap-2 pointer-events-none transition-all hidden sm:flex">
                                         <div className="flex items-center gap-2 font-medium">
                                             <span className="w-3.5 h-3.5 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(139,92,246,0.6)] border-2 border-white inline-block"></span>
                                             Parent District
@@ -349,11 +386,58 @@ export default function LineagePage() {
                                         </div>
                                     </div>
                                 </div>
+                            ) : (
+                                <div className="bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden">
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm text-left">
+                                            <thead className="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+                                                <tr>
+                                                    <th className="px-6 py-4 font-bold tracking-wider">Split Year</th>
+                                                    <th className="px-6 py-4 font-bold tracking-wider">Parent District</th>
+                                                    <th className="px-6 py-4 font-bold tracking-wider">Child District Created</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {Object.entries(decades)
+                                                    .sort(([a], [b]) => Number(a) - Number(b))
+                                                    .map(([decade, events]) => (
+                                                        <React.Fragment key={decade}>
+                                                            <tr className="bg-slate-100/50 border-b border-slate-200">
+                                                                <td colSpan={3} className="px-6 py-2 text-xs font-bold text-slate-500 uppercase">
+                                                                    {decade}s
+                                                                </td>
+                                                            </tr>
+                                                            {events.sort((a, b) => a.split_year - b.split_year).map((event, idx) => (
+                                                                <tr key={`${event.parent_district}-${event.child_district}-${idx}`} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                                                    <td className="px-6 py-3 font-medium text-slate-900">
+                                                                        <span className="px-2.5 py-1 bg-white border border-slate-200 rounded-md shadow-sm text-slate-700">
+                                                                            {event.split_year}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td className="px-6 py-3 text-purple-700 font-semibold flex items-center gap-2">
+                                                                        <span className="w-2 h-2 rounded-full bg-purple-500"></span>
+                                                                        {event.parent_district}
+                                                                    </td>
+                                                                    <td className="px-6 py-3 text-emerald-700 font-semibold">
+                                                                        <div className="flex items-center gap-2">
+                                                                            <ArrowRight size={14} className="text-slate-400" />
+                                                                            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                                                            {event.child_district}
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        </React.Fragment>
+                                                    ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             )}
                         </div>
 
                         {/* Right sidebar: Tracking + Coverage */}
-                        <div className="space-y-6">
+                        <div id="sidebar-panel" className="space-y-6">
                             {/* Data Provenance */}
                             {tracking && tracking.district && (
                                 <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-5 animate-in">
