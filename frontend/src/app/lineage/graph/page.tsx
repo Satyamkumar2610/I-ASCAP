@@ -91,8 +91,14 @@ export default function LineagePage() {
                 nodes.push({
                     id: event.parent_district,
                     name: event.parent_district,
-                    symbolSize: 40,
-                    itemStyle: { color: '#8B5CF6' }, // Purple
+                    symbolSize: 45,
+                    itemStyle: {
+                        color: '#8B5CF6',
+                        borderColor: '#ffffff',
+                        borderWidth: 3,
+                        shadowBlur: 20,
+                        shadowColor: 'rgba(139, 92, 246, 0.6)'
+                    }, // Purple
                     category: 0
                 });
             }
@@ -101,8 +107,14 @@ export default function LineagePage() {
                 nodes.push({
                     id: event.child_district,
                     name: event.child_district,
-                    symbolSize: 30,
-                    itemStyle: { color: '#10B981' }, // Emerald
+                    symbolSize: 35,
+                    itemStyle: {
+                        color: '#10B981',
+                        borderColor: '#ffffff',
+                        borderWidth: 3,
+                        shadowBlur: 15,
+                        shadowColor: 'rgba(16, 185, 129, 0.6)'
+                    }, // Emerald
                     category: 1
                 });
             }
@@ -114,12 +126,21 @@ export default function LineagePage() {
                     show: true,
                     formatter: `${event.split_year}`,
                     fontSize: 10,
-                    color: '#64748b'
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    color: '#64748b',
+                    backgroundColor: '#ffffff',
+                    padding: [3, 6],
+                    borderRadius: 12,
+                    borderWidth: 1,
+                    borderColor: '#cbd5e1'
                 },
                 lineStyle: {
                     color: '#94a3b8',
-                    width: 2,
-                    curveness: 0.2
+                    width: 2.5,
+                    curveness: 0.25,
+                    type: 'solid',
+                    opacity: 0.7
                 }
             });
         });
@@ -230,19 +251,31 @@ export default function LineagePage() {
                                     <p className="text-slate-600 text-xs mt-1">This state may not have undergone district reorganization</p>
                                 </div>
                             ) : (
-                                <div className="bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden h-[600px] relative">
+                                <div
+                                    className="bg-slate-50 border border-slate-200 shadow-sm rounded-xl overflow-hidden h-[600px] relative"
+                                    style={{
+                                        backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)',
+                                        backgroundSize: '24px 24px'
+                                    }}
+                                >
                                     <ReactECharts
                                         option={{
                                             tooltip: {
                                                 trigger: 'item',
+                                                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                                borderColor: '#e2e8f0',
+                                                borderWidth: 1,
+                                                textStyle: { color: '#1e293b' },
                                                 formatter: function (params: any) {
                                                     if (params.dataType === 'node') {
-                                                        return `<div class="font-bold">${params.data.name}</div><div class="text-xs text-gray-500">Click to view data coverage</div>`;
+                                                        return `<div class="font-bold text-sm mb-1">${params.data.name}</div><div class="text-xs text-gray-500 flex items-center gap-1">Click to view data coverage</div>`;
                                                     } else if (params.dataType === 'edge') {
-                                                        return `<div class="font-semibold">${params.data.source} ➔ ${params.data.target}</div><div class="text-xs text-gray-500">Split Occurred: <span class="font-mono text-purple-600">${params.data.label.formatter}</span></div>`;
+                                                        return `<div class="font-semibold text-sm mb-1 text-slate-700">${params.data.source} <span style="color:#94a3b8">➔</span> ${params.data.target}</div><div class="text-xs text-gray-500">Split Occurred: <span class="font-mono font-bold text-purple-600">${params.data.label.formatter}</span></div>`;
                                                     }
                                                 }
                                             },
+                                            animationDurationUpdate: 1500,
+                                            animationEasingUpdate: 'quinticInOut',
                                             series: [
                                                 {
                                                     type: 'graph',
@@ -253,18 +286,34 @@ export default function LineagePage() {
                                                     label: {
                                                         show: true,
                                                         position: 'right',
-                                                        formatter: '{b}'
+                                                        formatter: '{b}',
+                                                        fontFamily: 'Inter, sans-serif',
+                                                        fontWeight: 600,
+                                                        color: '#1e293b',
+                                                        backgroundColor: 'rgba(255, 255, 255, 0.85)',
+                                                        padding: [4, 8],
+                                                        borderRadius: 6,
+                                                        borderWidth: 1,
+                                                        borderColor: '#e2e8f0',
+                                                        shadowBlur: 8,
+                                                        shadowColor: 'rgba(0,0,0,0.05)'
                                                     },
                                                     force: {
-                                                        repulsion: 400,
-                                                        edgeLength: 100
+                                                        repulsion: 1200,
+                                                        edgeLength: [120, 180],
+                                                        gravity: 0.1,
+                                                        friction: 0.2
                                                     },
                                                     edgeSymbol: ['circle', 'arrow'],
-                                                    edgeSymbolSize: [4, 8],
+                                                    edgeSymbolSize: [5, 10],
                                                     emphasis: {
                                                         focus: 'adjacency',
                                                         lineStyle: {
-                                                            width: 4
+                                                            width: 4,
+                                                            opacity: 1
+                                                        },
+                                                        itemStyle: {
+                                                            shadowBlur: 30
                                                         }
                                                     }
                                                 }
@@ -283,10 +332,18 @@ export default function LineagePage() {
                                             }
                                         }}
                                     />
-                                    <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg border border-slate-200 shadow-sm text-xs text-slate-600 flex flex-col gap-1 pointer-events-none">
-                                        <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-purple-500 inline-block"></span> Parent District</div>
-                                        <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> Child District (Created)</div>
-                                        <div className="mt-1 flex items-center gap-1 text-[10px] text-slate-400"><Info size={10} /> Scroll to zoom, drag to pan</div>
+                                    <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-4 py-3 rounded-xl border border-slate-200 shadow-md text-xs text-slate-600 flex flex-col gap-2 pointer-events-none transition-all">
+                                        <div className="flex items-center gap-2 font-medium">
+                                            <span className="w-3.5 h-3.5 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(139,92,246,0.6)] border-2 border-white inline-block"></span>
+                                            Parent District
+                                        </div>
+                                        <div className="flex items-center gap-2 font-medium">
+                                            <span className="w-3.5 h-3.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.6)] border-2 border-white inline-block"></span>
+                                            Child District (Created)
+                                        </div>
+                                        <div className="mt-1 pt-2 border-t border-slate-100 flex items-center gap-1.5 text-[10px] text-slate-400 font-medium tracking-wide uppercase">
+                                            <Info size={12} /> Scroll to zoom, drag to pan
+                                        </div>
                                     </div>
                                 </div>
                             )}
