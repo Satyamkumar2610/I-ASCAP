@@ -10,6 +10,9 @@ export interface ApiError {
     detail?: string;
 }
 
+/**
+ * Custom error class for handling backend API errors with HTTP status codes and detailed messages.
+ */
 export class BackendApiError extends Error {
     status: number;
     detail?: string;
