@@ -22,7 +22,8 @@ class MetricPoint(BaseModel):
     value: float = Field(..., description="Observed value")
     unit: Optional[str] = Field(None, description="Measurement unit")
     source: Optional[str] = Field(None, description="Dataset source")
-    method: Optional[str] = Field(None, description="Harmonization method if derived")
+    method: Optional[str] = Field(
+        None, description="Harmonization method if derived")
 
 
 class MetricTimeSeries(BaseModel):
@@ -31,7 +32,9 @@ class MetricTimeSeries(BaseModel):
     district_name: Optional[str] = None
     variable: str
     unit: Optional[str] = None
-    data: List[dict] = Field(default_factory=list, description="List of {year, value} points")
+    data: List[dict] = Field(
+        default_factory=list,
+        description="List of {year, value} points")
 
 
 class MetricQueryResult(BaseModel):
@@ -48,4 +51,6 @@ class AggregatedMetric(BaseModel):
     value: float
     metric: str
     method: Optional[str] = Field(None, description="Backcast or Raw")
-    geo_key: Optional[str] = Field(None, description="Pre-computed GeoJSON key (DISTRICT|STATE) for map visualization")
+    geo_key: Optional[str] = Field(
+        None,
+        description="Pre-computed GeoJSON key (DISTRICT|STATE) for map visualization")

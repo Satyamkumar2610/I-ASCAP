@@ -20,17 +20,17 @@ async def get_district_quality(
 ):
     """
     Get data quality report for a specific district.
-    
+
     Returns completeness, consistency, timeliness, and accuracy scores.
     """
     # Verify district exists
     exists = await db.fetchval("SELECT 1 FROM districts WHERE lgd_code::text = $1", cdk)
     if not exists:
         raise NotFoundError("District", cdk)
-    
+
     scorer = DataQualityScorer(db)
     report = await scorer.score_district(cdk)
-    
+
     return report.to_dict()
 
 
@@ -41,12 +41,12 @@ async def get_state_quality(
 ):
     """
     Get aggregated data quality summary for a state.
-    
+
     Analyzes up to 20 districts and provides quality distribution.
     """
     result = await get_state_quality_summary(db, state_name)
-    
+
     if "error" in result:
         raise NotFoundError("State", state_name)
-    
+
     return result

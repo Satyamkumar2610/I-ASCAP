@@ -21,25 +21,38 @@ class LineageEvent(BaseModel):
     """
     id: str = Field(..., description="Unique event identifier")
     parent_cdk: str = Field(..., description="Source district CDK")
-    parent_name: Optional[str] = Field(None, description="Human-readable parent name")
-    children_cdks: List[str] = Field(default_factory=list, description="Resulting district CDKs")
-    children_names: List[str] = Field(default_factory=list, description="Human-readable child names")
+    parent_name: Optional[str] = Field(
+        None, description="Human-readable parent name")
+    children_cdks: List[str] = Field(
+        default_factory=list,
+        description="Resulting district CDKs")
+    children_names: List[str] = Field(
+        default_factory=list,
+        description="Human-readable child names")
     children_count: int = Field(default=0, description="Number of children")
     event_year: int = Field(..., description="Year of administrative change")
-    event_type: EventType = Field(default=EventType.SPLIT, description="Type of change")
+    event_type: EventType = Field(
+        default=EventType.SPLIT,
+        description="Type of change")
     coverage_ratios: Dict[str, float] = Field(
-        default_factory=dict, 
+        default_factory=dict,
         description="Area proportion per child (should sum to ~1.0)"
     )
-    legal_reference: Optional[str] = Field(None, description="Gazette notification reference")
-    confidence: float = Field(default=1.0, ge=0, le=1, description="Data quality score")
+    legal_reference: Optional[str] = Field(
+        None, description="Gazette notification reference")
+    confidence: float = Field(
+        default=1.0,
+        ge=0,
+        le=1,
+        description="Data quality score")
 
     model_config = ConfigDict(from_attributes=True)
 
 
 class LineageGraph(BaseModel):
     """Complete lineage graph for a state or region."""
-    total_events: int = Field(..., description="Total number of lineage events")
+    total_events: int = Field(...,
+                              description="Total number of lineage events")
     events: List[LineageEvent] = Field(default_factory=list)
 
 

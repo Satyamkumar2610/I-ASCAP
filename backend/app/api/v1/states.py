@@ -82,7 +82,7 @@ async def get_state_overview(
 
     # Get total area and production
     totals = await db.fetchrow("""
-        SELECT 
+        SELECT
             ROUND(SUM(CASE WHEN m.variable_name = $2 THEN m.value END)::numeric, 2) as total_area,
             ROUND(SUM(CASE WHEN m.variable_name = $3 THEN m.value END)::numeric, 2) as total_production
         FROM agri_metrics m
@@ -118,11 +118,16 @@ async def get_state_overview(
             "max": year_range["max_year"] if year_range else None,
         },
         "avg_yield": float(avg_yield) if avg_yield else 0,
-        "total_area": float(totals["total_area"]) if totals and totals["total_area"] else 0,
-        "total_production": float(totals["total_production"]) if totals and totals["total_production"] else 0,
-        "top_performers": [dict(r) for r in top_performers],
-        "bottom_performers": [dict(r) for r in bottom_performers],
-        "available_crops": [r["crop_name"] for r in available_crops],
+        "total_area": float(
+            totals["total_area"]) if totals and totals["total_area"] else 0,
+        "total_production": float(
+                totals["total_production"]) if totals and totals["total_production"] else 0,
+        "top_performers": [
+                    dict(r) for r in top_performers],
+        "bottom_performers": [
+            dict(r) for r in bottom_performers],
+        "available_crops": [
+            r["crop_name"] for r in available_crops],
     }
 
 
@@ -137,4 +142,5 @@ async def list_states(db: asyncpg.Connection = Depends(get_db)):
         GROUP BY state_name
         ORDER BY state_name
     """)
-    return [{"state": r["state_name"], "district_count": r["district_count"]} for r in rows]
+    return [{"state": r["state_name"], "district_count": r["district_count"]}
+            for r in rows]

@@ -27,11 +27,11 @@ class InMemoryCache:
     Simple in-memory cache with TTL-based expiration.
     Suitable for development and single-process deployments.
     """
-    
+
     def __init__(self):
         self._store: Dict[str, Dict[str, Any]] = {}
         self._default_ttl = 3600
-    
+
     async def get(self, key: str) -> Optional[Any]:
         """Get a value from cache."""
         if key not in self._store:
@@ -41,12 +41,12 @@ class InMemoryCache:
             del self._store[key]
             return None
         return item["value"]
-    
+
     async def set(self, key: str, value: Any, ttl: Optional[int] = None) -> None:
         """Set a value in cache."""
         expires_at = time.time() + (ttl or self._default_ttl)
         self._store[key] = {"value": value, "expires_at": expires_at}
-    
+
     async def delete(self, key: str) -> bool:
         """Delete a key."""
         if key in self._store:
@@ -57,7 +57,7 @@ class InMemoryCache:
     async def clear(self) -> None:
         """Clear all cached data."""
         self._store.clear()
-    
+
     async def stats(self) -> Dict[str, Any]:
         """Get cache stats."""
         now = time.time()
@@ -79,12 +79,12 @@ class RedisCache:
     Redis-backed persistent cache.
     Survives restarts and works across multiple workers/containers.
     """
-    
+
     def __init__(self, redis_url: str = "redis://localhost:6379/0"):
         self._redis_url = redis_url
         self._client = None
         self._default_ttl = 3600
-    
+
     async def _get_client(self):
         """Lazy-initialize Redis client."""
         if self._client is None:
@@ -96,7 +96,7 @@ class RedisCache:
                 socket_timeout=3,
             )
         return self._client
-    
+
     async def get(self, key: str) -> Optional[Any]:
         """Get a value from Redis."""
         client = await self._get_client()
@@ -107,7 +107,7 @@ class RedisCache:
             return json.loads(raw)
         except (json.JSONDecodeError, TypeError):
             return raw
-    
+
     async def set(self, key: str, value: Any, ttl: Optional[int] = None) -> None:
         """Set a value in Redis with TTL."""
         client = await self._get_client()
@@ -116,16 +116,16 @@ class RedisCache:
             value = value.model_dump()
         elif hasattr(value, "dict"):
             value = value.dict()
-            
+
         serialized = json.dumps(value, default=str)
         await client.set(f"iascap:{key}", serialized, ex=(ttl or self._default_ttl))
-    
+
     async def delete(self, key: str) -> bool:
         """Delete a key from Redis."""
         client = await self._get_client()
         result = await client.delete(f"iascap:{key}")
         return result > 0
-    
+
     async def clear(self) -> None:
         """Clear all I-ASCAP keys from Redis."""
         client = await self._get_client()
@@ -136,7 +136,7 @@ class RedisCache:
                 await client.delete(*keys)
             if cursor == 0:
                 break
-    
+
     async def stats(self) -> Dict[str, Any]:
         """Get Redis cache stats."""
         try:
@@ -160,10 +160,12 @@ class RedisCache:
 _cache = None
 
 
-def _create_cache(backend: str = "auto", redis_url: str = "redis://localhost:6379/0"):
+def _create_cache(
+        backend: str = "auto",
+        redis_url: str = "redis://localhost:6379/0"):
     """
     Create the appropriate cache backend.
-    
+
     Args:
         backend: "redis", "memory", or "auto"
         redis_url: Redis connection URL
@@ -171,12 +173,13 @@ def _create_cache(backend: str = "auto", redis_url: str = "redis://localhost:637
     if backend == "memory":
         logger.info("Using in-memory cache (configured)")
         return InMemoryCache()
-    
+
     if backend in ("redis", "auto"):
         try:
             import redis.asyncio  # noqa: F401
             cache = RedisCache(redis_url)
-            logger.info(f"Using Redis cache: {redis_url.split('@')[-1] if '@' in redis_url else redis_url}")
+            logger.info(f"Using Redis cache: {redis_url.split(
+                '@')[-1] if '@' in redis_url else redis_url}")
             return cache
         except ImportError:
             if backend == "redis":
@@ -191,7 +194,7 @@ def _create_cache(backend: str = "auto", redis_url: str = "redis://localhost:637
                 raise
             logger.warning(f"Redis unavailable ({e}), using in-memory cache")
             return InMemoryCache()
-    
+
     logger.warning(f"Unknown cache backend '{backend}', using in-memory")
     return InMemoryCache()
 
@@ -204,9 +207,9 @@ def get_cache():
             from app.config import get_settings
             settings = get_settings()
             _cache = _create_cache(
-                backend=getattr(settings, "cache_backend", "auto"),
-                redis_url=getattr(settings, "redis_url", "redis://localhost:6379/0"),
-            )
+                backend=getattr(
+                    settings, "cache_backend", "auto"), redis_url=getattr(
+                    settings, "redis_url", "redis://localhost:6379/0"), )
         except Exception:
             _cache = InMemoryCache()
     return _cache
@@ -215,7 +218,15 @@ def get_cache():
 def _generate_cache_key(prefix: str, *args, **kwargs) -> str:
     """Generate a cache key from function arguments."""
     try:
-        key_data = f"{prefix}:{json.dumps(args, sort_keys=True, default=str)}:{json.dumps(kwargs, sort_keys=True, default=str)}"
+        key_data = f"{prefix}:{
+            json.dumps(
+                args,
+                sort_keys=True,
+                default=str)}:{
+            json.dumps(
+                kwargs,
+                sort_keys=True,
+                default=str)}"
     except Exception:
         key_data = f"{prefix}:{str(args)}:{str(kwargs)}"
     return hashlib.md5(key_data.encode()).hexdigest()
@@ -228,7 +239,7 @@ def _generate_cache_key(prefix: str, *args, **kwargs) -> str:
 def cached(ttl: int = 3600, prefix: str = ""):
     """
     Decorator to cache async function results.
-    
+
     Usage:
         @cached(ttl=300, prefix="metrics")
         async def get_metrics(year: int, crop: str):
@@ -240,7 +251,7 @@ def cached(ttl: int = 3600, prefix: str = ""):
             cache = get_cache()
             key_prefix = prefix or func.__name__
             cache_key = _generate_cache_key(key_prefix, *args, **kwargs)
-            
+
             # Try cache
             try:
                 cached_value = await cache.get(cache_key)
@@ -249,17 +260,17 @@ def cached(ttl: int = 3600, prefix: str = ""):
                     return cached_value
             except Exception as e:
                 logger.warning(f"Cache get failed: {e}")
-            
+
             # Execute function
             result = await func(*args, **kwargs)
-            
+
             # Store in cache
             try:
                 await cache.set(cache_key, result, ttl)
                 logger.debug(f"Cached result for {key_prefix}")
             except Exception as e:
                 logger.warning(f"Cache set failed: {e}")
-            
+
             return result
         return wrapper
     return decorator
@@ -271,17 +282,17 @@ def cached(ttl: int = 3600, prefix: str = ""):
 
 class CacheTTL:
     """Standard cache TTL values in seconds."""
-    
+
     # Static/rarely changing data
     DISTRICTS = 86400  # 24 hours
     STATES = 86400     # 24 hours
     LINEAGE = 86400    # 24 hours
-    
+
     # Analytics results
     SUMMARY = 3600     # 1 hour
     SPLIT_EVENTS = 3600  # 1 hour
     ANALYSIS = 1800    # 30 minutes
-    
+
     # Time-sensitive data
     METRICS = 300      # 5 minutes
     HEALTH = 60        # 1 minute

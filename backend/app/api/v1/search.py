@@ -26,7 +26,7 @@ async def search(
 
     if type in ("all", "district"):
         districts = await db.fetch("""
-            SELECT 
+            SELECT
                 lgd_code::text as cdk,
                 district_name as name,
                 state_name as state,
@@ -39,11 +39,12 @@ async def search(
             ORDER BY sort_order, district_name
             LIMIT $3
         """, search_pattern, f"{q}%", limit)
-        results.extend([{k: v for k, v in dict(r).items() if k != 'sort_order'} for r in districts])
+        results.extend(
+            [{k: v for k, v in dict(r).items() if k != 'sort_order'} for r in districts])
 
     if type in ("all", "state"):
         states = await db.fetch("""
-            SELECT 
+            SELECT
                 state_name as name,
                 state_name as state,
                 COUNT(*) as district_count,
@@ -51,7 +52,7 @@ async def search(
             FROM districts
             WHERE state_name ILIKE $1
             GROUP BY state_name
-            ORDER BY 
+            ORDER BY
                 CASE WHEN state_name ILIKE $2 THEN 0 ELSE 1 END,
                 state_name
             LIMIT $3

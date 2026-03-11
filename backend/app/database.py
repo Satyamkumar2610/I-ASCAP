@@ -21,7 +21,7 @@ async def init_db_pool() -> asyncpg.Pool:
     if _pool is None:
         # Use DATABASE_URL from environment if available
         dsn = os.environ.get("DATABASE_URL", settings.database_url)
-        
+
         # Prepare connection kwargs
         pool_kwargs = {
             "dsn": dsn,
@@ -29,14 +29,14 @@ async def init_db_pool() -> asyncpg.Pool:
             "max_size": settings.db_pool_max_size,
             "command_timeout": settings.db_command_timeout,
         }
-        
+
         # Add SSL for Neon/cloud databases (verify certificates properly)
         if "neon.tech" in dsn or "sslmode=require" in dsn:
             import certifi
             ssl_context = ssl.create_default_context(cafile=certifi.where())
             # Do NOT disable verification — CERT_REQUIRED is the default
             pool_kwargs["ssl"] = ssl_context
-        
+
         _pool = await asyncpg.create_pool(**pool_kwargs)
     return _pool
 

@@ -44,7 +44,7 @@ async def get_district_profile_report(
     yield_history = await db.fetch("""
         SELECT year, variable_name, value
         FROM agri_metrics
-        WHERE district_lgd::text = $1 
+        WHERE district_lgd::text = $1
         AND variable_name IN ($2, $3, $4)
         AND value > 0
         ORDER BY year

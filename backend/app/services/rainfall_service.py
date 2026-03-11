@@ -32,7 +32,6 @@ class RainfallData:
     post_monsoon_ond: float  # Oct-Dec
 
 
-
 STATE_MAPPING = {
     "CHHATTISGARH": "CHATISGARH",
     "ODISHA": "ORISSA",
@@ -44,11 +43,12 @@ STATE_MAPPING = {
     "DAMAN & DIU": "DAMAN AND DUI"
 }
 
+
 def normalize_state(state: str) -> str:
     """Normalize state name to match rainfall_normals database conventions."""
     if not state:
         return state
-    
+
     upper_state = state.upper()
     return STATE_MAPPING.get(upper_state, upper_state)
 
@@ -62,17 +62,17 @@ async def get_rainfall_by_district(
     Get rainfall data for a specific district from database.
     """
     db_state = normalize_state(state)
-    
+
     row = await db.fetchrow("""
         SELECT state_ut, district, jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec_month,
                annual, jjas, mam, ond, jan_feb
         FROM rainfall_normals
         WHERE UPPER(state_ut) = $1 AND UPPER(district) = UPPER($2)
     """, db_state, district)
-    
+
     if not row:
         return None
-    
+
     return RainfallData(
         state=row["state_ut"],
         district=row["district"],
@@ -118,7 +118,7 @@ async def get_all_rainfall(
             FROM rainfall_normals
             ORDER BY state_ut, district
         """)
-    
+
     return [
         {
             "state": row["state_ut"],
@@ -138,9 +138,9 @@ async def get_state_rainfall_stats(
     Get aggregated rainfall statistics for a state.
     """
     db_state = normalize_state(state)
-    
+
     row = await db.fetchrow("""
-        SELECT 
+        SELECT
             COUNT(*) as district_count,
             AVG(annual) as avg_annual,
             MIN(annual) as min_annual,
@@ -149,10 +149,10 @@ async def get_state_rainfall_stats(
         FROM rainfall_normals
         WHERE UPPER(state_ut) = $1
     """, db_state)
-    
+
     if not row or row["district_count"] == 0:
         return {"error": f"No data for state: {state}"}
-    
+
     return {
         "state": state,
         "district_count": row["district_count"],
@@ -180,7 +180,7 @@ async def get_water_stress_index(
     """
     # 1. Get area for water intensive crops vs total area
     query = """
-        SELECT 
+        SELECT
             d.district_name,
             d.lgd_code,
             SUM(CASE WHEN m.variable_name LIKE 'rice_area%' AND m.variable_name NOT LIKE '%_kharif%' AND m.variable_name NOT LIKE '%_rabi%' THEN m.value ELSE 0 END) as rice_area,
@@ -193,39 +193,43 @@ async def get_water_stress_index(
         GROUP BY d.district_name, d.lgd_code
     """
     rows = await db.fetch(query, state, year)
-    
+
     results = []
     for row in rows:
         district_name = row["district_name"]
         total_area = float(row["total_area"] or 0)
-        
+
         if total_area == 0:
             continue
-            
+
         rice_area = float(row["rice_area"] or 0)
         sugarcane_area = float(row["sugarcane_area"] or 0)
         cotton_area = float(row["cotton_area"] or 0)
-        
+
         water_intensive_area = rice_area + sugarcane_area + cotton_area
         water_intensive_share = water_intensive_area / total_area
-        
+
         if water_intensive_area == 0:
             continue
-            
+
         # 2. Get rainfall data
         rainfall = await get_rainfall_by_district(db, state, district_name)
         if not rainfall:
             continue
-            
+
         annual_rain = rainfall.annual
-        
+
         # 3. Compute Mismatch Score (0-100)
         # High share (>50%) + Low Rain (< 1000mm) = High Stress
-        normalized_share = min(1.0, water_intensive_share / 0.5) # Maxes at 50% share
-        normalized_deficit = max(0.0, 1.0 - (annual_rain / 1500)) # Deficit factor (1 at 0mm, 0 at >=1500mm)
-        
+        normalized_share = min(
+            1.0,
+            water_intensive_share
+            / 0.5)  # Maxes at 50% share
+        # Deficit factor (1 at 0mm, 0 at >=1500mm)
+        normalized_deficit = max(0.0, 1.0 - (annual_rain / 1500))
+
         mismatch_score = round(normalized_share * normalized_deficit * 100, 1)
-        
+
         if mismatch_score > 60:
             category = "Critical"
         elif mismatch_score > 40:
@@ -234,7 +238,7 @@ async def get_water_stress_index(
             category = "Moderate"
         else:
             category = "Low"
-            
+
         results.append({
             "district_name": district_name,
             "cdk": str(row["lgd_code"]),
@@ -250,7 +254,7 @@ async def get_water_stress_index(
                 "cotton": round(cotton_area, 2)
             }
         })
-        
+
     # Sort by mismatch score descending
     results.sort(key=lambda x: x["mismatch_score"], reverse=True)
     return results

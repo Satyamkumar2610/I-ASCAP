@@ -40,9 +40,9 @@ async def readiness(db: asyncpg.Connection = Depends(get_db)) -> Dict[str, Any]:
         db_status = "connected" if db_result == 1 else "error"
     except Exception as e:
         db_status = f"error: {str(e)}"
-    
+
     is_ready = db_status == "connected"
-    
+
     return {
         "status": "ready" if is_ready else "not_ready",
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -62,29 +62,29 @@ async def data_metrics(db: asyncpg.Connection = Depends(get_db)) -> Dict[str, An
     districts_count = await db.fetchval("SELECT COUNT(*) FROM districts")
     metrics_count = await db.fetchval("SELECT COUNT(*) FROM agri_metrics")
     lineage_count = await db.fetchval("SELECT COUNT(*) FROM lineage_events")
-    
+
     # Check for rainfall table
     try:
         rainfall_count = await db.fetchval("SELECT COUNT(*) FROM rainfall_normals")
     except Exception:
         rainfall_count = 0
-    
+
     # Get year coverage
     year_stats = await db.fetchrow("""
         SELECT MIN(year) as min_year, MAX(year) as max_year, COUNT(DISTINCT year) as year_count
         FROM agri_metrics
     """)
-    
+
     # Get state coverage
     state_count = await db.fetchval("SELECT COUNT(DISTINCT state_name) FROM districts")
-    
+
     # Data quality: check for missing CDKs in metrics
     orphan_metrics = await db.fetchval("""
-        SELECT COUNT(DISTINCT district_lgd) 
-        FROM agri_metrics m 
+        SELECT COUNT(DISTINCT district_lgd)
+        FROM agri_metrics m
         WHERE NOT EXISTS (SELECT 1 FROM districts d WHERE d.lgd_code = m.district_lgd)
     """)
-    
+
     return {
         "status": "healthy",
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -111,11 +111,10 @@ async def data_metrics(db: asyncpg.Connection = Depends(get_db)) -> Dict[str, An
 async def app_metrics() -> Dict[str, Any]:
     """
     Application performance metrics.
-    
+
     Returns latency percentiles, cache stats, database stats, and more.
     """
     return {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         **metrics.get_all_metrics()
     }
-

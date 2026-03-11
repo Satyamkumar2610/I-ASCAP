@@ -18,7 +18,9 @@ class SeriesMeta(BaseModel):
     """Metadata for a chart series."""
     id: str
     label: str
-    style: str = Field(default="solid", description="Line style: solid, dashed, dotted")
+    style: str = Field(
+        default="solid",
+        description="Line style: solid, dashed, dotted")
 
 
 class TimelinePoint(BaseModel):
@@ -34,7 +36,8 @@ class AdvancedStats(BaseModel):
     pre: PeriodStats = Field(..., description="Pre-split period statistics")
     post: PeriodStats = Field(..., description="Post-split period statistics")
     impact: ImpactStats = Field(..., description="Comparative impact metrics")
-    insights: Optional["SplitInsightsInfo"] = Field(None, description="Advanced split insights")
+    insights: Optional["SplitInsightsInfo"] = Field(
+        None, description="Advanced split insights")
 
 
 # ============================================================================
@@ -43,7 +46,8 @@ class AdvancedStats(BaseModel):
 
 class FragmentationInfo(BaseModel):
     """Fragmentation analysis result."""
-    index: float = Field(..., description="1/child_count - lower means more fragmented")
+    index: float = Field(...,
+                         description="1/child_count - lower means more fragmented")
     child_count: int
     interpretation: str
 
@@ -61,7 +65,8 @@ class DivergenceInfo(BaseModel):
 
 class ConvergenceInfo(BaseModel):
     """Convergence trend analysis result."""
-    trend: str = Field(..., description="converging, diverging, stable, or insufficient_data")
+    trend: str = Field(...,
+                       description="converging, diverging, stable, or insufficient_data")
     rate: float = Field(..., description="Rate of convergence/divergence")
     interpretation: str
 
@@ -69,16 +74,19 @@ class ConvergenceInfo(BaseModel):
 class EffectSizeInfo(BaseModel):
     """Effect size (Cohen's d) result."""
     cohens_d: float
-    interpretation: str = Field(..., description="small, medium, large, very_large")
+    interpretation: str = Field(...,
+                                description="small, medium, large, very_large")
     confidence: float = Field(..., description="0-1 confidence level")
 
 
 class CounterfactualInfo(BaseModel):
     """Counterfactual projection result."""
-    projected_yield: float = Field(..., description="What yield would have been without split")
+    projected_yield: float = Field(...,
+                                   description="What yield would have been without split")
     method: str
     actual_yield: float
-    attribution_pct: float = Field(..., description="% of change attributable to split")
+    attribution_pct: float = Field(...,
+                                   description="% of change attributable to split")
     interpretation: str
 
 
@@ -100,7 +108,8 @@ class SplitInsightsInfo(BaseModel):
     convergence: ConvergenceInfo
     effect_size: EffectSizeInfo
     counterfactual: CounterfactualInfo
-    children_performance: List[ChildPerformanceInfo] = Field(default_factory=list)
+    children_performance: List[ChildPerformanceInfo] = Field(
+        default_factory=list)
     warnings: List[str] = Field(default_factory=list)
 
 
@@ -117,31 +126,31 @@ class AnalysisMeta(BaseModel):
 class SplitImpactRequest(BaseModel):
     """Request parameters for split impact analysis."""
     parent_cdk: str = Field(
-        ..., 
+        ...,
         description="Parent district CDK",
         min_length=5,
         max_length=64,
         pattern=r"^[A-Za-z0-9_]+$"
     )
     children_cdks: List[str] = Field(
-        ..., 
+        ...,
         description="Children district CDKs",
         min_length=1,
         max_length=20
     )
     split_year: int = Field(
-        ..., 
+        ...,
         description="Year of split event",
         ge=1947,
         le=2025
     )
     domain: str = Field(
-        default="agriculture", 
+        default="agriculture",
         description="Metric domain",
         max_length=30
     )
     variable: str = Field(
-        default="wheat_yield", 
+        default="wheat_yield",
         description="Variable to analyze",
         max_length=50
     )
@@ -155,19 +164,20 @@ class SplitImpactResponse(BaseModel):
     and reproducibility provenance.
     """
     data: List[Dict[str, Any]] = Field(
-        default_factory=list, 
+        default_factory=list,
         description="Timeline data points"
     )
     series: List[SeriesMeta] = Field(
-        default_factory=list, 
+        default_factory=list,
         description="Series metadata for charting"
     )
     advanced_stats: Optional[AdvancedStats] = Field(
-        None, 
+        None,
         description="Statistical analysis (only for before_after mode)"
     )
     meta: AnalysisMeta = Field(..., description="Analysis metadata")
-    provenance: ProvenanceMetadata = Field(..., description="Reproducibility metadata")
+    provenance: ProvenanceMetadata = Field(...,
+                                           description="Reproducibility metadata")
 
 
 class StateSummary(BaseModel):

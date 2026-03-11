@@ -49,14 +49,14 @@ def validate_year(year: Any, field_name: str = "year") -> int:
             field=field_name,
             value=year
         )
-    
+
     if year_int < YEAR_MIN or year_int > YEAR_MAX:
         raise ValidationError(
             detail=f"Invalid {field_name}: must be between {YEAR_MIN} and {YEAR_MAX}",
             field=field_name,
             value=year_int
         )
-    
+
     return year_int
 
 
@@ -64,14 +64,14 @@ def validate_year_range(start_year: Any, end_year: Any) -> tuple:
     """Validate a year range and ensure start <= end."""
     start = validate_year(start_year, "start_year")
     end = validate_year(end_year, "end_year")
-    
+
     if start > end:
         raise ValidationError(
             detail="start_year must be less than or equal to end_year",
             field="year_range",
             value=f"{start}-{end}"
         )
-    
+
     return (start, end)
 
 
@@ -82,15 +82,17 @@ def validate_crop(crop: str) -> str:
             detail="Crop name is required",
             field="crop"
         )
-    
+
     crop_lower = crop.lower().strip()
     if crop_lower not in VALID_CROPS:
         raise ValidationError(
-            detail=f"Invalid crop: '{crop}'. Valid options: {', '.join(sorted(VALID_CROPS)[:10])}...",
+            detail=f"Invalid crop: '{crop}'. Valid options: {
+                ', '.join(
+                    sorted(VALID_CROPS)[
+                        :10])}...",
             field="crop",
-            value=crop
-        )
-    
+            value=crop)
+
     return crop_lower
 
 
@@ -101,15 +103,12 @@ def validate_metric(metric: str) -> str:
             detail="Metric is required",
             field="metric"
         )
-    
+
     metric_lower = metric.lower().strip()
     if metric_lower not in VALID_METRICS:
-        raise ValidationError(
-            detail=f"Invalid metric: '{metric}'. Valid options: {', '.join(VALID_METRICS)}",
-            field="metric",
-            value=metric
-        )
-    
+        raise ValidationError(detail=f"Invalid metric: '{metric}'. Valid options: {
+            ', '.join(VALID_METRICS)}", field="metric", value=metric)
+
     return metric_lower
 
 
@@ -117,15 +116,12 @@ def validate_mode(mode: str) -> str:
     """Validate comparison mode."""
     if not mode:
         return "before_after"  # Default
-    
+
     mode_lower = mode.lower().strip()
     if mode_lower not in VALID_MODES:
-        raise ValidationError(
-            detail=f"Invalid mode: '{mode}'. Valid options: {', '.join(VALID_MODES)}",
-            field="mode",
-            value=mode
-        )
-    
+        raise ValidationError(detail=f"Invalid mode: '{mode}'. Valid options: {
+            ', '.join(VALID_MODES)}", field="mode", value=mode)
+
     return mode_lower
 
 
@@ -136,17 +132,16 @@ def validate_cdk(cdk: str) -> str:
             detail="District CDK is required",
             field="cdk"
         )
-    
+
     cdk_stripped = cdk.strip()
-    
+
     # Basic format validation (relaxed for flexibility)
     if len(cdk_stripped) < 5 or len(cdk_stripped) > 50:
         raise ValidationError(
             detail="Invalid CDK format: length must be between 5 and 50 characters",
             field="cdk",
-            value=cdk
-        )
-    
+            value=cdk)
+
     return cdk_stripped
 
 
@@ -157,22 +152,22 @@ def validate_cdk_list(cdks: str) -> List[str]:
             detail="CDK list is required",
             field="cdks"
         )
-    
+
     cdk_list = [c.strip() for c in cdks.split(",") if c.strip()]
-    
+
     if len(cdk_list) == 0:
         raise ValidationError(
             detail="CDK list cannot be empty",
             field="cdks"
         )
-    
+
     if len(cdk_list) > 20:
         raise ValidationError(
             detail="Too many CDKs: maximum 20 allowed",
             field="cdks",
             value=f"{len(cdk_list)} provided"
         )
-    
+
     return [validate_cdk(c) for c in cdk_list]
 
 
@@ -183,16 +178,16 @@ def validate_state_name(state: str) -> str:
             detail="State name is required",
             field="state"
         )
-    
+
     state_stripped = state.strip()
-    
+
     if len(state_stripped) < 2 or len(state_stripped) > 100:
         raise ValidationError(
             detail="Invalid state name length",
             field="state",
             value=state
         )
-    
+
     # Basic sanitization - allow letters, spaces, and common punctuation
     if not re.match(r'^[a-zA-Z\s\-&]+$', state_stripped):
         raise ValidationError(
@@ -200,7 +195,7 @@ def validate_state_name(state: str) -> str:
             field="state",
             value=state
         )
-    
+
     return state_stripped
 
 
@@ -214,12 +209,12 @@ def validate_limit(limit: Any, max_limit: int = 1000) -> int:
             field="limit",
             value=limit
         )
-    
+
     if limit_int < 1:
         limit_int = 10
     elif limit_int > max_limit:
         limit_int = max_limit
-    
+
     return limit_int
 
 
@@ -233,12 +228,11 @@ def validate_offset(offset: Any) -> int:
             field="offset",
             value=offset
         )
-    
+
     if offset_int < 0:
         offset_int = 0
-    
-    return offset_int
 
+    return offset_int
 
 
 def validate_positive_number(value: Any, field_name: str = "value") -> float:
@@ -251,12 +245,12 @@ def validate_positive_number(value: Any, field_name: str = "value") -> float:
             field=field_name,
             value=value
         )
-    
+
     if num < 0:
         raise ValidationError(
             detail=f"{field_name} must be non-negative",
             field=field_name,
             value=num
         )
-    
+
     return num

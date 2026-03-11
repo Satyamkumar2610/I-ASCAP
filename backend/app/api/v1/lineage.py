@@ -41,19 +41,19 @@ async def get_lineage_events(
 ):
     """
     Get lineage events (administrative boundary changes).
-    
+
     Returns split/merge/rename events optionally filtered by state.
     """
     district_repo = DistrictRepository(db)
     lineage_repo = LineageRepository(db)
-    
+
     if state:
         cdk_meta = await district_repo.get_cdk_to_meta_map()
         cdk_to_state = {cdk: meta["state"] for cdk, meta in cdk_meta.items()}
         events = await lineage_repo.get_events_by_state(state, cdk_to_state)
     else:
         events = await lineage_repo.get_all_events()
-    
+
     return LineageGraph(total_events=len(events), events=events)
 
 
@@ -64,11 +64,11 @@ async def get_split_events(
 ):
     """
     Get grouped split events for a state.
-    
+
     Returns parent districts with their children, sorted by year.
     """
     from app.services.analysis_service import AnalysisService
-    
+
     service = AnalysisService(db)
     return await service.get_split_events_for_state(state)
 
@@ -80,7 +80,7 @@ async def get_data_tracking(
 ) -> Dict[str, Any]:
     """
     Get data lineage tracking for a district.
-    
+
     Returns:
     - Data sources used
     - Year coverage
@@ -92,13 +92,13 @@ async def get_data_tracking(
         SELECT lgd_code::text as cdk, district_name, state_name, start_year, end_year
         FROM districts WHERE lgd_code::text = $1
     """, cdk)
-    
+
     if not district:
         return {"error": f"District not found: {cdk}"}
-    
+
     # Get data coverage
     coverage = await db.fetchrow("""
-        SELECT 
+        SELECT
             COUNT(DISTINCT year) as years_with_data,
             MIN(year) as first_year,
             MAX(year) as last_year,
@@ -106,10 +106,10 @@ async def get_data_tracking(
             COUNT(*) as total_records
         FROM agri_metrics WHERE district_lgd::text = $1
     """, cdk)
-    
+
     # Lineage events use CDK text keys which don't match lgd_code
     # So we skip the lineage JOINs here — they'd return nothing meaningful
-    
+
     return {
         "district": dict(district),
         "data_coverage": {
@@ -117,14 +117,16 @@ async def get_data_tracking(
             "first_year": coverage["first_year"],
             "last_year": coverage["last_year"],
             "variables": coverage["variables"],
-            "total_records": coverage["total_records"]
-        },
-        "data_sources": [{"source": "ICRISAT/DES", "record_count": coverage["total_records"], "from_year": coverage["first_year"], "to_year": coverage["last_year"]}],
+            "total_records": coverage["total_records"]},
+        "data_sources": [
+            {
+                "source": "ICRISAT/DES",
+                "record_count": coverage["total_records"],
+                "from_year": coverage["first_year"],
+                "to_year": coverage["last_year"]}],
         "lineage": {
             "split_into": [],
-            "created_from": []
-        }
-    }
+            "created_from": []}}
 
 
 @router.get("/coverage")
@@ -134,11 +136,11 @@ async def get_state_coverage(
 ) -> Dict[str, Any]:
     """
     Get data coverage summary for all districts in a state.
-    
+
     Shows years with data, record counts, and lineage status per district.
     """
     coverage = await db.fetch("""
-        SELECT 
+        SELECT
             d.lgd_code::text as cdk,
             d.district_name,
             d.start_year,
@@ -152,12 +154,13 @@ async def get_state_coverage(
         GROUP BY d.lgd_code, d.district_name, d.start_year, d.end_year
         ORDER BY d.district_name
     """, state)
-    
+
     return {
         "state": state,
         "districts": len(coverage),
         "coverage": [dict(c) for c in coverage]
     }
+
 
 @router.get("/unmapped")
 async def get_unmapped_splits(
@@ -167,46 +170,58 @@ async def get_unmapped_splits(
     Get all districts involved in splits that cannot be mapped to an LGD code.
     """
     from app.core.name_matching import resolve_district_name, STATE_ALIASES, TELANGANA_DISTRICTS, check_historical_resolution
-    
+
     districts = await db.fetch("SELECT lgd_code, district_name, state_name FROM districts")
     lgd_lookup = {}
     for r in districts:
-        key = (r['district_name'].strip().lower(), r['state_name'].strip().lower())
+        key = (
+            r['district_name'].strip().lower(),
+            r['state_name'].strip().lower())
         lgd_lookup[key] = r['lgd_code']
-        
+
     def resolve_lgd(district_name, state_name):
         dn = resolve_district_name(district_name)
         sn = state_name.lower().strip()
         if (dn, sn) in lgd_lookup:
             return lgd_lookup[(dn, sn)]
-        
+
         for alias_key, alias_states in STATE_ALIASES.items():
             if alias_key in sn:
                 for alt_state in alias_states:
                     if (dn, alt_state.lower()) in lgd_lookup:
                         return lgd_lookup[(dn, alt_state.lower())]
-                    
+
         if dn in TELANGANA_DISTRICTS and "andhra" in sn:
-             if (dn, "telangana") in lgd_lookup:
-                 return lgd_lookup[(dn, "telangana")]
-             
+            if (dn, "telangana") in lgd_lookup:
+                return lgd_lookup[(dn, "telangana")]
+
         return None
 
     splits = await db.fetch("SELECT parent_district, child_district, split_year, state_name FROM district_splits")
-    
+
     unmapped = set()
-    
+
     for row in splits:
         p_lgd = resolve_lgd(row['parent_district'], row['state_name'])
-        if not p_lgd and not check_historical_resolution(row['state_name'], row['parent_district']):
-            unmapped.add((row['parent_district'], row['state_name'], row['split_year'], 'Parent'))
-            
+        if not p_lgd and not check_historical_resolution(
+                row['state_name'], row['parent_district']):
+            unmapped.add(
+                (row['parent_district'],
+                 row['state_name'],
+                    row['split_year'],
+                    'Parent'))
+
         c_lgd = resolve_lgd(row['child_district'], row['state_name'])
-        if not c_lgd and not check_historical_resolution(row['state_name'], row['child_district']):
-            unmapped.add((row['child_district'], row['state_name'], row['split_year'], 'Child'))
-            
+        if not c_lgd and not check_historical_resolution(
+                row['state_name'], row['child_district']):
+            unmapped.add(
+                (row['child_district'],
+                 row['state_name'],
+                    row['split_year'],
+                    'Child'))
+
     sorted_unmapped = sorted(list(unmapped), key=lambda x: (x[1], x[0], x[2]))
-    
+
     return [
         {"district": u[0], "state": u[1], "year": u[2], "role": u[3]}
         for u in sorted_unmapped

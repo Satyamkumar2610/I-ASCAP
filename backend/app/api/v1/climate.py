@@ -41,14 +41,14 @@ async def get_rainfall(
 ):
     """
     Get rainfall normals for a specific district.
-    
+
     Returns monthly, seasonal, and annual rainfall data (1951-2000 normals).
     """
     rainfall = await get_rainfall_by_district(db, state, district)
-    
+
     if not rainfall:
         return {"error": f"No rainfall data found for {district}, {state}"}
-    
+
     return {
         "state": rainfall.state,
         "district": rainfall.district,
@@ -110,8 +110,9 @@ async def get_water_stress(
     """
     results = await get_water_stress_index(db, state, year)
     if not results:
-        raise NotFoundError(detail=f"Insufficient data to compute water stress for {state} in {year}")
-        
+        raise NotFoundError(
+            detail=f"Insufficient data to compute water stress for {state} in {year}")
+
     return {
         "state": state,
         "year": year,
@@ -128,11 +129,11 @@ async def get_rainfall_yield_correlation(
 ):
     """
     Calculate correlation between rainfall and yield for districts in a state.
-    
+
     Compares annual/monsoon rainfall against district yields.
     """
     analyzer = get_analyzer()
-    
+
     # Get yield data for state using the correct schema
     variable = f"{crop.lower()}_yield"
     yield_query = """
@@ -143,7 +144,7 @@ async def get_rainfall_yield_correlation(
         AND m.value IS NOT NULL AND m.value > 0
     """
     yield_rows = await db.fetch(yield_query, state, variable, year)
-    
+
     # Fallback to seasonal
     if not yield_rows or len(yield_rows) < 5:
         season_map = {
@@ -154,16 +155,16 @@ async def get_rainfall_yield_correlation(
         if season:
             variable = f"{crop.lower()}_yield_{season}"
             yield_rows = await db.fetch(yield_query, state, variable, year)
-    
+
     if not yield_rows or len(yield_rows) < 5:
         return {"error": "Insufficient yield data (need at least 5 districts)"}
-    
+
     # Match with rainfall data
     matched_data = []
     for row in yield_rows:
         district_name = row["district_name"]
         rainfall = await get_rainfall_by_district(db, state, district_name)
-        
+
         if rainfall:
             matched_data.append({
                 "district": district_name,
@@ -171,18 +172,19 @@ async def get_rainfall_yield_correlation(
                 "annual_rainfall": rainfall.annual,
                 "monsoon_rainfall": rainfall.monsoon_jjas,
             })
-    
+
     if len(matched_data) < 5:
-        return {"error": f"Could not match sufficient districts with rainfall data ({len(matched_data)} found)"}
-    
+        return {"error": f"Could not match sufficient districts with rainfall data ({
+            len(matched_data)} found)"}
+
     # Calculate correlations
     yields = [d["yield"] for d in matched_data]
     annual_rain = [d["annual_rainfall"] for d in matched_data]
     monsoon_rain = [d["monsoon_rainfall"] for d in matched_data]
-    
+
     annual_corr = analyzer.pearson_correlation(annual_rain, yields)
     monsoon_corr = analyzer.pearson_correlation(monsoon_rain, yields)
-    
+
     def interpret_correlation(r: float) -> str:
         """Interpret correlation coefficient."""
         if abs(r) < 0.2:
@@ -195,7 +197,7 @@ async def get_rainfall_yield_correlation(
             return "strong"
         else:
             return "very strong"
-    
+
     return {
         "state": state,
         "crop": crop,

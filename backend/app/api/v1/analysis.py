@@ -27,7 +27,7 @@ def _generate_query_hash(request: Request) -> str:
 async def get_summary(db: asyncpg.Connection = Depends(get_db)):
     """
     Get summary statistics for all states.
-    
+
     Returns list of states with district counts and boundary change counts.
     Uses district_splits table for split event counts.
     """
@@ -38,16 +38,18 @@ async def get_summary(db: asyncpg.Connection = Depends(get_db)):
         GROUP BY state_name
         ORDER BY state_name
     """)
-    
-    # Count distinct split events (parent+year combos) per state from district_splits
+
+    # Count distinct split events (parent+year combos) per state from
+    # district_splits
     split_counts = await db.fetch("""
         SELECT state_name, COUNT(DISTINCT parent_district || '_' || split_year::text) as boundary_changes
         FROM district_splits
         GROUP BY state_name
     """)
-    
-    split_map = {r["state_name"].strip().upper(): r["boundary_changes"] for r in split_counts}
-    
+
+    split_map = {r["state_name"].strip().upper(): r["boundary_changes"]
+                 for r in split_counts}
+
     state_list = []
     stats = {}
     for row in states:
@@ -55,7 +57,7 @@ async def get_summary(db: asyncpg.Connection = Depends(get_db)):
         # Normalize for matching
         lookup_key = state.strip().upper()
         changes = split_map.get(lookup_key, 0)
-        
+
         state_list.append(state)
         stats[state] = {
             "state": state,
@@ -67,7 +69,7 @@ async def get_summary(db: asyncpg.Connection = Depends(get_db)):
             "data_coverage": "High",
             "comparability": "Active" if changes > 0 else "N/A",
         }
-    
+
     return {"states": state_list, "stats": stats}
 
 
@@ -103,7 +105,8 @@ async def get_districts_for_state(
         return []
 
     # Build LGD lookup (only needed if any pre-resolved LGDs are NULL)
-    has_nulls = any(r["parent_lgd"] is None or r["child_lgd"] is None for r in rows)
+    has_nulls = any(r["parent_lgd"] is None or r["child_lgd"]
+                    is None for r in rows)
     lgd_lookup = {}
     if has_nulls:
         all_districts = await db.fetch(
@@ -142,7 +145,10 @@ async def get_districts_for_state(
         # Use ETL pre-resolved LGD; fallback via shared resolver
         parent_lgd = row["parent_lgd"]
         if parent_lgd is None and lgd_lookup:
-            parent_lgd = _resolve_lgd(row["parent_district"], row["state_name"], lgd_lookup)
+            parent_lgd = _resolve_lgd(
+                row["parent_district"],
+                row["state_name"],
+                lgd_lookup)
         g["parent_cdk"] = str(parent_lgd) if parent_lgd else None
         g["split_year"] = row["split_year"]
         g["state"] = row["state_name"]
@@ -156,7 +162,8 @@ async def get_districts_for_state(
         if child_name not in g["children_districts"]:
             g["children_districts"].append(child_name)
             g["children_cdks"].append(child_cdk)
-            g["children_has_agri"].append(child_lgd in agri_lgds if child_lgd else False)
+            g["children_has_agri"].append(
+                child_lgd in agri_lgds if child_lgd else False)
 
     # Build response matching frontend SplitDistrict interface
     results = []
@@ -199,7 +206,7 @@ async def analyze_split_impact(
     children_list = [c.strip() for c in children.split(",") if c.strip()]
     variable = f"{crop.lower()}_{metric.lower()}"
     query_hash = _generate_query_hash(request)
-    
+
     # Check Cache
     from app.cache import get_cache, CacheTTL
     cache = get_cache()
@@ -208,7 +215,8 @@ async def analyze_split_impact(
         if cached_result:
             return cached_result
     except Exception:
-        logging.getLogger(__name__).debug("Cache get failed for %s", query_hash)
+        logging.getLogger(__name__).debug(
+            "Cache get failed for %s", query_hash)
 
     service = AnalysisService(db)
     result = await service.analyze_split_impact(
@@ -220,12 +228,13 @@ async def analyze_split_impact(
         mode=mode,
         query_hash=query_hash,
     )
-    
+
     # Set Cache
     try:
         await cache.set(query_hash, result, CacheTTL.ANALYSIS)
     except Exception:
-        logging.getLogger(__name__).debug("Cache set failed for %s", query_hash)
+        logging.getLogger(__name__).debug(
+            "Cache set failed for %s", query_hash)
     return result
 
 
@@ -241,7 +250,7 @@ async def get_crop_diversification(
 ):
     """
     Calculate Crop Diversification Index (CDI) for a state.
-    
+
     Uses Simpson's Diversity Index: 1 - Σ(pi²)
     Higher values indicate more diverse cropping patterns.
     """
@@ -250,32 +259,34 @@ async def get_crop_diversification(
         SELECT variable_name, value
         FROM agri_metrics m
         JOIN districts d ON m.district_lgd = d.lgd_code
-        WHERE d.state_name = $1 
-          AND m.year = $2 
+        WHERE d.state_name = $1
+          AND m.year = $2
           AND (m.variable_name LIKE '%_area' OR m.variable_name LIKE '%_area_%')
           AND m.value IS NOT NULL AND m.value > 0
     """
     rows = await db.fetch(query, state, year)
-    
+
     if not rows:
-        raise NotFoundError(detail="No data found for specified state and year")
-    
+        raise NotFoundError(
+            detail="No data found for specified state and year")
+
     crop_areas = {}
     for row in rows:
         var = row["variable_name"]
         val = float(row["value"])
-        
-        # Extract crop name: "rice_area" -> "rice", "rice_area_kharif" -> "rice"
+
+        # Extract crop name: "rice_area" -> "rice", "rice_area_kharif" ->
+        # "rice"
         if "_area_" in var:
             crop = var.split("_area_")[0]
         else:
             crop = var.replace("_area", "")
-            
+
         crop_areas[crop] = crop_areas.get(crop, 0) + val
-    
+
     analyzer = get_advanced_analyzer()
     result = analyzer.calculate_diversification(crop_areas)
-    
+
     return {
         "state": state,
         "year": year,
@@ -295,15 +306,15 @@ async def get_yield_efficiency(
     """
     # 1. Try Base Variable
     variable = f"{crop.lower()}_yield"
-    
+
     # Check if base variable exists for this district/year
     check_query = "SELECT 1 FROM agri_metrics WHERE district_lgd::text=$1 AND variable_name=$2 AND year=$3"
     exists = await db.fetchval(check_query, cdk, variable, year)
-    
+
     if not exists:
         # Fallback to seasonal
         season_map = {
-            "rice": "kharif", "wheat": "rabi", "maize": "kharif", 
+            "rice": "kharif", "wheat": "rabi", "maize": "kharif",
             "soyabean": "kharif", "groundnut": "kharif", "cotton": "kharif",
             "pearl_millet": "kharif", "sorghum": "kharif", "chickpea": "rabi"
         }
@@ -319,13 +330,15 @@ async def get_yield_efficiency(
         WHERE m.district_lgd::text = $1 AND m.variable_name = $2 AND m.year = $3
     """
     district_row = await db.fetchrow(district_query, cdk, variable, year)
-    
+
     if not district_row:
-        raise NotFoundError(detail="No data found for specified district, crop, and year")
-    
+        raise NotFoundError(
+            detail="No data found for specified district, crop, and year")
+
     state_name = district_row["state_name"]
-    district_yield = float(district_row["yield_val"]) if district_row["yield_val"] else 0
-    
+    district_yield = float(
+        district_row["yield_val"]) if district_row["yield_val"] else 0
+
     # Get all state yields for this crop/year
     state_query = """
         SELECT m.value as yield_val
@@ -336,12 +349,12 @@ async def get_yield_efficiency(
     """
     state_rows = await db.fetch(state_query, state_name, variable, year)
     state_yields = [float(r["yield_val"]) for r in state_rows]
-    
+
     # Get historical yields for this district (last 10 years)
     history_query = """
         SELECT year, value as yield_val
         FROM agri_metrics
-        WHERE district_lgd::text = $1 AND variable_name = $2 
+        WHERE district_lgd::text = $1 AND variable_name = $2
         AND year < $3 AND year >= $3 - 10
         AND value IS NOT NULL AND value > 0
         ORDER BY year
@@ -350,9 +363,11 @@ async def get_yield_efficiency(
     historical_yields = [float(r["yield_val"]) for r in history_rows]
 
     analyzer = get_advanced_analyzer()
-    relative_result = analyzer.calculate_efficiency(district_yield, state_yields)
-    historical_result = analyzer.calculate_historical_efficiency(district_yield, historical_yields)
-    
+    relative_result = analyzer.calculate_efficiency(
+        district_yield, state_yields)
+    historical_result = analyzer.calculate_historical_efficiency(
+        district_yield, historical_yields)
+
     return {
         "cdk": cdk,
         "crop": crop,
@@ -375,24 +390,25 @@ async def get_risk_profile(
     """
     ALLOWED_METRICS = {"yield", "area", "production"}
     if metric.lower() not in ALLOWED_METRICS:
-        raise ValidationError(detail=f"Invalid metric. Allowed: {ALLOWED_METRICS}")
-    
+        raise ValidationError(
+            detail=f"Invalid metric. Allowed: {ALLOWED_METRICS}")
+
     variable = f"{crop.lower()}_{metric.lower()}"
-    
+
     # Check if base variable exists
     check_query = "SELECT 1 FROM agri_metrics WHERE district_lgd::text=$1 AND variable_name=$2 LIMIT 1"
     exists = await db.fetchval(check_query, cdk, variable)
-    
+
     if not exists:
         season_map = {
-            "rice": "kharif", "wheat": "rabi", "maize": "kharif", 
+            "rice": "kharif", "wheat": "rabi", "maize": "kharif",
             "soyabean": "kharif", "groundnut": "kharif", "cotton": "kharif",
             "pearl_millet": "kharif", "sorghum": "kharif", "chickpea": "rabi"
         }
         season = season_map.get(crop.lower())
         if season:
             variable = f"{variable}_{season}"
-    
+
     query = """
         SELECT year, value
         FROM agri_metrics
@@ -401,17 +417,18 @@ async def get_risk_profile(
         ORDER BY year
     """
     rows = await db.fetch(query, cdk, variable)
-    
+
     if not rows or len(rows) < 3:
-        raise ValidationError(detail="Insufficient historical data (need at least 3 years)")
-    
+        raise ValidationError(
+            detail="Insufficient historical data (need at least 3 years)")
+
     yearly_values = {row["year"]: float(row["value"]) for row in rows}
-    
+
     analyzer = get_advanced_analyzer()
     result = analyzer.calculate_risk_profile(yearly_values)
     resilience = analyzer.calculate_resilience(yearly_values)
     growth = analyzer.calculate_growth_matrix(yearly_values)
-    
+
     return {
         "cdk": cdk,
         "crop": crop,

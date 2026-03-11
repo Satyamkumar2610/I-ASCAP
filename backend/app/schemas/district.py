@@ -10,13 +10,17 @@ class District(BaseModel):
     District as a temporal entity in the lineage graph.
     Tracks validity period for historical boundary awareness.
     """
-    cdk: str = Field(..., description="Canonical District Key (immutable identifier)")
+    cdk: str = Field(...,
+                     description="Canonical District Key (immutable identifier)")
     name: str = Field(..., description="District display name")
     state: str = Field(..., description="Parent state name")
-    valid_from: Optional[int] = Field(None, description="Year boundary became effective")
-    valid_to: Optional[int] = Field(None, description="Year boundary ceased (null = current)")
-    geometry: Optional[Any] = Field(None, description="GeoJSON geometry (when requested)")
-    
+    valid_from: Optional[int] = Field(
+        None, description="Year boundary became effective")
+    valid_to: Optional[int] = Field(
+        None, description="Year boundary ceased (null = current)")
+    geometry: Optional[Any] = Field(
+        None, description="GeoJSON geometry (when requested)")
+
     model_config = ConfigDict(from_attributes=True)
 
 

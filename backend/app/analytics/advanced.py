@@ -98,32 +98,32 @@ class SimulationResult:
 class AdvancedAnalyzer:
     """
     Advanced analytics for agricultural data.
-    
+
     Provides:
     - Crop Diversification Index (CDI)
     - Yield Efficiency/Gap Analysis
     - Volatility and Risk Profiling
     """
-    
+
     def __init__(self):
         self.stats = get_analyzer()
-    
+
     # -------------------------------------------------------------------------
     # Crop Diversification Index (CDI)
     # -------------------------------------------------------------------------
-    
+
     def calculate_diversification(
         self,
         crop_areas: Dict[str, float],
     ) -> DiversificationResult:
         """
         Calculate Crop Diversification Index using Simpson's Diversity Index.
-        
+
         Formula: CDI = 1 - Σ(pi²) where pi = proportion of crop i
-        
+
         Args:
             crop_areas: Dictionary of crop name -> area in hectares
-        
+
         Returns:
             DiversificationResult with CDI and interpretation
         """
@@ -136,7 +136,7 @@ class AdvancedAnalyzer:
                 crop_count=0,
                 breakdown={},
             )
-        
+
         total_area = sum(crop_areas.values())
         if total_area == 0:
             return DiversificationResult(
@@ -147,18 +147,20 @@ class AdvancedAnalyzer:
                 crop_count=0,
                 breakdown={},
             )
-        
+
         # Calculate proportions and sum of squares
-        proportions = {crop: area / total_area for crop, area in crop_areas.items()}
+        proportions = {
+            crop: area / total_area for crop,
+            area in crop_areas.items()}
         sum_of_squares = sum(p ** 2 for p in proportions.values())
-        
+
         # Simpson's Diversity Index
         cdi = 1 - sum_of_squares
-        
+
         # Find dominant crop
         dominant_crop = max(crop_areas, key=crop_areas.get)
         dominant_share = proportions[dominant_crop]
-        
+
         # Interpretation
         if cdi < 0.2:
             interpretation = "Monoculture risk - highly concentrated in single crop"
@@ -170,7 +172,7 @@ class AdvancedAnalyzer:
             interpretation = "Good diversification - well balanced portfolio"
         else:
             interpretation = "Excellent diversification - highly resilient crop mix"
-        
+
         return DiversificationResult(
             cdi=round(cdi, 4),
             interpretation=interpretation,
@@ -179,11 +181,11 @@ class AdvancedAnalyzer:
             crop_count=len(crop_areas),
             breakdown={k: round(v, 4) for k, v in proportions.items()},
         )
-    
+
     # -------------------------------------------------------------------------
     # Yield Efficiency / Gap Analysis
     # -------------------------------------------------------------------------
-    
+
     def calculate_efficiency(
         self,
         district_yield: float,
@@ -191,13 +193,13 @@ class AdvancedAnalyzer:
     ) -> EfficiencyResult:
         """
         Calculate yield efficiency compared to state potential.
-        
+
         Potential yield = 95th percentile of state yields.
-        
+
         Args:
             district_yield: Yield for the district
             state_yields: List of yields for all districts in state
-        
+
         Returns:
             EfficiencyResult with efficiency score and gap
         """
@@ -210,20 +212,26 @@ class AdvancedAnalyzer:
                 yield_gap_pct=0,
                 percentile_rank=0,
             )
-        
+
         # Calculate potential (95th percentile)
         potential_yield = self.stats.percentile(state_yields, 95)
-        
+
         # Calculate efficiency
-        efficiency = min(district_yield / potential_yield, 1.0) if potential_yield > 0 else 0
-        
+        efficiency = min(
+            district_yield / potential_yield,
+            1.0) if potential_yield > 0 else 0
+
         # Calculate gap
         yield_gap = potential_yield - district_yield
-        yield_gap_pct = (yield_gap / potential_yield * 100) if potential_yield > 0 else 0
-        
+        yield_gap_pct = (
+            yield_gap
+            / potential_yield
+            * 100) if potential_yield > 0 else 0
+
         # Percentile rank within state
-        percentile_rank = self.stats.percentile_rank(district_yield, state_yields)
-        
+        percentile_rank = self.stats.percentile_rank(
+            district_yield, state_yields)
+
         return EfficiencyResult(
             efficiency_score=round(efficiency, 4),
             district_yield=round(district_yield, 2),
@@ -240,11 +248,11 @@ class AdvancedAnalyzer:
     ) -> HistoricalEfficiencyResult:
         """
         Calculate efficiency compared to district's own history (10-year mean).
-        
+
         Args:
             current_yield: Yield for the current year
             historical_yields: List of yields for previous years (up to 10)
-        
+
         Returns:
             HistoricalEfficiencyResult
         """
@@ -256,22 +264,22 @@ class AdvancedAnalyzer:
                 yield_diff=0,
                 is_above_trend=False,
             )
-        
+
         # Calculate 10-year mean (or available)
         mean_yield = sum(historical_yields) / len(historical_yields)
-        
+
         if mean_yield == 0:
-             return HistoricalEfficiencyResult(
+            return HistoricalEfficiencyResult(
                 efficiency_ratio=0,
                 current_yield=current_yield,
                 historical_mean=0,
                 yield_diff=0,
                 is_above_trend=False,
             )
-            
+
         ratio = current_yield / mean_yield
         diff = current_yield - mean_yield
-        
+
         return HistoricalEfficiencyResult(
             efficiency_ratio=round(ratio, 4),
             current_yield=round(current_yield, 2),
@@ -279,11 +287,11 @@ class AdvancedAnalyzer:
             yield_diff=round(diff, 2),
             is_above_trend=diff > 0
         )
-    
+
     # -------------------------------------------------------------------------
     # Risk Profiling
     # -------------------------------------------------------------------------
-    
+
     def calculate_risk_profile(
         self,
         yearly_values: Dict[int, float],
@@ -293,19 +301,19 @@ class AdvancedAnalyzer:
         """
         if not yearly_values or len(yearly_values) < 3:
             return RiskProfile(
-                risk_category=RiskCategory.MEDIUM, # Default
+                risk_category=RiskCategory.MEDIUM,  # Default
                 volatility_score=0,
                 reliability_rating="C",
                 trend_stability="Unknown",
                 worst_year=None,
                 best_year=None,
             )
-            
+
         values = list(yearly_values.values())
-        
+
         # 1. Volatility (CV)
         cv = self.stats.coefficient_of_variation(values)
-        
+
         # 2. Risk Category
         if cv < 15:
             category = RiskCategory.LOW
@@ -315,16 +323,18 @@ class AdvancedAnalyzer:
             category = RiskCategory.HIGH
         else:
             category = RiskCategory.CRITICAL
-            
+
         # 3. Reliability Rating (Consistency)
         # Based on how often yield is within 20% of mean
         mean = self.stats.mean(values)
         if mean > 0:
-            consistent_years = sum(1 for v in values if abs(v - mean) / mean <= 0.2)
+            consistent_years = sum(
+                1 for v in values if abs(
+                    v - mean) / mean <= 0.2)
             consistency_ratio = consistent_years / len(values)
         else:
             consistency_ratio = 0
-            
+
         if consistency_ratio > 0.8:
             rating = "A"
         elif consistency_ratio > 0.6:
@@ -333,8 +343,9 @@ class AdvancedAnalyzer:
             rating = "C"
         else:
             rating = "D"
-        
-        # 4. Trend Stability using Mann-Kendall proxy (simple linear slope for now)
+
+        # 4. Trend Stability using Mann-Kendall proxy (simple linear slope for
+        # now)
         trend = self.stats.linear_trend(values)
         if trend.significant and trend.slope > 0:
             stability = "Stable Growth"
@@ -342,12 +353,12 @@ class AdvancedAnalyzer:
             stability = "Declining"
         else:
             stability = "Volatile" if cv > 30 else "Stable"
-            
+
         # 5. Extremes
         sorted_years = sorted(yearly_values.items(), key=lambda x: x[1])
         worst_year = sorted_years[0][0]
         best_year = sorted_years[-1][0]
-        
+
         return RiskProfile(
             risk_category=category,
             volatility_score=round(cv, 2),
@@ -361,31 +372,33 @@ class AdvancedAnalyzer:
     # Resilience & Growth
     # -------------------------------------------------------------------------
 
-    def calculate_resilience(self, yearly_values: Dict[int, float]) -> ResilienceResult:
+    def calculate_resilience(self,
+                             yearly_values: Dict[int,
+                                                 float]) -> ResilienceResult:
         """
         Calculate resilience score.
         Score = 0.6 * (1 - CV_norm) + 0.4 * Retention_Ratio
         Retention_Ratio = 10th Percentile Yield / Median Yield (Proxy for drought resistance)
         """
         if not yearly_values or len(yearly_values) < 5:
-             return ResilienceResult(0, 0, 0, "N/A", "N/A")
+            return ResilienceResult(0, 0, 0, "N/A", "N/A")
 
         values = list(yearly_values.values())
-        
+
         # 1. Volatility Component
         cv = self.stats.coefficient_of_variation(values)
         # Normalize CV: Assume CV > 40% is 0 score, CV < 5% is 1 score.
         cv_norm = max(0, min(1, (40 - cv) / 35))
-        
+
         # 2. Retention Component (Drought Proxy)
         median = self.stats.percentile(values, 50)
         p10 = self.stats.percentile(values, 10)
         retention = (p10 / median) if median > 0 else 0
         retention = min(retention, 1.0)
-        
+
         # Composite Score
         score = (0.6 * cv_norm) + (0.4 * retention)
-        
+
         # Categorization
         if retention < 0.6:
             drought_risk = "High"
@@ -393,9 +406,9 @@ class AdvancedAnalyzer:
             drought_risk = "Medium"
         else:
             drought_risk = "Low"
-        
+
         rating = "A" if score > 0.8 else "B" if score > 0.6 else "C" if score > 0.4 else "D"
-        
+
         return ResilienceResult(
             resilience_score=round(score, 2),
             volatility_component=round(cv_norm, 2),
@@ -404,51 +417,53 @@ class AdvancedAnalyzer:
             reliability_rating=rating
         )
 
-    def calculate_growth_matrix(self, yearly_values: Dict[int, float]) -> GrowthResult:
+    def calculate_growth_matrix(
+            self, yearly_values: Dict[int, float]) -> GrowthResult:
         """
         Calculate Compound Annual Growth Rate (CAGR) and classify matrix quadrant.
         """
         if not yearly_values or len(yearly_values) < 5:
             return GrowthResult(0, 0, "Insufficient Data", "Flat")
-            
+
         sorted_years = sorted(yearly_values.keys())
-        recent_years = sorted_years[-5:] # Last 5 years
-        
+        recent_years = sorted_years[-5:]  # Last 5 years
+
         start_val = yearly_values[recent_years[0]]
         end_val = yearly_values[recent_years[-1]]
         years = len(recent_years) - 1
-        
+
         # CAGR Formula: (End/Start)^(1/n) - 1
         if start_val > 0 and years > 0:
-            cagr = (end_val / start_val) ** (1/years) - 1
+            cagr = (end_val / start_val) ** (1 / years) - 1
         else:
             cagr = 0
-            
-        mean_yield = sum(yearly_values[y] for y in recent_years) / len(recent_years)
-        
+
+        mean_yield = sum(yearly_values[y]
+                         for y in recent_years) / len(recent_years)
+
         # Determine Quadrant (Thresholds need state context, but using generic for now)
         # Assuming "High Growth" > 2%, "High Yield" > ??? (Relative to what? Self-history?)
         # Ideally this needs State Mean context. For now, we return raw values.
         # We'll use a placeholder classification based on CAGR.
-        
+
         if cagr > 0.02:
-             quadrant = "Growth Leader"
+            quadrant = "Growth Leader"
         elif cagr > 0:
-             quadrant = "Stable"
+            quadrant = "Stable"
         else:
-             quadrant = "Declining"
-             
+            quadrant = "Declining"
+
         # Calculate Historical CAGR (All available years)
         hist_years = sorted_years
         hist_start_val = yearly_values[hist_years[0]]
         hist_end_val = yearly_values[hist_years[-1]]
         hist_n = len(hist_years) - 1
-        
+
         if hist_start_val > 0 and hist_n > 0:
-             cagr_hist = (hist_end_val / hist_start_val) ** (1/hist_n) - 1
+            cagr_hist = (hist_end_val / hist_start_val) ** (1 / hist_n) - 1
         else:
-             cagr_hist = 0
-             
+            cagr_hist = 0
+
         return GrowthResult(
             cagr_5y=round(cagr * 100, 2),
             cagr_historical=round(cagr_hist * 100, 2),
@@ -457,11 +472,10 @@ class AdvancedAnalyzer:
             trend_direction="Positive" if cagr > 0 else "Negative"
         )
 
-    
     # -------------------------------------------------------------------------
     # Batch Analysis Helpers
     # -------------------------------------------------------------------------
-    
+
     def analyze_district_complete(
         self,
         crop_areas: Dict[str, float],
@@ -471,13 +485,13 @@ class AdvancedAnalyzer:
     ) -> Dict[str, Any]:
         """
         Perform complete advanced analysis for a district.
-        
+
         Returns combined results for diversification, efficiency, and risk.
         """
         diversification = self.calculate_diversification(crop_areas)
         efficiency = self.calculate_efficiency(district_yield, state_yields)
         risk = self.calculate_risk_profile(yearly_values)
-        
+
         return {
             "diversification": asdict(diversification),
             "efficiency": asdict(efficiency),
@@ -500,38 +514,41 @@ class AdvancedAnalyzer:
         """
         Create a linear simulation model for Rainfall -> Yield.
         """
-        if not rainfall or not yields or len(rainfall) != len(yields) or len(rainfall) < 5:
+        if not rainfall or not yields or len(
+                rainfall) != len(yields) or len(rainfall) < 5:
             return SimulationResult(0, 0, 0, 0, 0, 0, [], "Insufficient Data")
-            
+
         # 1. Regression
         reg = self.stats.linear_regression(rainfall, yields)
         corr = self.stats.pearson_correlation(rainfall, yields)
-        
+
         # 2. Baseline (Current Expected Yield at Mean Rainfall)
         mean_rain = self.stats.mean(rainfall)
         baseline_yield = (reg.slope * mean_rain) + reg.intercept
-        
+
         # 3. Confidence Interval (Simplified estimation)
-        # Using standard error of estimate for prediction interval would be better, 
-        # but for now we use std_err of slope * range as a proxy for visual margin
-        ci = reg.std_err * 1.96 * (max(rainfall) - min(rainfall)) if reg.slope != 0 else 0
-        
+        # Using standard error of estimate for prediction interval would be better,
+        # but for now we use std_err of slope * range as a proxy for visual
+        # margin
+        ci = reg.std_err * 1.96 * \
+            (max(rainfall) - min(rainfall)) if reg.slope != 0 else 0
+
         # 4. Data Points for Plotting
         points = [
-            {"year": y, "rain": r, "yield": yld} 
+            {"year": y, "rain": r, "yield": yld}
             for y, r, yld in zip(years, rainfall, yields)
         ]
-        
+
         return SimulationResult(
-            baseline_yield=round(baseline_yield, 2),
-            slope=round(reg.slope, 4),
-            intercept=round(reg.intercept, 4),
-            r_squared=round(reg.r_squared, 4),
-            correlation=round(corr.value, 4),
-            confidence_interval=round(ci, 2),
-            data_points=points,
-            model_equation=f"Yield = {reg.slope:.2f} * Rain + {reg.intercept:.2f}"
-        )
+            baseline_yield=round(
+                baseline_yield, 2), slope=round(
+                reg.slope, 4), intercept=round(
+                reg.intercept, 4), r_squared=round(
+                    reg.r_squared, 4), correlation=round(
+                        corr.value, 4), confidence_interval=round(
+                            ci, 2), data_points=points, model_equation=f"Yield = {
+                                reg.slope:.2f} * Rain + {
+                                    reg.intercept:.2f}")
 
 
 def get_advanced_analyzer() -> AdvancedAnalyzer:

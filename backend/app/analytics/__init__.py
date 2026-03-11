@@ -77,4 +77,3 @@ __all__ = [
     "QualityLevel",
     "get_state_quality_summary",
 ]
-

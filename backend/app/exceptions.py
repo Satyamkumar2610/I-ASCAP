@@ -8,7 +8,7 @@ from fastapi import HTTPException
 
 class APIError(HTTPException):
     """Base exception for API errors."""
-    
+
     def __init__(
         self,
         status_code: int = 500,
@@ -23,7 +23,7 @@ class APIError(HTTPException):
 
 class ValidationError(APIError):
     """Raised when input validation fails."""
-    
+
     def __init__(
         self,
         detail: str = "Validation failed",
@@ -35,7 +35,7 @@ class ValidationError(APIError):
             context["field"] = field
         if value is not None:
             context["value"] = str(value)[:100]  # Truncate long values
-        
+
         super().__init__(
             status_code=400,
             detail=detail,
@@ -46,7 +46,7 @@ class ValidationError(APIError):
 
 class NotFoundError(APIError):
     """Raised when a requested resource is not found."""
-    
+
     def __init__(
         self,
         resource_type: str = "Resource",
@@ -55,7 +55,7 @@ class NotFoundError(APIError):
         detail = f"{resource_type} not found"
         if resource_id:
             detail = f"{resource_type} '{resource_id}' not found"
-        
+
         super().__init__(
             status_code=404,
             detail=detail,
@@ -66,7 +66,7 @@ class NotFoundError(APIError):
 
 class DatabaseError(APIError):
     """Raised when a database operation fails."""
-    
+
     def __init__(
         self,
         detail: str = "Database operation failed",
@@ -82,7 +82,7 @@ class DatabaseError(APIError):
 
 class RateLimitError(APIError):
     """Raised when rate limit is exceeded."""
-    
+
     def __init__(
         self,
         retry_after: int = 60
@@ -91,13 +91,13 @@ class RateLimitError(APIError):
             status_code=429,
             detail=f"Rate limit exceeded. Please retry after {retry_after} seconds.",
             error_code="RATE_LIMIT_EXCEEDED",
-            context={"retry_after": retry_after}
-        )
+            context={
+                "retry_after": retry_after})
 
 
 class DataQualityError(APIError):
     """Raised when data quality issues are detected."""
-    
+
     def __init__(
         self,
         detail: str = "Data quality issue detected",
@@ -125,11 +125,11 @@ def create_error_response(
             "status_code": error.status_code,
         }
     }
-    
+
     if error.context:
         response["error"]["context"] = error.context
-    
+
     if request_id:
         response["request_id"] = request_id
-    
+
     return response

@@ -6,11 +6,12 @@ from typing import List, Dict
 from app.repositories.base import BaseRepository
 from app.schemas.lineage import LineageEvent, EventType
 
+
 class LineageRepository(BaseRepository):
     """
     Repository for lineage event data (DB implementation).
     """
-    
+
     async def get_all_events(self) -> List[LineageEvent]:
         """Get all lineage events from DB."""
         query = """
@@ -18,7 +19,7 @@ class LineageRepository(BaseRepository):
             FROM lineage_events
         """
         rows = await self.fetch_all(query)
-        
+
         events = []
         for r in rows:
             events.append(LineageEvent(
@@ -32,30 +33,30 @@ class LineageRepository(BaseRepository):
                 confidence=0.9,  # Default confidence
             ))
         return events
-    
+
     async def get_events_by_state(
-        self, 
-        state: str, 
+        self,
+        state: str,
         cdk_to_state: Dict[str, str]
     ) -> List[LineageEvent]:
         """Filter events where parent belongs to given state using Python filtering.
-        
+
         Cannot use SQL JOIN because lineage_events.parent_cdk (text like AR_balipa_1951)
         has no relationship to districts.lgd_code (int). We filter in Python instead.
         """
         all_events = await self.get_all_events()
-        
+
         # Filter by state using the cdk_to_state mapping
         events = []
         for e in all_events:
             parent_state = cdk_to_state.get(e.parent_cdk)
             if parent_state == state:
                 events.append(e)
-        
+
         return events
-    
+
     def group_by_parent_year(
-        self, 
+        self,
         events: List[LineageEvent]
     ) -> Dict[str, Dict]:
         """
@@ -63,7 +64,7 @@ class LineageRepository(BaseRepository):
         Returns dict with grouped event info.
         """
         groups: Dict[str, Dict] = {}
-        
+
         for e in events:
             key = f"{e.parent_cdk}|{e.event_year}"
             if key not in groups:
@@ -74,5 +75,5 @@ class LineageRepository(BaseRepository):
                     "confidence": e.confidence,
                 }
             groups[key]["children"].update(e.children_cdks)
-        
+
         return groups

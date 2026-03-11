@@ -28,34 +28,34 @@ class HarmonizedPoint:
 class BoundaryHarmonizer:
     """
     Reconstructs boundary-adjusted time series for longitudinal analysis.
-    
+
     Supports two primary use cases:
     1. Before/After: Combine children post-split to compare with parent pre-split
     2. Entity Comparison: Track individual entities across time
     """
-    
+
     def __init__(self, tolerance: float = None):
         self.tolerance = tolerance or settings.coverage_ratio_tolerance
-    
+
     def validate_coverage_ratios(
-        self, 
+        self,
         coverage_ratios: Dict[str, float]
     ) -> bool:
         """
         Validate that coverage ratios sum to ~1.0 (within tolerance).
-        
+
         Args:
             coverage_ratios: Dict mapping child CDK to area proportion
-            
+
         Returns:
             True if valid, False otherwise
         """
         if not coverage_ratios:
             return False
-        
+
         total = sum(coverage_ratios.values())
         return abs(total - 1.0) <= self.tolerance
-    
+
     def reconstruct_parent_from_children(
         self,
         children_data: Dict[int, Dict[str, Dict[str, float]]],
@@ -66,49 +66,49 @@ class BoundaryHarmonizer:
     ) -> List[HarmonizedPoint]:
         """
         Reconstruct parent district values from children's data.
-        
+
         For yield: weighted average by area
         For area/production: simple sum
-        
+
         Args:
             children_data: Dict[year][cdk] -> {area, prod, yld}
             child_cdks: List of child district CDKs
             metric: Which metric to reconstruct
             coverage_ratios: Optional area proportions (if known)
             method: Harmonization method
-            
+
         Returns:
             List of HarmonizedPoint for post-split years
         """
         results = []
-        
+
         for year in sorted(children_data.keys()):
             year_data = children_data[year]
-            
+
             # Collect values from all children that have data
             child_values = []
             child_areas = []
             active_cdks = []
-            
+
             for cdk in child_cdks:
                 if cdk in year_data:
                     data = year_data[cdk]
                     area = data.get("area", 0)
-                    
+
                     if area > 0:
                         child_areas.append(area)
                         active_cdks.append(cdk)
-                        
+
                         if metric == "area":
                             child_values.append(area)
                         elif metric == "production":
                             child_values.append(data.get("prod", 0))
                         elif metric == "yield":
                             child_values.append(data.get("yld", 0))
-            
+
             if not child_values:
                 continue
-            
+
             # Calculate reconstructed value based on metric type
             if metric in ("area", "production"):
                 # Simple sum for extensive properties
@@ -117,7 +117,11 @@ class BoundaryHarmonizer:
             elif metric == "yield":
                 # Area-weighted average for intensive properties
                 if method == "area_weighted" and sum(child_areas) > 0:
-                    weighted_sum = sum(v * a for v, a in zip(child_values, child_areas))
+                    weighted_sum = sum(
+                        v * a for v,
+                        a in zip(
+                            child_values,
+                            child_areas))
                     value = weighted_sum / sum(child_areas)
                     used_method = "area_weighted"
                 else:
@@ -126,10 +130,10 @@ class BoundaryHarmonizer:
                     used_method = "equal_split"
             else:
                 continue
-            
+
             # Calculate coverage (how many children contributed)
             coverage = len(active_cdks) / len(child_cdks) if child_cdks else 0
-            
+
             results.append(HarmonizedPoint(
                 year=year,
                 value=value,
@@ -137,9 +141,9 @@ class BoundaryHarmonizer:
                 source_cdks=active_cdks,
                 coverage=coverage,
             ))
-        
+
         return results
-    
+
     def get_parent_series(
         self,
         data_map: Dict[int, Dict[str, Dict[str, float]]],
@@ -148,25 +152,25 @@ class BoundaryHarmonizer:
     ) -> List[HarmonizedPoint]:
         """
         Extract parent series for pre-split years.
-        
+
         Args:
             data_map: Dict[year][cdk] -> {area, prod, yld}
             parent_cdk: Parent district CDK
             metric: Which metric to extract
-            
+
         Returns:
             List of HarmonizedPoint for pre-split years
         """
         results = []
-        
+
         for year in sorted(data_map.keys()):
             year_data = data_map[year]
-            
+
             if parent_cdk not in year_data:
                 continue
-                
+
             data = year_data[parent_cdk]
-            
+
             if metric == "area":
                 value = data.get("area", 0)
             elif metric == "production":
@@ -175,10 +179,10 @@ class BoundaryHarmonizer:
                 value = data.get("yld", 0)
             else:
                 continue
-            
+
             if value is None or value == 0:
                 continue
-            
+
             results.append(HarmonizedPoint(
                 year=year,
                 value=value,
@@ -186,9 +190,9 @@ class BoundaryHarmonizer:
                 source_cdks=[parent_cdk],
                 coverage=1.0,
             ))
-        
+
         return results
-    
+
     def merge_series(
         self,
         pre_split: List[HarmonizedPoint],
@@ -197,28 +201,28 @@ class BoundaryHarmonizer:
     ) -> List[HarmonizedPoint]:
         """
         Merge pre-split and post-split series into continuous timeline.
-        
+
         Args:
             pre_split: Parent data points (year < split_year)
             post_split: Reconstructed child data (year >= split_year)
             split_year: Year of administrative change
-            
+
         Returns:
             Merged timeline with clear method annotations
         """
         result = []
-        
+
         # Add pre-split data
         for point in pre_split:
             if point.year < split_year:
                 result.append(point)
-        
+
         # Add post-split data
         for point in post_split:
             if point.year >= split_year:
                 result.append(point)
-        
+
         # Sort by year
         result.sort(key=lambda p: p.year)
-        
+
         return result

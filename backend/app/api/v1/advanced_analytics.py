@@ -31,7 +31,7 @@ async def get_crop_diversification(
 ):
     """
     Get Crop Diversification Index for a district.
-    
+
     Returns:
     - Herfindahl-Hirschman Index (0-1, lower = more diverse)
     - Simpson's Diversity Index (0-1, higher = more diverse)
@@ -42,10 +42,10 @@ async def get_crop_diversification(
     year = validate_year(year)
     service = AdvancedAnalyticsService(db)
     result = await service.get_crop_diversification(cdk, year)
-    
+
     if not result:
         raise NotFoundError("Diversification data", f"{cdk} in {year}")
-    
+
     return {
         "cdk": result.cdk,
         "year": result.year,
@@ -58,8 +58,7 @@ async def get_crop_diversification(
         "dominant_crop": result.dominant_crop,
         "dominant_share": result.dominant_share / 100,
         "dominant_share_percent": result.dominant_share,
-        "breakdown": result.breakdown
-    }
+        "breakdown": result.breakdown}
 
 
 @router.get("/crop-shift")
@@ -69,7 +68,7 @@ async def get_crop_shift_timeline(
 ):
     """
     Get full timeline of crop mix shifts and diversity for a district.
-    
+
     Returns array of yearly data with:
     - total_area
     - shannon_index
@@ -80,10 +79,10 @@ async def get_crop_shift_timeline(
     cdk = validate_cdk(cdk)
     service = AdvancedAnalyticsService(db)
     result = await service.get_crop_shift(cdk)
-    
+
     if not result:
         raise NotFoundError("Crop shift data", cdk)
-        
+
     return {
         "cdk": cdk,
         "timeline": result
@@ -106,10 +105,10 @@ async def get_yield_trend(
     start_year, end_year = validate_year_range(start_year, end_year)
     service = AdvancedAnalyticsService(db)
     result = await service.get_yield_trend(cdk, crop, start_year, end_year)
-    
+
     if not result:
         raise NotFoundError("Yield trend data", f"{crop} in {cdk}")
-    
+
     return {
         "cdk": cdk,
         "crop": result.crop,
@@ -135,7 +134,7 @@ async def get_split_impact(
 ):
     """
     Compare agricultural performance before/after district split.
-    
+
     Calculates:
     - Average yield before split (parent district)
     - Average yield after split (children districts)
@@ -143,11 +142,11 @@ async def get_split_impact(
     """
     service = AdvancedAnalyticsService(db)
     children = [c.strip() for c in child_cdks.split(",")]
-    
+
     result = await service.get_split_impact(
         parent_cdk, children, split_year, crop, years_before, years_after
     )
-    
+
     return result
 
 
@@ -160,7 +159,7 @@ async def get_crop_correlations(
 ):
     """
     Get correlation matrix between crop yields across districts.
-    
+
     Helps identify:
     - Crop substitution patterns (negative correlation)
     - Complementary crops (positive correlation)
@@ -168,13 +167,13 @@ async def get_crop_correlations(
     state = validate_state_name(state)
     year = validate_year(year)
     service = AdvancedAnalyticsService(db)
-    
+
     crop_list = None
     if crops:
         crop_list = [c.strip() for c in crops.split(",")]
-    
+
     result = await service.get_crop_correlations(state, year, crop_list)
-    
+
     return result
 
 
@@ -194,7 +193,7 @@ async def get_district_rankings(
     year = validate_year(year)
     service = AdvancedAnalyticsService(db)
     rankings = await service.get_district_rankings(state, crop, year, metric)
-    
+
     return rankings
 
 
@@ -214,12 +213,13 @@ async def get_yoy_growth(
     start_year, end_year = validate_year_range(start_year, end_year)
     service = AdvancedAnalyticsService(db)
     growth_data = await service.get_yoy_growth(cdk, crop, start_year, end_year)
-    
+
     # Calculate summary stats
-    yoy_values = [d['yoy_growth'] for d in growth_data if d['yoy_growth'] is not None]
+    yoy_values = [d['yoy_growth']
+                  for d in growth_data if d['yoy_growth'] is not None]
     avg_growth = sum(yoy_values) / len(yoy_values) if yoy_values else 0
     positive_years = sum(1 for y in yoy_values if y > 0)
-    
+
     return {
         "cdk": cdk,
         "crop": crop,
@@ -249,7 +249,7 @@ async def get_seasonal_comparison(
     year = validate_year(year)
     service = AdvancedAnalyticsService(db)
     result = await service.get_seasonal_comparison(cdk, crop, year)
-    
+
     return result
 
 
@@ -263,12 +263,12 @@ async def get_analytics_summary(
     Get comprehensive analytics summary for a district.
     """
     service = AdvancedAnalyticsService(db)
-    
+
     # Gather multiple analytics
     diversification = await service.get_crop_diversification(cdk, year)
     rice_trend = await service.get_yield_trend(cdk, "rice", year - 10, year)
     wheat_trend = await service.get_yield_trend(cdk, "wheat", year - 10, year)
-    
+
     return {
         "cdk": cdk,
         "year": year,
@@ -303,10 +303,10 @@ async def get_yield_forecast(
     """
     service = AdvancedAnalyticsService(db)
     result = await service.get_yield_forecast(cdk, crop, forecast_years)
-    
+
     if "error" in result:
         raise ValidationError(detail=result["error"])
-        
+
     return result
 
 
@@ -323,16 +323,17 @@ async def get_resilience_index(
     crop = validate_crop(crop)
     service = AdvancedAnalyticsService(db)
     result = await service.get_resilience_index(state, crop)
-    
+
     if not result:
         raise NotFoundError("Resilience data", state)
-        
+
     return {
         "state": state,
         "crop": crop,
         "total_districts": len(result),
         "rankings": result
     }
+
 
 @router.get("/yield-gap")
 async def get_yield_gap_analysis(
@@ -354,6 +355,7 @@ async def get_yield_gap_analysis(
     if "error" in result:
         raise NotFoundError("Yield gap data", result.get("error", "unknown"))
     return result
+
 
 @router.get("/split-specialization")
 async def get_split_specialization(

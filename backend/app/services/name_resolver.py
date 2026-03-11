@@ -199,13 +199,17 @@ def resolve_lgd(
     for alias_key, alt_states in _STATE_ALIASES.items():
         if alias_key in sn:
             for alt in alt_states:
-                lgd = lgd_lookup.get((dn, alt)) or lgd_lookup.get((corrected, alt))
+                lgd = lgd_lookup.get(
+                    (dn, alt)) or lgd_lookup.get(
+                    (corrected, alt))
                 if lgd:
                     return lgd
 
     # 4. Telangana
     if dn in _TELANGANA_DISTRICTS and "andhra" in sn:
-        lgd = lgd_lookup.get((dn, "telangana")) or lgd_lookup.get((corrected, "telangana"))
+        lgd = lgd_lookup.get(
+            (dn, "telangana")) or lgd_lookup.get(
+            (corrected, "telangana"))
         if lgd:
             return lgd
 

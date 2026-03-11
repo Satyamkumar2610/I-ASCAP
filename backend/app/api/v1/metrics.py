@@ -25,7 +25,7 @@ async def get_metrics(
 ):
     """
     Get metric values for all districts for a given year/crop/metric.
-    
+
     Used for choropleth map visualization.
     """
     repo = MetricRepository(db)
@@ -43,35 +43,38 @@ async def get_time_series(
 ):
     """
     Get time series for a single district.
-    
+
     Returns {year, area, production, yield} for the specified crop.
     """
     district_repo = DistrictRepository(db)
     metric_repo = MetricRepository(db)
-    
+
     target_cdk = cdk
-    
+
     # Resolve CDK from name if needed
     if not target_cdk and district:
         # Tring resolving name first
         from app.core.name_matching import resolve_district_name
         resolved_name = resolve_district_name(district)
-        
+
         # 1. Try search with resolved name
         results = await district_repo.search(resolved_name, state)
         if results:
             target_cdk = results[0].cdk
-        
-        # 2. If valid state provided, try to find by exact match in that state (fallback)
+
+        # 2. If valid state provided, try to find by exact match in that state
+        # (fallback)
         if not target_cdk and state:
-             # Try simple normalization locally if repository search failed (repo uses ILIKE, so fuzzy logic already there)
-             logging.getLogger(__name__).debug("District '%s' not found in state '%s' via repo search", district, state)
-    
+            # Try simple normalization locally if repository search failed
+            # (repo uses ILIKE, so fuzzy logic already there)
+            logging.getLogger(__name__).debug(
+                "District '%s' not found in state '%s' via repo search", district, state)
+
     if not target_cdk:
         raise NotFoundError(detail=f"District not found: {district}")
-    
+
     timeline = await metric_repo.get_time_series_pivoted(target_cdk, crop.lower())
-    
+
     return timeline
 
 
@@ -83,20 +86,20 @@ async def get_state_time_series(
 ):
     """
     Get aggregated time series for a whole state.
-    
+
     Uses pre-aggregated Census data if available (inserted as S_STATE_NAME).
     """
     metric_repo = MetricRepository(db)
-    
+
     # Construct State CDK
     # Must match ingestion logic: UPPER, space->_, &->AND
     normalized_state = state.upper().replace(' ', '_').replace('&', 'AND')
     state_cdk = f"S_{normalized_state}"
-    
+
     timeline = await metric_repo.get_time_series_pivoted(state_cdk, crop.lower())
-    
+
     if not timeline:
         # Fallback to dynamic aggregation if S_STATE_NAME data is not in DB
         timeline = await metric_repo.get_state_time_series_aggregated(state, crop.lower())
-        
+
     return timeline

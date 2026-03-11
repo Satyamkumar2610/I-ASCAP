@@ -19,7 +19,7 @@ request_id_var: ContextVar[str] = ContextVar('request_id', default='')
 
 class JSONFormatter(logging.Formatter):
     """Custom JSON formatter for structured logging."""
-    
+
     def format(self, record: logging.LogRecord) -> str:
         log_entry = {
             "timestamp": datetime.utcnow().isoformat() + "Z",
@@ -27,12 +27,12 @@ class JSONFormatter(logging.Formatter):
             "logger": record.name,
             "message": record.getMessage(),
         }
-        
+
         # Add request ID if available
         request_id = request_id_var.get()
         if request_id:
             log_entry["request_id"] = request_id
-        
+
         # Add extra fields
         if hasattr(record, 'duration_ms'):
             log_entry["duration_ms"] = record.duration_ms
@@ -46,30 +46,30 @@ class JSONFormatter(logging.Formatter):
             log_entry["query_time_ms"] = record.query_time_ms
         if hasattr(record, 'rows_affected'):
             log_entry["rows_affected"] = record.rows_affected
-        
+
         # Add exception info if present
         if record.exc_info:
             log_entry["exception"] = self.formatException(record.exc_info)
-        
+
         return json.dumps(log_entry)
 
 
 def setup_logging(log_level: str = "INFO") -> None:
     """Configure application-wide logging."""
-    
+
     # Get the root logger
     root_logger = logging.getLogger()
     root_logger.setLevel(getattr(logging, log_level.upper(), logging.INFO))
-    
+
     # Remove existing handlers
     root_logger.handlers.clear()
-    
+
     # Create console handler with JSON formatting
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(logging.DEBUG)
     console_handler.setFormatter(JSONFormatter())
     root_logger.addHandler(console_handler)
-    
+
     # Create specific loggers
     loggers = [
         "app",
@@ -79,7 +79,7 @@ def setup_logging(log_level: str = "INFO") -> None:
         "uvicorn",
         "uvicorn.access",
     ]
-    
+
     for logger_name in loggers:
         logger = logging.getLogger(logger_name)
         logger.setLevel(getattr(logging, log_level.upper(), logging.INFO))
@@ -108,17 +108,18 @@ def get_request_id() -> str:
 def log_database_query(query: str, duration_ms: float, rows: int = 0) -> None:
     """Log a database query with timing."""
     logger = get_logger("database")
-    
+
     # Truncate long queries
     query_preview = query[:200] + "..." if len(query) > 200 else query
-    
+
     extra = {
         "query_time_ms": round(duration_ms, 2),
         "rows_affected": rows
     }
-    
+
     if duration_ms > 1000:  # Slow query warning
-        logger.warning(f"Slow query ({duration_ms:.0f}ms): {query_preview}", extra=extra)
+        logger.warning(f"Slow query ({duration_ms:.0f}ms): {
+                       query_preview}", extra=extra)
     else:
         logger.debug(f"Query executed: {query_preview}", extra=extra)
 
@@ -132,21 +133,22 @@ def log_api_request(
 ) -> None:
     """Log an API request with timing."""
     logger = get_logger("api")
-    
+
     extra = {
         "method": method,
         "path": path,
         "status_code": status_code,
         "duration_ms": round(duration_ms, 2)
     }
-    
+
     level = logging.INFO
     if status_code >= 500:
         level = logging.ERROR
     elif status_code >= 400:
         level = logging.WARNING
-    
-    logger.log(level, f"{method} {path} -> {status_code} ({duration_ms:.0f}ms)", extra=extra)
+
+    logger.log(level, f"{method} {
+               path} -> {status_code} ({duration_ms:.0f}ms)", extra=extra)
 
 
 def timed_operation(operation_name: str):
@@ -163,9 +165,12 @@ def timed_operation(operation_name: str):
                 return result
             except Exception as e:
                 duration = (time.time() - start) * 1000
-                logger.error(f"{operation_name} failed after {duration:.0f}ms: {str(e)}")
+                logger.error(
+                    f"{operation_name} failed after {
+                        duration:.0f}ms: {
+                        str(e)}")
                 raise
-        
+
         @wraps(func)
         def sync_wrapper(*args, **kwargs):
             logger = get_logger("operations")
@@ -177,9 +182,12 @@ def timed_operation(operation_name: str):
                 return result
             except Exception as e:
                 duration = (time.time() - start) * 1000
-                logger.error(f"{operation_name} failed after {duration:.0f}ms: {str(e)}")
+                logger.error(
+                    f"{operation_name} failed after {
+                        duration:.0f}ms: {
+                        str(e)}")
                 raise
-        
+
         import asyncio
         if asyncio.iscoroutinefunction(func):
             return async_wrapper

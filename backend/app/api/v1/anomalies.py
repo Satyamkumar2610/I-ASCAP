@@ -8,7 +8,7 @@ import asyncpg
 
 from app.database import get_db
 from app.analytics.anomaly_detection import (
-    AnomalyDetector, 
+    AnomalyDetector,
     scan_state_anomalies
 )
 from app.exceptions import NotFoundError
@@ -23,24 +23,24 @@ async def scan_district_anomalies(
 ):
     """
     Run full anomaly scan for a specific district.
-    
+
     Detects:
     - Yield outliers (> 3 std from state mean)
     - Year-over-year spikes (> 50% change)
     - Missing data sequences (> 3 consecutive years)
     - Consistency errors (production ≠ area × yield)
     - Invalid values (negative/zero where unexpected)
-    
+
     Also generates a risk alert with severity assessment.
     """
     # Verify district exists
     exists = await db.fetchval("SELECT 1 FROM districts WHERE lgd_code::text = $1", cdk)
     if not exists:
         raise NotFoundError(detail=f"District not found: {cdk}")
-    
+
     detector = AnomalyDetector(db)
     report = await detector.scan_district(cdk)
-    
+
     return report.to_dict()
 
 
@@ -52,15 +52,15 @@ async def scan_state(
 ):
     """
     Scan all districts in a state for anomalies.
-    
+
     Returns aggregated anomaly counts and identifies high-risk districts.
     Limited to 20 districts by default for performance.
     """
     result = await scan_state_anomalies(db, state_name, limit)
-    
+
     if "error" in result:
         raise NotFoundError(detail=result["error"])
-    
+
     return result
 
 
@@ -71,23 +71,23 @@ async def get_high_risk_districts(
 ):
     """
     Get districts with highest risk scores across all states.
-    
+
     Scans a sample of districts and returns those with highest risk.
     """
     # Sample random districts to avoid Vercel 10s timeout from N+1 queries
     # Scan twice the requested limit to find enough anomalies
     scan_limit = min(limit * 3, 30)
     districts = await db.fetch("""
-        SELECT lgd_code::text as cdk, state_name, district_name 
-        FROM districts 
+        SELECT lgd_code::text as cdk, state_name, district_name
+        FROM districts
         WHERE end_year IS NULL
-        ORDER BY RANDOM() 
+        ORDER BY RANDOM()
         LIMIT $1
     """, scan_limit)
-    
+
     all_high_risk = []
     detector = AnomalyDetector(db)
-    
+
     for dist in districts:
         report = await detector.scan_district(dist['cdk'])
         if report.risk_alert and report.risk_alert.risk_score >= 30:
@@ -99,10 +99,10 @@ async def get_high_risk_districts(
                 "risk_level": report.risk_alert.risk_level.value,
                 "factors": report.risk_alert.factors
             })
-    
+
     # Sort by risk score and return top N
     all_high_risk.sort(key=lambda x: -x['risk_score'])
-    
+
     return {
         "high_risk_districts": all_high_risk[:limit],
         "total_scanned": scan_limit

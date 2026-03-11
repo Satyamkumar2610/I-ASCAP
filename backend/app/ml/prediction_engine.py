@@ -29,7 +29,8 @@ class FactorImportance:
     key: str                # Machine key
     importance: float       # Standardized coefficient magnitude (0-1 scale)
     coefficient: float      # Raw model coefficient
-    contribution: float     # Contribution to prediction (coeff * feature_value)
+    # Contribution to prediction (coeff * feature_value)
+    contribution: float
     direction: str          # "positive" or "negative"
     description: str        # Plain-English explanation
 
@@ -236,7 +237,8 @@ class PredictionEngine:
         ss_res = np.sum(residuals ** 2)
         ss_tot = np.sum((yields - y_mean) ** 2)
         r_squared = 1 - (ss_res / ss_tot) if ss_tot > 0 else 0.0
-        adj_r_sq = 1 - (1 - r_squared) * (n - 1) / (n - p - 1) if n > p + 1 else r_squared
+        adj_r_sq = 1 - (1 - r_squared) * (n - 1) / \
+            (n - p - 1) if n > p + 1 else r_squared
         rmse = math.sqrt(ss_res / n) if n > 0 else 0.0
 
         # Standard error for prediction interval
@@ -262,14 +264,15 @@ class PredictionEngine:
 
         # Confidence interval (prediction interval)
         t_value = 1.96  # ~95%
-        ci_half = t_value * se * math.sqrt(1 + 1/n)
+        ci_half = t_value * se * math.sqrt(1 + 1 / n)
         conf_lower = max(0, predicted - ci_half)
         conf_upper = predicted + ci_half
 
         # Factor importances & contributions
         abs_beta_z = np.abs(beta_z)
         beta_z_sum = abs_beta_z.sum()
-        importances = abs_beta_z / beta_z_sum if beta_z_sum > 0 else np.zeros(p)
+        importances = abs_beta_z / \
+            beta_z_sum if beta_z_sum > 0 else np.zeros(p)
 
         factors = []
         for i in range(p):
@@ -290,11 +293,12 @@ class PredictionEngine:
         rain_min, rain_max = float(rainfall.min()), float(rainfall.max())
         rain_range = np.linspace(rain_min, rain_max, 50)
 
-        # For the regression line, predict using rainfall only (holding other features at mean)
+        # For the regression line, predict using rainfall only (holding other
+        # features at mean)
         rain_slope = float(beta_raw[0])  # Rainfall is always feature 0
         rain_line_y = [
-            max(0, float(intercept + rain_slope * r +
-                         sum(beta_raw[j] * X_mean[j] for j in range(1, p))))
+            max(0, float(intercept + rain_slope * r
+                         + sum(beta_raw[j] * X_mean[j] for j in range(1, p))))
             for r in rain_range
         ]
         regression_line = [
@@ -331,13 +335,17 @@ class PredictionEngine:
         # Data quality notes
         notes = []
         if n < 15:
-            notes.append(f"Small sample ({n} districts) — predictions may be less reliable.")
+            notes.append(
+                f"Small sample ({n} districts) — predictions may be less reliable.")
         if r_squared < 0.3:
-            notes.append("Low R² — yield variance is poorly explained by available factors. Other unmeasured variables (soil, irrigation) may dominate.")
+            notes.append(
+                "Low R² — yield variance is poorly explained by available factors. Other unmeasured variables (soil, irrigation) may dominate.")
         if not has_trend:
-            notes.append("Historical yield trend data was unavailable — temporal signal not included.")
+            notes.append(
+                "Historical yield trend data was unavailable — temporal signal not included.")
         if not has_monsoon:
-            notes.append("Monthly rainfall breakdown unavailable — monsoon seasonality not modeled.")
+            notes.append(
+                "Monthly rainfall breakdown unavailable — monsoon seasonality not modeled.")
 
         mean_rain = float(rainfall.mean())
 
@@ -405,7 +413,7 @@ class PredictionEngine:
                 break
 
         predicted = max(0, slope * target_rain + intercept)
-        ci_half = 1.96 * se * math.sqrt(1 + 1/n)
+        ci_half = 1.96 * se * math.sqrt(1 + 1 / n)
 
         # Single factor
         contribution = slope * target_rain
@@ -449,7 +457,8 @@ class PredictionEngine:
             "Additional factors (trend, volatility, area) require ≥ 8 districts.",
         ]
         if r_squared < 0.3:
-            notes.append("Low R² — rainfall alone poorly explains yield variation.")
+            notes.append(
+                "Low R² — rainfall alone poorly explains yield variation.")
 
         return PredictionResult(
             predicted_yield=round(predicted, 1),

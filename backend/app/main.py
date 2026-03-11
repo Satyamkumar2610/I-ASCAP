@@ -32,30 +32,36 @@ from app.api.v1.router import api_router
 settings = get_settings()
 
 # Initialize logging
-setup_logging(log_level=settings.log_level if hasattr(settings, 'log_level') else "INFO")
+setup_logging(
+    log_level=settings.log_level if hasattr(
+        settings,
+        'log_level') else "INFO")
 logger = get_logger("main")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifecycle: startup and shutdown."""
-    logger.info("Starting I-ASCAP API", extra={"version": settings.app_version})
-    
+    logger.info(
+        "Starting I-ASCAP API",
+        extra={
+            "version": settings.app_version})
+
     # Startup
     try:
         await init_db_pool()
         logger.info("Database connection pool initialized")
-        
+
     except Exception as e:
         logger.error(f"Failed to initialize resources: {str(e)}")
         # We might want to raise in production, but for now log and allow partial startup
-        # raise 
-    
+        # raise
+
     yield
-    
+
     # Shutdown
     logger.info("Shutting down I-ASCAP API")
-        
+
     await close_db_pool()
     logger.info("Database connection pool closed")
 
@@ -65,21 +71,21 @@ app = FastAPI(
     version=settings.app_version,
     description="""
     **I-ASCAP: Indian Agri-Spatial Comparative Analytics Platform**
-    
-    A research-grade infrastructure for longitudinal analysis across 
+
+    A research-grade infrastructure for longitudinal analysis across
     Indian district boundary evolution (1951-2024).
-    
+
     ## Key Features
     - **Lineage-First Design**: Districts as temporal graph nodes
     - **Uncertainty Propagation**: All analytics include confidence intervals
     - **Reproducibility Metadata**: Every response includes provenance
     - **Comprehensive Statistics**: Growth rates, trends, correlations
-    
+
     ## Data Coverage
     - 928+ districts across 38 states/UTs
     - 1+ million agricultural metrics records
     - 399 recorded boundary changes (splits/merges)
-    
+
     ## API Guidelines
     - All dates use ISO 8601 format
     - Pagination via `limit` and `offset` parameters
@@ -118,10 +124,10 @@ async def log_requests(request: Request, call_next):
     # Generate and set request ID
     request_id = generate_request_id()
     set_request_id(request_id)
-    
+
     # Record start time
     start_time = time.time()
-    
+
     # Process request
     try:
         response = await call_next(request)
@@ -136,10 +142,10 @@ async def log_requests(request: Request, call_next):
             client_ip=request.client.host if request.client else None
         )
         raise
-    
+
     # Calculate duration
     duration_ms = (time.time() - start_time) * 1000
-    
+
     # Log successful requests
     log_api_request(
         method=request.method,
@@ -148,11 +154,11 @@ async def log_requests(request: Request, call_next):
         duration_ms=duration_ms,
         client_ip=request.client.host if request.client else None
     )
-    
+
     # Add request ID to response headers
     response.headers["X-Request-ID"] = request_id
     response.headers["X-Response-Time"] = f"{duration_ms:.0f}ms"
-    
+
     return response
 
 
@@ -172,7 +178,7 @@ def generate_query_hash(request: Request) -> str:
 async def health_check():
     """
     Basic health check endpoint.
-    
+
     Returns 200 if the application is running.
     Used by Render for health monitoring.
     """
@@ -187,11 +193,11 @@ async def health_check():
 async def readiness_check():
     """
     Readiness check endpoint.
-    
+
     Returns 200 if the application can serve traffic (database connected).
     """
     from app.database import get_pool
-    
+
     pool = await get_pool()
     if pool is None:
         return JSONResponse(
@@ -202,7 +208,7 @@ async def readiness_check():
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
-    
+
     # Test database connection
     try:
         async with pool.acquire() as conn:
@@ -216,7 +222,7 @@ async def readiness_check():
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
-    
+
     return {
         "status": "ready",
         "database": "connected",
@@ -243,7 +249,7 @@ async def root():
 async def get_system_stats(request: Request):
     """
     Get system statistics including cache and rate limiter metrics.
-    
+
     Protected: requires X-Admin-Key header matching the configured API key.
     """
     # Guard: only allow if admin key is configured and matches
@@ -253,15 +259,15 @@ async def get_system_stats(request: Request):
             status_code=403,
             content={"error": "Forbidden: admin access required"}
         )
-    
+
     from app.cache import get_cache
     from app.rate_limit import get_rate_limiter
     from app.database import get_pool
-    
+
     cache = get_cache()
     rate_limiter = get_rate_limiter()
     pool = await get_pool()
-    
+
     return {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "cache": await cache.stats(),
@@ -291,7 +297,7 @@ async def api_error_handler(request: Request, exc: APIError):
         f"API Error: {exc.error_code} - {exc.detail}",
         extra={"status_code": exc.status_code, "path": request.url.path}
     )
-    
+
     return JSONResponse(
         status_code=exc.status_code,
         content=create_error_response(exc, request_id=get_request_id()),
@@ -305,7 +311,7 @@ async def validation_error_handler(request: Request, exc: ValidationError):
         f"Validation Error: {exc.detail}",
         extra={"status_code": exc.status_code, "path": request.url.path}
     )
-    
+
     return JSONResponse(
         status_code=exc.status_code,
         content=create_error_response(exc, request_id=get_request_id()),
@@ -317,9 +323,9 @@ async def fastapi_validation_error_handler(request: Request, exc: RequestValidat
     """Handle FastAPI/Pydantic validation errors."""
     errors = exc.errors()
     detail = "; ".join([f"{e['loc'][-1]}: {e['msg']}" for e in errors])
-    
+
     api_error = ValidationError(detail=detail)
-    
+
     return JSONResponse(
         status_code=400,
         content=create_error_response(api_error, request_id=get_request_id()),
@@ -334,12 +340,11 @@ async def global_exception_handler(request: Request, exc: Exception):
         exc_info=True,
         extra={"path": request.url.path}
     )
-    
+
     # Create generic error response
     error = DatabaseError(
-        detail="An unexpected error occurred" if not settings.debug else str(exc)
-    )
-    
+        detail="An unexpected error occurred" if not settings.debug else str(exc))
+
     return JSONResponse(
         status_code=500,
         content={

@@ -22,17 +22,17 @@ async def list_districts(
 ):
     """
     List all districts with optional filtering.
-    
+
     - **state**: Filter to a specific state
     - **search**: Search districts by name (case-insensitive)
     """
     repo = DistrictRepository(db)
-    
+
     if search:
         districts = await repo.search(search, state)
     else:
         districts = await repo.get_all(state)
-    
+
     return DistrictList(total=len(districts), items=districts)
 
 
@@ -52,8 +52,8 @@ async def get_district(
     """Get a single district by CDK."""
     repo = DistrictRepository(db)
     district = await repo.get_by_cdk(cdk)
-    
+
     if not district:
         raise NotFoundError("District", cdk)
-    
+
     return district
