@@ -217,15 +217,9 @@ def get_cache():
 def _generate_cache_key(prefix: str, *args, **kwargs) -> str:
     """Generate a cache key from function arguments."""
     try:
-        key_data = f"{prefix}:{
-            json.dumps(
-                args,
-                sort_keys=True,
-                default=str)}:{
-            json.dumps(
-                kwargs,
-                sort_keys=True,
-                default=str)}"
+        args_json = json.dumps(args, sort_keys=True, default=str)
+        kwargs_json = json.dumps(kwargs, sort_keys=True, default=str)
+        key_data = f"{prefix}:{args_json}:{kwargs_json}"
     except Exception:
         key_data = f"{prefix}:{str(args)}:{str(kwargs)}"
     return hashlib.md5(key_data.encode()).hexdigest()

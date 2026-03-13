@@ -207,10 +207,9 @@ class AnomalyDetector:
                                 mean_val + 2 * std_val,
                                 2)),
                         severity=RiskLevel.HIGH if z_score > 4 else RiskLevel.MEDIUM,
-                        description=f"{
-                            crop.upper()} yield {
-                            row['value']:.1f} is {
-                                z_score:.1f} std deviations from state mean"))
+                        description=f"{crop.upper()} yield {row['value']:.1f} is {z_score:.1f} std deviations from state mean"
+                    )
+                )
 
         return anomalies
 
@@ -269,10 +268,9 @@ class AnomalyDetector:
                                         * 1.5,
                                         2)),
                                 severity=RiskLevel.MEDIUM,
-                                description=f"{
-                                    crop.upper()} yield {direction} {
-                                    pct_change
-                                    * 100:.0f}% from {prev_year} to {curr_year}"))
+                                description=f"{crop.upper()} yield {direction} {pct_change * 100:.0f}% from {prev_year} to {curr_year}"
+                            )
+                        )
 
         return anomalies
 
@@ -313,8 +311,9 @@ class AnomalyDetector:
                             value=None,
                             expected_range=None,
                             severity=RiskLevel.HIGH if current_gap_length >= 5 else RiskLevel.MEDIUM,
-                            description=f"Missing data for {current_gap_length} consecutive years ({current_gap_start}-{
-                                current_gap_start + current_gap_length - 1})"))
+                            description=f"Missing data for {current_gap_length} consecutive years ({current_gap_start}-{current_gap_start + current_gap_length - 1})"
+                        )
+                    )
                 current_gap_start = None
                 current_gap_length = 0
 
@@ -329,8 +328,9 @@ class AnomalyDetector:
                     value=None,
                     expected_range=None,
                     severity=RiskLevel.HIGH if current_gap_length >= 5 else RiskLevel.MEDIUM,
-                    description=f"Missing data for {current_gap_length} consecutive years ({current_gap_start}-{
-                        current_gap_start + current_gap_length - 1})"))
+                    description=f"Missing data for {current_gap_length} consecutive years ({current_gap_start}-{current_gap_start + current_gap_length - 1})"
+                )
+            )
 
         return anomalies
 
@@ -393,9 +393,9 @@ class AnomalyDetector:
                                                 expected_prod * 1.2,
                                                 2)),
                                         severity=RiskLevel.MEDIUM,
-                                        description=f"{
-                                            crop.upper()} production {
-                                            prod:.0f} doesn't match area×yield calculation"))
+                                        description=f"{crop.upper()} production {prod:.0f} doesn't match area×yield calculation"
+                                    )
+                                )
 
         return anomalies
 
@@ -418,14 +418,11 @@ class AnomalyDetector:
                     year=row['year'],
                     variable=row['variable_name'],
                     value=row['value'],
-                    expected_range=(
-                        0.0,
-                        float('inf')),
+                    expected_range=(0.0, float('inf')),
                     severity=RiskLevel.CRITICAL,
-                    description=f"Negative value {
-                        row['value']} for {
-                        row['variable_name']} in {
-                        row['year']}"))
+                    description=f"Negative value {row['value']} for {row['variable_name']} in {row['year']}"
+                )
+            )
 
         return anomalies
 
