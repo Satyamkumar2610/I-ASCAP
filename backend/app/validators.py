@@ -86,12 +86,10 @@ def validate_crop(crop: str) -> str:
     crop_lower = crop.lower().strip()
     if crop_lower not in VALID_CROPS:
         raise ValidationError(
-            detail=f"Invalid crop: '{crop}'. Valid options: {
-                ', '.join(
-                    sorted(VALID_CROPS)[
-                        :10])}...",
+            detail=f"Invalid crop: '{crop}'. Valid options: {', '.join(sorted(VALID_CROPS)[:10])}...",
             field="crop",
-            value=crop)
+            value=crop
+        )
 
     return crop_lower
 
@@ -106,8 +104,7 @@ def validate_metric(metric: str) -> str:
 
     metric_lower = metric.lower().strip()
     if metric_lower not in VALID_METRICS:
-        raise ValidationError(detail=f"Invalid metric: '{metric}'. Valid options: {
-            ', '.join(VALID_METRICS)}", field="metric", value=metric)
+        raise ValidationError(detail=f"Invalid metric: '{metric}'. Valid options: {', '.join(VALID_METRICS)}", field="metric", value=metric)
 
     return metric_lower
 
@@ -119,8 +116,7 @@ def validate_mode(mode: str) -> str:
 
     mode_lower = mode.lower().strip()
     if mode_lower not in VALID_MODES:
-        raise ValidationError(detail=f"Invalid mode: '{mode}'. Valid options: {
-            ', '.join(VALID_MODES)}", field="mode", value=mode)
+        raise ValidationError(detail=f"Invalid mode: '{mode}'. Valid options: {', '.join(VALID_MODES)}", field="mode", value=mode)
 
     return mode_lower
 

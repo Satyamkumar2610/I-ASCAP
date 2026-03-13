@@ -540,15 +540,15 @@ class AdvancedAnalyzer:
         ]
 
         return SimulationResult(
-            baseline_yield=round(
-                baseline_yield, 2), slope=round(
-                reg.slope, 4), intercept=round(
-                reg.intercept, 4), r_squared=round(
-                    reg.r_squared, 4), correlation=round(
-                        corr.value, 4), confidence_interval=round(
-                            ci, 2), data_points=points, model_equation=f"Yield = {
-                                reg.slope:.2f} * Rain + {
-                                    reg.intercept:.2f}")
+            baseline_yield=round(baseline_yield, 2),
+            slope=round(reg.slope, 4),
+            intercept=round(reg.intercept, 4),
+            r_squared=round(reg.r_squared, 4),
+            correlation=round(corr.value, 4),
+            confidence_interval=round(ci, 2),
+            data_points=points,
+            model_equation=f"Yield = {reg.slope:.2f} * Rain + {reg.intercept:.2f}"
+        )
 
 
 def get_advanced_analyzer() -> AdvancedAnalyzer:

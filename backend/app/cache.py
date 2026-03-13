@@ -178,8 +178,7 @@ def _create_cache(
         try:
             import redis.asyncio  # noqa: F401
             cache = RedisCache(redis_url)
-            logger.info(f"Using Redis cache: {redis_url.split(
-                '@')[-1] if '@' in redis_url else redis_url}")
+            logger.info(f"Using Redis cache: {redis_url.split('@')[-1] if '@' in redis_url else redis_url}")
             return cache
         except ImportError:
             if backend == "redis":

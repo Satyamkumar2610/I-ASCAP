@@ -101,8 +101,7 @@ class YieldForecaster:
             )
             if result is not None:
                 return result
-            logger.info(f"SARIMA failed for {
-                        cdk}/{crop}, falling back to linear")
+            logger.info(f"SARIMA failed for {cdk}/{crop}, falling back to linear")
 
         # Fallback to linear
         return self._forecast_linear(
