@@ -63,12 +63,8 @@ class DataQualityScorer:
         # 1. Completeness Score
         completeness = await self._check_completeness(cdk)
         if completeness < 0.5:
-            issues.append(
-                f"Low data coverage: only {
-                    completeness
-                    * 100:.0f}% of years have data")
-            recommendations.append(
-                "Consider data interpolation for missing years")
+            issues.append(f"Low data coverage: only {completeness * 100:.0f}% of years have data")
+            recommendations.append("Consider data interpolation for missing years")
 
         # 2. Consistency Score
         consistency = await self._check_consistency(cdk)
