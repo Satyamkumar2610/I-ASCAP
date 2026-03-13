@@ -234,12 +234,10 @@ class SplitImpactInsightsAnalyzer:
         if trend_result.significant:
             if trend_result.slope < -0.5:
                 trend = "converging"
-                interpretation = f"Children are converging (CV decreasing {
-                    abs(trend_result.slope):.1f}/year)"
+                interpretation = f"Children are converging (CV decreasing {abs(trend_result.slope):.1f}/year)"
             elif trend_result.slope > 0.5:
                 trend = "diverging"
-                interpretation = f"Children are diverging (CV increasing {
-                    trend_result.slope:.1f}/year)"
+                interpretation = f"Children are diverging (CV increasing {trend_result.slope:.1f}/year)"
             else:
                 trend = "stable"
                 interpretation = "Children inequality is stable over time"
