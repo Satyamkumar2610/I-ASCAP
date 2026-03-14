@@ -23,25 +23,18 @@ export default function SpatialContagionPage() {
         return Object.keys(summaryData.states).sort();
     }, [summaryData]);
 
-    const { data: districtsData } = useQuery({
-        queryKey: ['districts', selectedState],
-        queryFn: () => api.getSplitEvents(selectedState),
+    const { data: districtsResponse } = useQuery({
+        queryKey: ['districtsByState', selectedState],
+        queryFn: () => api.getDistrictsByState(selectedState),
         enabled: !!selectedState,
     });
 
     const allDistricts = useMemo(() => {
-        if (!districtsData) return [];
-        const distMap = new Map();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        districtsData.forEach((event: any) => {
-            if (!distMap.has(event.parent_cdk)) distMap.set(event.parent_cdk, event.parent_district);
-            event.children_cdks.forEach((cId: string, i: number) => {
-                const cName = event.children_districts[i] || cId;
-                if (!distMap.has(cId)) distMap.set(cId, cName);
-            });
-        });
-        return Array.from(distMap.entries()).map(([cdk, name]) => ({ cdk, name })).sort((a, b) => a.name.localeCompare(b.name));
-    }, [districtsData]);
+        if (!districtsResponse?.items) return [];
+        return districtsResponse.items
+            .map(d => ({ cdk: d.cdk, name: d.name }))
+            .sort((a, b) => a.name.localeCompare(b.name));
+    }, [districtsResponse]);
 
     const { data: contagion, isLoading: loadingContagion, isError } = useQuery({
         queryKey: ['spatialContagion', selectedCdk, selectedCrop, startYear, endYear],
