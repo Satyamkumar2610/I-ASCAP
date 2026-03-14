@@ -42,9 +42,7 @@ async def get_yield_forecast(
     """, cdk, yield_var)
 
     if len(rows) < 5:
-        raise ValidationError(
-            detail=f"Insufficient data: need at least 5 years, found {
-                len(rows)}")
+        raise ValidationError(detail=f"Insufficient data: need at least 5 years, found {len(rows)}")
 
     historical = {row['year']: row['value'] for row in rows}
 

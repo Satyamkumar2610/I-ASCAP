@@ -244,9 +244,7 @@ class MappingService:
 
         # Strategy 3: Normalized name matching
         if district and state:
-            norm_key = f"{
-                self.normalize_name(district)}|{
-                self.normalize_name(state)}"
+            norm_key = f"{self.normalize_name(district)}|{self.normalize_name(state)}"
             normalized_lookup = self._build_normalized_geo_keys()
             if norm_key in normalized_lookup:
                 return normalized_lookup[norm_key]
@@ -260,9 +258,7 @@ class MappingService:
                     return direct_key
 
                 # Try normalized
-                norm_key = f"{
-                    self.normalize_name(district)}|{
-                    self.normalize_name(inferred_state)}"
+                norm_key = f"{self.normalize_name(district)}|{self.normalize_name(inferred_state)}"
                 normalized_lookup = self._build_normalized_geo_keys()
                 if norm_key in normalized_lookup:
                     return normalized_lookup[norm_key]
@@ -274,8 +270,7 @@ class MappingService:
                 return fuzzy_result
 
         # No match found
-        logger.debug(f"No geo_key mapping found for CDK={
-                     cdk}, district={district}, state={state}")
+        logger.debug(f"No geo_key mapping found for CDK={cdk}, district={district}, state={state}")
         return None
 
     def fuzzy_match_geo_key(
@@ -329,8 +324,7 @@ class MappingService:
                 best_match = geo_key
 
         if best_match:
-            logger.debug(f"Fuzzy matched '{
-                         district}' -> '{best_match}' (score={best_score:.2f})")
+            logger.debug(f"Fuzzy matched '{district}' -> '{best_match}' (score={best_score:.2f})")
 
         return best_match
 

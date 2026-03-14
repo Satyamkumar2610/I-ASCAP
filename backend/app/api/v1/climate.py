@@ -174,8 +174,7 @@ async def get_rainfall_yield_correlation(
             })
 
     if len(matched_data) < 5:
-        return {"error": f"Could not match sufficient districts with rainfall data ({
-            len(matched_data)} found)"}
+        return {"error": f"Could not match sufficient districts with rainfall data ({len(matched_data)} found)"}
 
     # Calculate correlations
     yields = [d["yield"] for d in matched_data]

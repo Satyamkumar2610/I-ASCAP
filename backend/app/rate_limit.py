@@ -99,9 +99,7 @@ class RateLimiter:
 
         self._last_cleanup = now
         if stale_keys:
-            logger.debug(
-                f"Cleaned up {
-                    len(stale_keys)} stale rate limit buckets")
+            logger.debug(f"Cleaned up {len(stale_keys)} stale rate limit buckets")
 
     def stats(self) -> Dict:
         """Get rate limiter statistics."""
@@ -164,10 +162,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
                     "success": False,
                     "error": {
                         "code": "RATE_LIMIT_EXCEEDED",
-                        "message": f"Rate limit exceeded. Please retry after {
-                            headers.get(
-                                'Retry-After',
-                                60)} seconds.",
+                        "message": f"Rate limit exceeded. Please retry after {headers.get('Retry-After', 60)} seconds.",
                         "status_code": 429,
                     }},
                 headers=headers,

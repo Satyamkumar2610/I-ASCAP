@@ -374,11 +374,9 @@ class SplitImpactInsightsAnalyzer:
         if abs(attribution_pct) < 5:
             interpretation = "Split had minimal impact - outcome matches trend"
         elif attribution_pct > 10:
-            interpretation = f"Split associated with {
-                attribution_pct:.1f}% improvement above trend"
+            interpretation = f"Split associated with {attribution_pct:.1f}% improvement above trend"
         elif attribution_pct < -10:
-            interpretation = f"Split associated with {
-                abs(attribution_pct):.1f}% decline below trend"
+            interpretation = f"Split associated with {abs(attribution_pct):.1f}% decline below trend"
         else:
             interpretation = "Split had modest impact on performance trajectory"
 

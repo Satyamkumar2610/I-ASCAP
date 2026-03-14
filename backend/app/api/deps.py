@@ -37,10 +37,7 @@ def generate_provenance(
     """
     # Normalize and hash query params
     query_string = str(sorted(request.query_params.items()))
-    query_hash = f"sha256:{
-        hashlib.sha256(
-            query_string.encode()).hexdigest()[
-            :16]}"
+    query_hash = f"sha256:{hashlib.sha256(query_string.encode()).hexdigest()[:16]}"
 
     return ProvenanceMetadata(
         dataset_version=settings.dataset_version,

@@ -118,8 +118,7 @@ def log_database_query(query: str, duration_ms: float, rows: int = 0) -> None:
     }
 
     if duration_ms > 1000:  # Slow query warning
-        logger.warning(f"Slow query ({duration_ms:.0f}ms): {
-                       query_preview}", extra=extra)
+        logger.warning(f"Slow query ({duration_ms:.0f}ms): {query_preview}", extra=extra)
     else:
         logger.debug(f"Query executed: {query_preview}", extra=extra)
 
@@ -147,8 +146,7 @@ def log_api_request(
     elif status_code >= 400:
         level = logging.WARNING
 
-    logger.log(level, f"{method} {
-               path} -> {status_code} ({duration_ms:.0f}ms)", extra=extra)
+    logger.log(level, f"{method} {path} -> {status_code} ({duration_ms:.0f}ms)", extra=extra)
 
 
 def timed_operation(operation_name: str):
@@ -182,10 +180,7 @@ def timed_operation(operation_name: str):
                 return result
             except Exception as e:
                 duration = (time.time() - start) * 1000
-                logger.error(
-                    f"{operation_name} failed after {
-                        duration:.0f}ms: {
-                        str(e)}")
+                logger.error(f"{operation_name} failed after {duration:.0f}ms: {str(e)}")
                 raise
 
         import asyncio
