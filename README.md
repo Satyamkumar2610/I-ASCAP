@@ -89,5 +89,8 @@ Key endpoints:
 - **Frontend**: Deployed on Vercel with edge caching.
 - **Database**: Hosted on Neon with connection pooling.
 
+## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
+
 ## License
 MIT License. Data sources: ICRISAT, Directorate of Economics and Statistics.
